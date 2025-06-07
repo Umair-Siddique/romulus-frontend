@@ -1,6 +1,5 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-  FormHelperText,
   IconButton,
   InputAdornment,
   TextField,
