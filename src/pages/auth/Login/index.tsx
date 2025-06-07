@@ -7,6 +7,7 @@ import { AuthBackground } from "../../../components/auth";
 import { validationRules } from "../../../constants/validation";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
 import Form from "../../../components/auth/form";
+import TextLink from "../../../components/textLink";
 
 type LoginVariables = {
   email: string;
@@ -82,25 +83,11 @@ export const LoginPage = () => {
               fontFamily: "inter, sans-serif",
             }}
           >
-            Don't have an account?{" "}
-            <Link
-              to="/signup"
-              style={{
-                color: "#A1B7AF",
-                textDecoration: "none",
-                fontWeight: 600,
-                cursor: "pointer",
-                border: "none",
-                background: "none",
-                padding: 0,
-                fontFamily: "montserrat, sans-serif",
-                fontSize: "14px",
-              }}
-            >
-              Sign Up
-            </Link>
+            Don't have an account? <TextLink to="/signup" label="Sign Up" />
           </Typography>
         }
+        submitLoadingText="Logging in..."
+        submitLabel="Log In"
       />
 
       {/* Right Side - Image with Overlay Text */}

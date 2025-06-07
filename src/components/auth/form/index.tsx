@@ -5,6 +5,7 @@ import FormHeader from "../formHeader";
 import FormField from "../formField";
 import SubmitButton from "../submitButton";
 import { Link } from "react-router";
+import TextLink from "../../textLink";
 
 type FormProps = {
   formTitle: string;
@@ -16,6 +17,8 @@ type FormProps = {
   formfields: any[];
   type: string;
   isLoading?: boolean;
+  submitLoadingText?: string;
+  submitLabel?: string;
   bottomTextWithLink?: React.ReactNode;
 };
 
@@ -27,6 +30,8 @@ const Form: React.FC<FormProps> = ({
   formfields,
   type,
   isLoading,
+  submitLoadingText = "Loading...",
+  submitLabel = "Submit",
   bottomTextWithLink = undefined,
 }) => {
   return (
@@ -83,22 +88,7 @@ const Form: React.FC<FormProps> = ({
             {/* Forgot Password Link */}
             {type === "login" && (
               <Box sx={{ textAlign: "right", mb: 3 }}>
-                <Link
-                  to="/forgot-password"
-                  style={{
-                    color: "#A1B7AF",
-                    textDecoration: "none",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                    border: "none",
-                    background: "none",
-                    padding: 0,
-                    fontFamily: "montserrat, sans-serif",
-                    fontSize: "14px",
-                  }}
-                >
-                  Forgot Password?
-                </Link>
+                <TextLink to="/forgot-password" label="Forgot Password" />
               </Box>
             )}
 
@@ -106,8 +96,8 @@ const Form: React.FC<FormProps> = ({
             <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
               <SubmitButton
                 isLoading={isLoading}
-                loadingText="Logging in..."
-                loadedText="Log In"
+                loadingText={submitLoadingText}
+                loadedText={submitLabel}
               />
             </Box>
 
