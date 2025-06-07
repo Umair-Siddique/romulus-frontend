@@ -21,3 +21,12 @@ export interface RegisterFormData {
   role: string;
   agreeToTerms: boolean;
 }
+
+export interface ModalProps {
+  open: boolean;
+  onClose: () => void;
+  icon?: React.ReactNode;
+  title: string;
+  description: string;
+  buttonText: string;
+}

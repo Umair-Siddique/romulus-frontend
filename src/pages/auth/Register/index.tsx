@@ -10,10 +10,10 @@ import Logo from "../../../assets/images/logo.png";
 import {
   AuthBackground,
   RegisterForm,
-  Modal,
   UserTypeSelection,
 } from "../../../components/auth";
-import { RegisterFormData } from "../../../types/auth";
+import { RegisterFormData } from "../../../interface/auth";
+import { Modal } from "../../../components";
 
 export const RegisterPage = () => {
   const { userType: urlUserType } = useParams<{ userType: string }>();
@@ -44,7 +44,6 @@ export const RegisterPage = () => {
         { ...data, role: finalUserType },
         {
           onSuccess: (response) => {
-            console.log("Registration successful:", response);
             // Only show modal/navigate after successful API response
             if (response && response.success) {
               if (finalUserType === "educator") {
@@ -65,7 +64,6 @@ export const RegisterPage = () => {
           },
         }
       );
-      console.log("Registration data:", { ...data, role: finalUserType });
     },
     [register, selectedUserType, userType]
   );
@@ -162,7 +160,7 @@ export const RegisterPage = () => {
       <Modal
         open={showModal}
         onClose={handleSuccessModalClose}
-        icon={<Email color="success" fontSize="inherit" />}
+        icon={<Email sx={{ color: "green", fontSize: "70px" }} />}
         title="Account Created Successfully!"
         description="Check your email to verify your account and set up your profile."
         buttonText="Set Up My Profile"
@@ -172,7 +170,7 @@ export const RegisterPage = () => {
       <Modal
         open={showEducatorModal}
         onClose={handleEducatorModalClose}
-        icon={<WhatsApp color="success" fontSize="inherit" />}
+        icon={<WhatsApp sx={{ color: "green", fontSize: "70px" }} />}
         title="Account Registered Successfully!"
         description="A verification email has been sent to your email address. Please verify your email and then enter the OTP sent to your WhatsApp number to complete the registration process."
         buttonText="Enter WhatsApp OTP"

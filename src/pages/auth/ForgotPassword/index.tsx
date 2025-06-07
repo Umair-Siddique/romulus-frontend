@@ -6,11 +6,12 @@ import { useNavigate } from "react-router";
 
 import AuthBg from "../../../assets/images/auth-bg.jpg";
 import Logo from "../../../assets/images/logo.png";
-import {
-  AuthBackground,
-  ForgotPasswordForm,
-  Modal,
-} from "../../../components/auth";
+import { AuthBackground, ForgotPasswordForm } from "../../../components/auth";
+import { Modal } from "../../../components";
+
+type forgotPasswordVariables = {
+  email: string;
+};
 
 export const ForgotPasswordPage = () => {
   const navigate = useNavigate();
@@ -18,19 +19,16 @@ export const ForgotPasswordPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const { mutate: forgotPassword } = useForgotPassword();
+  const { mutate: forgotPassword } = useForgotPassword<forgotPasswordVariables>();
 
   const handleEmailSubmit = (submittedEmail: string) => {
     setIsLoading(true);
     setEmail(submittedEmail);
-    // setShowModal(false);
-    // setIsSuccess(false);
 
     forgotPassword(
       { email: submittedEmail },
       {
         onSuccess: (res) => {
-          console.log("Response:", res);
           if (res.success === false) {
             setIsSuccess(false);
             setShowModal(true);
@@ -42,7 +40,6 @@ export const ForgotPasswordPage = () => {
           setIsLoading(false);
         },
         onError: (error) => {
-          console.error("Error", error);
           setIsSuccess(false);
           setShowModal(true);
           setIsLoading(false);
@@ -107,7 +104,7 @@ export const ForgotPasswordPage = () => {
         onClose={handleModalClose}
         icon={
           isSuccess ? (
-            <Email />
+            <Email sx={{ color: "green", fontSize: "70px" }} />
           ) : (
             <ErrorOutline sx={{ color: "red", fontSize: "70px" }} />
           )

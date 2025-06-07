@@ -5,13 +5,12 @@ import { useLocation, useNavigate } from "react-router";
 
 import Logo from "../../../assets/images/logo.png";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
-import { Modal, AuthBackground } from "../../../components/auth";
+import { AuthBackground } from "../../../components/auth";
+import { Modal } from "../../../components";
 
 interface LocationState {
   phone?: string;
   email?: string;
-  userType?: string;
-  registrationData?: any;
 }
 
 interface OTPVerificationPageProps {
@@ -36,18 +35,13 @@ export const OTPVerificationPage: React.FC<OTPVerificationPageProps> = ({
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   // Get data from registration or props
-  const {
-    phone,
-    email: locationEmail,
-    userType,
-    registrationData,
-  } = (location.state as LocationState) || {};
+  const { phone, email: locationEmail } =
+    (location.state as LocationState) || {};
 
   // Determine the contact method and value
   const contactEmail = propEmail || locationEmail;
   const contactPhone = phone;
   const isEmailVerification = !!contactEmail;
-  const isPhoneVerification = !!contactPhone;
   const contactValue = contactEmail || contactPhone;
 
   // Use prop loading state if provided, otherwise use local state
@@ -92,13 +86,7 @@ export const OTPVerificationPage: React.FC<OTPVerificationPageProps> = ({
     setIsLoading(true);
 
     try {
-      // Simulate OTP verification API call
-      console.log("Verifying OTP:", otpString, "for contact:", contactValue);
-
-      // Simulate API delay
       await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // On successful verification, show success modal
       setShowModal(true);
     } catch (error) {
       console.error("OTP verification failed:", error);
@@ -108,7 +96,7 @@ export const OTPVerificationPage: React.FC<OTPVerificationPageProps> = ({
     }
   };
 
-  const handleSuccessModalClose = (): void => {
+  const handleModalClose = (): void => {
     setShowModal(false);
     // Navigate to login or dashboard
     navigate("/login");
@@ -361,8 +349,8 @@ export const OTPVerificationPage: React.FC<OTPVerificationPageProps> = ({
       {!onVerificationSuccess && (
         <Modal
           open={showModal}
-          onClose={handleSuccessModalClose}
-          icon={<CheckCircle />}
+          onClose={handleModalClose}
+          icon={<CheckCircle sx={{ color: "green", fontSize: "70px" }} />}
           title="Account Created Successfully!"
           description="You're one step closer to starting your journey with us. Now, let's complete your profile and upload your identity documents to get started."
           buttonText="Set Up My Profile"

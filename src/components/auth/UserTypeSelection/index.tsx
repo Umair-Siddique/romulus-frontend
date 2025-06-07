@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { UserType } from "../../../types/auth";
+import { UserType } from "../../../interface/auth";
 import { Person, Business } from "@mui/icons-material";
 import { UserTypeCard } from "./UserTypeCard";
 

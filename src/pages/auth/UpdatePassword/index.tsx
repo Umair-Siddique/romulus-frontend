@@ -6,11 +6,8 @@ import { useNavigate, useSearchParams } from "react-router";
 
 import AuthBg from "../../../assets/images/auth-bg.jpg";
 import Logo from "../../../assets/images/logo.png";
-import {
-  AuthBackground,
-  UpdatePasswordForm,
-  Modal,
-} from "../../../components/auth";
+import { AuthBackground, UpdatePasswordForm } from "../../../components/auth";
+import { Modal } from "../../../components";
 
 type UpdatePasswordVariables = {
   password: string;
@@ -128,9 +125,9 @@ export const UpdatePasswordPage = () => {
         onClose={handleModalClose}
         icon={
           isSuccess ? (
-            <CheckCircle sx={{ color: "#4caf50" }} />
+            <CheckCircle sx={{ color: "green", fontSize: "70px" }} />
           ) : (
-            <ErrorOutline sx={{ color: "#f44336" }} />
+            <ErrorOutline sx={{ color: "red", fontSize: "70px" }} />
           )
         }
         title={

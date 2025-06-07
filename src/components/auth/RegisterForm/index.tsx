@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, Button, Link } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { RegisterFormData } from "../../../types/auth";
+import { RegisterFormData } from "../../../interface/auth";
 import { RegisterFormFields } from "./RegisterFormFields";
 import { ArrowBack } from "@mui/icons-material";
 

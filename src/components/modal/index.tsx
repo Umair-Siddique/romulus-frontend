@@ -7,16 +7,9 @@ import {
   Button,
   IconButton,
 } from "@mui/material";
-import { Close, CheckCircle } from "@mui/icons-material";
+import { Close } from "@mui/icons-material";
 
-interface ModalProps {
-  open: boolean;
-  onClose: () => void;
-  icon?: React.ReactNode;
-  title: string;
-  description: string;
-  buttonText: string;
-}
+import { ModalProps } from "../../interface/auth";
 
 export const Modal = ({
   open,
@@ -54,6 +47,7 @@ export const Modal = ({
         >
           <Close />
         </IconButton>
+
         <Box
           sx={{
             display: "flex",
@@ -64,32 +58,23 @@ export const Modal = ({
             py: 5,
           }}
         >
-          {/* Dynamic Icon */}
-          {icon ? (
-            <Box
-              sx={{
-                fontSize: 80,
-                color: "#4CAF50",
-                mb: 3,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                "& > *": {
-                  fontSize: "inherit",
-                },
-              }}
-            >
-              {icon}
-            </Box>
-          ) : (
-            <CheckCircle
-              sx={{
-                fontSize: 80,
-                color: "#4CAF50",
-                mb: 3,
-              }}
-            />
-          )}
+          {/* Icon */}
+          <Box
+            sx={{
+              fontSize: 80,
+              color: "#4CAF50",
+              mb: 3,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              "& > *": {
+                fontSize: "inherit",
+              },
+            }}
+          >
+            {icon}
+          </Box>
+
           {/* Title */}
           <Typography
             variant="h5"
@@ -102,6 +87,7 @@ export const Modal = ({
           >
             {title}
           </Typography>
+
           {/* Description */}
           <Typography
             variant="body1"
@@ -115,6 +101,7 @@ export const Modal = ({
           >
             {description}
           </Typography>
+
           {/* Action Button */}
           <Button
             onClick={onClose}

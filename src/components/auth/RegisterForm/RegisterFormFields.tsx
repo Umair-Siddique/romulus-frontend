@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff, Info } from "@mui/icons-material";
 import { Controller, Control, FieldErrors } from "react-hook-form";
-import { RegisterFormData } from "../../../types/auth";
+import { RegisterFormData } from "../../../interface/auth";
 import { validationRules } from "../../../constants/validation";
 
 interface RegisterFormFieldsProps {

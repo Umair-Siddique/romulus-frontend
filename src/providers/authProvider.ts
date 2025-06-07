@@ -6,31 +6,22 @@ export const authProvider: AuthProvider = {
     try {
       const response = await api.post("/auth/signin", params);
 
-      console.log("response", response);
-
-      if (response.status === 200) {
-        localStorage.setItem("user", JSON.stringify(response.data));
-
-        return {
-          success: true,
-          redirectTo: "/",
-        };
-      }
+      localStorage.setItem("user", JSON.stringify(response.data.data));
 
       return {
-        success: false,
-        error: {
-          message: "Login failed",
-          name: response.data?.message || "Unexpected error",
+        success: true,
+        redirectTo: "/",
+        successNotification: {
+          message: response.data.message || "Login successful",
+          description: "Welcome back!",
         },
       };
     } catch (error: any) {
-      console.error("Login error", error);
       return {
         success: false,
         error: {
           message: "Login failed",
-          name: error?.response?.data?.message || error.message,
+          name: error.response.data.message || error.message,
         },
       };
     }
@@ -38,11 +29,14 @@ export const authProvider: AuthProvider = {
 
   register: async (params: any) => {
     try {
-      await api.post("/auth/signup", params);
+      const response = await api.post("/auth/signup", params);
 
       return {
         success: true,
-        // redirectTo: "/login",
+        successNotification: {
+          message: response.data.message || "Registration successful",
+          description: "You can now set up your profile.",
+        },
       };
     } catch (error: any) {
       return {
@@ -56,18 +50,37 @@ export const authProvider: AuthProvider = {
   },
 
   updatePassword: async (params) => {
-    await api.patch("/auth/update-password", params);
+    try {
+      const response = await api.patch("/auth/update-password", params);
 
-    return {
-      success: true,
-    };
+      return {
+        success: true,
+        successNotification: {
+          message: response.data.message || "Password updated successfully",
+          description: "Your password has been changed.",
+        },
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: {
+          message: "Update password failed",
+          name: error.response.data.message || error.message,
+        },
+      };
+    }
   },
 
   forgotPassword: async (params: any) => {
     try {
-      await api.post("/auth/forgot-password", params);
+      const response = await api.post("/auth/forgot-password", params);
+
       return {
         success: true,
+        successNotification: {
+          message: response.data.message || "Forgot password successful",
+          description: "Please check your email for further instructions.",
+        },
       };
     } catch (error: any) {
       return {
@@ -81,11 +94,26 @@ export const authProvider: AuthProvider = {
   },
 
   logout: async () => {
-    localStorage.removeItem("user");
-    return {
-      success: true,
-      redirectTo: "/login",
-    };
+    try {
+      const response = await api.post("/auth/signout");
+      localStorage.removeItem("user");
+      return {
+        success: true,
+        redirectTo: "/login",
+        successNotification: {
+          message: response.data.message || "Logout successful",
+          description: "You have been logged out.",
+        },
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: {
+          message: "Logout failed",
+          name: error?.response?.data?.message || error.message,
+        },
+      };
+    }
   },
 
   onError: async (error) => {
@@ -122,7 +150,6 @@ export const authProvider: AuthProvider = {
   getIdentity: async () => {
     const userString = localStorage.getItem("user");
     const user = userString ? JSON.parse(userString) : null;
-    console.log("user", user);
     if (!user) {
       return null;
     }

@@ -31,7 +31,7 @@ api.interceptors.response.use(
 
     // Log errors in development
     if (process.env.NODE_ENV === "development") {
-      console.error("API Error:", error.response?.data || error.message);
+      console.error("API Error:", error.response?.data);
     }
 
     return Promise.reject(error);
@@ -40,18 +40,17 @@ api.interceptors.response.use(
 
 /*
 
-Basic usage
-import apiClient, { apiUtils } from './api/client';
+  Basic usage
+  import apiClient, { apiUtils } from './api/client';
 
-GET with caching
-const userData = await apiUtils.get('/users/profile', { cache: true });
+  GET with caching
+  const userData = await apiUtils.get('/users/profile', { cache: true });
 
-POST with automatic retry
-const result = await apiUtils.post('/users', userData);
+  POST with automatic retry
+  const result = await apiUtils.post('/users', userData);
 
-File upload with progress
-await apiUtils.upload('/files', formData, (progress) => {
-  console.log(`Upload: ${progress}%`);
-});
+  File upload with progress
+    await apiUtils.upload('/files', formData, (progress) => {
+  });
 
 */

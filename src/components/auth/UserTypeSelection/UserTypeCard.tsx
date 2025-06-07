@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, Box, Typography } from "@mui/material";
-import { UserType } from "../../../types/auth";
+import { UserType } from "../../../interface/auth";
 
 interface UserTypeCardProps {
   userType: UserType;
