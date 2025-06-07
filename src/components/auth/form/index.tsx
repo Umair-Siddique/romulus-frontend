@@ -4,6 +4,7 @@ import Logo from "../../../assets/images/logo.png";
 import FormHeader from "../formHeader";
 import FormField from "../formField";
 import SubmitButton from "../submitButton";
+import { Link } from "react-router";
 
 type FormProps = {
   formTitle: string;
@@ -14,7 +15,6 @@ type FormProps = {
   onSubmit: (data: any) => void;
   formfields: any[];
   type: string;
-  handleForgotPassword?: () => void;
   isLoading?: boolean;
   bottomTextWithLink?: React.ReactNode;
 };
@@ -26,7 +26,6 @@ const Form: React.FC<FormProps> = ({
   onSubmit,
   formfields,
   type,
-  handleForgotPassword = undefined,
   isLoading,
   bottomTextWithLink = undefined,
 }) => {
@@ -84,27 +83,22 @@ const Form: React.FC<FormProps> = ({
             {/* Forgot Password Link */}
             {type === "login" && (
               <Box sx={{ textAlign: "right", mb: 3 }}>
-                <Typography
-                  component="button"
-                  type="button"
-                  onClick={handleForgotPassword}
-                  sx={{
+                <Link
+                  to="/forgot-password"
+                  style={{
                     color: "#A1B7AF",
                     textDecoration: "none",
-                    fontWeight: 500,
-                    fontFamily: "montserrat, sans-serif",
-                    fontSize: "14px",
+                    fontWeight: 600,
                     cursor: "pointer",
                     border: "none",
                     background: "none",
                     padding: 0,
-                    "&:hover": {
-                      textDecoration: "underline",
-                    },
+                    fontFamily: "montserrat, sans-serif",
+                    fontSize: "14px",
                   }}
                 >
                   Forgot Password?
-                </Typography>
+                </Link>
               </Box>
             )}
 
@@ -117,7 +111,6 @@ const Form: React.FC<FormProps> = ({
               />
             </Box>
 
-            {/* Sign Up Link */}
             {bottomTextWithLink}
           </Box>
         </Box>

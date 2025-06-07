@@ -1,10 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { useLogin } from "@refinedev/core";
+import { Link } from "react-router";
+
 import { AuthBackground } from "../../../components/auth";
-import AuthBg from "../../../assets/images/auth-bg.jpg";
-import { useNavigate } from "react-router";
 import { validationRules } from "../../../constants/validation";
+import AuthBg from "../../../assets/images/auth-bg.jpg";
 import Form from "../../../components/auth/form";
 
 type LoginVariables = {
@@ -26,18 +27,9 @@ export const LoginPage = () => {
   });
 
   const { mutate: login, isLoading } = useLogin<LoginVariables>();
-  const navigate = useNavigate();
 
   const onSubmit = async (data: LoginVariables) => {
     login(data);
-  };
-
-  const handleForgotPassword = () => {
-    navigate("/forgot-password");
-  };
-
-  const handleSignUp = () => {
-    navigate("/signup");
   };
 
   const formfields = [
@@ -78,7 +70,6 @@ export const LoginPage = () => {
         onSubmit={onSubmit}
         formfields={formfields}
         type="login"
-        handleForgotPassword={handleForgotPassword}
         isLoading={isLoading}
         bottomTextWithLink={
           <Typography
@@ -92,11 +83,9 @@ export const LoginPage = () => {
             }}
           >
             Don't have an account?{" "}
-            <Typography
-              component="button"
-              type="button"
-              onClick={handleSignUp}
-              sx={{
+            <Link
+              to="/signup"
+              style={{
                 color: "#A1B7AF",
                 textDecoration: "none",
                 fontWeight: 600,
@@ -104,15 +93,12 @@ export const LoginPage = () => {
                 border: "none",
                 background: "none",
                 padding: 0,
-                "&:hover": {
-                  textDecoration: "underline",
-                },
                 fontFamily: "montserrat, sans-serif",
                 fontSize: "14px",
               }}
             >
               Sign Up
-            </Typography>
+            </Link>
           </Typography>
         }
       />
