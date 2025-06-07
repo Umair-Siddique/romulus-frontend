@@ -14,10 +14,11 @@ export const validationRules = {
     },
   },
   confirmPassword: {
-    required: "Please confirm your password",
-  },
-  required: {
-    required: "This field is required",
+    required: "Re-enter your password",
+    minLength: {
+      value: 8,
+      message: "Password must be at least 8 characters",
+    },
   },
   phone: {
     required: "Phone number is required",

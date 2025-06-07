@@ -7,8 +7,9 @@ import AuthBg from "../../../assets/images/auth-bg.jpg";
 import Logo from "../../../assets/images/logo.png";
 import { useNavigate } from "react-router";
 import { validationRules } from "../../../constants/validation";
-import FormHeader from "../../../components/auth/formheader";
-import FormField from "../../../components/auth/formfield";
+import FormHeader from "../../../components/auth/formHeader";
+import FormField from "../../../components/auth/formField";
+import SubmitButton from "../../../components/auth/submitButton";
 
 type LoginVariables = {
   email: string;
@@ -29,7 +30,7 @@ export const LoginPage = () => {
       password: "",
     },
   });
-  
+
   const { mutate: login, isLoading } = useLogin<LoginVariables>();
   const navigate = useNavigate();
 
@@ -48,6 +49,27 @@ export const LoginPage = () => {
   const handleSignUp = () => {
     navigate("/signup");
   };
+
+  const formfields = [
+    {
+      label: "Email",
+      type: "email",
+      name: "email",
+      placeholder: "Enter your email address",
+      register,
+      errors,
+      validationRules: validationRules.email,
+    },
+    {
+      label: "Password",
+      type: "password",
+      name: "password",
+      placeholder: "Enter your password",
+      register,
+      errors,
+      validationRules: validationRules.password,
+    },
+  ];
 
   return (
     <Box
@@ -99,27 +121,18 @@ export const LoginPage = () => {
               noValidate // Prevent browser validation
               sx={{ mt: 2 }}
             >
-              {/* Email Field */}
-              <FormField
-                label="Email"
-                type="email"
-                name="email"
-                placeholder="Enter your email address"
-                register={register}
-                errors={errors}
-                validationRules={validationRules.email}
-              />
-
-              {/* Password Field */}
-              <FormField
-                label="Password"
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-                errors={errors}
-                register={register}
-                validationRules={validationRules.password}
-              />
+              {formfields.map((field, index) => (
+                <FormField
+                  key={index}
+                  label={field.label}
+                  type={field.type}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  register={field.register}
+                  errors={field.errors}
+                  validationRules={field.validationRules}
+                />
+              ))}
 
               {/* Forgot Password Link */}
               <Box sx={{ textAlign: "right", mb: 3 }}>
@@ -148,28 +161,11 @@ export const LoginPage = () => {
 
               {/* Submit Button */}
               <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  disabled={isLoading}
-                  sx={{
-                    background: "#A1B7AF",
-                    py: 1.8,
-                    px: 6,
-                    width: "85%",
-                    textTransform: "none",
-                    fontSize: "16px",
-                    fontWeight: 600,
-                    borderRadius: 4,
-                    boxShadow: "#A1B7AF",
-                    fontFamily: "montserrat, sans-serif",
-                    "&:hover": {
-                      background: "#8fa89f",
-                    },
-                  }}
-                >
-                  {isLoading ? "Logging in..." : "Log In"}
-                </Button>
+                <SubmitButton
+                  isLoading={isLoading}
+                  loadingText="Logging in..."
+                  loadedText="Log In"
+                />
               </Box>
 
               {/* Sign Up Link */}
