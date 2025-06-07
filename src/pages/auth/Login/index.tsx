@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { useLogin } from "@refinedev/core";
-import { Link } from "react-router";
 
 import { AuthBackground } from "../../../components/auth";
 import { validationRules } from "../../../constants/validation";
