@@ -1,10 +1,9 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import Logo from "../../../assets/images/logo.png";
 import FormHeader from "../formHeader";
 import FormField from "../formField";
 import SubmitButton from "../submitButton";
-import { Link } from "react-router";
 import TextLink from "../../textLink";
 
 type FormProps = {
