@@ -21,10 +21,8 @@ export const LoginPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-    trigger,
   } = useForm({
-    mode: "onBlur", // Validate on blur
-    reValidateMode: "onChange", // Re-validate on change
+    mode: "onChange",
     defaultValues: {
       email: "",
       password: "",
@@ -35,11 +33,7 @@ export const LoginPage = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: LoginVariables) => {
-    // Trigger validation before submitting
-    const isValid = await trigger();
-    if (isValid) {
-      login(data);
-    }
+    login(data);
   };
 
   const handleForgotPassword = () => {
