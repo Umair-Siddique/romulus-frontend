@@ -20,6 +20,9 @@ export const validationRules = {
       message: "Password must be at least 8 characters",
     },
   },
+  required: {
+    required: "This field is required",
+  },
   phone: {
     required: "Phone number is required",
     pattern: {

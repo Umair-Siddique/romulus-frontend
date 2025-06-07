@@ -83,7 +83,7 @@ export const LoginPage = () => {
               fontFamily: "inter, sans-serif",
             }}
           >
-            Don't have an account? <TextLink to="/signup" label="Sign Up" />
+            Don't have an account? <TextLink to="/register" label="Sign Up" />
           </Typography>
         }
         submitLoadingText="Logging in..."
