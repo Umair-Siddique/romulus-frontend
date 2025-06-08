@@ -57,11 +57,11 @@ export const validationRules = {
     required: "This field is required",
   },
   phone: {
-    required: "Phone number is required",
+    required: "WhatsApp number is required",
     pattern: {
       value: /^\+\d{1,3}\s?\d{1,14}$/,
       message:
-        "Please enter a valid phone number with country code (e.g., +923001234567)",
+        "Please enter a valid WhatsApp number with country code",
     },
     minLength: {
       value: 10,

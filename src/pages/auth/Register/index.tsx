@@ -43,7 +43,7 @@ export const RegisterPage = () => {
   const { mutate: signup, isLoading } = useRegister<RegisterVariables>();
 
   const onSubmit = async (data: RegisterVariables) => {
-    signup(data);
+    signup({ ...data, role: userRole });
   };
 
   const stepOneFormFields = [
@@ -101,15 +101,19 @@ export const RegisterPage = () => {
       errors,
       validationRules: validationRules.email,
     },
-    {
-      label: "Phone Number",
-      type: "tel",
-      name: "phone",
-      placeholder: "Enter your phone number (optional)",
-      register,
-      errors,
-      validationRules: validationRules.phone,
-    },
+    ...(userRole === "educator"
+      ? [
+          {
+            label: "WhatsApp Number",
+            type: "tel",
+            name: "phone",
+            placeholder: "Enter your WhatsApp number",
+            register,
+            errors,
+            validationRules: validationRules.phone,
+          },
+        ]
+      : []),
     {
       label: "Password",
       type: "password",

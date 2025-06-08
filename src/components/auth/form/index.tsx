@@ -43,6 +43,8 @@ export const Form: React.FC<FormProps> = ({
         width: { xs: "100%", md: "45%" },
         display: "flex",
         flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
         px: { xs: 3, md: 6 },
         py: 4,
         backgroundColor: "#ffffff",
@@ -61,57 +63,70 @@ export const Form: React.FC<FormProps> = ({
           justifyContent: "center",
           alignItems: "center",
           flex: 1,
+          width: 600,
+          maxWidth: "100%",
         }}
       >
-        {/* Form */}
-        <Box sx={{ width: "100%", maxWidth: 450 }}>
-          {/* Form Header */}
-          <FormHeader title={formTitle} description={formDescription} />
+        {/* Form Header */}
+        <FormHeader title={formTitle} description={formDescription} />
 
-          {/* Form Fields */}
-          <Box
-            component="form"
-            onSubmit={handleSubmit(onSubmit)}
-            noValidate // Prevent browser validation
-            sx={{ mt: 2 }}
-          >
-            {formfields.map((field, index) => (
-              <FormField
-                key={index}
-                label={field.label}
-                type={field.type}
-                name={field.name}
-                placeholder={field.placeholder}
-                options={field.options}
-                validationRules={field.validationRules}
-                setFormStep={setFormStep}
-                setUserRole={setUserRole}
-                register={field.register}
-                errors={field.errors}
+        {/* Form Fields */}
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate // Prevent browser validation
+          sx={{
+            mt: 2,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          {formfields.map((field, index) => (
+            <FormField
+              key={index}
+              label={field.label}
+              type={field.type}
+              name={field.name}
+              placeholder={field.placeholder}
+              options={field.options}
+              validationRules={field.validationRules}
+              setFormStep={setFormStep}
+              setUserRole={setUserRole}
+              register={field.register}
+              errors={field.errors}
+            />
+          ))}
+
+          {/* Forgot Password Link */}
+          {formType === "login" && (
+            <Box
+              sx={{
+                width: "80%",
+                display: "flex",
+                justifyContent: "end",
+                mb: 3,
+              }}
+            >
+              <TextLink to="/forgot-password" label="Forgot Password" />
+            </Box>
+          )}
+
+          {/* Submit Button */}
+          {formStep !== 1 && (
+            <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
+              <SubmitButton
+                isLoading={isLoading}
+                loadingText={submitLoadingText}
+                loadedText={submitLabel}
               />
-            ))}
-
-            {/* Forgot Password Link */}
-            {formType === "login" && (
-              <Box sx={{ textAlign: "right", mb: 3 }}>
-                <TextLink to="/forgot-password" label="Forgot Password" />
-              </Box>
-            )}
-
-            {/* Submit Button */}
-            {formStep !== 1 && (
-              <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
-                <SubmitButton
-                  isLoading={isLoading}
-                  loadingText={submitLoadingText}
-                  loadedText={submitLabel}
-                />
-              </Box>
-            )}
-
-            {bottomTextWithLink}
-          </Box>
+            </Box>
+          )}
         </Box>
+
+        {bottomTextWithLink}
       </Box>
     </Box>
   );

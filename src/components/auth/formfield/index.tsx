@@ -1,4 +1,4 @@
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Info, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   IconButton,
   InputAdornment,
@@ -7,6 +7,8 @@ import {
   Checkbox,
   FormControlLabel,
   RadioGroup,
+  Box,
+  Tooltip,
 } from "@mui/material";
 import React, { useState } from "react";
 import { UserTypeCard } from "../userTypeCard";
@@ -44,6 +46,7 @@ const FormField: React.FC<FormFieldProps> = ({
   const [showPassword, setShowPassword] = useState(false);
   const [value, setValue] = useState("");
   const isPasswordField = type === "password";
+  const isPhoneField = type === "tel";
   const isCheckboxField = type === "checkbox";
   const isRadioField = type === "radio";
 
@@ -86,7 +89,7 @@ const FormField: React.FC<FormFieldProps> = ({
               {label}
             </Typography>
           }
-          sx={{ mb: hasError ? 1 : 2 }}
+          sx={{ width: "75%", mb: hasError ? 1 : 2 }}
         />
         {hasError && (
           <Typography
@@ -153,7 +156,7 @@ const FormField: React.FC<FormFieldProps> = ({
   }
 
   return (
-    <>
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
       <Typography
         variant="body2"
         sx={{
@@ -175,6 +178,7 @@ const FormField: React.FC<FormFieldProps> = ({
         error={hasError}
         helperText={hasError ? fieldError?.message : ""}
         sx={{
+          width: 450,
           mb: hasError ? 2 : 3,
           "& .MuiOutlinedInput-root": {
             borderRadius: 4,
@@ -215,10 +219,53 @@ const FormField: React.FC<FormFieldProps> = ({
                   </InputAdornment>
                 ),
               }
+            : isPhoneField
+            ? {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Tooltip
+                      title="Please enter your WhatsApp number with country code. This will be used for important notifications and updates about your tasks and missions."
+                      arrow
+                      placement="top"
+                      componentsProps={{
+                        tooltip: {
+                          sx: {
+                            bgcolor: "#333",
+                            color: "white",
+                            fontSize: "12px",
+                            fontFamily: "inter, sans-serif",
+                            maxWidth: 300,
+                            p: 1.5,
+                          },
+                        },
+                        arrow: {
+                          sx: {
+                            color: "#333",
+                          },
+                        },
+                      }}
+                    >
+                      <IconButton
+                        edge="end"
+                        aria-label="phone number information"
+                        sx={{
+                          color: "#666",
+                          "&:hover": {
+                            color: "#A1B7AF",
+                            backgroundColor: "transparent",
+                          },
+                        }}
+                      >
+                        <Info fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  </InputAdornment>
+                ),
+              }
             : undefined
         }
       />
-    </>
+    </Box>
   );
 };
 

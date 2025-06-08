@@ -21,7 +21,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
         background: "#A1B7AF",
         py: 1.8,
         px: 6,
-        width: "85%",
+        width: 300,
         textTransform: "none",
         fontSize: "16px",
         fontWeight: 600,

@@ -25,14 +25,12 @@ export const UserTypeCard = ({
         flexDirection: "column",
         cursor: "pointer",
         border: isSelected ? "2px solid #A1B7AF" : "2px solid #e0e0e0",
-        backgroundColor: isSelected ? "#A1B7AF" : "#ffffff",
+        backgroundColor: isSelected ? "#F7FAFC" : "#ffffff",
         borderRadius: 3,
         transition: "all 0.3s ease",
-        minHeight: 250,
-        width: { xs: "100%", sm: 280 },
         height: 250,
+        width: 300,
         flex: { xs: "none", sm: 1 },
-        maxWidth: 280,
       }}
       onClick={() => value && onSelect(value)}
     >
@@ -62,7 +60,7 @@ export const UserTypeCard = ({
           {React.cloneElement(icon, {
             sx: {
               fontSize: 32,
-              color: isSelected && "#fff",
+              color: isSelected && "#A1B7AF",
             },
           })}
         </Box>
