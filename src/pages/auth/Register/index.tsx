@@ -42,12 +42,23 @@ export const RegisterPage = () => {
   const { mutate: signup, isLoading } = useRegister<RegisterVariables>();
 
   const onSubmit = async (data: RegisterVariables) => {
-    signup({
-      ...data,
-      role: userRole,
-      confirmPassword: undefined,
-      toc: undefined,
-    });
+    signup(
+      {
+        ...data,
+        role: userRole,
+        confirmPassword: undefined,
+        toc: undefined,
+      },
+      {
+        onSuccess: () => {
+          form.reset();
+          setFormStep(3);
+        },
+        onError: (error) => {
+          console.error("Error during registration:", error);
+        },
+      }
+    );
   };
 
   const getFormFields = () => {
@@ -82,67 +93,79 @@ export const RegisterPage = () => {
           ...commonFieldProps,
         },
       ];
-    }
+    } else if (formStep === 2) {
+      const baseFields = [
+        {
+          label: "First Name",
+          type: "text",
+          name: "firstName",
+          placeholder: "Enter your first name",
+          validationRules: validationRules.firstName,
+        },
+        {
+          label: "Last Name",
+          type: "text",
+          name: "lastName",
+          placeholder: "Enter your last name",
+          validationRules: validationRules.lastName,
+        },
+        {
+          label: "Email",
+          type: "email",
+          name: "email",
+          placeholder: "Enter your email address",
+          validationRules: validationRules.email,
+        },
+      ];
 
-    const baseFields = [
-      {
-        label: "First Name",
-        type: "text",
-        name: "firstName",
-        placeholder: "Enter your first name",
-        validationRules: validationRules.firstName,
-      },
-      {
-        label: "Last Name",
-        type: "text",
-        name: "lastName",
-        placeholder: "Enter your last name",
-        validationRules: validationRules.lastName,
-      },
-      {
-        label: "Email",
-        type: "email",
-        name: "email",
-        placeholder: "Enter your email address",
-        validationRules: validationRules.email,
-      },
-    ];
-
-    if (userRole === "educator") {
-      baseFields.push({
-        label: "WhatsApp Number",
-        type: "tel",
-        name: "phone",
-        placeholder: "Enter your WhatsApp number",
-        validationRules: validationRules.phone,
-      });
-    }
-
-    baseFields.push(
-      {
-        label: "Password",
-        type: "password",
-        name: "password",
-        placeholder: "Enter your password",
-        validationRules: validationRules.password,
-      },
-      {
-        label: "Confirm Password",
-        type: "password",
-        name: "confirmPassword",
-        placeholder: "Re-enter your password",
-        validationRules: validationRules.confirmPassword,
-      },
-      {
-        label: "I agree to the Terms and Conditions",
-        type: "checkbox",
-        name: "toc",
-        placeholder: "",
-        validationRules: validationRules.toc,
+      if (userRole === "educator") {
+        baseFields.push({
+          label: "WhatsApp Number",
+          type: "tel",
+          name: "phone",
+          placeholder: "Enter your WhatsApp number",
+          validationRules: validationRules.phone,
+        });
       }
-    );
 
-    return baseFields.map((field) => ({ ...field, ...commonFieldProps }));
+      baseFields.push(
+        {
+          label: "Password",
+          type: "password",
+          name: "password",
+          placeholder: "Enter your password",
+          validationRules: validationRules.password,
+        },
+        {
+          label: "Confirm Password",
+          type: "password",
+          name: "confirmPassword",
+          placeholder: "Re-enter your password",
+          validationRules: validationRules.confirmPassword,
+        },
+        {
+          label: "I agree to the Terms and Conditions",
+          type: "checkbox",
+          name: "toc",
+          placeholder: "",
+          validationRules: validationRules.toc,
+        }
+      );
+      return baseFields.map((field) => ({ ...field, ...commonFieldProps }));
+    } else if (formStep === 3) {
+      return [
+        {
+          label: "Verification Code",
+          type: "text",
+          name: "verificationCode",
+          placeholder: "",
+          validationRules: validationRules.verificationCode,
+          ...commonFieldProps,
+        },
+      ];
+    }
+
+    return [];
   };
 
   const getFormConfig = () => {
@@ -153,29 +176,64 @@ export const RegisterPage = () => {
           "Choose your role to proceed with the registration or login process.",
         showSubmitButton: false,
       };
+    } else if (formStep === 2) {
+      return {
+        title: "Create Your Account",
+        description: "Fill in your details to sign up.",
+        showSubmitButton: true,
+        bottomContent: (
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            textAlign="center"
+            sx={{
+              mb: 2,
+              fontSize: "14px",
+              fontFamily: "inter, sans-serif",
+            }}
+          >
+            Already have an account? <TextLink to="/login" label="Login" />
+          </Typography>
+        ),
+        submitLoadingText: "Signing up...",
+        submitLabel: "Sign Up",
+      };
+    } else {
+      return {
+        title: "Check your WhatsApp number",
+        description:
+          "Enter the 6-digit code sent to your WhatsApp (+92 3XXXXXXXXX) to verify your number.",
+        bottomContent: (
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            textAlign="center"
+            sx={{
+              mb: 2,
+              fontSize: "14px",
+              fontFamily: "inter, sans-serif",
+            }}
+          >
+            Didn't receive a code?{" "}
+            <Typography
+              sx={{
+                color: "#A1B7AF",
+                textDecoration: "none",
+                fontWeight: 600,
+                cursor: "pointer",
+                border: "none",
+                background: "none",
+                padding: 0,
+                fontFamily: "montserrat, sans-serif",
+                fontSize: "14px",
+              }}
+            >
+              Request again.
+            </Typography>
+          </Typography>
+        ),
+      };
     }
-
-    return {
-      title: "Create Your Account",
-      description: "Fill in your details to sign up.",
-      showSubmitButton: true,
-      bottomContent: (
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          textAlign="center"
-          sx={{
-            mb: 2,
-            fontSize: "14px",
-            fontFamily: "inter, sans-serif",
-          }}
-        >
-          Already have an account? <TextLink to="/login" label="Login" />
-        </Typography>
-      ),
-      submitLoadingText: "Signing up...",
-      submitLabel: "Sign Up",
-    };
   };
 
   const formConfig = getFormConfig();

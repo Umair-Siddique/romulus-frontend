@@ -82,4 +82,11 @@ export const validationRules = {
       message: "You must agree to the Terms and Conditions",
     },
   },
+  verificationCode: {
+    required: "Verification code is required",
+    pattern: {
+      value: /^\d{6}$/,
+      message: "Verification code must be a 6-digit number",
+    },
+  },
 };
