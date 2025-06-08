@@ -2,13 +2,15 @@ import { Button } from "@mui/material";
 import React from "react";
 
 type SubmitButtonProps = {
+  isDisabled?: boolean;
   isLoading?: boolean;
-  loadingText?: string;
-  loadedText?: string;
+  loadingText: string;
+  loadedText: string;
 };
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
-  isLoading = false,
+  isDisabled,
+  isLoading,
   loadingText,
   loadedText,
 }) => {
@@ -16,7 +18,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
     <Button
       type="submit"
       variant="contained"
-      disabled={isLoading}
+      disabled={isDisabled}
       sx={{
         background: "#A1B7AF",
         py: 1.8,

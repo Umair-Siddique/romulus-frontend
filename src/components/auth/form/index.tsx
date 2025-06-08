@@ -20,6 +20,8 @@ interface FormProps {
   bottomTextWithLink?: React.ReactNode;
   handleSubmit?: any;
   onSubmit?: (data: any) => void;
+  isFormValid?: boolean;
+  hasErrors?: boolean;
 }
 
 export const Form: React.FC<FormProps> = ({
@@ -36,9 +38,13 @@ export const Form: React.FC<FormProps> = ({
   bottomTextWithLink,
   handleSubmit = () => {},
   onSubmit = () => {},
+  isFormValid,
+  hasErrors,
 }) => {
   const showForgotPassword = formType === "login";
   const showSubmitButton = formStep !== 1;
+
+  const isButtonDisabled = !isFormValid || hasErrors || isLoading;
 
   return (
     <Box
@@ -121,6 +127,7 @@ export const Form: React.FC<FormProps> = ({
           {showSubmitButton && (
             <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
               <SubmitButton
+                isDisabled={isButtonDisabled}
                 isLoading={isLoading}
                 loadingText={submitLoadingText}
                 loadedText={submitLabel}

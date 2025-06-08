@@ -49,6 +49,9 @@ export const validationRules = {
       value: 100,
       message: "Password cannot exceed 100 characters",
     },
+    validate: (value: string, formValues: any) => {
+      return value === formValues.password || "Passwords do not match";
+    },
   },
   role: {
     required: "Role is required",

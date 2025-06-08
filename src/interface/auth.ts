@@ -18,8 +18,10 @@ export interface RegisterFormData {
 export interface ModalProps {
   open: boolean;
   onClose: () => void;
+  onSubmit: () => void;
   icon?: React.ReactNode;
   title: string;
   description: string;
-  buttonText: string;
+  showButton?: boolean;
+  buttonText?: string;
 }

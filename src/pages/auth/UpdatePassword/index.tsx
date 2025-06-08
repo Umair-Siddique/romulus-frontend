@@ -1,18 +1,19 @@
+import { useState } from "react";
 import { Box } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
+import { useNavigate } from "react-router";
 import { useUpdatePassword } from "@refinedev/core";
 
 import { validationRules } from "../../../constants/validation";
 import { AuthBackground, Form } from "../../../components/auth";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
-
-type UpdatePasswordVariables = {
-  password: string;
-  confirmPassword?: string;
-  token: string;
-};
+import { UpdatePasswordVariables } from "../../../types/index.types";
+import { Modal } from "../../../components";
+import { GridCheckCircleIcon } from "@mui/x-data-grid";
 
 export const UpdatePasswordPage = () => {
+  const [showModal, setShowModal] = useState(false);
+
   const form = useForm({
     mode: "onChange",
     defaultValues: {
@@ -22,13 +23,19 @@ export const UpdatePasswordPage = () => {
     },
   });
 
-  const { mutate: updatePassword, isLoading } = useUpdatePassword<UpdatePasswordVariables>();
+  const navigate = useNavigate();
+
+  const { mutate: updatePassword, isLoading } =
+    useUpdatePassword<UpdatePasswordVariables>();
 
   const onSubmit = (data: UpdatePasswordVariables) => {
     const { confirmPassword, ...submitData } = data;
     updatePassword(submitData, {
-      onSuccess: () => {
+      onSuccess: (response) => {
         form.reset();
+        if (!!response.success) {
+          setShowModal(true);
+        }
       },
       onError: (error) => {
         console.error("Error updating password:", error);
@@ -51,7 +58,7 @@ export const UpdatePasswordPage = () => {
       placeholder: "Re-enter your password",
       validationRules: validationRules.confirmPassword,
     },
-  ].map(field => ({
+  ].map((field) => ({
     ...field,
     register: form.register,
     errors: form.formState.errors,
@@ -76,9 +83,28 @@ export const UpdatePasswordPage = () => {
         submitLabel="Save New Password"
         handleSubmit={form.handleSubmit}
         onSubmit={onSubmit}
+        isFormValid={form.formState.isValid}
+        hasErrors={Object.keys(form.formState.errors).length > 0}
       />
 
       <AuthBackground backgroundImage={AuthBg} />
+
+      {showModal && (
+        <Modal
+          open={true}
+          onClose={() => setShowModal(false)}
+          onSubmit={() => {
+            form.reset();
+            setShowModal(false);
+            navigate("/login");
+          }}
+          icon={<GridCheckCircleIcon />}
+          title="Password reset successfully!"
+          description="Your password has been updated. You can now log in with your new password."
+          buttonText="Go to login"
+          showButton={true}
+        />
+      )}
     </Box>
   );
 };

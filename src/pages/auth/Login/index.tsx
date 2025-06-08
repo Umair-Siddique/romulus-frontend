@@ -6,11 +6,7 @@ import { validationRules } from "../../../constants/validation";
 import { AuthBackground, Form } from "../../../components/auth";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
 import TextLink from "../../../components/textLink";
-
-type LoginVariables = {
-  email: string;
-  password: string;
-};
+import { LoginVariables } from "../../../types/index.types";
 
 export const LoginPage = () => {
   const form = useForm({
@@ -24,7 +20,14 @@ export const LoginPage = () => {
   const { mutate: login, isLoading } = useLogin<LoginVariables>();
 
   const onSubmit = (data: LoginVariables) => {
-    login(data);
+    login(data, {
+      onSuccess: () => {
+        form.reset();
+      },
+      onError: (error) => {
+        console.error("Error logging in:", error);
+      },
+    });
   };
 
   const formFields = [
@@ -42,7 +45,7 @@ export const LoginPage = () => {
       placeholder: "Enter your password",
       validationRules: validationRules.password,
     },
-  ].map(field => ({
+  ].map((field) => ({
     ...field,
     register: form.register,
     errors: form.formState.errors,
@@ -60,8 +63,6 @@ export const LoginPage = () => {
       <Form
         formTitle="Welcome Back!"
         formDescription="Please log in to continue."
-        handleSubmit={form.handleSubmit}
-        onSubmit={onSubmit}
         formfields={formFields}
         formType="login"
         isLoading={isLoading}
@@ -81,6 +82,10 @@ export const LoginPage = () => {
         }
         submitLoadingText="Logging in..."
         submitLabel="Log In"
+        handleSubmit={form.handleSubmit}
+        onSubmit={onSubmit}
+        isFormValid={form.formState.isValid}
+        hasErrors={Object.keys(form.formState.errors).length > 0}
       />
 
       <AuthBackground backgroundImage={AuthBg} />

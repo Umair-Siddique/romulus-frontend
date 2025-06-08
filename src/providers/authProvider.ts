@@ -35,7 +35,6 @@ export const authProvider: AuthProvider = {
         success: true,
         successNotification: {
           message: response.data.message || "Registration successful",
-          description: "You can now set up your profile.",
         },
       };
     } catch (error: any) {

@@ -14,9 +14,11 @@ import { ModalProps } from "../../interface/auth";
 export const Modal = ({
   open,
   onClose,
+  onSubmit,
   icon,
   title,
   description,
+  showButton,
   buttonText,
 }: ModalProps) => {
   return (
@@ -103,26 +105,28 @@ export const Modal = ({
           </Typography>
 
           {/* Action Button */}
-          <Button
-            onClick={onClose}
-            variant="contained"
-            size="large"
-            sx={{
-              backgroundColor: "#A1B7AF",
-              color: "white",
-              px: 4,
-              py: 1.5,
-              borderRadius: 2,
-              fontWeight: 500,
-              textTransform: "none",
-              fontFamily: "inter, sans-serif",
-              "&:hover": {
+          {showButton && (
+            <Button
+              onClick={onSubmit}
+              variant="contained"
+              size="large"
+              sx={{
                 backgroundColor: "#A1B7AF",
-              },
-            }}
-          >
-            {buttonText}
-          </Button>
+                color: "white",
+                px: 4,
+                py: 1.5,
+                borderRadius: 2,
+                fontWeight: 500,
+                textTransform: "none",
+                fontFamily: "inter, sans-serif",
+                "&:hover": {
+                  backgroundColor: "#A1B7AF",
+                },
+              }}
+            >
+              {buttonText}
+            </Button>
+          )}
         </Box>
       </DialogContent>
     </Dialog>
