@@ -4,6 +4,8 @@ import {
   InputAdornment,
   TextField,
   Typography,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import React, { useState } from "react";
 
@@ -14,7 +16,7 @@ type FormFieldProps = {
   register: any;
   errors: Record<string, any>;
   placeholder?: string;
-  validationRules?: any; // Pass validation rules directly
+  validationRules?: any;
 };
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -28,9 +30,59 @@ const FormField: React.FC<FormFieldProps> = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPasswordField = type === "password";
+  const isCheckboxField = type === "checkbox";
 
   const fieldError = errors[name];
   const hasError = !!fieldError;
+
+  if (isCheckboxField) {
+    return (
+      <>
+        <FormControlLabel
+          control={
+            <Checkbox
+              {...register(name, validationRules)}
+              sx={{
+                color: hasError ? "#d32f2f" : "#A1B7AF",
+                "&.Mui-checked": {
+                  color: "#A1B7AF",
+                },
+              }}
+            />
+          }
+          label={
+            <Typography
+              variant="body2"
+              sx={{
+                color: "#333",
+                fontWeight: 500,
+                fontSize: "14px",
+                fontFamily: "inter, sans-serif",
+              }}
+            >
+              {label}
+            </Typography>
+          }
+          sx={{ mb: hasError ? 1 : 2 }}
+        />
+        {hasError && (
+          <Typography
+            variant="caption"
+            sx={{
+              color: "#d32f2f",
+              ml: 4,
+              mb: 2,
+              display: "block",
+              fontSize: "12px",
+              fontFamily: "inter, sans-serif",
+            }}
+          >
+            {fieldError?.message}
+          </Typography>
+        )}
+      </>
+    );
+  }
 
   return (
     <>

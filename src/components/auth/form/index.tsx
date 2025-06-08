@@ -6,7 +6,7 @@ import FormField from "../formField";
 import SubmitButton from "../submitButton";
 import TextLink from "../../textLink";
 
-type FormProps = {
+interface FormProps {
   formTitle: string;
   formDescription: string;
   handleSubmit: (
@@ -19,7 +19,7 @@ type FormProps = {
   submitLoadingText?: string;
   submitLabel?: string;
   bottomTextWithLink?: React.ReactNode;
-};
+}
 
 const Form: React.FC<FormProps> = ({
   formTitle,
@@ -59,12 +59,12 @@ const Form: React.FC<FormProps> = ({
           flex: 1,
         }}
       >
-        {/* Login Form Content */}
+        {/* Form */}
         <Box sx={{ width: "100%", maxWidth: 450 }}>
           {/* Form Header */}
           <FormHeader title={formTitle} description={formDescription} />
 
-          {/* Login Form */}
+          {/* Form Fields */}
           <Box
             component="form"
             onSubmit={handleSubmit(onSubmit)}

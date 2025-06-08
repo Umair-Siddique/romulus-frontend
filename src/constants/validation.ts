@@ -1,4 +1,26 @@
 export const validationRules = {
+  firstName: {
+    required: "First name is required",
+    minLength: {
+      value: 2,
+      message: "First name must be at least 2 characters",
+    },
+    maxLength: {
+      value: 50,
+      message: "First name cannot exceed 50 characters",
+    },
+  },
+  lastName: {
+    required: "Last name is required",
+    minLength: {
+      value: 2,
+      message: "Last name must be at least 2 characters",
+    },
+    maxLength: {
+      value: 50,
+      message: "Last name cannot exceed 50 characters",
+    },
+  },
   email: {
     required: "Email is required",
     pattern: {
@@ -18,6 +40,17 @@ export const validationRules = {
     minLength: {
       value: 8,
       message: "Password must be at least 8 characters",
+    },
+  },
+  role: {
+    required: "Role is required",
+    minLength: {
+      value: 2,
+      message: "Role must be at least 2 characters",
+    },
+    maxLength: {
+      value: 50,
+      message: "Role cannot exceed 50 characters",
     },
   },
   required: {
