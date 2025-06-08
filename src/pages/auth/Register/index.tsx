@@ -15,9 +15,10 @@ type RegisterVariables = {
   lastName: string;
   email: string;
   password: string;
+  confirmPassword?: string;
   phone?: string;
   role: string;
-  toc: boolean;
+  toc: boolean | undefined;
 };
 
 export const RegisterPage = () => {
@@ -31,6 +32,7 @@ export const RegisterPage = () => {
       lastName: "",
       email: "",
       password: "",
+      confirmPassword: "",
       phone: "",
       role: "",
       toc: false,
@@ -40,7 +42,12 @@ export const RegisterPage = () => {
   const { mutate: signup, isLoading } = useRegister<RegisterVariables>();
 
   const onSubmit = async (data: RegisterVariables) => {
-    signup({ ...data, role: userRole });
+    signup({
+      ...data,
+      role: userRole,
+      confirmPassword: undefined,
+      toc: undefined,
+    });
   };
 
   const getFormFields = () => {
