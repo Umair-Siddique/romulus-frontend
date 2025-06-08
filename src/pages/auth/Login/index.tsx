@@ -69,7 +69,7 @@ export const LoginPage = () => {
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
         formfields={formfields}
-        type="login"
+        formType="login"
         isLoading={isLoading}
         bottomTextWithLink={
           <Typography

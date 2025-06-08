@@ -6,8 +6,10 @@ import {
   Typography,
   Checkbox,
   FormControlLabel,
+  RadioGroup,
 } from "@mui/material";
 import React, { useState } from "react";
+import { UserTypeCard } from "../userTypeCard";
 
 type FormFieldProps = {
   label: string;
@@ -16,6 +18,12 @@ type FormFieldProps = {
   register: any;
   errors: Record<string, any>;
   placeholder?: string;
+  options?: {
+    title: string;
+    description: string;
+    value: string;
+    icon: React.ReactElement;
+  }[];
   validationRules?: any;
 };
 
@@ -26,11 +34,18 @@ const FormField: React.FC<FormFieldProps> = ({
   register,
   errors,
   placeholder,
+  options,
   validationRules,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [value, setValue] = useState("option1");
   const isPasswordField = type === "password";
   const isCheckboxField = type === "checkbox";
+  const isRadioField = type === "radio";
+
+  const handleRadio = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const fieldError = errors[name];
   const hasError = !!fieldError;
@@ -72,6 +87,52 @@ const FormField: React.FC<FormFieldProps> = ({
               color: "#d32f2f",
               ml: 4,
               mb: 2,
+              display: "block",
+              fontSize: "12px",
+              fontFamily: "inter, sans-serif",
+            }}
+          >
+            {fieldError?.message}
+          </Typography>
+        )}
+      </>
+    );
+  } else if (isRadioField && options) {
+    return (
+      <>
+        <RadioGroup
+          aria-labelledby="radio-buttons-group-label"
+          defaultValue={value}
+          name="radio-buttons-group"
+          onChange={handleRadio}
+          value={value} // For controlled components
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: 3,
+            mb: 4,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {options.map((option) => (
+            <UserTypeCard
+              key={option.value}
+              icon={option.icon}
+              title={option.title}
+              description={option.description}
+              isSelected={value === option.value}
+              onSelect={() => setValue(option.value)}
+            />
+          ))}
+        </RadioGroup>
+        {hasError && (
+          <Typography
+            variant="caption"
+            sx={{
+              color: "#d32f2f",
+              ml: 1,
+              mt: 0.5,
               display: "block",
               fontSize: "12px",
               fontFamily: "inter, sans-serif",

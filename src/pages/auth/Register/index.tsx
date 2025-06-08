@@ -1,115 +1,148 @@
-import React, { useState } from "react";
-import { Box } from "@mui/material";
-import { Email, WhatsApp } from "@mui/icons-material";
-import { useParams, useLocation, useNavigate } from "react-router";
+import { Box, Typography } from "@mui/material";
+import { useForm } from "@refinedev/react-hook-form";
 import { useRegister } from "@refinedev/core";
-import { useSearchParams } from "react-router";
+import CorporateFareIcon from "@mui/icons-material/CorporateFare";
+import PersonIcon from "@mui/icons-material/Person";
 
+import { AuthBackground } from "../../../components/auth";
+import { validationRules } from "../../../constants/validation";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
-import Logo from "../../../assets/images/logo.png";
-import {
-  AuthBackground,
-  RegisterForm,
-  UserTypeSelection,
-} from "../../../components/auth";
-import { RegisterFormData } from "../../../interface/auth";
-import { Modal } from "../../../components";
+import Form from "../../../components/auth/form";
+import TextLink from "../../../components/textLink";
+import { useState } from "react";
+
+type RegisterVariables = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  phone?: string;
+  role: string;
+  toc: boolean;
+};
 
 export const RegisterPage = () => {
-  const { userType: urlUserType } = useParams<{ userType: string }>();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const [showModal, setShowModal] = useState(false);
-  const [showEducatorModal, setShowEducatorModal] = useState(false);
-  const [showRegistrationForm, setShowRegistrationForm] = React.useState(false);
-  const [selectedUserType, setSelectedUserType] = React.useState<string | null>(
-    null
-  );
-  const [registrationData, setRegistrationData] =
-    useState<RegisterFormData | null>(null);
-
-  // Get userType from multiple sources with priority
-  const userType =
-    location.state?.userType || urlUserType || searchParams.get("userType");
-
-  const { mutate: register, isLoading } = useRegister();
-
-  const handleSubmit = React.useCallback(
-    (data: RegisterFormData) => {
-      // Use selectedUserType if available, otherwise fall back to userType
-      const finalUserType = selectedUserType || userType;
-
-      register(
-        { ...data, role: finalUserType },
-        {
-          onSuccess: (response) => {
-            // Only show modal/navigate after successful API response
-            if (response && response.success) {
-              if (finalUserType === "educator") {
-                // Store registration data for later use
-                setRegistrationData(data);
-                // Show educator-specific modal first
-                setShowEducatorModal(true);
-              } else {
-                // Only show modal on successful registration for non-educators
-                setShowModal(true);
-              }
-            }
-          },
-          onError: (error) => {
-            console.error("Registration failed:", error);
-            // Handle error state here if needed
-            // You could show an error modal or toast notification
-          },
-        }
-      );
+  const [formStep, setFormStep] = useState(1);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      phone: "",
+      role: "",
+      toc: false,
     },
-    [register, selectedUserType, userType]
-  );
+  });
 
-  const handleUserTypeSelect = React.useCallback((userType: string) => {
-    setSelectedUserType(userType);
-    // Automatically show registration form after user type selection
-    setTimeout(() => {
-      setShowRegistrationForm(true);
-    }, 300); // Small delay to show selection feedback
-  }, []);
+  const { mutate: signup, isLoading } = useRegister<RegisterVariables>();
 
-  const handleBackToUserType = React.useCallback(() => {
-    setShowRegistrationForm(false);
-    setSelectedUserType(null);
-  }, []);
+  const onSubmit = async (data: RegisterVariables) => {
+    if (formStep === 0) {
+      // If on step one, set the role and move to step two
+      setFormStep(1);
+      return;
+    }
 
-  const handleSuccessModalClose = () => {
-    setShowModal(false);
-    // Navigate to login or dashboard
-    navigate("/login");
+    signup(data);
   };
 
-  const handleEducatorModalClose = () => {
-    setShowEducatorModal(false);
-    // Navigate to OTP verification screen with registration data
-    if (registrationData) {
-      const finalUserType = selectedUserType || userType;
-      navigate("/otp-verification", {
-        state: {
-          phone: registrationData.phone,
-          email: registrationData.email,
-          userType: finalUserType,
-          registrationData: registrationData,
+  const stepOneFormFields = [
+    {
+      label: "Role",
+      type: "radio",
+      name: "role",
+      options: [
+        {
+          title: "I'm Educator",
+          description:
+            "I am an educator looking to join as a member of this platform to engage with tasks and missions.",
+          value: "educator",
+          icon: <PersonIcon />,
         },
-      });
-    }
-  };
+        {
+          title: "I'm Organization",
+          description:
+            "I am an organization that creates tasks and invites educators to participate in them.",
+          value: "organization",
+          icon: <CorporateFareIcon />,
+        },
+      ],
+      register,
+      errors,
+      validationRules: validationRules.role,
+    },
+  ];
 
-  // If userType is provided via URL/params, skip user type selection
-  React.useEffect(() => {
-    if (userType && !showRegistrationForm) {
-      setSelectedUserType(userType);
-      setShowRegistrationForm(true);
-    }
-  }, [userType, showRegistrationForm]);
+  const stepTwoFormFields = [
+    {
+      label: "First Name",
+      type: "text",
+      name: "firstName",
+      placeholder: "Enter your first name",
+      register,
+      errors,
+      validationRules: validationRules.firstName,
+    },
+    {
+      label: "Last Name",
+      type: "text",
+      name: "lastName",
+      placeholder: "Enter your last name",
+      register,
+      errors,
+      validationRules: validationRules.lastName,
+    },
+    {
+      label: "Email",
+      type: "email",
+      name: "email",
+      placeholder: "Enter your email address",
+      register,
+      errors,
+      validationRules: validationRules.email,
+    },
+    {
+      label: "Phone Number",
+      type: "tel",
+      name: "phone",
+      placeholder: "Enter your phone number (optional)",
+      register,
+      errors,
+      validationRules: validationRules.phone,
+    },
+    {
+      label: "Password",
+      type: "password",
+      name: "password",
+      placeholder: "Enter your password",
+      register,
+      errors,
+      validationRules: validationRules.password,
+    },
+    {
+      label: "Confirm Password",
+      type: "password",
+      name: "confirmPassword",
+      placeholder: "Re-enter your password",
+      register,
+      errors,
+      validationRules: validationRules.confirmPassword,
+    },
+    {
+      label: "I agree to the Terms and Conditions",
+      type: "checkbox",
+      name: "toc",
+      register,
+      errors,
+      validationRules: validationRules.required,
+    },
+  ];
 
   return (
     <Box
@@ -120,61 +153,45 @@ export const RegisterPage = () => {
         backgroundColor: "#fff",
       }}
     >
-      {/* Left Side - Registration Form */}
-      <Box
-        sx={{
-          width: { xs: "100%", md: "45%" },
-          display: "flex",
-          flexDirection: "column",
-          px: { xs: 3, md: 6 },
-          py: 4,
-          backgroundColor: "#ffffff",
-          overflowY: "auto",
-        }}
-      >
-        {/* Logo */}
-        <Box sx={{ textAlign: "center", mb: 4, mt: 2 }}>
-          <Box component={"img"} src={Logo} alt="Logo" />
-        </Box>
-
-        {/* Registration Form */}
-        <Box sx={{ width: "100%", maxWidth: 450, mx: "auto" }}>
-          {showRegistrationForm && selectedUserType ? (
-            <RegisterForm
-              userType={selectedUserType}
-              isLoading={isLoading}
-              onSubmit={handleSubmit}
-              onBack={handleBackToUserType}
-              selectedUserType={selectedUserType}
-            />
-          ) : (
-            <UserTypeSelection onUserTypeSelect={handleUserTypeSelect} />
-          )}
-        </Box>
-      </Box>
+      {/* Left Side - Form */}
+      {formStep === 1 ? (
+        <Form
+          formTitle="Select Your User Type"
+          formDescription="Choose your role to proceed with the registration or login process."
+          formfields={stepOneFormFields}
+          formType="register"
+          formStep={formStep}
+        />
+      ) : (
+        <Form
+          formTitle="Create Your Account"
+          formDescription="Fill in your details to sign up."
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+          formfields={stepTwoFormFields}
+          formType="register"
+          isLoading={isLoading}
+          bottomTextWithLink={
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              textAlign="center"
+              sx={{
+                mb: 2,
+                fontSize: "14px",
+                fontFamily: "inter, sans-serif",
+              }}
+            >
+              Already have an account? <TextLink to="/login" label="Login" />
+            </Typography>
+          }
+          submitLoadingText="Signing up..."
+          submitLabel="Sign Up"
+        />
+      )}
 
       {/* Right Side - Image with Overlay Text */}
       <AuthBackground backgroundImage={AuthBg} />
-
-      {/* Success Modal for non-educator users */}
-      <Modal
-        open={showModal}
-        onClose={handleSuccessModalClose}
-        icon={<Email sx={{ color: "green", fontSize: "70px" }} />}
-        title="Account Created Successfully!"
-        description="Check your email to verify your account and set up your profile."
-        buttonText="Set Up My Profile"
-      />
-
-      {/* Educator Modal for verification steps */}
-      <Modal
-        open={showEducatorModal}
-        onClose={handleEducatorModalClose}
-        icon={<WhatsApp sx={{ color: "green", fontSize: "70px" }} />}
-        title="Account Registered Successfully!"
-        description="A verification email has been sent to your email address. Please verify your email and then enter the OTP sent to your WhatsApp number to complete the registration process."
-        buttonText="Enter WhatsApp OTP"
-      />
     </Box>
   );
 };

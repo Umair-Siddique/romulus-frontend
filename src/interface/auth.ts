@@ -3,13 +3,6 @@ export interface LoginFormData {
   password: string;
 }
 
-export interface UserType {
-  id: "educator" | "organization";
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-}
-
 export interface RegisterFormData {
   firstName: string;
   lastName: string;

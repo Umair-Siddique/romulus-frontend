@@ -9,29 +9,29 @@ import TextLink from "../../textLink";
 interface FormProps {
   formTitle: string;
   formDescription: string;
-  handleSubmit: (
-    onSubmit: (data: any) => void
-  ) => (event: React.FormEvent<HTMLFormElement>) => void;
-  onSubmit: (data: any) => void;
+  handleSubmit?: any;
+  onSubmit?: any;
   formfields: any[];
-  type: string;
+  formType: string;
   isLoading?: boolean;
   submitLoadingText?: string;
   submitLabel?: string;
   bottomTextWithLink?: React.ReactNode;
+  formStep?: number;
 }
 
 const Form: React.FC<FormProps> = ({
   formTitle,
   formDescription,
-  handleSubmit,
-  onSubmit,
+  handleSubmit = () => {},
+  onSubmit = () => {},
   formfields,
-  type,
+  formType,
   isLoading,
   submitLoadingText = "Loading...",
   submitLabel = "Submit",
   bottomTextWithLink = undefined,
+  formStep,
 }) => {
   return (
     <Box
@@ -78,6 +78,7 @@ const Form: React.FC<FormProps> = ({
                 type={field.type}
                 name={field.name}
                 placeholder={field.placeholder}
+                options={field.options}
                 register={field.register}
                 errors={field.errors}
                 validationRules={field.validationRules}
@@ -85,20 +86,22 @@ const Form: React.FC<FormProps> = ({
             ))}
 
             {/* Forgot Password Link */}
-            {type === "login" && (
+            {formType === "login" && (
               <Box sx={{ textAlign: "right", mb: 3 }}>
                 <TextLink to="/forgot-password" label="Forgot Password" />
               </Box>
             )}
 
             {/* Submit Button */}
-            <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
-              <SubmitButton
-                isLoading={isLoading}
-                loadingText={submitLoadingText}
-                loadedText={submitLabel}
-              />
-            </Box>
+            {formStep !== 1 && (
+              <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
+                <SubmitButton
+                  isLoading={isLoading}
+                  loadingText={submitLoadingText}
+                  loadedText={submitLabel}
+                />
+              </Box>
+            )}
 
             {bottomTextWithLink}
           </Box>
