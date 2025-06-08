@@ -13,12 +13,7 @@ type UpdatePasswordVariables = {
 };
 
 export const UpdatePasswordPage = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
+  const form = useForm({
     mode: "onChange",
     defaultValues: {
       password: "",
@@ -27,21 +22,18 @@ export const UpdatePasswordPage = () => {
     },
   });
 
-  const { mutate: updatePassword, isLoading } =
-    useUpdatePassword<UpdatePasswordVariables>();
+  const { mutate: updatePassword, isLoading } = useUpdatePassword<UpdatePasswordVariables>();
 
-  const onSubmit = async (data: UpdatePasswordVariables) => {
-    updatePassword(
-      { ...data, confirmPassword: undefined },
-      {
-        onSuccess: () => {
-          reset();
-        },
-        onError: (error) => {
-          console.error("Error sending reset link:", error);
-        },
-      }
-    );
+  const onSubmit = (data: UpdatePasswordVariables) => {
+    const { confirmPassword, ...submitData } = data;
+    updatePassword(submitData, {
+      onSuccess: () => {
+        form.reset();
+      },
+      onError: (error) => {
+        console.error("Error updating password:", error);
+      },
+    });
   };
 
   const formFields = [
@@ -50,8 +42,6 @@ export const UpdatePasswordPage = () => {
       type: "password",
       name: "password",
       placeholder: "Enter your password",
-      register,
-      errors,
       validationRules: validationRules.password,
     },
     {
@@ -59,11 +49,13 @@ export const UpdatePasswordPage = () => {
       type: "password",
       name: "confirmPassword",
       placeholder: "Re-enter your password",
-      register,
-      errors,
       validationRules: validationRules.confirmPassword,
     },
-  ];
+  ].map(field => ({
+    ...field,
+    register: form.register,
+    errors: form.formState.errors,
+  }));
 
   return (
     <Box
@@ -74,7 +66,6 @@ export const UpdatePasswordPage = () => {
         backgroundColor: "#fff",
       }}
     >
-      {/* Left Side - Form */}
       <Form
         formTitle="Reset your password"
         formDescription="Choose a new password that is secure and easy to remember."
@@ -83,11 +74,10 @@ export const UpdatePasswordPage = () => {
         isLoading={isLoading}
         submitLoadingText="Saving New Password..."
         submitLabel="Save New Password"
-        handleSubmit={handleSubmit}
+        handleSubmit={form.handleSubmit}
         onSubmit={onSubmit}
       />
 
-      {/* Right Side - Image with Overlay Text */}
       <AuthBackground backgroundImage={AuthBg} />
     </Box>
   );

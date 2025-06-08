@@ -34,12 +34,20 @@ export const validationRules = {
       value: 8,
       message: "Password must be at least 8 characters",
     },
+    maxLength: {
+      value: 100,
+      message: "Password cannot exceed 100 characters",
+    },
   },
   confirmPassword: {
     required: "Re-enter your password",
     minLength: {
       value: 8,
       message: "Password must be at least 8 characters",
+    },
+    maxLength: {
+      value: 100,
+      message: "Password cannot exceed 100 characters",
     },
   },
   role: {
@@ -60,12 +68,18 @@ export const validationRules = {
     required: "WhatsApp number is required",
     pattern: {
       value: /^\+\d{1,3}\s?\d{1,14}$/,
-      message:
-        "Please enter a valid WhatsApp number with country code",
+      message: "Please enter a valid WhatsApp number with country code",
     },
     minLength: {
       value: 10,
       message: "Phone number must be at least 10 digits",
+    },
+  },
+  toc: {
+    required: "You must agree to the Terms and Conditions",
+    pattern: {
+      value: /^true$/,
+      message: "You must agree to the Terms and Conditions",
     },
   },
 };

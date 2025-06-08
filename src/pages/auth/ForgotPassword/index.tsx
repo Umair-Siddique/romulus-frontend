@@ -11,25 +11,19 @@ type ForgotPasswordVariables = {
 };
 
 export const ForgotPasswordPage = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
+  const form = useForm({
     mode: "onChange",
     defaultValues: {
       email: "",
     },
   });
 
-  const { mutate: forgotPassword, isLoading } =
-    useForgotPassword<ForgotPasswordVariables>();
+  const { mutate: forgotPassword, isLoading } = useForgotPassword<ForgotPasswordVariables>();
 
-  const onSubmit = async (data: ForgotPasswordVariables) => {
+  const onSubmit = (data: ForgotPasswordVariables) => {
     forgotPassword(data, {
       onSuccess: () => {
-        reset();
+        form.reset();
       },
       onError: (error) => {
         console.error("Error sending reset link:", error);
@@ -43,8 +37,8 @@ export const ForgotPasswordPage = () => {
       type: "email",
       name: "email",
       placeholder: "Enter your email address",
-      register,
-      errors,
+      register: form.register,
+      errors: form.formState.errors,
       validationRules: validationRules.email,
     },
   ];
@@ -58,7 +52,6 @@ export const ForgotPasswordPage = () => {
         backgroundColor: "#fff",
       }}
     >
-      {/* Left Side - Form */}
       <Form
         formTitle="Forgot Password?"
         formDescription="Enter the email address associated with your account, and we'll send you a link to reset it."
@@ -67,11 +60,10 @@ export const ForgotPasswordPage = () => {
         isLoading={isLoading}
         submitLoadingText="Sending Reset Link..."
         submitLabel="Send Reset Link"
-        handleSubmit={handleSubmit}
+        handleSubmit={form.handleSubmit}
         onSubmit={onSubmit}
       />
 
-      {/* Right Side - Image with Overlay Text */}
       <AuthBackground backgroundImage={AuthBg} />
     </Box>
   );

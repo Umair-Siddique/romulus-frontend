@@ -45,23 +45,18 @@ const FormField: React.FC<FormFieldProps> = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [value, setValue] = useState("");
-  const isPasswordField = type === "password";
-  const isPhoneField = type === "tel";
-  const isCheckboxField = type === "checkbox";
-  const isRadioField = type === "radio";
+  
+  const fieldError = errors[name];
+  const hasError = !!fieldError;
 
   const handleUserTypeSelection = (newValue: string) => {
     setValue(newValue);
     setUserRole(newValue);
-    setTimeout(() => {
-      setFormStep(2);
-    }, 1000);
+    setTimeout(() => setFormStep(2), 1000);
   };
 
-  const fieldError = errors[name];
-  const hasError = !!fieldError;
-
-  if (isCheckboxField) {
+  // Render checkbox field
+  if (type === "checkbox") {
     return (
       <>
         <FormControlLabel
@@ -70,9 +65,7 @@ const FormField: React.FC<FormFieldProps> = ({
               {...register(name, validationRules)}
               sx={{
                 color: hasError ? "#d32f2f" : "#A1B7AF",
-                "&.Mui-checked": {
-                  color: "#A1B7AF",
-                },
+                "&.Mui-checked": { color: "#A1B7AF" },
               }}
             />
           }
@@ -108,13 +101,14 @@ const FormField: React.FC<FormFieldProps> = ({
         )}
       </>
     );
-  } else if (isRadioField && options) {
+  }
+
+  // Render radio field
+  if (type === "radio" && options) {
     return (
       <>
         <RadioGroup
-          aria-labelledby="radio-buttons-group-label"
-          name="radio-buttons-group"
-          value={value} // For controlled components
+          value={value}
           sx={{
             display: "flex",
             flexDirection: { xs: "column", sm: "row" },
@@ -155,6 +149,69 @@ const FormField: React.FC<FormFieldProps> = ({
     );
   }
 
+  // Get input props based on field type
+  const getInputProps = () => {
+    if (type === "password") {
+      return {
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton
+              onClick={() => setShowPassword(!showPassword)}
+              edge="end"
+              aria-label="toggle password visibility"
+            >
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </InputAdornment>
+        ),
+      };
+    }
+
+    if (type === "tel") {
+      return {
+        endAdornment: (
+          <InputAdornment position="end">
+            <Tooltip
+              title="Please enter your WhatsApp number with country code. This will be used for important notifications and updates about your tasks and missions."
+              arrow
+              placement="top"
+              componentsProps={{
+                tooltip: {
+                  sx: {
+                    bgcolor: "#333",
+                    color: "white",
+                    fontSize: "12px",
+                    fontFamily: "inter, sans-serif",
+                    maxWidth: 300,
+                    p: 1.5,
+                  },
+                },
+                arrow: { sx: { color: "#333" } },
+              }}
+            >
+              <IconButton
+                edge="end"
+                aria-label="phone number information"
+                sx={{
+                  color: "#666",
+                  "&:hover": {
+                    color: "#A1B7AF",
+                    backgroundColor: "transparent",
+                  },
+                }}
+              >
+                <Info fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </InputAdornment>
+        ),
+      };
+    }
+
+    return undefined;
+  };
+
+  // Render text input field
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <Typography
@@ -173,7 +230,7 @@ const FormField: React.FC<FormFieldProps> = ({
       <TextField
         fullWidth
         placeholder={placeholder || `Enter your ${label.toLowerCase()}`}
-        type={isPasswordField && showPassword ? "text" : type}
+        type={type === "password" && showPassword ? "text" : type}
         {...register(name, validationRules)}
         error={hasError}
         helperText={hasError ? fieldError?.message : ""}
@@ -194,76 +251,12 @@ const FormField: React.FC<FormFieldProps> = ({
               borderWidth: 2,
             },
           },
-          "& .MuiInputBase-input": {
-            py: 1.5,
-          },
-          "& .MuiFormHelperText-root": {
-            ml: 1,
-            mt: 0.5,
-          },
+          "& .MuiInputBase-input": { py: 1.5 },
+          "& .MuiFormHelperText-root": { ml: 1, mt: 0.5 },
           fontFamily: "inter, sans-serif",
           fontSize: "14px",
         }}
-        InputProps={
-          isPasswordField
-            ? {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                      aria-label="toggle password visibility"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }
-            : isPhoneField
-            ? {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Tooltip
-                      title="Please enter your WhatsApp number with country code. This will be used for important notifications and updates about your tasks and missions."
-                      arrow
-                      placement="top"
-                      componentsProps={{
-                        tooltip: {
-                          sx: {
-                            bgcolor: "#333",
-                            color: "white",
-                            fontSize: "12px",
-                            fontFamily: "inter, sans-serif",
-                            maxWidth: 300,
-                            p: 1.5,
-                          },
-                        },
-                        arrow: {
-                          sx: {
-                            color: "#333",
-                          },
-                        },
-                      }}
-                    >
-                      <IconButton
-                        edge="end"
-                        aria-label="phone number information"
-                        sx={{
-                          color: "#666",
-                          "&:hover": {
-                            color: "#A1B7AF",
-                            backgroundColor: "transparent",
-                          },
-                        }}
-                      >
-                        <Info fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </InputAdornment>
-                ),
-              }
-            : undefined
-        }
+        InputProps={getInputProps()}
       />
     </Box>
   );

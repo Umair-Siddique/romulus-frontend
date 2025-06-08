@@ -13,11 +13,7 @@ type LoginVariables = {
 };
 
 export const LoginPage = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const form = useForm({
     mode: "onChange",
     defaultValues: {
       email: "",
@@ -27,18 +23,16 @@ export const LoginPage = () => {
 
   const { mutate: login, isLoading } = useLogin<LoginVariables>();
 
-  const onSubmit = async (data: LoginVariables) => {
+  const onSubmit = (data: LoginVariables) => {
     login(data);
   };
 
-  const formfields = [
+  const formFields = [
     {
       label: "Email",
       type: "email",
       name: "email",
       placeholder: "Enter your email address",
-      register,
-      errors,
       validationRules: validationRules.email,
     },
     {
@@ -46,11 +40,13 @@ export const LoginPage = () => {
       type: "password",
       name: "password",
       placeholder: "Enter your password",
-      register,
-      errors,
       validationRules: validationRules.password,
     },
-  ];
+  ].map(field => ({
+    ...field,
+    register: form.register,
+    errors: form.formState.errors,
+  }));
 
   return (
     <Box
@@ -61,13 +57,12 @@ export const LoginPage = () => {
         backgroundColor: "#fff",
       }}
     >
-      {/* Left Side - Form */}
       <Form
         formTitle="Welcome Back!"
         formDescription="Please log in to continue."
-        handleSubmit={handleSubmit}
+        handleSubmit={form.handleSubmit}
         onSubmit={onSubmit}
-        formfields={formfields}
+        formfields={formFields}
         formType="login"
         isLoading={isLoading}
         bottomTextWithLink={
@@ -88,7 +83,6 @@ export const LoginPage = () => {
         submitLabel="Log In"
       />
 
-      {/* Right Side - Image with Overlay Text */}
       <AuthBackground backgroundImage={AuthBg} />
     </Box>
   );

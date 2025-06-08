@@ -19,7 +19,7 @@ interface FormProps {
   submitLabel?: string;
   bottomTextWithLink?: React.ReactNode;
   handleSubmit?: any;
-  onSubmit?: any;
+  onSubmit?: (data: any) => void;
 }
 
 export const Form: React.FC<FormProps> = ({
@@ -33,10 +33,13 @@ export const Form: React.FC<FormProps> = ({
   isLoading,
   submitLoadingText = "Loading...",
   submitLabel = "Submit",
-  bottomTextWithLink = undefined,
+  bottomTextWithLink,
   handleSubmit = () => {},
   onSubmit = () => {},
 }) => {
+  const showForgotPassword = formType === "login";
+  const showSubmitButton = formStep !== 1;
+
   return (
     <Box
       sx={{
@@ -52,7 +55,7 @@ export const Form: React.FC<FormProps> = ({
     >
       {/* Logo - Fixed to top */}
       <Box sx={{ textAlign: "center", mb: 4, mt: 2 }}>
-        <Box component={"img"} src={Logo} alt="Logo" />
+        <Box component="img" src={Logo} alt="Logo" />
       </Box>
 
       {/* Content Container - Centered vertically in remaining space */}
@@ -101,7 +104,7 @@ export const Form: React.FC<FormProps> = ({
           ))}
 
           {/* Forgot Password Link */}
-          {formType === "login" && (
+          {showForgotPassword && (
             <Box
               sx={{
                 width: "80%",
@@ -115,7 +118,7 @@ export const Form: React.FC<FormProps> = ({
           )}
 
           {/* Submit Button */}
-          {formStep !== 1 && (
+          {showSubmitButton && (
             <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
               <SubmitButton
                 isLoading={isLoading}
