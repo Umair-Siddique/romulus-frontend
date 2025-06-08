@@ -20,7 +20,7 @@ interface FormProps {
   formStep?: number;
 }
 
-const Form: React.FC<FormProps> = ({
+export const Form: React.FC<FormProps> = ({
   formTitle,
   formDescription,
   handleSubmit = () => {},
@@ -110,5 +110,3 @@ const Form: React.FC<FormProps> = ({
     </Box>
   );
 };
-
-export default Form;

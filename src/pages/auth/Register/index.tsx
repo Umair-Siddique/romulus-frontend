@@ -1,15 +1,14 @@
+import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { useRegister } from "@refinedev/core";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import PersonIcon from "@mui/icons-material/Person";
 
-import { AuthBackground } from "../../../components/auth";
 import { validationRules } from "../../../constants/validation";
+import { AuthBackground, Form } from "../../../components/auth";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
-import Form from "../../../components/auth/form";
 import TextLink from "../../../components/textLink";
-import { useState } from "react";
 
 type RegisterVariables = {
   firstName: string;

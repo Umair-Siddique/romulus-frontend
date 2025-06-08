@@ -2,10 +2,9 @@ import { Box, Typography } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { useLogin } from "@refinedev/core";
 
-import { AuthBackground } from "../../../components/auth";
 import { validationRules } from "../../../constants/validation";
+import { AuthBackground, Form } from "../../../components/auth";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
-import Form from "../../../components/auth/form";
 import TextLink from "../../../components/textLink";
 
 type LoginVariables = {
