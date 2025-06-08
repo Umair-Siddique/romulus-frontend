@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 
 type FormHeaderProps = {
@@ -8,7 +8,7 @@ type FormHeaderProps = {
 
 const FormHeader: React.FC<FormHeaderProps> = ({ title, description }) => {
   return (
-    <>
+    <Box sx={{ width: 450}}>
       <Typography
         variant="h4"
         sx={{
@@ -35,7 +35,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({ title, description }) => {
       >
         {description}
       </Typography>
-    </>
+    </Box>
   );
 };
 

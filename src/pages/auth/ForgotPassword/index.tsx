@@ -1,63 +1,53 @@
-import React, { useState } from "react";
-import { useForgotPassword } from "@refinedev/core";
 import { Box } from "@mui/material";
-import { Email, ErrorOutline } from "@mui/icons-material";
-import { useNavigate } from "react-router";
+import { useForm } from "@refinedev/react-hook-form";
+import { useForgotPassword } from "@refinedev/core";
 
+import { validationRules } from "../../../constants/validation";
+import { AuthBackground, Form } from "../../../components/auth";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
-import Logo from "../../../assets/images/logo.png";
-import { AuthBackground, ForgotPasswordForm } from "../../../components/auth";
-import { Modal } from "../../../components";
 
-type forgotPasswordVariables = {
+type ForgotPasswordVariables = {
   email: string;
 };
 
 export const ForgotPasswordPage = () => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const { mutate: forgotPassword } = useForgotPassword<forgotPasswordVariables>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      email: "",
+    },
+  });
 
-  const handleEmailSubmit = (submittedEmail: string) => {
-    setIsLoading(true);
-    setEmail(submittedEmail);
+  const { mutate: forgotPassword, isLoading } =
+    useForgotPassword<ForgotPasswordVariables>();
 
-    forgotPassword(
-      { email: submittedEmail },
-      {
-        onSuccess: (res) => {
-          if (res.success === false) {
-            setIsSuccess(false);
-            setShowModal(true);
-            setIsLoading(false);
-            return;
-          }
-          setIsSuccess(true);
-          setShowModal(true);
-          setIsLoading(false);
-        },
-        onError: (error) => {
-          setIsSuccess(false);
-          setShowModal(true);
-          setIsLoading(false);
-        },
-      }
-    );
+  const onSubmit = async (data: ForgotPasswordVariables) => {
+    forgotPassword(data, {
+      onSuccess: () => {
+        reset();
+      },
+      onError: (error) => {
+        console.error("Error sending reset link:", error);
+      },
+    });
   };
 
-  const handleModalClose = () => {
-    setShowModal(false);
-    if (isSuccess) {
-      navigate("/login");
-    }
-  };
-
-  const handleBackToLogin = () => {
-    navigate("/login");
-  };
+  const formFields = [
+    {
+      label: "Email",
+      type: "email",
+      name: "email",
+      placeholder: "Enter your email address",
+      register,
+      errors,
+      validationRules: validationRules.email,
+    },
+  ];
 
   return (
     <Box
@@ -69,58 +59,20 @@ export const ForgotPasswordPage = () => {
       }}
     >
       {/* Left Side - Form */}
-      <Box
-        sx={{
-          width: { xs: "100%", md: "45%" },
-          display: "flex",
-          flexDirection: "column",
-          px: { xs: 3, md: 6 },
-          py: 4,
-          backgroundColor: "#ffffff",
-          overflowY: "auto",
-        }}
-      >
-        {/* Logo */}
-        <Box sx={{ textAlign: "center", mb: 4, mt: 2 }}>
-          <Box component={"img"} src={Logo} alt="Logo" />
-        </Box>
-
-        {/* Form Container */}
-        <Box sx={{ width: "100%", maxWidth: 450, mx: "auto" }}>
-          <ForgotPasswordForm
-            isLoading={isLoading}
-            onSubmit={handleEmailSubmit}
-            onBack={handleBackToLogin}
-          />
-        </Box>
-      </Box>
+      <Form
+        formTitle="Forgot Password?"
+        formDescription="Enter the email address associated with your account, and we'll send you a link to reset it."
+        formfields={formFields}
+        formType="forgotPassword"
+        isLoading={isLoading}
+        submitLoadingText="Sending Reset Link..."
+        submitLabel="Send Reset Link"
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+      />
 
       {/* Right Side - Image with Overlay Text */}
       <AuthBackground backgroundImage={AuthBg} />
-
-      {/* Modal */}
-      <Modal
-        open={showModal}
-        onClose={handleModalClose}
-        icon={
-          isSuccess ? (
-            <Email sx={{ color: "green", fontSize: "70px" }} />
-          ) : (
-            <ErrorOutline sx={{ color: "red", fontSize: "70px" }} />
-          )
-        }
-        title={
-          isSuccess
-            ? "Reset Email Sent Successfully!"
-            : "Failed to Send Reset Email"
-        }
-        description={
-          isSuccess
-            ? `We've sent a password reset link to ${email}. Please check your email and follow the instructions to reset your password.`
-            : "There was an error sending the reset email. Please try again later or contact support if the problem persists."
-        }
-        buttonText={isSuccess ? "Back to Login" : "Try Again"}
-      />
     </Box>
   );
 };

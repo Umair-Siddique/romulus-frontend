@@ -1,84 +1,69 @@
-import React, { useState, useEffect } from "react";
-import { useUpdatePassword } from "@refinedev/core";
 import { Box } from "@mui/material";
-import { CheckCircle, ErrorOutline } from "@mui/icons-material";
-import { useNavigate, useSearchParams } from "react-router";
+import { useForm } from "@refinedev/react-hook-form";
+import { useUpdatePassword } from "@refinedev/core";
 
+import { validationRules } from "../../../constants/validation";
+import { AuthBackground, Form } from "../../../components/auth";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
-import Logo from "../../../assets/images/logo.png";
-import { AuthBackground, UpdatePasswordForm } from "../../../components/auth";
-import { Modal } from "../../../components";
 
 type UpdatePasswordVariables = {
   password: string;
+  confirmPassword?: string;
   token: string;
 };
 
 export const UpdatePasswordPage = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const [token, setToken] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const { mutate: updatePassword } =
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      password: "",
+      confirmPassword: "",
+      token: new URLSearchParams(window.location.search).get("token") || "",
+    },
+  });
+
+  const { mutate: updatePassword, isLoading } =
     useUpdatePassword<UpdatePasswordVariables>();
 
-  useEffect(() => {
-    const tokenFromUrl = searchParams.get("token");
-    if (tokenFromUrl) {
-      setToken(tokenFromUrl);
-    } else {
-      navigate("/forgot-password");
-    }
-  }, [searchParams, navigate]);
-
-  const handlePasswordUpdate = (password: string, token: string) => {
-    if (!token) {
-      console.error("No token found");
-      return;
-    }
-
-    setIsLoading(true);
-    setShowModal(false);
-    setIsSuccess(false);
-
+  const onSubmit = async (data: UpdatePasswordVariables) => {
     updatePassword(
+      { ...data, confirmPassword: undefined },
       {
-        password,
-        token,
-      },
-      {
-        onSuccess: (res) => {
-          setIsSuccess(true);
-          setShowModal(true);
-          setIsLoading(false);
+        onSuccess: () => {
+          reset();
         },
         onError: (error) => {
-          console.error("Failed to reset password:", error);
-          setIsSuccess(false);
-          setShowModal(true);
-          setIsLoading(false);
+          console.error("Error sending reset link:", error);
         },
       }
     );
   };
 
-  const handleModalClose = () => {
-    setShowModal(false);
-    if (isSuccess) {
-      navigate("/login");
-    }
-  };
-
-  const handleBackToLogin = () => {
-    navigate("/login");
-  };
-
-  // Don't render the form if there's no token
-  if (!token) {
-    return null;
-  }
+  const formFields = [
+    {
+      label: "Password",
+      type: "password",
+      name: "password",
+      placeholder: "Enter your password",
+      register,
+      errors,
+      validationRules: validationRules.password,
+    },
+    {
+      label: "Confirm Password",
+      type: "password",
+      name: "confirmPassword",
+      placeholder: "Re-enter your password",
+      register,
+      errors,
+      validationRules: validationRules.confirmPassword,
+    },
+  ];
 
   return (
     <Box
@@ -90,58 +75,20 @@ export const UpdatePasswordPage = () => {
       }}
     >
       {/* Left Side - Form */}
-      <Box
-        sx={{
-          width: { xs: "100%", md: "45%" },
-          display: "flex",
-          flexDirection: "column",
-          px: { xs: 3, md: 6 },
-          py: 4,
-          backgroundColor: "#ffffff",
-          overflowY: "auto",
-        }}
-      >
-        {/* Logo */}
-        <Box sx={{ textAlign: "center", mb: 4, mt: 2 }}>
-          <Box component={"img"} src={Logo} alt="Logo" />
-        </Box>
-
-        {/* Form Container */}
-        <Box sx={{ width: "100%", maxWidth: 450, mx: "auto" }}>
-          <UpdatePasswordForm
-            isLoading={isLoading}
-            onSubmit={handlePasswordUpdate}
-            onBack={handleBackToLogin}
-          />
-        </Box>
-      </Box>
+      <Form
+        formTitle="Reset your password"
+        formDescription="Choose a new password that is secure and easy to remember."
+        formfields={formFields}
+        formType="updatePassword"
+        isLoading={isLoading}
+        submitLoadingText="Saving New Password..."
+        submitLabel="Save New Password"
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+      />
 
       {/* Right Side - Image with Overlay Text */}
       <AuthBackground backgroundImage={AuthBg} />
-
-      {/* Modal */}
-      <Modal
-        open={showModal}
-        onClose={handleModalClose}
-        icon={
-          isSuccess ? (
-            <CheckCircle sx={{ color: "green", fontSize: "70px" }} />
-          ) : (
-            <ErrorOutline sx={{ color: "red", fontSize: "70px" }} />
-          )
-        }
-        title={
-          isSuccess
-            ? "Password Reset Successfully!"
-            : "Failed to Reset Password"
-        }
-        description={
-          isSuccess
-            ? "Your password has been reset successfully. You can now log in with your new password."
-            : "There was an error resetting your password. The link may have expired or been used already. Please try requesting a new reset link."
-        }
-        buttonText={isSuccess ? "Back to Login" : "Try Again"}
-      />
     </Box>
   );
 };
