@@ -42,12 +42,6 @@ export const RegisterPage = () => {
   const { mutate: signup, isLoading } = useRegister<RegisterVariables>();
 
   const onSubmit = async (data: RegisterVariables) => {
-    if (formStep === 0) {
-      // If on step one, set the role and move to step two
-      setFormStep(1);
-      return;
-    }
-
     signup(data);
   };
 
@@ -160,33 +154,37 @@ export const RegisterPage = () => {
           formfields={stepOneFormFields}
           formType="register"
           formStep={formStep}
+          setFormStep={setFormStep}
         />
       ) : (
-        <Form
-          formTitle="Create Your Account"
-          formDescription="Fill in your details to sign up."
-          handleSubmit={handleSubmit}
-          onSubmit={onSubmit}
-          formfields={stepTwoFormFields}
-          formType="register"
-          isLoading={isLoading}
-          bottomTextWithLink={
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              textAlign="center"
-              sx={{
-                mb: 2,
-                fontSize: "14px",
-                fontFamily: "inter, sans-serif",
-              }}
-            >
-              Already have an account? <TextLink to="/login" label="Login" />
-            </Typography>
-          }
-          submitLoadingText="Signing up..."
-          submitLabel="Sign Up"
-        />
+        formStep === 2 && (
+          <Form
+            formTitle="Create Your Account"
+            formDescription="Fill in your details to sign up."
+            formfields={stepTwoFormFields}
+            formType="register"
+            isLoading={isLoading}
+            bottomTextWithLink={
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                textAlign="center"
+                sx={{
+                  mb: 2,
+                  fontSize: "14px",
+                  fontFamily: "inter, sans-serif",
+                }}
+              >
+                Already have an account? <TextLink to="/login" label="Login" />
+              </Typography>
+            }
+            submitLoadingText="Signing up..."
+            submitLabel="Sign Up"
+            setFormStep={setFormStep}
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+          />
+        )
       )}
 
       {/* Right Side - Image with Overlay Text */}

@@ -25,6 +25,7 @@ type FormFieldProps = {
     icon: React.ReactElement;
   }[];
   validationRules?: any;
+  setFormStep?: (step: number) => void;
 };
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -36,15 +37,19 @@ const FormField: React.FC<FormFieldProps> = ({
   placeholder,
   options,
   validationRules,
+  setFormStep = () => {},
 }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [value, setValue] = useState("option1");
+  const [value, setValue] = useState("");
   const isPasswordField = type === "password";
   const isCheckboxField = type === "checkbox";
   const isRadioField = type === "radio";
 
-  const handleRadio = (event, newValue) => {
+  const handleUserTypeSelection = (newValue: string) => {
     setValue(newValue);
+    setTimeout(() => {
+      setFormStep(2);
+    }, 1000);
   };
 
   const fieldError = errors[name];
@@ -102,9 +107,7 @@ const FormField: React.FC<FormFieldProps> = ({
       <>
         <RadioGroup
           aria-labelledby="radio-buttons-group-label"
-          defaultValue={value}
           name="radio-buttons-group"
-          onChange={handleRadio}
           value={value} // For controlled components
           sx={{
             display: "flex",
@@ -121,8 +124,9 @@ const FormField: React.FC<FormFieldProps> = ({
               icon={option.icon}
               title={option.title}
               description={option.description}
+              value={option.value}
               isSelected={value === option.value}
-              onSelect={() => setValue(option.value)}
+              onSelect={handleUserTypeSelection}
             />
           ))}
         </RadioGroup>

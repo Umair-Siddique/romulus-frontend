@@ -9,8 +9,6 @@ import TextLink from "../../textLink";
 interface FormProps {
   formTitle: string;
   formDescription: string;
-  handleSubmit?: any;
-  onSubmit?: any;
   formfields: any[];
   formType: string;
   isLoading?: boolean;
@@ -18,13 +16,14 @@ interface FormProps {
   submitLabel?: string;
   bottomTextWithLink?: React.ReactNode;
   formStep?: number;
+  setFormStep?: (step: number) => void;
+  handleSubmit?: any;
+  onSubmit?: any;
 }
 
 export const Form: React.FC<FormProps> = ({
   formTitle,
   formDescription,
-  handleSubmit = () => {},
-  onSubmit = () => {},
   formfields,
   formType,
   isLoading,
@@ -32,6 +31,9 @@ export const Form: React.FC<FormProps> = ({
   submitLabel = "Submit",
   bottomTextWithLink = undefined,
   formStep,
+  setFormStep = () => {},
+  handleSubmit = () => {},
+  onSubmit = () => {},
 }) => {
   return (
     <Box
@@ -82,6 +84,7 @@ export const Form: React.FC<FormProps> = ({
                 register={field.register}
                 errors={field.errors}
                 validationRules={field.validationRules}
+                setFormStep={setFormStep}
               />
             ))}
 

@@ -5,14 +5,16 @@ interface UserTypeCardProps {
   icon: React.ReactElement;
   title: string;
   description: string;
+  value?: string;
   isSelected: boolean;
-  onSelect: (id: string) => void;
+  onSelect: (value: string) => void;
 }
 
 export const UserTypeCard = ({
   icon,
   title,
   description,
+  value,
   isSelected,
   onSelect,
 }: UserTypeCardProps) => {
@@ -32,6 +34,7 @@ export const UserTypeCard = ({
         flex: { xs: "none", sm: 1 },
         maxWidth: 280,
       }}
+      onClick={() => value && onSelect(value)}
     >
       <CardContent
         sx={{
