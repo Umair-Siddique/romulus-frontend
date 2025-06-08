@@ -25,7 +25,6 @@ import { Header, Title } from "./components";
 import {
   LoginPage,
   ForgotPasswordPage,
-  OTPVerificationPage,
   RegisterPage,
   UpdatePasswordPage,
 } from "./pages/auth";
@@ -95,10 +94,6 @@ const App: React.FC = () => {
                 >
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/register" element={<RegisterPage />} />
-                  <Route
-                    path="/otp-verification"
-                    element={<OTPVerificationPage />}
-                  />
                   <Route
                     path="/forgot-password"
                     element={<ForgotPasswordPage />}
