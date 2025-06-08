@@ -15,29 +15,31 @@ type FormFieldProps = {
   label: string;
   type: string;
   name: string;
-  register: any;
-  errors: Record<string, any>;
   placeholder?: string;
   options?: {
+    icon: React.ReactElement;
     title: string;
     description: string;
     value: string;
-    icon: React.ReactElement;
   }[];
   validationRules?: any;
   setFormStep?: (step: number) => void;
+  setUserRole?: (role: string) => void;
+  register: any;
+  errors: Record<string, any>;
 };
 
 const FormField: React.FC<FormFieldProps> = ({
   label,
   type,
   name,
-  register,
-  errors,
   placeholder,
   options,
   validationRules,
   setFormStep = () => {},
+  setUserRole = () => {},
+  register,
+  errors,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [value, setValue] = useState("");
@@ -47,6 +49,7 @@ const FormField: React.FC<FormFieldProps> = ({
 
   const handleUserTypeSelection = (newValue: string) => {
     setValue(newValue);
+    setUserRole(newValue);
     setTimeout(() => {
       setFormStep(2);
     }, 1000);

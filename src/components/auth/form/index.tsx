@@ -11,12 +11,13 @@ interface FormProps {
   formDescription: string;
   formfields: any[];
   formType: string;
+  formStep?: number;
+  setFormStep?: (step: number) => void;
+  setUserRole?: (role: string) => void;
   isLoading?: boolean;
   submitLoadingText?: string;
   submitLabel?: string;
   bottomTextWithLink?: React.ReactNode;
-  formStep?: number;
-  setFormStep?: (step: number) => void;
   handleSubmit?: any;
   onSubmit?: any;
 }
@@ -26,12 +27,13 @@ export const Form: React.FC<FormProps> = ({
   formDescription,
   formfields,
   formType,
+  formStep,
+  setFormStep = () => {},
+  setUserRole = () => {},
   isLoading,
   submitLoadingText = "Loading...",
   submitLabel = "Submit",
   bottomTextWithLink = undefined,
-  formStep,
-  setFormStep = () => {},
   handleSubmit = () => {},
   onSubmit = () => {},
 }) => {
@@ -81,10 +83,11 @@ export const Form: React.FC<FormProps> = ({
                 name={field.name}
                 placeholder={field.placeholder}
                 options={field.options}
-                register={field.register}
-                errors={field.errors}
                 validationRules={field.validationRules}
                 setFormStep={setFormStep}
+                setUserRole={setUserRole}
+                register={field.register}
+                errors={field.errors}
               />
             ))}
 

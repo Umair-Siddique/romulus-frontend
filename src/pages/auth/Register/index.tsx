@@ -22,6 +22,7 @@ type RegisterVariables = {
 
 export const RegisterPage = () => {
   const [formStep, setFormStep] = useState(1);
+  const [userRole, setUserRole] = useState("");
   const {
     register,
     handleSubmit,
@@ -155,6 +156,7 @@ export const RegisterPage = () => {
           formType="register"
           formStep={formStep}
           setFormStep={setFormStep}
+          setUserRole={setUserRole}
         />
       ) : (
         formStep === 2 && (
