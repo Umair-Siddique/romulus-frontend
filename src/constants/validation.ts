@@ -30,24 +30,30 @@ export const validationRules = {
   },
   password: {
     required: "Password is required",
-    minLength: {
-      value: 8,
-      message: "Password must be at least 8 characters",
-    },
-    maxLength: {
-      value: 100,
-      message: "Password cannot exceed 100 characters",
+    minLength: { value: 8, message: "Password must be at least 8 characters" },
+    maxLength: { value: 32, message: "Password must be at most 32 characters" },
+    pattern: {
+      value:
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/,
+      message:
+        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     },
   },
   confirmPassword: {
-    required: "Re-enter your password",
+    required: "Confirm password is required",
     minLength: {
       value: 8,
-      message: "Password must be at least 8 characters",
+      message: "Confirm password must be at least 8 characters",
     },
     maxLength: {
-      value: 100,
-      message: "Password cannot exceed 100 characters",
+      value: 32,
+      message: "Confirm password must be at most 32 characters",
+    },
+    pattern: {
+      value:
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/,
+      message:
+        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     },
     validate: (value: string, formValues: any) => {
       return value === formValues.password || "Passwords do not match";

@@ -41,20 +41,6 @@ export const getFormFields = (
   } else if (formStep === 2) {
     const baseFields = [
       {
-        label: "First Name",
-        type: "text",
-        name: "firstName",
-        placeholder: "Enter your first name",
-        validationRules: validationRules.firstName,
-      },
-      {
-        label: "Last Name",
-        type: "text",
-        name: "lastName",
-        placeholder: "Enter your last name",
-        validationRules: validationRules.lastName,
-      },
-      {
         label: "Email",
         type: "email",
         name: "email",

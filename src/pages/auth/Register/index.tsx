@@ -19,8 +19,6 @@ export const RegisterPage = () => {
   const form = useForm({
     mode: "onChange",
     defaultValues: {
-      firstName: "",
-      lastName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -44,6 +42,7 @@ export const RegisterPage = () => {
       {
         onSuccess: (response) => {
           if (!!response.success) {
+            form.reset();
             setShowModal(true);
           }
         },

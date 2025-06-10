@@ -6,7 +6,6 @@ const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 export const api = axios.create({
   baseURL: apiBaseUrl,
   timeout: 10000,
-  withCredentials: true, // Sends cookies automatically
   headers: {
     "Content-Type": "application/json",
   },
@@ -27,7 +26,7 @@ api.interceptors.response.use(
   (error) => {
     // Auto logout on 401
     if (error.response?.status === 401) {
-      localStorage.removeItem("token");
+      localStorage.removeItem("romulus-auth");
       // window.location.href = "/login";
     }
 
@@ -39,20 +38,3 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-/*
-
-  Basic usage
-  import apiClient, { apiUtils } from './api/client';
-
-  GET with caching
-  const userData = await apiUtils.get('/users/profile', { cache: true });
-
-  POST with automatic retry
-  const result = await apiUtils.post('/users', userData);
-
-  File upload with progress
-    await apiUtils.upload('/files', formData, (progress) => {
-  });
-
-*/

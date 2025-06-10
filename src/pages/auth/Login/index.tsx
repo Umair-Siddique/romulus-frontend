@@ -20,14 +20,7 @@ export const LoginPage = () => {
   const { mutate: login, isLoading } = useLogin<LoginVariables>();
 
   const onSubmit = (data: LoginVariables) => {
-    login(data, {
-      onSuccess: () => {
-        form.reset();
-      },
-      onError: (error) => {
-        console.error("Error logging in:", error);
-      },
-    });
+    login(data);
   };
 
   const formFields = [
@@ -43,7 +36,7 @@ export const LoginPage = () => {
       type: "password",
       name: "password",
       placeholder: "Enter your password",
-      validationRules: validationRules.password,
+      validationRules: undefined,
     },
   ].map((field) => ({
     ...field,
