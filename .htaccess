@@ -12,13 +12,13 @@
     RewriteRule ^ - [L]
     
     # Handle client-side routing - rewrite everything else to index.html
-    RewriteRule ^ /index.html [L]
+    RewriteRule ^ index.html [L]
 </IfModule>
 
 # Fallback for when mod_rewrite is not available
 <IfModule !mod_rewrite.c>
     # Redirect all requests to index.html
-    FallbackResource /index.html
+    FallbackResource index.html
 </IfModule>
 
 # Security headers (optional but recommended)
