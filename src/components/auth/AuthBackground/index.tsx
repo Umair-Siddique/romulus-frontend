@@ -2,8 +2,6 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { AuthBackgroundProps } from "../../../interface";
 
-
-
 export const AuthBackground = React.memo(
   ({ backgroundImage }: AuthBackgroundProps) => {
     return (

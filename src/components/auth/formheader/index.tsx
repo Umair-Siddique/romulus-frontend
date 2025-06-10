@@ -8,7 +8,7 @@ type FormHeaderProps = {
 
 const FormHeader: React.FC<FormHeaderProps> = ({ title, description }) => {
   return (
-    <Box sx={{ width: 450}}>
+    <Box sx={{ width: 450 }}>
       <Typography
         variant="h4"
         sx={{
