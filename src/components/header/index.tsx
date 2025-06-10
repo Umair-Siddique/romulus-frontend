@@ -10,11 +10,7 @@ import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-
-interface IUser {
-  name: string;
-  avatar: string;
-}
+import { IUser } from "../../interface";
 
 export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
   const { data: user } = useGetIdentity<IUser>();

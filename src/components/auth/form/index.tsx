@@ -5,24 +5,7 @@ import FormHeader from "../formHeader";
 import FormField from "../formField";
 import SubmitButton from "../submitButton";
 import TextLink from "../../textLink";
-
-interface FormProps {
-  formTitle: string;
-  formDescription: string;
-  formfields: any[];
-  formType: string;
-  formStep?: number;
-  setFormStep?: (step: number) => void;
-  setUserRole?: (role: string) => void;
-  isLoading?: boolean;
-  submitLoadingText?: string;
-  submitLabel?: string;
-  bottomTextWithLink?: React.ReactNode;
-  handleSubmit?: any;
-  onSubmit?: (data: any) => void;
-  isFormValid?: boolean;
-  hasErrors?: boolean;
-}
+import { FormProps } from "../../../interface";
 
 export const Form: React.FC<FormProps> = ({
   formTitle,

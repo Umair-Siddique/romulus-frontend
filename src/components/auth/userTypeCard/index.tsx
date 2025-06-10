@@ -1,14 +1,6 @@
 import React from "react";
 import { Card, CardContent, Box, Typography } from "@mui/material";
-
-interface UserTypeCardProps {
-  icon: React.ReactElement;
-  title: string;
-  description: string;
-  value?: string;
-  isSelected: boolean;
-  onSelect: (value: string) => void;
-}
+import { UserTypeCardProps } from "../../../interface";
 
 export const UserTypeCard = ({
   icon,

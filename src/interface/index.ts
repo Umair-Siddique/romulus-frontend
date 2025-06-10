@@ -1,0 +1,71 @@
+export interface IFile {
+  name: string;
+  size: number;
+  type: string;
+  lastModified: number;
+  url: string;
+}
+
+export interface AuthBackgroundProps {
+  backgroundImage: string;
+}
+
+export interface IUser {
+  name: string;
+  avatar: string;
+}
+
+export interface UserTypeCardProps {
+  icon: React.ReactElement;
+  title: string;
+  description: string;
+  value?: string;
+  isSelected: boolean;
+  onSelect: (value: string) => void;
+}
+
+export interface FormProps {
+  formTitle: string;
+  formDescription: string;
+  formfields: any[];
+  formType: string;
+  formStep?: number;
+  setFormStep?: (step: number) => void;
+  setUserRole?: (role: string) => void;
+  isLoading?: boolean;
+  submitLoadingText?: string;
+  submitLabel?: string;
+  bottomTextWithLink?: React.ReactNode;
+  handleSubmit?: any;
+  onSubmit?: (data: any) => void;
+  isFormValid?: boolean;
+  hasErrors?: boolean;
+}
+
+export interface LoginFormData {
+  email: string;
+  password: string;
+}
+
+export interface RegisterFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  phone?: string | null; // Optional for organization, required for educator
+  userType: string;
+  role: string;
+  agreeToTerms: boolean;
+}
+
+export interface ModalProps {
+  open: boolean;
+  onClose: () => void;
+  onSubmit: () => void;
+  icon?: React.ReactNode;
+  title: string;
+  description: string;
+  showButton?: boolean;
+  buttonText?: string;
+}
