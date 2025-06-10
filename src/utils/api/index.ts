@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
 // Create optimized axios instance
 export const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: apiBaseUrl,
   timeout: 10000,
   withCredentials: true, // Sends cookies automatically
   headers: {
