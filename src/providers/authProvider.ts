@@ -108,6 +108,7 @@ export const authProvider: AuthProvider = {
     try {
       const response = await api.post("/auth/signout");
       localStorage.removeItem("user");
+      localStorage.removeItem("romulus-auth");
       return {
         success: true,
         redirectTo: "/login",
