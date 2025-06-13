@@ -18,7 +18,7 @@ export const authProvider: AuthProvider = {
       }
 
       // Save user data to localStorage
-      localStorage.setItem("user", JSON.stringify(response.data.data));
+      localStorage.setItem("romulus-user", JSON.stringify(response.data.data));
 
       return {
         success: true,
@@ -107,7 +107,7 @@ export const authProvider: AuthProvider = {
   logout: async () => {
     try {
       const response = await api.post("/auth/signout");
-      localStorage.removeItem("user");
+      localStorage.removeItem("romulus-user");
       localStorage.removeItem("romulus-auth");
       return {
         success: true,
@@ -139,7 +139,7 @@ export const authProvider: AuthProvider = {
   },
 
   check: async () => {
-    const token = localStorage.getItem("user");
+    const token = localStorage.getItem("romulus-user");
     if (token) {
       return {
         authenticated: true,
@@ -160,7 +160,7 @@ export const authProvider: AuthProvider = {
   getPermissions: async () => null,
 
   getIdentity: async () => {
-    const userString = localStorage.getItem("user");
+    const userString = localStorage.getItem("romulus-user");
     const user = userString ? JSON.parse(userString) : null;
     if (!user) {
       return null;
