@@ -19,7 +19,7 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import Dashboard from "@mui/icons-material/Dashboard";
 import Box from "@mui/material/Box";
 import { authProvider } from "./providers";
-import { DashboardPage } from "./pages/dashboard";
+import { Home, CreateProfile } from "./pages/dashboard";
 import { Header, Title } from "./components";
 import {
   LoginPage,
@@ -80,7 +80,8 @@ const App: React.FC = () => {
                   </Authenticated>
                 }
               >
-                <Route index element={<DashboardPage />} />
+                <Route index element={<Home />} />
+                <Route path="/create-profile" element={<CreateProfile />} />
               </Route>
 
               <Route

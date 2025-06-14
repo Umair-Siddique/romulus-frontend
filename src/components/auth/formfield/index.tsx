@@ -55,7 +55,7 @@ const FormField: React.FC<FormFieldProps> = ({
   const handleUserTypeSelection = (newValue: string) => {
     setValue(newValue);
     setUserRole(newValue);
-    setTimeout(() => setFormStep(2), 1000);
+    setTimeout(() => setFormStep(2), 300);
   };
 
   const handleOTPChange = (index: number, value: string) => {

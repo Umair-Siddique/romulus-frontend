@@ -1,5 +1,2 @@
-import React from "react";
-
-export const DashboardPage = () => {
-  return <div>DashboardPage</div>;
-};
+export * from "./createProfile";
+export * from "./home";
