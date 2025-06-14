@@ -1,16 +1,32 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 
-const profile = localStorage.getItem("has-profile");
-
 export const Home = () => {
-  const hasProfile = profile ? Boolean(profile) : false;
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    !hasProfile && navigate("/create-profile");
-  }, []);
+    // Read localStorage values inside useEffect to get fresh values
+    const user = localStorage.getItem("romulus-user");
+    const profile = localStorage.getItem("has-profile");
+    const hasProfile = profile ? JSON.parse(profile) : false;
+
+    // If no user, redirect to login
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    // If user has profile, redirect to home
+    if (hasProfile) {
+      navigate("/");
+      return;
+    } else {
+      navigate("/create-profile");
+      return;
+    }
+
+    // If user exists but no profile, stay on create-profile page
+  }, [navigate]);
 
   return <div>Home</div>;
 };
