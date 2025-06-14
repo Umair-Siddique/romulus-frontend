@@ -6,19 +6,17 @@ export const authProvider: AuthProvider = {
     try {
       const response = await api.post("/auth/signin", params);
 
-      // Extract token from Authorization header (preferred method)
-      const authHeader = response.headers.authorization;
-      const token = authHeader
-        ? authHeader.replace("Bearer ", "")
-        : response.data.token;
+      let token: string;
 
-      // Save token to localStorage
-      if (token) {
+      if (response.data.token && response.data.data.userId) {
+        token = response.data.token;
+
         localStorage.setItem("romulus-auth", token);
+        localStorage.setItem(
+          "romulus-user",
+          JSON.stringify(response.data.data)
+        );
       }
-
-      // Save user data to localStorage
-      localStorage.setItem("romulus-user", JSON.stringify(response.data.data));
 
       return {
         success: true,
