@@ -7,6 +7,7 @@ export const authProvider: AuthProvider = {
       const response = await api.post("/auth/signin", params);
 
       let token: string;
+      let hasProfile: boolean = false;
 
       if (response.data.token && response.data.data.userId) {
         token = response.data.token;
@@ -16,11 +17,29 @@ export const authProvider: AuthProvider = {
           "romulus-user",
           JSON.stringify(response.data.data)
         );
+
+        if (response.data.data.role === "educator") {
+          try {
+            await api.get(`/educators/${response.data.data.userId}`);
+            hasProfile = true;
+          } catch (error) {
+            hasProfile = false;
+          }
+        } else if (response.data.data.role === "organization") {
+          try {
+            await api.get(`/organizations/${response.data.data.userId}`);
+            hasProfile = true;
+          } catch (error) {
+            hasProfile = false;
+          }
+        }
       }
+
+      localStorage.setItem("has-profile", JSON.stringify(hasProfile));
 
       return {
         success: true,
-        redirectTo: "/",
+        redirectTo: hasProfile ? "/" : "/create-profile",
         successNotification: {
           message: response.data.message || "Login successful",
           description: "Welcome back!",
@@ -105,8 +124,10 @@ export const authProvider: AuthProvider = {
   logout: async () => {
     try {
       const response = await api.post("/auth/signout");
-      localStorage.removeItem("romulus-user");
       localStorage.removeItem("romulus-auth");
+      localStorage.removeItem("romulus-user");
+      localStorage.removeItem("has-profile");
+
       return {
         success: true,
         redirectTo: "/login",
