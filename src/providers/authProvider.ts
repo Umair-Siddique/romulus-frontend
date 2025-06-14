@@ -139,7 +139,7 @@ export const authProvider: AuthProvider = {
   },
 
   check: async () => {
-    const token = localStorage.getItem("romulus-user");
+    const token = localStorage.getItem("romulus-auth");
     if (token) {
       return {
         authenticated: true,
