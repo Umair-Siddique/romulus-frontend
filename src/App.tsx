@@ -60,6 +60,7 @@ const App: React.FC = () => {
             ]}
           >
             <Routes>
+              <Route path="/create-profile" element={<CreateProfile />} />
               <Route
                 element={
                   <Authenticated
@@ -81,7 +82,6 @@ const App: React.FC = () => {
                 }
               >
                 <Route index element={<Home />} />
-                <Route path="/create-profile" element={<CreateProfile />} />
               </Route>
 
               <Route
