@@ -24,9 +24,10 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Auto logout on 401
+    // Auto logout on 401 (token expired)
     if (error.response?.status === 401) {
       localStorage.removeItem("romulus-auth");
+      localStorage.removeItem("romulus-user");
       // window.location.href = "/login";
     }
 
