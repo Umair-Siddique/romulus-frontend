@@ -16,8 +16,12 @@ import {
   IconButton,
   Grid,
   Paper,
+  AppBar,
+  Toolbar,
 } from "@mui/material";
+import { AccountCircle } from "@mui/icons-material";
 import { useNavigate } from "react-router";
+import { Header } from "../../../components/createProfile/header";
 
 const profile = localStorage.getItem("has-profile");
 const steps = ["Profile Setup", "Identity", "Profession", "Review & Submit"];
@@ -185,7 +189,7 @@ export const CreateProfile = () => {
         );
       case 1:
         return (
-          <Box sx={{ mt: 4, textAlign: "center", py: 8 }}>
+          <Box sx={{ mt: 4 }}>
             <Typography variant="h6" color="textSecondary">
               Identity Step Content
             </Typography>
@@ -213,96 +217,102 @@ export const CreateProfile = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
+    <Box>
       {/* Header */}
-      <Box sx={{ textAlign: "center", mb: 6 }}>
-        <Typography variant="h4" fontWeight="600" sx={{ mb: 1 }}>
-          Hi John, let's complete
-        </Typography>
-        <Typography variant="h4" fontWeight="600">
-          your profile
-        </Typography>
-      </Box>
+      <Header />
 
-      {/* Progress Stepper */}
-      <Box sx={{ mb: 4 }}>
-        <Stepper
-          activeStep={activeStep}
-          alternativeLabel
-          sx={{
-            "& .MuiStepLabel-root .Mui-completed": {
-              color: primaryColor,
-            },
-            "& .MuiStepLabel-root .Mui-active": {
-              color: primaryColor,
-            },
-            "& .MuiStepConnector-line": {
-              borderColor: "#e0e0e0",
-            },
-            "& .Mui-completed .MuiStepConnector-line": {
-              borderColor: primaryColor,
-            },
-            "& .Mui-active .MuiStepConnector-line": {
-              borderColor: primaryColor,
-            },
-          }}
-        >
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel
-                sx={{
-                  "& .MuiStepLabel-label": {
-                    fontSize: "0.875rem",
-                    fontWeight: 500,
-                  },
-                }}
-              >
-                {label}
-              </StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-      </Box>
+      {/* Main Content */}
+      <Container maxWidth="md" sx={{ py: 4 }}>
+        {/* Header */}
+        <Box sx={{ textAlign: "center", mb: 6 }}>
+          <Typography variant="h4" fontWeight="600" sx={{ mb: 1 }}>
+            Hi John, let's complete
+          </Typography>
+          <Typography variant="h4" fontWeight="600">
+            your profile
+          </Typography>
+        </Box>
 
-      {/* Form Content */}
-      <Paper
-        sx={{
-          borderRadius: 2,
-          boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
-          p: 4,
-          minHeight: 500,
-        }}
-      >
-        {renderStepContent(activeStep)}
-
-        {/* Navigation Button */}
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-          <Button
-            variant="contained"
-            onClick={handleNext}
-            disabled={activeStep === steps.length - 1}
+        {/* Progress Stepper */}
+        <Box sx={{ mb: 4 }}>
+          <Stepper
+            activeStep={activeStep}
+            alternativeLabel
             sx={{
-              bgcolor: primaryColor,
-              color: "white",
-              px: 6,
-              py: 1.5,
-              borderRadius: 2,
-              textTransform: "none",
-              fontSize: "1rem",
-              fontWeight: 500,
-              "&:hover": {
-                bgcolor: "#8da098",
+              "& .MuiStepLabel-root .Mui-completed": {
+                color: primaryColor,
               },
-              "&:disabled": {
-                bgcolor: "#e0e0e0",
-                color: "#999",
+              "& .MuiStepLabel-root .Mui-active": {
+                color: primaryColor,
+              },
+              "& .MuiStepConnector-line": {
+                borderColor: "#e0e0e0",
+              },
+              "& .Mui-completed .MuiStepConnector-line": {
+                borderColor: primaryColor,
+              },
+              "& .Mui-active .MuiStepConnector-line": {
+                borderColor: primaryColor,
               },
             }}
           >
-            Next →
-          </Button>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel
+                  sx={{
+                    "& .MuiStepLabel-label": {
+                      fontSize: "0.875rem",
+                      fontWeight: 500,
+                    },
+                  }}
+                >
+                  {label}
+                </StepLabel>
+              </Step>
+            ))}
+          </Stepper>
         </Box>
-      </Paper>
-    </Container>
+
+        {/* Form Content */}
+        <Paper
+          sx={{
+            borderRadius: 2,
+            boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
+            p: 4,
+            minHeight: 500,
+          }}
+        >
+          {renderStepContent(activeStep)}
+
+          {/* Navigation Button */}
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+            <Button
+              variant="contained"
+              onClick={handleNext}
+              disabled={activeStep === steps.length - 1}
+              sx={{
+                bgcolor: primaryColor,
+                color: "white",
+                px: 6,
+                py: 1.5,
+                borderRadius: 2,
+                textTransform: "none",
+                fontSize: "1rem",
+                fontWeight: 500,
+                "&:hover": {
+                  bgcolor: "#8da098",
+                },
+                "&:disabled": {
+                  bgcolor: "#e0e0e0",
+                  color: "#999",
+                },
+              }}
+            >
+              Next →
+            </Button>
+          </Box>
+        </Paper>
+      </Container>
+    </Box>
   );
 };
