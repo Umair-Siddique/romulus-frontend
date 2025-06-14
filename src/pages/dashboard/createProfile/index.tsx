@@ -38,6 +38,12 @@ export const CreateProfile = () => {
     }
   };
 
+  const handleBack = () => {
+    if (activeStep > 0) {
+      setActiveStep(activeStep - 1);
+    }
+  };
+
   return (
     <Box>
       {/* Header */}
@@ -78,7 +84,33 @@ export const CreateProfile = () => {
           <EducatorSteps activeStep={activeStep} />
 
           {/* Navigation Button */}
-          <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+          <Box sx={{ display: "flex", justifyContent: activeStep > 0 ? "space-between" : "center", mt: 4 }}>
+            {activeStep > 0 && (
+              <Button
+                variant="contained"
+                onClick={handleBack}
+                disabled={activeStep === steps.length - 1}
+                sx={{
+                  bgcolor: "#FFF",
+                  color: "black",
+                  px: 6,
+                  py: 1.5,
+                  borderRadius: 2,
+                  textTransform: "none",
+                  fontSize: "1rem",
+                  fontWeight: 500,
+                  "&:hover": {
+                    bgcolor: "#8da098",
+                  },
+                  "&:disabled": {
+                    bgcolor: "#e0e0e0",
+                    color: "#999",
+                  },
+                }}
+              >
+                ← Back
+              </Button>
+            )}
             <Button
               variant="contained"
               onClick={handleNext}

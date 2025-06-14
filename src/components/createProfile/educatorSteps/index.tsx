@@ -1,16 +1,6 @@
-import {
-  Avatar,
-  Box,
-  FormControl,
-  Grid,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Grid, IconButton, Typography } from "@mui/material";
 import React from "react";
+import { InputField } from "../inputField";
 
 interface EducatorStepsProps {
   activeStep: number;
@@ -19,21 +9,6 @@ interface EducatorStepsProps {
 export const EducatorSteps: React.FC<EducatorStepsProps> = ({
   activeStep,
 }: EducatorStepsProps) => {
-  const textFieldStyle = {
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#A1B7AF",
-    },
-    "& .MuiInputLabel-root.Mui-focused": {
-      color: "#A1B7AF",
-    },
-  };
-
-  const selectStyle = {
-    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#A1B7AF",
-    },
-  };
-
   const renderStepContent = (step: number) => {
     switch (step) {
       case 0:
@@ -81,81 +56,69 @@ export const EducatorSteps: React.FC<EducatorStepsProps> = ({
             {/* Form Fields */}
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
+                <InputField
                   label="Full Name"
                   placeholder="Enter your first name"
                   required
-                  sx={textFieldStyle}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
+                <InputField
                   label="Last Name"
                   placeholder="Enter your last name"
                   required
-                  sx={textFieldStyle}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel>Gender</InputLabel>
-                  <Select label="Gender" displayEmpty sx={selectStyle}>
-                    <MenuItem value="">Select your gender</MenuItem>
-                    <MenuItem value="male">Male</MenuItem>
-                    <MenuItem value="female">Female</MenuItem>
-                    <MenuItem value="other">Other</MenuItem>
-                  </Select>
-                </FormControl>
+                <InputField
+                  label="Gender"
+                  placeholder="Select your gender"
+                  type="select"
+                  options={[
+                    { value: "male", label: "Male" },
+                    { value: "female", label: "Female" },
+                    { value: "other", label: "Other" },
+                  ]}
+                  required
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
+                <InputField
                   label="Date of Birth"
+                  placeholder="Enter your date of birth"
                   type="date"
-                  InputLabelProps={{ shrink: true }}
-                  sx={textFieldStyle}
+                  value={new Date().toISOString().split("T")[0]} // Default to today's date
+                  required
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel>City</InputLabel>
-                  <Select label="City" displayEmpty sx={selectStyle}>
-                    <MenuItem value="">Select city</MenuItem>
-                    <MenuItem value="new-york">New York</MenuItem>
-                    <MenuItem value="london">London</MenuItem>
-                    <MenuItem value="tokyo">Tokyo</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel>Country</InputLabel>
-                  <Select label="Country" displayEmpty sx={selectStyle}>
-                    <MenuItem value="">Select country</MenuItem>
-                    <MenuItem value="us">United States</MenuItem>
-                    <MenuItem value="uk">United Kingdom</MenuItem>
-                    <MenuItem value="jp">Japan</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Full Address"
-                  placeholder="Enter full address"
-                  sx={textFieldStyle}
+                <InputField
+                  label="City"
+                  placeholder="Enter your city"
+                  required
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
+              <Grid item xs={12} sm={6}>
+                <InputField
+                  label="Country"
+                  placeholder="Enter your country"
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <InputField
+                  label="Address"
+                  placeholder="Enter your address"
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <InputField
                   label="Bio (Optional)"
-                  placeholder="Write here..."
-                  multiline
+                  placeholder="Enter your bio"
+                  type="textarea"
                   rows={4}
-                  sx={textFieldStyle}
+                  required={false}
                 />
               </Grid>
             </Grid>
