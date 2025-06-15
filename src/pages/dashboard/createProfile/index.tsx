@@ -44,7 +44,7 @@ export const CreateProfile = () => {
       "Profession",
       "Review & Submit",
     ];
-    const organizationSteps = ["Organization Details", "Review & Submit"];
+    const organizationSteps = ["Profile Setup", "Review & Submit"];
 
     if (userRole === "educator") {
       setSteps(educatorSteps);
