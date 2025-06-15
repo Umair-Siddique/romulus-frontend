@@ -16,27 +16,31 @@ export const CreateProfile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const profile = localStorage.getItem("has-profile");
-    const parsedProfile = profile ? JSON.parse(profile) : null;
-    const hasProfile = parsedProfile === true || parsedProfile === "true";
-
-    if (hasProfile) {
-      navigate("/");
-      return;
-    }
-
+    // Check if the user is logged in
+    // If not logged in, redirect to login page
     const user = localStorage.getItem("romulus-user");
-    const parsedUser = user ? JSON.parse(user) : null;
+    const isLoggedIn = Boolean(user);
 
-    if (!user) {
+    if (!isLoggedIn) {
       navigate("/login");
       return;
     }
 
-    const userRole = parsedUser?.role;
-    if (userRole) {
-      setRole(userRole);
+    // Check if the user has already created a profile
+    // If yes, redirect to the dashboard
+    const profile = localStorage.getItem("has-profile");
+    const hasProfile = Boolean(profile);
+
+    if (!hasProfile) {
+      navigate("/");
+      return;
     }
+
+    // Determine the steps based on user role
+    const parsedUser = user ? JSON.parse(user) : null;
+    const userRole = parsedUser?.role;
+
+    setRole(userRole);
 
     const educatorSteps = [
       "Profile Setup",
@@ -46,22 +50,33 @@ export const CreateProfile = () => {
     ];
     const organizationSteps = ["Profile Setup", "Review & Submit"];
 
-    if (userRole === "educator") {
-      setSteps(educatorSteps);
-    } else {
-      setSteps(organizationSteps);
+    switch (userRole) {
+      case "educator":
+        setSteps(educatorSteps);
+        break;
+      case "organization":
+        setSteps(organizationSteps);
+        break;
+      default:
+        setSteps([]);
+        break;
     }
   }, [navigate]);
 
-  const handleNext = () => {
-    if (activeStep <= steps.length - 1) {
-      setActiveStep(activeStep + 1);
-    }
-  };
-
-  const handleBack = () => {
-    if (activeStep > 0) {
-      setActiveStep(activeStep - 1);
+  const handleNavigation = (navigateTo: string) => {
+    switch (navigateTo) {
+      case "back":
+        if (activeStep <= steps.length - 1) {
+          setActiveStep(activeStep + 1);
+        }
+        break;
+      case "next":
+        if (activeStep > 0) {
+          setActiveStep(activeStep - 1);
+        }
+        break;
+      default:
+        break;
     }
   };
 
@@ -99,7 +114,7 @@ export const CreateProfile = () => {
           >
             <Button
               variant="contained"
-              onClick={handleBack}
+              onClick={() => handleNavigation("back")}
               disabled={activeStep === 0}
               sx={{
                 bgcolor: "#FFF",
@@ -124,7 +139,7 @@ export const CreateProfile = () => {
 
             <Button
               variant="contained"
-              onClick={handleNext}
+              onClick={() => handleNavigation("next")}
               disabled={activeStep === steps.length - 1}
               sx={{
                 bgcolor: "#A1B7AF",
