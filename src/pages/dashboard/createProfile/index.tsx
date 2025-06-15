@@ -66,14 +66,14 @@ export const CreateProfile = () => {
 
   const handleNavigation = (navigateTo: string) => {
     switch (navigateTo) {
-      case "back":
-        if (activeStep <= steps.length - 1) {
-          setActiveStep(activeStep + 1);
+      case "next":
+        if (activeStep < steps.length - 1) {
+          setActiveStep((prev) => prev + 1);
         }
         break;
-      case "next":
+      case "back":
         if (activeStep > 0) {
-          setActiveStep(activeStep - 1);
+          setActiveStep((prev) => prev - 1);
         }
         break;
       default:
@@ -110,46 +110,48 @@ export const CreateProfile = () => {
       <PageHeader />
 
       {/* Main Content */}
-      <Container maxWidth="md" sx={{ py: 4 }}>
-        {/* Form Header */}
-        <FormHeader userRole={role} />
+      {steps.length > 0 && (
+        <Container maxWidth="md" sx={{ py: 4 }}>
+          {/* Form Header */}
+          <FormHeader userRole={role} />
 
-        {/* Progress Stepper */}
-        <ProgressStepper activeStep={activeStep} steps={steps} />
+          {/* Progress Stepper */}
+          <ProgressStepper activeStep={activeStep} steps={steps} />
 
-        {/* Form Content */}
-        <Paper
-          sx={{
-            borderRadius: 2,
-            boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
-            p: 4,
-            minHeight: 500,
-          }}
-        >
-          <EducatorSteps activeStep={activeStep} />
-
-          {/* Navigation Button */}
-          <Box
+          {/* Form Content */}
+          <Paper
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              mt: 4,
+              borderRadius: 2,
+              boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
+              p: 4,
+              minHeight: 500,
             }}
           >
-            {navigationButtonsConfig.map((buttonConfig) => (
-              <NavigationButton
-                key={buttonConfig.navigateTo}
-                handleNavigation={handleNavigation}
-                navigateTo={buttonConfig.navigateTo}
-                isDisabled={buttonConfig.isDisabled}
-                bgColor={buttonConfig.bgColor}
-                textColor={buttonConfig.textColor}
-                label={buttonConfig.label}
-              />
-            ))}
-          </Box>
-        </Paper>
-      </Container>
+            <EducatorSteps activeStep={activeStep} />
+
+            {/* Navigation Button */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                mt: 4,
+              }}
+            >
+              {navigationButtonsConfig.map((buttonConfig) => (
+                <NavigationButton
+                  key={buttonConfig.navigateTo}
+                  handleNavigation={handleNavigation}
+                  navigateTo={buttonConfig.navigateTo}
+                  isDisabled={buttonConfig.isDisabled}
+                  bgColor={buttonConfig.bgColor}
+                  textColor={buttonConfig.textColor}
+                  label={buttonConfig.label}
+                />
+              ))}
+            </Box>
+          </Paper>
+        </Container>
+      )}
     </Box>
   );
 };
