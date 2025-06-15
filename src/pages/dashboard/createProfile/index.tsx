@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { Box, Container, Paper } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 import {
   PageHeader,
   ProgressStepper,
   HeroHeader,
+  Form,
 } from "../../../components/createProfile";
-
-import { Form } from "../../../components/createProfile/form";
 
 export const CreateProfile = () => {
   const [role, setRole] = useState<string | null>(null);
