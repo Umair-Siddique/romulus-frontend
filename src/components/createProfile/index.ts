@@ -1,2 +1,2 @@
-export * from "./pageHeader"
-export * from "./pageBody"
+export * from "./pageHeader";
+export * from "./pageBody";

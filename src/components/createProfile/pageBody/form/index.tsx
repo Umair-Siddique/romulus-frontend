@@ -1,7 +1,12 @@
 import React from "react";
 import { Box, Paper } from "@mui/material";
-import { EducatorSteps } from "../educatorSteps";
 import { NavigationButton } from "../navigationButtons";
+
+// Import your step components (adjust paths as needed)
+import { ProfileSetup } from "../steps/profileSetup";
+import { Identity } from "../steps/identity";
+import { Profession } from "../steps/profession";
+import { ReviewSubmit } from "../steps/reviewSubmit";
 
 interface FormProps {
   activeStep: number;
@@ -10,6 +15,35 @@ interface FormProps {
 }
 
 export const Form = ({ activeStep, setActiveStep, steps }: FormProps) => {
+  // Steps configuration array
+  const stepsConfig = [
+    {
+      name: "Profile Setup",
+      component: <ProfileSetup />,
+    },
+    {
+      name: "Identity",
+      component: <Identity />,
+    },
+    {
+      name: "Profession",
+      component: <Profession />,
+    },
+    {
+      name: "Review & Submit",
+      component: <ReviewSubmit />,
+    },
+  ];
+
+  // Get current step component based on step name
+  const getCurrentStepComponent = () => {
+    const currentStepName = steps[activeStep];
+    const stepConfig = stepsConfig.find(
+      (config) => config.name === currentStepName
+    );
+    return stepConfig?.component || null;
+  };
+
   const handleNavigation = (navigateTo: string) => {
     switch (navigateTo) {
       case "next":
@@ -59,9 +93,10 @@ export const Form = ({ activeStep, setActiveStep, steps }: FormProps) => {
         minHeight: 500,
       }}
     >
-      <EducatorSteps activeStep={activeStep} />
+      {/* Render only the current active step */}
+      {getCurrentStepComponent()}
 
-      {/* Navigation Button */}
+      {/* Navigation Buttons */}
       <Box
         sx={{
           display: "flex",

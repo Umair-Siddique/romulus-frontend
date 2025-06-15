@@ -15,7 +15,7 @@ export const PageHeader: React.FC = () => {
     >
       <Toolbar sx={{ justifyContent: "space-between", py: 1 }}>
         {/* Logo */}
-        <Box sx={{ textAlign: "center"}}>
+        <Box sx={{ textAlign: "center" }}>
           <Box component="img" src={Logo} alt="Logo" width={40} height={40} />
         </Box>
       </Toolbar>

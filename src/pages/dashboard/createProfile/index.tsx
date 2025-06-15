@@ -40,10 +40,14 @@ export const CreateProfile = () => {
   return (
     <Box>
       {/* Page Header */}
-      <PageHeader />
+      {role && (
+        <>
+          <PageHeader />
 
-      {/* Page Body */}
-      {role && <PageBody role={role} />}
+          {/* Page Body */}
+          <PageBody role={role} />
+        </>
+      )}
     </Box>
   );
 };
