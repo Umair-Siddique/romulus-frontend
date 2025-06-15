@@ -5,28 +5,43 @@ import { Header } from "../../../components/createProfile/header";
 import { ProgressStepper } from "../../../components/createProfile/progressStepper";
 import { EducatorSteps } from "../../../components/createProfile/educatorSteps";
 
-const steps = ["Profile Setup", "Identity", "Profession", "Review & Submit"];
-
 export const CreateProfile = () => {
+  const [steps, setSteps] = useState<string[]>([]);
   const [activeStep, setActiveStep] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Read localStorage values inside useEffect to get fresh values
-    const user = localStorage.getItem("romulus-user");
     const profile = localStorage.getItem("has-profile");
-    const hasProfile = profile ? JSON.parse(profile) : false;
+    const parsedProfile = profile ? JSON.parse(profile) : null;
+    const hasProfile = parsedProfile === true || parsedProfile === "true";
 
-    // If no user, redirect to login
+    if (hasProfile) {
+      navigate("/");
+      return;
+    }
+
+    const user = localStorage.getItem("romulus-user");
+    const parsedUser = user ? JSON.parse(user) : null;
+
     if (!user) {
       navigate("/login");
       return;
     }
 
-    // If user has profile, redirect to home
-    if (hasProfile) {
-      navigate("/");
-      return;
+    const userRole = parsedUser?.role;
+
+    const educatorSteps = [
+      "Profile Setup",
+      "Identity",
+      "Profession",
+      "Review & Submit",
+    ];
+    const organizationSteps = ["Organization Details"];
+
+    if (userRole === "educator") {
+      setSteps(educatorSteps);
+    } else {
+      setSteps(organizationSteps);
     }
 
     // If user exists but no profile, stay on create-profile page
@@ -84,7 +99,13 @@ export const CreateProfile = () => {
           <EducatorSteps activeStep={activeStep} />
 
           {/* Navigation Button */}
-          <Box sx={{ display: "flex", justifyContent: activeStep > 0 ? "space-between" : "center", mt: 4 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: activeStep > 0 ? "space-between" : "center",
+              mt: 4,
+            }}
+          >
             {activeStep > 0 && (
               <Button
                 variant="contained"
