@@ -3,7 +3,7 @@ import { AppBar, Box, Toolbar } from "@mui/material";
 
 import Logo from "../../../assets/images/logo.png";
 
-export const Header: React.FC = () => {
+export const PageHeader: React.FC = () => {
   return (
     <AppBar
       position="static"

@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Box, Container, Typography, Button, Paper } from "@mui/material";
 import { useNavigate } from "react-router";
-import { Header } from "../../../components/createProfile/header";
-import { ProgressStepper } from "../../../components/createProfile/progressStepper";
-import { EducatorSteps } from "../../../components/createProfile/educatorSteps";
+import { Box, Container, Button, Paper } from "@mui/material";
+
+import {
+  PageHeader,
+  ProgressStepper,
+  EducatorSteps,
+  FormHeader,
+} from "../../../components/createProfile";
 
 export const CreateProfile = () => {
+  const [role, setRole] = useState<string | null>(null);
   const [steps, setSteps] = useState<string[]>([]);
   const [activeStep, setActiveStep] = useState(0);
   const navigate = useNavigate();
@@ -29,6 +34,9 @@ export const CreateProfile = () => {
     }
 
     const userRole = parsedUser?.role;
+    if (userRole) {
+      setRole(userRole);
+    }
 
     const educatorSteps = [
       "Profile Setup",
@@ -43,8 +51,6 @@ export const CreateProfile = () => {
     } else {
       setSteps(organizationSteps);
     }
-
-    // If user exists but no profile, stay on create-profile page
   }, [navigate]);
 
   const handleNext = () => {
@@ -61,28 +67,13 @@ export const CreateProfile = () => {
 
   return (
     <Box>
-      {/* Header */}
-      <Header />
+      {/* Page Header */}
+      <PageHeader />
 
       {/* Main Content */}
       <Container maxWidth="md" sx={{ py: 4 }}>
-        {/* Header */}
-        <Box sx={{ textAlign: "center", mb: 6 }}>
-          <Typography
-            variant="h4"
-            fontWeight="600"
-            sx={{ fontFamily: "Montserrat, sans-serif" }}
-          >
-            Hi, let's complete
-          </Typography>
-          <Typography
-            variant="h4"
-            fontWeight="600"
-            sx={{ fontFamily: "Montserrat, sans-serif" }}
-          >
-            your profile
-          </Typography>
-        </Box>
+        {/* Form Header */}
+        <FormHeader userRole={role} />
 
         {/* Progress Stepper */}
         <ProgressStepper activeStep={activeStep} steps={steps} />
