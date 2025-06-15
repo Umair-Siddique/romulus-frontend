@@ -6,6 +6,9 @@ interface HeroHeaderProps {
 }
 
 export const HeroHeader = ({ userRole }: HeroHeaderProps) => {
+  const user = userRole
+    ? userRole.charAt(0).toUpperCase() + userRole.slice(1)
+    : "";
   return (
     <Box sx={{ textAlign: "center", mb: 6 }}>
       <Typography
@@ -13,14 +16,14 @@ export const HeroHeader = ({ userRole }: HeroHeaderProps) => {
         fontWeight="600"
         sx={{ fontFamily: "Montserrat, sans-serif" }}
       >
-        Hi {userRole}, let's complete
+        Welcome {user}!
       </Typography>
       <Typography
         variant="h4"
         fontWeight="600"
         sx={{ fontFamily: "Montserrat, sans-serif" }}
       >
-        your profile
+        Let's complete your profile
       </Typography>
     </Box>
   );
