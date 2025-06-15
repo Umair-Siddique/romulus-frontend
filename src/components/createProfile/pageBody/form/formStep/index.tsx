@@ -15,24 +15,18 @@ export interface FormData {
 }
 
 interface FormStepProps {
-  title: string;
   fields: FieldConfig[];
   formData: FormData;
   onFieldChange: (name: string, value: any) => void;
 }
 
 export const FormStep: React.FC<FormStepProps> = ({
-  title,
   fields,
   formData,
   onFieldChange,
 }) => {
   return (
     <Box>
-      <Typography variant="h5" sx={{ mb: 3, fontWeight: "bold" }}>
-        {title}
-      </Typography>
-
       {fields.map((field) => (
         <FormField
           key={field.name}

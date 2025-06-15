@@ -53,7 +53,6 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
     const fields = stepConfig[currentStepName] || [];
     return (
       <FormStep
-        title={currentStepName}
         fields={fields}
         formData={formData}
         onFieldChange={handleFieldChange}
