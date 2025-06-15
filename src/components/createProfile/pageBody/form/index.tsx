@@ -1,21 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Paper } from "@mui/material";
 import { NavigationButton } from "../navigationButtons";
 
 // Import your step components (adjust paths as needed)
-import { ProfileSetup } from "../steps/profileSetup";
-import { Identity } from "../steps/identity";
-import { Profession } from "../steps/profession";
-import { ReviewSubmit } from "../steps/reviewSubmit";
+import { ProfileSetup } from "./steps/profileSetup";
+import { Identity } from "./steps/identity";
+import { Profession } from "./steps/profession";
+import { ReviewSubmit } from "./steps/reviewSubmit";
 
 interface FormProps {
   activeStep: number;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
   steps: string[];
+  role: string | null;
 }
 
-export const Form = ({ activeStep, setActiveStep, steps }: FormProps) => {
-  // Steps configuration array
+export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
   const stepsConfig = [
     {
       name: "Profile Setup",

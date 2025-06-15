@@ -47,6 +47,7 @@ export const PageBody = ({ role }: PageBodyProps) => {
         activeStep={activeStep}
         setActiveStep={setActiveStep}
         steps={steps}
+        role={role}
       />
     </Container>
   );
