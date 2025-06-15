@@ -1,11 +1,11 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 
-interface FormHeaderProps {
+interface HeroHeaderProps {
   userRole: string | null;
 }
 
-export const FormHeader = ({ userRole }: FormHeaderProps) => {
+export const HeroHeader = ({ userRole }: HeroHeaderProps) => {
   return (
     <Box sx={{ textAlign: "center", mb: 6 }}>
       <Typography

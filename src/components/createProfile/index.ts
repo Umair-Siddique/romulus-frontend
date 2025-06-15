@@ -1,6 +1,5 @@
 export * from "./educatorSteps"
-export * from "./formHeader"
+export * from "./heroHeader"
 export * from "./inputField"
-export * from "./organizationSteps"
 export * from "./pageHeader"
 export * from "./progressStepper"
