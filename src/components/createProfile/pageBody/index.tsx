@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "@mui/material";
-import { HeroHeader } from "../heroHeader";
-import { ProgressStepper } from "../progressStepper";
-import { Form } from "../form";
+import { HeroHeader } from "./heroHeader";
+import { ProgressStepper } from "./progressStepper";
+import { Form } from "./form";
 
 interface PageBodyProps {
   role: string | null;
