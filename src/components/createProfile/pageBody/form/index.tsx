@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Paper } from "@mui/material";
 import { NavigationButton } from "../navigationButtons";
+import { ReviewStep } from "./reviewStep";
+import { FormStep } from "./formStep";
+import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";
 
-// Import your step components (adjust paths as needed)
-import { ProfileSetup } from "./steps/profileSetup";
-import { Identity } from "./steps/identity";
-import { Profession } from "./steps/profession";
-import { ReviewSubmit } from "./steps/reviewSubmit";
+export interface FormData {
+  [key: string]: any;
+}
 
 interface FormProps {
   activeStep: number;
@@ -16,32 +17,48 @@ interface FormProps {
 }
 
 export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
-  const stepsConfig = [
-    {
-      name: "Profile Setup",
-      component: <ProfileSetup />,
-    },
-    {
-      name: "Identity",
-      component: <Identity />,
-    },
-    {
-      name: "Profession",
-      component: <Profession />,
-    },
-    {
-      name: "Review & Submit",
-      component: <ReviewSubmit />,
-    },
-  ];
+  const [formData, setFormData] = useState<FormData>({});
 
-  // Get current step component based on step name
+  // Get field configuration based on role and step
+  const getStepConfig = () => {
+    const config =
+      role === "educator" ? educatorStepsConfig : organizationStepsConfig;
+    return config as any;
+  };
+
+  const handleFieldChange = (name: string, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    console.log("Form submitted:", formData);
+    alert("Application submitted successfully!");
+  };
+
   const getCurrentStepComponent = () => {
     const currentStepName = steps[activeStep];
-    const stepConfig = stepsConfig.find(
-      (config) => config.name === currentStepName
+    const stepConfig = getStepConfig();
+
+    // Check if this is the review step
+    if (currentStepName === "Review & Submit") {
+      return (
+        <ReviewStep formData={formData} role={role} onSubmit={handleSubmit} />
+      );
+    }
+
+    // Render form step
+    const fields = stepConfig[currentStepName] || [];
+    return (
+      <FormStep
+        title={currentStepName}
+        fields={fields}
+        formData={formData}
+        onFieldChange={handleFieldChange}
+      />
     );
-    return stepConfig?.component || null;
   };
 
   const handleNavigation = (navigateTo: string) => {
@@ -93,10 +110,9 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
         minHeight: 500,
       }}
     >
-      {/* Render only the current active step */}
+      {/* Render current step */}
       {getCurrentStepComponent()}
 
-      {/* Navigation Buttons */}
       <Box
         sx={{
           display: "flex",

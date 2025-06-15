@@ -32,7 +32,7 @@ export const PageBody = ({ role }: PageBodyProps) => {
         setSteps([]);
         break;
     }
-  }, []);
+  }, [role]);
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
