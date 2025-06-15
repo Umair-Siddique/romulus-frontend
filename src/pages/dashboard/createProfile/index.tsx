@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 
-import {
-  PageHeader,
-  ProgressStepper,
-  HeroHeader,
-  Form,
-} from "../../../components/createProfile";
+import { PageHeader, PageBody } from "../../../components/createProfile";
 
 export const CreateProfile = () => {
   const [role, setRole] = useState<string | null>(null);
@@ -68,22 +63,14 @@ export const CreateProfile = () => {
       {/* Page Header */}
       <PageHeader />
 
-      {/* Main Content */}
+      {/* Page Body */}
       {steps.length > 0 && (
-        <Container maxWidth="md" sx={{ py: 4 }}>
-          {/* Hero Header */}
-          <HeroHeader userRole={role} />
-
-          {/* Progress Stepper */}
-          <ProgressStepper activeStep={activeStep} steps={steps} />
-
-          {/* Form Content */}
-          <Form
-            activeStep={activeStep}
-            setActiveStep={setActiveStep}
-            steps={steps}
-          />
-        </Container>
+        <PageBody
+          role={role}
+          steps={steps}
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+        />
       )}
     </Box>
   );
