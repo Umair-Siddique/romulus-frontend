@@ -44,7 +44,7 @@ export const CreateProfile = () => {
       "Profession",
       "Review & Submit",
     ];
-    const organizationSteps = ["Organization Details"];
+    const organizationSteps = ["Organization Details", "Review & Submit"];
 
     if (userRole === "educator") {
       setSteps(educatorSteps);
@@ -54,7 +54,7 @@ export const CreateProfile = () => {
   }, [navigate]);
 
   const handleNext = () => {
-    if (activeStep < steps.length - 1) {
+    if (activeStep <= steps.length - 1) {
       setActiveStep(activeStep + 1);
     }
   };
@@ -93,36 +93,35 @@ export const CreateProfile = () => {
           <Box
             sx={{
               display: "flex",
-              justifyContent: activeStep > 0 ? "space-between" : "center",
+              justifyContent: "space-between",
               mt: 4,
             }}
           >
-            {activeStep > 0 && (
-              <Button
-                variant="contained"
-                onClick={handleBack}
-                disabled={activeStep === steps.length - 1}
-                sx={{
-                  bgcolor: "#FFF",
-                  color: "black",
-                  px: 6,
-                  py: 1.5,
-                  borderRadius: 2,
-                  textTransform: "none",
-                  fontSize: "1rem",
-                  fontWeight: 500,
-                  "&:hover": {
-                    bgcolor: "#8da098",
-                  },
-                  "&:disabled": {
-                    bgcolor: "#e0e0e0",
-                    color: "#999",
-                  },
-                }}
-              >
-                ← Back
-              </Button>
-            )}
+            <Button
+              variant="contained"
+              onClick={handleBack}
+              disabled={activeStep === 0}
+              sx={{
+                bgcolor: "#FFF",
+                color: "black",
+                px: 6,
+                py: 1.5,
+                borderRadius: 2,
+                textTransform: "none",
+                fontSize: "1rem",
+                fontWeight: 500,
+                "&:hover": {
+                  bgcolor: "#8da098",
+                },
+                "&:disabled": {
+                  bgcolor: "#e0e0e0",
+                  color: "#999",
+                },
+              }}
+            >
+              ← Back
+            </Button>
+
             <Button
               variant="contained"
               onClick={handleNext}
