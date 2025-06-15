@@ -6,8 +6,7 @@ import { PageHeader, PageBody } from "../../../components/createProfile";
 
 export const CreateProfile = () => {
   const [role, setRole] = useState<string | null>(null);
-  const [steps, setSteps] = useState<string[]>([]);
-  const [activeStep, setActiveStep] = useState(0);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,26 +35,6 @@ export const CreateProfile = () => {
     const userRole = parsedUser?.role;
 
     setRole(userRole);
-
-    const educatorSteps = [
-      "Profile Setup",
-      "Identity",
-      "Profession",
-      "Review & Submit",
-    ];
-    const organizationSteps = ["Profile Setup", "Review & Submit"];
-
-    switch (userRole) {
-      case "educator":
-        setSteps(educatorSteps);
-        break;
-      case "organization":
-        setSteps(organizationSteps);
-        break;
-      default:
-        setSteps([]);
-        break;
-    }
   }, [navigate]);
 
   return (
@@ -64,14 +43,7 @@ export const CreateProfile = () => {
       <PageHeader />
 
       {/* Page Body */}
-      {steps.length > 0 && (
-        <PageBody
-          role={role}
-          steps={steps}
-          activeStep={activeStep}
-          setActiveStep={setActiveStep}
-        />
-      )}
+      {role && <PageBody role={role} />}
     </Box>
   );
 };
