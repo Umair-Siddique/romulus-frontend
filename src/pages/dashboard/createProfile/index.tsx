@@ -8,6 +8,7 @@ import {
   EducatorSteps,
   FormHeader,
 } from "../../../components/createProfile";
+import { NavigationButton } from "../../../components/createProfile/navigationButtons";
 
 export const CreateProfile = () => {
   const [role, setRole] = useState<string | null>(null);
@@ -80,6 +81,29 @@ export const CreateProfile = () => {
     }
   };
 
+  const navigationButtonsConfig: {
+    navigateTo: "back" | "next";
+    isDisabled: boolean;
+    bgColor: string;
+    textColor: string;
+    label: string;
+  }[] = [
+    {
+      navigateTo: "back",
+      isDisabled: activeStep === 0,
+      bgColor: "#FFF",
+      textColor: "black",
+      label: "← Back",
+    },
+    {
+      navigateTo: "next",
+      isDisabled: activeStep === steps.length - 1,
+      bgColor: "#A1B7AF",
+      textColor: "white",
+      label: "Next →",
+    },
+  ];
+
   return (
     <Box>
       {/* Page Header */}
@@ -112,55 +136,17 @@ export const CreateProfile = () => {
               mt: 4,
             }}
           >
-            <Button
-              variant="contained"
-              onClick={() => handleNavigation("back")}
-              disabled={activeStep === 0}
-              sx={{
-                bgcolor: "#FFF",
-                color: "black",
-                px: 6,
-                py: 1.5,
-                borderRadius: 2,
-                textTransform: "none",
-                fontSize: "1rem",
-                fontWeight: 500,
-                "&:hover": {
-                  bgcolor: "#8da098",
-                },
-                "&:disabled": {
-                  bgcolor: "#e0e0e0",
-                  color: "#999",
-                },
-              }}
-            >
-              ← Back
-            </Button>
-
-            <Button
-              variant="contained"
-              onClick={() => handleNavigation("next")}
-              disabled={activeStep === steps.length - 1}
-              sx={{
-                bgcolor: "#A1B7AF",
-                color: "white",
-                px: 6,
-                py: 1.5,
-                borderRadius: 2,
-                textTransform: "none",
-                fontSize: "1rem",
-                fontWeight: 500,
-                "&:hover": {
-                  bgcolor: "#8da098",
-                },
-                "&:disabled": {
-                  bgcolor: "#e0e0e0",
-                  color: "#999",
-                },
-              }}
-            >
-              Next →
-            </Button>
+            {navigationButtonsConfig.map((buttonConfig) => (
+              <NavigationButton
+                key={buttonConfig.navigateTo}
+                handleNavigation={handleNavigation}
+                navigateTo={buttonConfig.navigateTo}
+                isDisabled={buttonConfig.isDisabled}
+                bgColor={buttonConfig.bgColor}
+                textColor={buttonConfig.textColor}
+                label={buttonConfig.label}
+              />
+            ))}
           </Box>
         </Paper>
       </Container>
