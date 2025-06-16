@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import { Box, Paper } from "@mui/material";
 import { NavigationButton } from "../navigationButtons";
+import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";
 import { ReviewStep } from "./reviewStep";
 import { FormStep } from "./formStep";
-import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";
-
-export interface FormData {
-  [key: string]: any;
-}
-
 interface FormProps {
   activeStep: number;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
@@ -16,8 +11,12 @@ interface FormProps {
   role: string | null;
 }
 
+export interface FormData {
+  [key: string]: any;
+}
+
 export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
-  const [formData, setFormData] = useState<FormData>({});
+  const [formData, setFormData] = useState<FormData>(new FormData());
 
   // Get field configuration based on role and step
   const getStepConfig = () => {
@@ -44,15 +43,14 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
 
     // Check if this is the review step
     if (currentStepName === "Review & Submit") {
-      return (
-        <ReviewStep formData={formData} role={role} onSubmit={handleSubmit} />
-      );
+      return <ReviewStep formData={formData} role={role} />;
     }
 
     // Render form step
     const fields = stepConfig[currentStepName] || [];
     return (
       <FormStep
+        title={currentStepName}
         fields={fields}
         formData={formData}
         onFieldChange={handleFieldChange}
@@ -63,7 +61,10 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
   const handleNavigation = (navigateTo: string) => {
     switch (navigateTo) {
       case "next":
-        if (activeStep < steps.length - 1) {
+        if (steps[activeStep] === "Review & Submit") {
+          // Submit on review step
+          handleSubmit();
+        } else if (activeStep < steps.length - 1) {
           setActiveStep((prev) => prev + 1);
         }
         break;
@@ -93,10 +94,10 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
     },
     {
       navigateTo: "next",
-      isDisabled: activeStep === steps.length - 1,
+      isDisabled: false,
       bgColor: "#A1B7AF",
       textColor: "white",
-      label: "Next →",
+      label: steps[activeStep] === "Review & Submit" ? "Submit" : "Next →",
     },
   ];
 
@@ -112,6 +113,7 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
       {/* Render current step */}
       {getCurrentStepComponent()}
 
+      {/* Navigation Buttons */}
       <Box
         sx={{
           display: "flex",

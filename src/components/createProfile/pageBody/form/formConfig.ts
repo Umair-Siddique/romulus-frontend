@@ -58,7 +58,13 @@ export const educatorStepsConfig = {
     },
   ],
   Profession: [
-    { name: "profession", label: "Profession", type: "text", required: false },
+    {
+      name: "profession",
+      label: "Profession",
+      type: "select",
+      required: true,
+      options: ["Teacher", "Trainer", "Consultant", "Coach", "Other"],
+    },
     {
       name: "hourlyRate",
       label: "Hourly Rate",
@@ -66,7 +72,19 @@ export const educatorStepsConfig = {
       required: true,
     },
     { name: "skills", label: "Skills", type: "text", required: true },
-    { name: "education", label: "Education", type: "text", required: false },
+    {
+      name: "education",
+      label: "Education",
+      type: "select",
+      required: true,
+      options: [
+        "Bachelor's Degree",
+        "Master's Degree",
+        "PhD",
+        "Professional Certification",
+        "Other",
+      ],
+    },
     {
       name: "certificateOfOwner",
       label: "Certificate of Owner",
