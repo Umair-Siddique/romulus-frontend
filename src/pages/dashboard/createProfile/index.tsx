@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 import { PageHeader, PageBody } from "../../../components/createProfile";
 
 export const CreateProfile = () => {
-  const [role, setRole] = useState<string | null>(null);
+  const [user, setUser] = useState(null);
 
   const navigate = useNavigate();
 
@@ -34,18 +34,18 @@ export const CreateProfile = () => {
     const parsedUser = user ? JSON.parse(user) : null;
     const userRole = parsedUser?.role;
 
-    setRole(userRole);
+    setUser(parsedUser);
   }, [navigate]);
 
   return (
     <Box>
       {/* Page Header */}
-      {role && (
+      {user && (
         <>
           <PageHeader />
 
           {/* Page Body */}
-          <PageBody role={role} />
+          <PageBody user={user} />
         </>
       )}
     </Box>

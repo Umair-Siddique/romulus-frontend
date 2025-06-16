@@ -5,12 +5,21 @@ import { ProgressStepper } from "./progressStepper";
 import { Form } from "./form";
 
 interface PageBodyProps {
-  role: string | null;
+  user: any | null;
 }
 
-export const PageBody = ({ role }: PageBodyProps) => {
+export const PageBody = ({ user }: PageBodyProps) => {
   const [steps, setSteps] = useState<string[]>([]);
   const [activeStep, setActiveStep] = useState(0);
+  const [role, setRole] = useState<string | null>(null);
+  const [userData, setUserData] = useState<any | null>(null);
+
+  useEffect(() => {
+    if (user) {
+      setRole(user.role);
+      setUserData(user);
+    }
+  }, [user]);
 
   useEffect(() => {
     const educatorSteps = [
@@ -48,6 +57,7 @@ export const PageBody = ({ role }: PageBodyProps) => {
         setActiveStep={setActiveStep}
         steps={steps}
         role={role}
+        user={userData}
       />
     </Container>
   );

@@ -4,19 +4,27 @@ import { NavigationButton } from "../navigationButtons";
 import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";
 import { ReviewStep } from "./reviewStep";
 import { FormStep } from "./formStep";
+import { api } from "../../../../utils";
 
 interface FormProps {
   activeStep: number;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
   steps: string[];
   role: string | null;
+  user?: any; // Optional user data, can be used for pre-filling fields
 }
 
 export interface FormData {
   [key: string]: any;
 }
 
-export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
+export const Form = ({
+  activeStep,
+  setActiveStep,
+  steps,
+  role,
+  user,
+}: FormProps) => {
   const [formData, setFormData] = useState<FormData>({});
 
   // Get field configuration based on role and step
@@ -33,9 +41,20 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log("Form submitted:", { ...formData, role });
-    alert("Application submitted successfully!");
+  const handleSubmit = async () => {
+    console.log("Submitting form data:", formData);
+    if (role === "educator") {
+      await api.post(`/educators`, {
+        user: user?.userId,
+        ...formData,
+      });
+    } else {
+      // Handle organization-specific submission
+      await api.post(`/organizations`, {
+        user: user?.userId,
+        ...formData,
+      });
+    }
   };
 
   // Validation function to check if current step is complete
