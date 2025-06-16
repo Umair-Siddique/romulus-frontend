@@ -34,7 +34,7 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
   };
 
   const handleSubmit = () => {
-    console.log("Form submitted:", formData);
+    console.log("Form submitted:", { ...formData, role });
     alert("Application submitted successfully!");
   };
 
@@ -48,11 +48,13 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
     for (const field of currentStepFields) {
       if (field.required) {
         const value = formData[field.name];
-        
+
         // Check if value exists and is not empty
-        if (!value || 
-            (typeof value === 'string' && value.trim() === '') ||
-            (Array.isArray(value) && value.length === 0)) {
+        if (
+          !value ||
+          (typeof value === "string" && value.trim() === "") ||
+          (Array.isArray(value) && value.length === 0)
+        ) {
           return false;
         }
       }
@@ -70,10 +72,12 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
     for (const field of currentStepFields) {
       if (field.required) {
         const value = formData[field.name];
-        
-        if (!value || 
-            (typeof value === 'string' && value.trim() === '') ||
-            (Array.isArray(value) && value.length === 0)) {
+
+        if (
+          !value ||
+          (typeof value === "string" && value.trim() === "") ||
+          (Array.isArray(value) && value.length === 0)
+        ) {
           missingFields.push(field.label);
         }
       }
@@ -90,11 +94,8 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
       return (
         <ReviewStep
           formData={formData}
-          role={role}
           onFieldChange={handleFieldChange}
           stepConfig={stepConfig}
-          setActiveStep={setActiveStep}
-          steps={steps}
         />
       );
     }
@@ -122,7 +123,11 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
             setActiveStep((prev) => prev + 1);
           } else {
             const missingFields = getMissingRequiredFields();
-            alert(`Please fill in all required fields before proceeding:\n\n• ${missingFields.join('\n• ')}`);
+            alert(
+              `Please fill in all required fields before proceeding:\n\n• ${missingFields.join(
+                "\n• "
+              )}`
+            );
           }
         }
         break;
@@ -139,12 +144,12 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
   // Check if next button should be disabled
   const isNextButtonDisabled = () => {
     const currentStepName = steps[activeStep];
-    
+
     // For review step, always allow submit
     if (currentStepName === "Review & Submit") {
       return false;
     }
-    
+
     // For other steps, check validation
     return !validateCurrentStep();
   };

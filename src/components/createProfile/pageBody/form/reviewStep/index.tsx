@@ -1,17 +1,10 @@
 import React, { useState } from "react";
+import { Box, Typography, Paper, Avatar, Chip, Button } from "@mui/material";
 import {
-  Box,
-  Typography,
-  Paper,
-  Avatar,
-  Chip,
-  Button,
-} from "@mui/material";
-import { 
-  Edit as EditIcon, 
+  EditNoteOutlined as EditIcon,
   Description as FileIcon,
   Save as SaveIcon,
-  Cancel as CancelIcon
+  Cancel as CancelIcon,
 } from "@mui/icons-material";
 import { FormField } from "../formField";
 
@@ -21,19 +14,14 @@ export interface FormData {
 
 interface ReviewStepProps {
   formData: FormData;
-  role: string | null;
   onFieldChange: (name: string, value: any) => void;
   stepConfig: any;
-  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
-  steps: string[];
 }
 
 export const ReviewStep: React.FC<ReviewStepProps> = ({
   formData,
   onFieldChange,
   stepConfig,
-  setActiveStep,
-  steps,
 }) => {
   const [editingSection, setEditingSection] = useState<string | null>(null);
   const [tempFormData, setTempFormData] = useState<FormData>({});
@@ -49,7 +37,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
   };
 
   const saveEditing = () => {
-    Object.keys(tempFormData).forEach(key => {
+    Object.keys(tempFormData).forEach((key) => {
       onFieldChange(key, tempFormData[key]);
     });
     setEditingSection(null);
@@ -57,17 +45,10 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
   };
 
   const handleTempFieldChange = (name: string, value: any) => {
-    setTempFormData(prev => ({
+    setTempFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
-
-  const goToStep = (stepName: string) => {
-    const stepIndex = steps.findIndex(step => step === stepName);
-    if (stepIndex !== -1) {
-      setActiveStep(stepIndex);
-    }
   };
 
   const renderFileDisplay = (file: any) => {
@@ -83,7 +64,17 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           border: "1px solid #E0E0E0",
         }}
       >
-        <FileIcon sx={{ color: "#666", mr: 1 }} />
+        <FileIcon
+          sx={{
+            color: "#A1B7AF",
+            mr: 1,
+            fontSize: 35,
+            border: "1px solid #A1B7AF",
+            borderRadius: "10px",
+            width: "40px",
+            height: "40px",
+          }}
+        />
         <Typography variant="body2" sx={{ color: "#333" }}>
           {file.name}
         </Typography>
@@ -111,14 +102,14 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
     );
   };
 
-  const SectionHeader = ({ 
-    title, 
-    onEdit, 
+  const SectionHeader = ({
+    title,
+    onEdit,
     isEditing = false,
     onSave,
-    onCancel 
-  }: { 
-    title: string; 
+    onCancel,
+  }: {
+    title: string;
     onEdit?: () => void;
     isEditing?: boolean;
     onSave?: () => void;
@@ -142,7 +133,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
       >
         {title}
       </Typography>
-      
+
       {isEditing ? (
         <Box sx={{ display: "flex", gap: 1 }}>
           <Button
@@ -163,16 +154,19 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           </Button>
         </Box>
       ) : (
-        <Box 
-          sx={{ 
-            display: "flex", 
-            alignItems: "center", 
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
             color: "#666",
-            cursor: "pointer"
+            cursor: "pointer",
+            border: "1px solid #E0E0E0",
+            borderRadius: 2,
+            padding: "4px 8px",
           }}
           onClick={onEdit}
         >
-          <EditIcon sx={{ fontSize: 16, mr: 0.5 }} />
+          <EditIcon sx={{ fontSize: 25, mr: 0.5 }} />
           <Typography variant="body2" sx={{ fontSize: "0.875rem" }}>
             Edit
           </Typography>
@@ -210,8 +204,8 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
     <Box sx={{ maxWidth: "800px", mx: "auto" }}>
       {/* Personal Info Section */}
       <Paper sx={{ p: 3, mb: 3, boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
-        <SectionHeader 
-          title="Personal Information" 
+        <SectionHeader
+          title="Personal Information"
           onEdit={() => startEditing("personal")}
           isEditing={editingSection === "personal"}
           onSave={saveEditing}
@@ -266,7 +260,6 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
             </Box>
 
             <Box sx={{ ml: 0 }}>
-              <InfoRow label="Phone" value={formData.phone} />
               <InfoRow label="Date of Birth" value={formData.dateOfBirth} />
               <InfoRow label="City" value={formData.city} />
               <InfoRow label="Country" value={formData.country} />
@@ -292,6 +285,9 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
                     color: "#666",
                     lineHeight: 1.6,
                     fontSize: "0.875rem",
+                    p: 2,
+                    backgroundColor: "#F9F9F9",
+                    boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
                   }}
                 >
                   {formData.bio}
@@ -304,8 +300,8 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
 
       {/* Identity Proof Section */}
       <Paper sx={{ p: 3, mb: 3, boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
-        <SectionHeader 
-          title="Identity Proof" 
+        <SectionHeader
+          title="Identity Proof"
           onEdit={() => startEditing("identity")}
           isEditing={editingSection === "identity"}
           onSave={saveEditing}
@@ -360,8 +356,8 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
 
       {/* Profession & Skills Section */}
       <Paper sx={{ p: 3, mb: 4, boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
-        <SectionHeader 
-          title="Profession & Skills" 
+        <SectionHeader
+          title="Profession & Skills"
           onEdit={() => startEditing("profession")}
           isEditing={editingSection === "profession"}
           onSave={saveEditing}
@@ -386,7 +382,9 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
               <InfoRow
                 label="Hourly Rate"
                 value={
-                  formData.hourlyRate ? `€${formData.hourlyRate}` : "Not provided"
+                  formData.hourlyRate
+                    ? `€${formData.hourlyRate}`
+                    : "Not provided"
                 }
               />
             </Box>
@@ -412,7 +410,9 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
             </Box>
 
             {(formData.certificateOfOwner || formData.diploma) && (
-              <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3 }}>
+              <Box
+                sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3 }}
+              >
                 {formData.certificateOfOwner && (
                   <Box>
                     <Typography

@@ -279,7 +279,17 @@ export const FormField: React.FC<FormFieldProps> = ({
               }}
             >
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <FileIcon sx={{ color: "#A1B7AF", mr: 1 }} />
+                <FileIcon
+                  sx={{
+                    color: "#A1B7AF",
+                    mr: 1,
+                    fontSize: 35,
+                    border: "1px solid #A1B7AF",
+                    borderRadius: "10px",
+                    width: "40px",
+                    height: "40px",
+                  }}
+                />
                 <Typography sx={{ color: "#3B4B44" }}>{value.name}</Typography>
               </Box>
               <IconButton
