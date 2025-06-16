@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Box, Paper } from "@mui/material";
+import { CheckCircle, Cancel } from "@mui/icons-material";
 import { NavigationButton } from "../navigationButtons";
 import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";
 import { ReviewStep } from "./reviewStep";
 import { FormStep } from "./formStep";
 import { api } from "../../../../utils";
+import { Modal } from "../../../modal";
+import { useNavigate } from "react-router";
 
 interface FormProps {
   activeStep: number;
@@ -26,6 +29,11 @@ export const Form = ({
   user,
 }: FormProps) => {
   const [formData, setFormData] = useState<FormData>({});
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const navigate = useNavigate();
 
   // Get field configuration based on role and step
   const getStepConfig = () => {
@@ -166,18 +174,55 @@ export const Form = ({
         });
       }
 
-      alert("Application submitted successfully!");
+      localStorage.setItem('has-profile', 'true');
+      // Show success modal instead of alert
+      setShowSuccessModal(true);
     } catch (error: any) {
       console.error("Submission error:", error);
 
-      if (error.response?.status === 413) {
-        alert(
-          "Files are too large. Please try uploading smaller images or documents."
-        );
-      } else {
-        alert("Error submitting application. Please try again.");
+      // Extract error message from API response
+      let apiErrorMessage = "An unexpected error occurred. Please try again.";
+
+      if (error.response?.data?.message) {
+        apiErrorMessage = error.response.data.message;
+      } else if (error.response?.status === 413) {
+        apiErrorMessage =
+          "Files are too large. Please try uploading smaller images or documents.";
+      } else if (error.response?.status === 400) {
+        apiErrorMessage =
+          "Invalid data provided. Please check your inputs and try again.";
+      } else if (error.response?.status === 500) {
+        apiErrorMessage = "Server error occurred. Please try again later.";
+      } else if (error.message) {
+        apiErrorMessage = error.message;
       }
+
+      // Set error message and show error modal
+      setErrorMessage(apiErrorMessage);
+      setShowErrorModal(true);
     }
+  };
+
+  const handleSuccessModalClose = () => {
+    setShowSuccessModal(false);
+  };
+
+  const handleSuccessModalSubmit = () => {
+    setShowSuccessModal(false);
+    navigate("/");
+
+    console.log("Redirecting to home...");
+  };
+
+  const handleErrorModalClose = () => {
+    setShowErrorModal(false);
+    setErrorMessage("");
+  };
+
+  const handleErrorModalSubmit = () => {
+    // Allow user to try again
+    setShowErrorModal(false);
+    setErrorMessage("");
   };
 
   // Validation function to check if current step is complete
@@ -312,35 +357,61 @@ export const Form = ({
   ];
 
   return (
-    <Paper
-      sx={{
-        borderRadius: 2,
-        boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
-        p: 4,
-        minHeight: 500,
-      }}
-    >
-      {getCurrentStepComponent()}
-
-      <Box
+    <>
+      <Paper
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          mt: 4,
+          borderRadius: 2,
+          boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
+          p: 4,
+          minHeight: 500,
         }}
       >
-        {navigationButtonsConfig.map((buttonConfig) => (
-          <NavigationButton
-            key={buttonConfig.navigateTo}
-            handleNavigation={handleNavigation}
-            navigateTo={buttonConfig.navigateTo}
-            isDisabled={buttonConfig.isDisabled}
-            bgColor={buttonConfig.bgColor}
-            textColor={buttonConfig.textColor}
-            label={buttonConfig.label}
-          />
-        ))}
-      </Box>
-    </Paper>
+        {getCurrentStepComponent()}
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            mt: 4,
+          }}
+        >
+          {navigationButtonsConfig.map((buttonConfig) => (
+            <NavigationButton
+              key={buttonConfig.navigateTo}
+              handleNavigation={handleNavigation}
+              navigateTo={buttonConfig.navigateTo}
+              isDisabled={buttonConfig.isDisabled}
+              bgColor={buttonConfig.bgColor}
+              textColor={buttonConfig.textColor}
+              label={buttonConfig.label}
+            />
+          ))}
+        </Box>
+      </Paper>
+
+      {/* Success Modal */}
+      <Modal
+        open={showSuccessModal}
+        onClose={handleSuccessModalClose}
+        onSubmit={handleSuccessModalSubmit}
+        icon={<CheckCircle />}
+        title="Submitted successfully!"
+        description={`Your profile has been received and is now under review. After submission, your profile will be reviewed within 24-48 hours. You will be informed by email.`}
+        showButton={true}
+        buttonText="Continue to Dashboard"
+      />
+
+      {/* Error Modal */}
+      <Modal
+        open={showErrorModal}
+        onClose={handleErrorModalClose}
+        onSubmit={handleErrorModalSubmit}
+        icon={<Cancel sx={{ color: "#f44336" }} />}
+        title="Submission Failed"
+        description={errorMessage}
+        showButton={true}
+        buttonText="Try Again"
+      />
+    </>
   );
 };
