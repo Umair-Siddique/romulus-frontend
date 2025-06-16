@@ -237,7 +237,7 @@ export const FormField: React.FC<FormFieldProps> = ({
             subtitle: "(Police clearance or background check document)",
           };
         }
-        if (field.name === "certificateOfOwner") {
+        if (field.name === "certificateOfHonor") {
           return {
             title: "Upload Certificate of Honorability",
             subtitle: "",

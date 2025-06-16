@@ -86,8 +86,8 @@ export const educatorStepsConfig = {
       ],
     },
     {
-      name: "certificateOfOwner",
-      label: "Certificate of Owner",
+      name: "certificateOfHonor",
+      label: "Certificate Of Honor",
       type: "file",
       required: false,
     },

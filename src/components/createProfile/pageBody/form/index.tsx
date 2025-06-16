@@ -11,7 +11,7 @@ interface FormProps {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
   steps: string[];
   role: string | null;
-  user?: any; // Optional user data, can be used for pre-filling fields
+  user?: any;
 }
 
 export interface FormData {
@@ -41,19 +41,142 @@ export const Form = ({
     }));
   };
 
+  // Compress image function
+  const compressImage = (
+    file: File,
+    maxWidth: number = 800,
+    quality: number = 0.7
+  ): Promise<File> => {
+    return new Promise((resolve) => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d")!;
+      const img = new Image();
+
+      img.onload = () => {
+        // Calculate new dimensions
+        const ratio = Math.min(maxWidth / img.width, maxWidth / img.height);
+        const newWidth = img.width * ratio;
+        const newHeight = img.height * ratio;
+
+        // Set canvas dimensions
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+
+        // Draw and compress
+        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              const compressedFile = new File([blob], file.name, {
+                type: file.type,
+                lastModified: Date.now(),
+              });
+              resolve(compressedFile);
+            } else {
+              resolve(file); // Fallback to original if compression fails
+            }
+          },
+          file.type,
+          quality
+        );
+      };
+
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
   const handleSubmit = async () => {
     console.log("Submitting form data:", formData);
-    if (role === "educator") {
-      await api.post(`/educators`, {
-        user: user?.userId,
-        ...formData,
-      });
-    } else {
-      // Handle organization-specific submission
-      await api.post(`/organizations`, {
-        user: user?.userId,
-        ...formData,
-      });
+
+    try {
+      // Create FormData object for efficient file uploads
+      const submitData = new FormData();
+
+      // Add user ID if available
+      if (user?.userId) {
+        submitData.append("user", user.userId);
+      }
+
+      // Process each field in formData
+      for (const [key, value] of Object.entries(formData)) {
+        if (value !== null && value !== undefined) {
+          if (value instanceof File) {
+            console.log(
+              `Adding file ${key}:`,
+              value.name,
+              "Size:",
+              Math.round(value.size / 1024),
+              "KB"
+            );
+
+            // Optional: Compress images before adding to FormData
+            if (value.type.startsWith("image/")) {
+              console.log(`Compressing ${key}...`);
+              const compressedFile = await compressImage(value, 800, 0.7);
+              console.log(
+                `Compressed ${key}:`,
+                "New size:",
+                Math.round(compressedFile.size / 1024),
+                "KB"
+              );
+              submitData.append(key, compressedFile);
+            } else {
+              // Add non-image files directly
+              submitData.append(key, value);
+            }
+          } else if (Array.isArray(value)) {
+            // Handle arrays (like skills) - send as JSON string
+            if (value.length > 0) {
+              submitData.append(key, JSON.stringify(value));
+            }
+          } else {
+            // Handle regular form fields
+            submitData.append(key, value.toString());
+          }
+        }
+      }
+
+      // Log FormData contents for debugging
+      console.log("FormData contents:");
+      for (let [key, value] of submitData.entries()) {
+        if (value instanceof File) {
+          console.log(
+            key,
+            `File: ${value.name} (${Math.round(value.size / 1024)}KB)`
+          );
+        } else {
+          console.log(key, value);
+        }
+      }
+
+      console.log("Submitting with FormData...");
+
+      if (role === "educator") {
+        await api.post(`/educators`, submitData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } else {
+        await api.post(`/organizations`, submitData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+
+      alert("Application submitted successfully!");
+    } catch (error: any) {
+      console.error("Submission error:", error);
+
+      if (error.response?.status === 413) {
+        alert(
+          "Files are too large. Please try uploading smaller images or documents."
+        );
+      } else {
+        alert("Error submitting application. Please try again.");
+      }
     }
   };
 
@@ -63,12 +186,10 @@ export const Form = ({
     const stepConfig = getStepConfig();
     const currentStepFields = stepConfig[currentStepName] || [];
 
-    // Check if all required fields are filled
     for (const field of currentStepFields) {
       if (field.required) {
         const value = formData[field.name];
 
-        // Check if value exists and is not empty
         if (
           !value ||
           (typeof value === "string" && value.trim() === "") ||
@@ -108,7 +229,6 @@ export const Form = ({
     const currentStepName = steps[activeStep];
     const stepConfig = getStepConfig();
 
-    // Check if this is the review step
     if (currentStepName === "Review & Submit") {
       return (
         <ReviewStep
@@ -119,7 +239,6 @@ export const Form = ({
       );
     }
 
-    // Render form step
     const fields = stepConfig[currentStepName] || [];
     return (
       <FormStep
@@ -137,7 +256,6 @@ export const Form = ({
         if (steps[activeStep] === "Review & Submit") {
           handleSubmit();
         } else if (activeStep < steps.length - 1) {
-          // Validate current step before moving to next
           if (validateCurrentStep()) {
             setActiveStep((prev) => prev + 1);
           } else {
@@ -160,16 +278,13 @@ export const Form = ({
     }
   };
 
-  // Check if next button should be disabled
   const isNextButtonDisabled = () => {
     const currentStepName = steps[activeStep];
 
-    // For review step, always allow submit
     if (currentStepName === "Review & Submit") {
       return false;
     }
 
-    // For other steps, check validation
     return !validateCurrentStep();
   };
 

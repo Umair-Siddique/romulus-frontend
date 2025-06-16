@@ -409,11 +409,11 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
               <InfoRow label="Education" value={formData.education} />
             </Box>
 
-            {(formData.certificateOfOwner || formData.diploma) && (
+            {(formData.certificateOfHonor || formData.diploma) && (
               <Box
                 sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3 }}
               >
-                {formData.certificateOfOwner && (
+                {formData.certificateOfHonor && (
                   <Box>
                     <Typography
                       variant="body2"
@@ -426,7 +426,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
                     >
                       Certificate of Honorability
                     </Typography>
-                    {renderFileDisplay(formData.certificateOfOwner)}
+                    {renderFileDisplay(formData.certificateOfHonor)}
                   </Box>
                 )}
 
