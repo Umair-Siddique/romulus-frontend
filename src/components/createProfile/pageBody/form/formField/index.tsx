@@ -13,11 +13,13 @@ import {
 } from "@mui/material";
 import {
   CloudUpload as UploadIcon,
-  PhotoCamera as CameraIcon,
   Add as AddIcon,
   Close as CloseIcon,
   Description as FileIcon,
   CalendarToday as CalendarIcon,
+  Person as PersonIcon,
+  CameraAlt as CameraIcon,
+  KeyboardArrowDown as ArrowDownIcon,
 } from "@mui/icons-material";
 
 export interface FieldConfig {
@@ -63,6 +65,61 @@ export const FormField: React.FC<FormFieldProps> = ({
     );
   };
 
+  const inputFocusStyles = {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "8px",
+      backgroundColor: "#F8FAF9",
+      "& fieldset": {
+        borderWidth: 0,
+      },
+      "&:hover fieldset": {
+        borderWidth: 0,
+      },
+      "&.Mui-focused fieldset": {
+        borderWidth: "2px",
+        borderColor: "#A1B7AF",
+      },
+      // Add this to remove blue outline
+      "&.Mui-focused": {
+        outline: "none",
+      },
+    },
+  };
+
+  const selectFocusStyles = {
+    borderRadius: "8px",
+    backgroundColor: "#F8FAF9",
+    "& .MuiSelect-select": {
+      py: 1.5,
+    },
+    "& fieldset": {
+      borderWidth: 0,
+    },
+    "&:hover fieldset": {
+      borderWidth: 0,
+    },
+    "&.Mui-focused fieldset": {
+      borderWidth: "2px",
+      borderColor: "#A1B7AF",
+    },
+    // More specific targeting for Select focus styles
+    "&.Mui-focused": {
+      outline: "none !important",
+      boxShadow: "none !important",
+    },
+    "& .MuiSelect-select.Mui-focused": {
+      outline: "none !important",
+      boxShadow: "none !important",
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      border: "none !important",
+    },
+    "&:focus-within": {
+      outline: "none !important",
+      boxShadow: "none !important",
+    },
+  };
+
   const renderField = () => {
     // Profile Picture Upload
     if (field.name === "profilePicture") {
@@ -73,12 +130,13 @@ export const FormField: React.FC<FormFieldProps> = ({
               sx={{
                 width: 120,
                 height: 120,
-                border: "3px solid #4A90E2",
+                backgroundColor: "#E8F0EC",
+                border: "3px solid #A1B7AF",
                 cursor: "pointer",
               }}
               src={value ? URL.createObjectURL(value) : undefined}
             >
-              <CameraIcon sx={{ fontSize: 40, color: "#666" }} />
+              <PersonIcon sx={{ fontSize: 40, color: "#7A8B84" }} />
             </Avatar>
             <IconButton
               component="label"
@@ -86,11 +144,11 @@ export const FormField: React.FC<FormFieldProps> = ({
                 position: "absolute",
                 bottom: 0,
                 right: 0,
-                backgroundColor: "#4A90E2",
+                backgroundColor: "#A1B7AF",
                 color: "white",
                 width: 32,
                 height: 32,
-                "&:hover": { backgroundColor: "#357ABD" },
+                "&:hover": { backgroundColor: "#8A9D95" },
               }}
             >
               <CameraIcon sx={{ fontSize: 16 }} />
@@ -111,7 +169,10 @@ export const FormField: React.FC<FormFieldProps> = ({
       const skills = Array.isArray(value) ? value : [];
       return (
         <Box>
-          <Typography variant="body1" sx={{ mb: 1, fontWeight: 500 }}>
+          <Typography
+            variant="body1"
+            sx={{ mb: 1, fontWeight: 500, color: "#3B4B44" }}
+          >
             Add Skills {field.required && "*"}
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
@@ -121,15 +182,18 @@ export const FormField: React.FC<FormFieldProps> = ({
               value={skillInput}
               onChange={(e) => setSkillInput(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSkillAdd()}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-              }}
+              sx={inputFocusStyles}
             />
             <IconButton
               onClick={handleSkillAdd}
-              sx={{ ml: 1, backgroundColor: "#f5f5f5" }}
+              sx={{
+                ml: 1,
+                backgroundColor: "#E8F0EC",
+                color: "#A1B7AF",
+                "&:hover": {
+                  backgroundColor: "#D4E0DC",
+                },
+              }}
             >
               <AddIcon />
             </IconButton>
@@ -141,7 +205,16 @@ export const FormField: React.FC<FormFieldProps> = ({
                 label={skill}
                 onDelete={() => handleSkillRemove(skill)}
                 deleteIcon={<CloseIcon />}
-                sx={{ backgroundColor: "#E3F2FD" }}
+                sx={{
+                  backgroundColor: "#E8F0EC",
+                  color: "#3B4B44",
+                  "& .MuiChip-deleteIcon": {
+                    color: "#7A8B84",
+                    "&:hover": {
+                      color: "#A1B7AF",
+                    },
+                  },
+                }}
               />
             ))}
           </Box>
@@ -186,29 +259,39 @@ export const FormField: React.FC<FormFieldProps> = ({
 
       return (
         <Box>
-          <Typography variant="body1" sx={{ mb: 1, fontWeight: 500 }}>
+          <Typography
+            variant="body1"
+            sx={{ mb: 1, fontWeight: 500, color: "#3B4B44" }}
+          >
             {field.label} {!field.required && "(Optional)"}
           </Typography>
 
           {value ? (
             <Box
               sx={{
-                border: "1px solid #E0E0E0",
+                border: "1px solid #D4E0DC",
                 borderRadius: "8px",
                 p: 2,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                backgroundColor: "#F8F9FA",
+                backgroundColor: "#F8FAF9",
               }}
             >
               <Box sx={{ display: "flex", alignItems: "center" }}>
-                <FileIcon sx={{ color: "#4A90E2", mr: 1 }} />
-                <Typography>{value.name}</Typography>
+                <FileIcon sx={{ color: "#A1B7AF", mr: 1 }} />
+                <Typography sx={{ color: "#3B4B44" }}>{value.name}</Typography>
               </Box>
               <IconButton
                 size="small"
                 onClick={() => onChange(field.name, null)}
+                sx={{
+                  color: "#7A8B84",
+                  "&:hover": {
+                    color: "#A1B7AF",
+                    backgroundColor: "#E8F0EC",
+                  },
+                }}
               >
                 <CloseIcon />
               </IconButton>
@@ -218,25 +301,25 @@ export const FormField: React.FC<FormFieldProps> = ({
               <Box
                 component="label"
                 sx={{
-                  border: "2px dashed #D1D5DB",
+                  border: "2px dashed #C1CCC5",
                   borderRadius: "8px",
                   p: 4,
                   textAlign: "center",
                   cursor: "pointer",
-                  backgroundColor: "#FAFAFA",
+                  backgroundColor: "#F8FAF9",
                   display: "block",
                   "&:hover": {
-                    borderColor: "#4A90E2",
-                    backgroundColor: "#F0F8FF",
+                    borderColor: "#A1B7AF",
+                    backgroundColor: "#E8F0EC",
                   },
                 }}
               >
-                <UploadIcon sx={{ fontSize: 48, color: "#9CA3AF", mb: 1 }} />
-                <Typography variant="body1" sx={{ color: "#6B7280", mb: 0.5 }}>
+                <UploadIcon sx={{ fontSize: 48, color: "#7A8B84", mb: 1 }} />
+                <Typography variant="body1" sx={{ color: "#3B4B44", mb: 0.5 }}>
                   {title}
                 </Typography>
                 {subtitle && (
-                  <Typography variant="body2" sx={{ color: "#9CA3AF", mb: 1 }}>
+                  <Typography variant="body2" sx={{ color: "#7A8B84", mb: 1 }}>
                     {subtitle}
                   </Typography>
                 )}
@@ -249,7 +332,7 @@ export const FormField: React.FC<FormFieldProps> = ({
               </Box>
               <Typography
                 variant="caption"
-                sx={{ color: "#9CA3AF", mt: 1, display: "block" }}
+                sx={{ color: "#7A8B84", mt: 1, display: "block" }}
               >
                 Accepted formats: JPG, PNG, PDF (Max: 5MB)
               </Typography>
@@ -263,18 +346,23 @@ export const FormField: React.FC<FormFieldProps> = ({
     if (field.type === "select") {
       return (
         <FormControl fullWidth>
-          <Typography variant="body1" sx={{ mb: 1, fontWeight: 500 }}>
+          <Typography
+            variant="body1"
+            sx={{ mb: 1, fontWeight: 500, color: "#3B4B44" }}
+          >
             {field.label} {field.required && "*"}
           </Typography>
           <Select
             value={value || ""}
             onChange={handleChange}
             displayEmpty
+            IconComponent={ArrowDownIcon}
             sx={{
-              borderRadius: "8px",
-              "& .MuiSelect-select": {
-                py: 1.5,
+              ...selectFocusStyles,
+              "& .MuiSelect-icon": {
+                color: "#7A8B84",
               },
+              color: "#3B4B44",
             }}
           >
             <MenuItem value="" disabled>
@@ -291,31 +379,54 @@ export const FormField: React.FC<FormFieldProps> = ({
     }
 
     // Date input
+    // Date input
     if (field.type === "date") {
       return (
         <Box>
-          <Typography variant="body1" sx={{ mb: 1, fontWeight: 500 }}>
+          <Typography
+            variant="body1"
+            sx={{ mb: 1, fontWeight: 500, color: "#3B4B44" }}
+          >
             {field.label} {field.required && "*"}
           </Typography>
-          <TextField
-            fullWidth
-            type="date"
-            value={value || ""}
-            onChange={handleChange}
-            placeholder="Select your date of birth"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <CalendarIcon sx={{ color: "#9CA3AF" }} />
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "8px",
-              },
-            }}
-          />
+          <Box sx={{ position: "relative" }}>
+            <TextField
+              fullWidth
+              type="date"
+              value={value || ""}
+              onChange={handleChange}
+              placeholder="Select your date of birth"
+              sx={{
+                ...inputFocusStyles,
+                "& .MuiInputBase-input": {
+                  color: "#3B4B44",
+                },
+                // Hide the default calendar icon
+                "& input[type='date']::-webkit-calendar-picker-indicator": {
+                  opacity: 0,
+                  position: "absolute",
+                  right: 0,
+                  width: "100%",
+                  height: "100%",
+                  cursor: "pointer",
+                },
+                "& input[type='date']": {
+                  paddingRight: "40px", // Make space for custom icon
+                },
+              }}
+            />
+            <CalendarIcon
+              sx={{
+                position: "absolute",
+                right: 12,
+                top: "50%",
+                transform: "translateY(-50%)",
+                color: "#7A8B84",
+                pointerEvents: "none",
+                zIndex: 1,
+              }}
+            />
+          </Box>
         </Box>
       );
     }
@@ -324,7 +435,10 @@ export const FormField: React.FC<FormFieldProps> = ({
     if (field.type === "number" && field.name === "hourlyRate") {
       return (
         <Box>
-          <Typography variant="body1" sx={{ mb: 1, fontWeight: 500 }}>
+          <Typography
+            variant="body1"
+            sx={{ mb: 1, fontWeight: 500, color: "#3B4B44" }}
+          >
             Your Hourly Rate {field.required && "*"}
           </Typography>
           <TextField
@@ -335,13 +449,14 @@ export const FormField: React.FC<FormFieldProps> = ({
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Typography sx={{ color: "#666" }}>€</Typography>
+                  <Typography sx={{ color: "#7A8B84" }}>€</Typography>
                 </InputAdornment>
               ),
             }}
             sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "8px",
+              ...inputFocusStyles,
+              "& .MuiInputBase-input": {
+                color: "#3B4B44",
               },
             }}
           />
@@ -352,7 +467,10 @@ export const FormField: React.FC<FormFieldProps> = ({
     // Default text input
     return (
       <Box>
-        <Typography variant="body1" sx={{ mb: 1, fontWeight: 500 }}>
+        <Typography
+          variant="body1"
+          sx={{ mb: 1, fontWeight: 500, color: "#3B4B44" }}
+        >
           {field.label} {field.required && "*"}{" "}
           {!field.required && "(Optional)"}
         </Typography>
@@ -365,8 +483,13 @@ export const FormField: React.FC<FormFieldProps> = ({
           multiline={field.name === "bio" || field.name === "fullAddress"}
           rows={field.name === "bio" ? 4 : field.name === "fullAddress" ? 2 : 1}
           sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "8px",
+            ...inputFocusStyles,
+            "& .MuiInputBase-input": {
+              color: "#3B4B44",
+            },
+            "& .MuiInputBase-input::placeholder": {
+              color: "#7A8B84",
+              opacity: 1,
             },
           }}
         />

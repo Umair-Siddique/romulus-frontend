@@ -4,6 +4,7 @@ import { NavigationButton } from "../navigationButtons";
 import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";
 import { ReviewStep } from "./reviewStep";
 import { FormStep } from "./formStep";
+
 interface FormProps {
   activeStep: number;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
@@ -16,7 +17,7 @@ export interface FormData {
 }
 
 export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
-  const [formData, setFormData] = useState<FormData>(new FormData());
+  const [formData, setFormData] = useState<FormData>({});
 
   // Get field configuration based on role and step
   const getStepConfig = () => {
@@ -43,7 +44,16 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
 
     // Check if this is the review step
     if (currentStepName === "Review & Submit") {
-      return <ReviewStep formData={formData} role={role} />;
+      return (
+        <ReviewStep
+          formData={formData}
+          role={role}
+          onFieldChange={handleFieldChange}
+          stepConfig={stepConfig}
+          setActiveStep={setActiveStep}
+          steps={steps}
+        />
+      );
     }
 
     // Render form step
@@ -62,7 +72,6 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
     switch (navigateTo) {
       case "next":
         if (steps[activeStep] === "Review & Submit") {
-          // Submit on review step
           handleSubmit();
         } else if (activeStep < steps.length - 1) {
           setActiveStep((prev) => prev + 1);
@@ -110,10 +119,8 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
         minHeight: 500,
       }}
     >
-      {/* Render current step */}
       {getCurrentStepComponent()}
 
-      {/* Navigation Buttons */}
       <Box
         sx={{
           display: "flex",
