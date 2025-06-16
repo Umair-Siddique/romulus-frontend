@@ -10,17 +10,26 @@ import {
   IconButton,
   Chip,
   InputAdornment,
+  Button,
 } from "@mui/material";
 import {
   CloudUpload as UploadIcon,
   Add as AddIcon,
   Close as CloseIcon,
-  Description as FileIcon,
+  Description as DescriptionIcon,
   CalendarToday as CalendarIcon,
   Person as PersonIcon,
   CameraAlt as CameraIcon,
   KeyboardArrowDown as ArrowDownIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  Phone as PhoneIcon,
+  Email as EmailIcon,
+  LocationOn as LocationOnIcon,
+  Business as BusinessIcon,
+  FileCopy as FileIcon,
 } from "@mui/icons-material";
+import { BranchModal } from "../branchModal";
 
 export interface FieldConfig {
   name: string;
@@ -389,7 +398,6 @@ export const FormField: React.FC<FormFieldProps> = ({
     }
 
     // Date input
-    // Date input
     if (field.type === "date") {
       return (
         <Box>
@@ -469,6 +477,206 @@ export const FormField: React.FC<FormFieldProps> = ({
                 color: "#3B4B44",
               },
             }}
+          />
+        </Box>
+      );
+    }
+
+    // Branches section
+    if (field.name === "branches") {
+      const branches = Array.isArray(value) ? value : [];
+      const [showBranchModal, setShowBranchModal] = useState(false);
+
+      const addBranch = (branchData: any) => {
+        onChange(field.name, [...branches, branchData]);
+        setShowBranchModal(false);
+      };
+
+      const removeBranch = (index: number) => {
+        const updatedBranches = branches.filter(
+          (_: any, i: number) => i !== index
+        );
+        onChange(field.name, updatedBranches);
+      };
+
+      return (
+        <Box>
+          {branches.length === 0 ? (
+            // Empty state - matches the image
+            <Box
+              sx={{
+                border: "2px dashed #C1CCC5",
+                borderRadius: "16px",
+                p: 4,
+                textAlign: "center",
+                backgroundColor: "#FAFAFA",
+                mb: 2,
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: 600, color: "#3B4B44", mb: 2 }}
+              >
+                Add Branches
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "#7A8B84", mb: 3, lineHeight: 1.6 }}
+              >
+                You can register all your branch locations here. If you only
+                operate in one location, feel free to skip this step.
+              </Typography>
+
+              <Button
+                variant="text"
+                onClick={() => setShowBranchModal(true)}
+                startIcon={<AddIcon />}
+                sx={{
+                  color: "#3B4B44",
+                  textTransform: "none",
+                  fontSize: "1rem",
+                  fontWeight: 500,
+                  "&:hover": {
+                    backgroundColor: "transparent",
+                  },
+                }}
+              >
+                Add a Branch
+              </Button>
+            </Box>
+          ) : (
+            // Display existing branches
+            <>
+              {branches.map((branch: any, index: number) => (
+                <Box
+                  key={index}
+                  sx={{
+                    border: "2px solid #A1B7AF",
+                    borderRadius: "12px",
+                    p: 3,
+                    mb: 2,
+                    backgroundColor: "#FFFFFF",
+                    position: "relative",
+                  }}
+                >
+                  {/* Header with name and actions */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      mb: 2,
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{ fontWeight: 600, color: "#3B4B44" }}
+                    >
+                      {branch.name || "Downtown"}
+                    </Typography>
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <IconButton
+                        size="small"
+                        onClick={() => removeBranch(index)}
+                        sx={{ color: "#666" }}
+                      >
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                      <Button
+                        size="small"
+                        onClick={() => setShowBranchModal(true)}
+                        startIcon={<EditIcon fontSize="small" />}
+                        sx={{
+                          color: "#666",
+                          fontSize: "0.75rem",
+                          textTransform: "none",
+                          minWidth: "auto",
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </Box>
+                  </Box>
+
+                  {/* Branch details */}
+                  <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                    <PhoneIcon sx={{ color: "#A1B7AF", mr: 1, fontSize: 16 }} />
+                    <Typography variant="body2" sx={{ color: "#3B4B44" }}>
+                      {branch.phone || "+971 4 332 8789"}
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                    <EmailIcon sx={{ color: "#A1B7AF", mr: 1, fontSize: 16 }} />
+                    <Typography variant="body2" sx={{ color: "#3B4B44" }}>
+                      {branch.email || "wa83@outlook.com"}
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                    <LocationOnIcon
+                      sx={{ color: "#A1B7AF", mr: 1, fontSize: 16 }}
+                    />
+                    <Typography variant="body2" sx={{ color: "#3B4B44" }}>
+                      {branch.city || "Axton"}, {branch.country || "États-Unis"}
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                    <BusinessIcon
+                      sx={{ color: "#A1B7AF", mr: 1, fontSize: 16 }}
+                    />
+                    <Typography variant="body2" sx={{ color: "#3B4B44" }}>
+                      {branch.address ||
+                        "Bureau 905, One Central, Trade Centre Area"}
+                    </Typography>
+                  </Box>
+
+                  {/* File attachment */}
+                  {branch.residenceGuidelines && (
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <DescriptionIcon
+                        sx={{ color: "#A1B7AF", mr: 1, fontSize: 20 }}
+                      />
+                      <Typography variant="body2" sx={{ color: "#3B4B44" }}>
+                        {branch.residenceGuidelines.name ||
+                          "Residence_guideline.pdf"}
+                      </Typography>
+                    </Box>
+                  )}
+                </Box>
+              ))}
+
+              {/* Add Branch Button */}
+              <Button
+                variant="outlined"
+                onClick={() => setShowBranchModal(true)}
+                startIcon={<AddIcon />}
+                fullWidth
+                sx={{
+                  border: "2px solid #A1B7AF",
+                  borderRadius: "12px",
+                  color: "#A1B7AF",
+                  py: 2,
+                  textTransform: "none",
+                  fontSize: "1rem",
+                  fontWeight: 500,
+                  "&:hover": {
+                    backgroundColor: "#E8F0EC",
+                    borderColor: "#A1B7AF",
+                  },
+                }}
+              >
+                Add a Branch
+              </Button>
+            </>
+          )}
+
+          {/* Branch Modal */}
+          <BranchModal
+            open={showBranchModal}
+            onClose={() => setShowBranchModal(false)}
+            onSave={addBranch}
           />
         </Box>
       );

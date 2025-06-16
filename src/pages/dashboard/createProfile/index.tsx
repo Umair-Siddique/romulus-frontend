@@ -32,7 +32,6 @@ export const CreateProfile = () => {
 
     // Determine the steps based on user role
     const parsedUser = user ? JSON.parse(user) : null;
-    const userRole = parsedUser?.role;
 
     setUser(parsedUser);
   }, [navigate]);

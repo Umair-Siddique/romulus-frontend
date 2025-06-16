@@ -3,11 +3,12 @@ import { Box, Paper } from "@mui/material";
 import { CheckCircle, Cancel } from "@mui/icons-material";
 import { NavigationButton } from "../navigationButtons";
 import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";
+
+import { useNavigate } from "react-router";
 import { ReviewStep } from "./reviewStep";
 import { FormStep } from "./formStep";
 import { api } from "../../../../utils";
 import { Modal } from "../../../modal";
-import { useNavigate } from "react-router";
 
 interface FormProps {
   activeStep: number;
@@ -95,8 +96,6 @@ export const Form = ({
   };
 
   const handleSubmit = async () => {
-    console.log("Submitting form data:", formData);
-
     try {
       // Create FormData object for efficient file uploads
       const submitData = new FormData();
@@ -110,31 +109,35 @@ export const Form = ({
       for (const [key, value] of Object.entries(formData)) {
         if (value !== null && value !== undefined) {
           if (value instanceof File) {
-            console.log(
-              `Adding file ${key}:`,
-              value.name,
-              "Size:",
-              Math.round(value.size / 1024),
-              "KB"
-            );
-
-            // Optional: Compress images before adding to FormData
             if (value.type.startsWith("image/")) {
-              console.log(`Compressing ${key}...`);
               const compressedFile = await compressImage(value, 800, 0.7);
-              console.log(
-                `Compressed ${key}:`,
-                "New size:",
-                Math.round(compressedFile.size / 1024),
-                "KB"
-              );
               submitData.append(key, compressedFile);
             } else {
               // Add non-image files directly
               submitData.append(key, value);
             }
+          } else if (key === "branches" && Array.isArray(value)) {
+            // Handle branches array specially
+            value.forEach((branch, index) => {
+              // Add each branch field individually
+              Object.entries(branch).forEach(([branchKey, branchValue]) => {
+                if (branchValue instanceof File) {
+                  // Handle files in branches (like residence guidelines)
+                  submitData.append(
+                    `branches[${index}][${branchKey}]`,
+                    branchValue
+                  );
+                } else if (branchValue !== null && branchValue !== undefined) {
+                  // Handle regular branch fields
+                  submitData.append(
+                    `branches[${index}][${branchKey}]`,
+                    branchValue.toString()
+                  );
+                }
+              });
+            });
           } else if (Array.isArray(value)) {
-            // Handle arrays (like skills) - send as JSON string
+            // Handle other arrays (like skills) - send as JSON string
             if (value.length > 0) {
               submitData.append(key, JSON.stringify(value));
             }
@@ -145,7 +148,7 @@ export const Form = ({
         }
       }
 
-      // Log FormData contents for debugging
+      // Debug: Log FormData contents
       console.log("FormData contents:");
       for (let [key, value] of submitData.entries()) {
         if (value instanceof File) {
@@ -158,15 +161,15 @@ export const Form = ({
         }
       }
 
-      console.log("Submitting with FormData...");
-
       if (role === "educator") {
+        console.log("Form data:", formData);
         await api.post(`/educators`, submitData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
       } else {
+        console.log("Form data:", formData);
         await api.post(`/organizations`, submitData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -174,7 +177,7 @@ export const Form = ({
         });
       }
 
-      localStorage.setItem('has-profile', 'true');
+      localStorage.setItem("has-profile", "true");
       // Show success modal instead of alert
       setShowSuccessModal(true);
     } catch (error: any) {
@@ -210,8 +213,6 @@ export const Form = ({
   const handleSuccessModalSubmit = () => {
     setShowSuccessModal(false);
     navigate("/");
-
-    console.log("Redirecting to home...");
   };
 
   const handleErrorModalClose = () => {
@@ -274,16 +275,17 @@ export const Form = ({
     const currentStepName = steps[activeStep];
     const stepConfig = getStepConfig();
 
+    // In Form component, update the ReviewStep call:
     if (currentStepName === "Review & Submit") {
       return (
         <ReviewStep
           formData={formData}
           onFieldChange={handleFieldChange}
           stepConfig={stepConfig}
+          role={role} // Add this line
         />
       );
     }
-
     const fields = stepConfig[currentStepName] || [];
     return (
       <FormStep
@@ -291,6 +293,7 @@ export const Form = ({
         fields={fields}
         formData={formData}
         onFieldChange={handleFieldChange}
+        role={role} // Add this line
       />
     );
   };
