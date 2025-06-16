@@ -38,6 +38,49 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
     alert("Application submitted successfully!");
   };
 
+  // Validation function to check if current step is complete
+  const validateCurrentStep = () => {
+    const currentStepName = steps[activeStep];
+    const stepConfig = getStepConfig();
+    const currentStepFields = stepConfig[currentStepName] || [];
+
+    // Check if all required fields are filled
+    for (const field of currentStepFields) {
+      if (field.required) {
+        const value = formData[field.name];
+        
+        // Check if value exists and is not empty
+        if (!value || 
+            (typeof value === 'string' && value.trim() === '') ||
+            (Array.isArray(value) && value.length === 0)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  // Get missing required fields for current step
+  const getMissingRequiredFields = () => {
+    const currentStepName = steps[activeStep];
+    const stepConfig = getStepConfig();
+    const currentStepFields = stepConfig[currentStepName] || [];
+    const missingFields: string[] = [];
+
+    for (const field of currentStepFields) {
+      if (field.required) {
+        const value = formData[field.name];
+        
+        if (!value || 
+            (typeof value === 'string' && value.trim() === '') ||
+            (Array.isArray(value) && value.length === 0)) {
+          missingFields.push(field.label);
+        }
+      }
+    }
+    return missingFields;
+  };
+
   const getCurrentStepComponent = () => {
     const currentStepName = steps[activeStep];
     const stepConfig = getStepConfig();
@@ -74,7 +117,13 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
         if (steps[activeStep] === "Review & Submit") {
           handleSubmit();
         } else if (activeStep < steps.length - 1) {
-          setActiveStep((prev) => prev + 1);
+          // Validate current step before moving to next
+          if (validateCurrentStep()) {
+            setActiveStep((prev) => prev + 1);
+          } else {
+            const missingFields = getMissingRequiredFields();
+            alert(`Please fill in all required fields before proceeding:\n\n• ${missingFields.join('\n• ')}`);
+          }
         }
         break;
       case "back":
@@ -85,6 +134,19 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
       default:
         break;
     }
+  };
+
+  // Check if next button should be disabled
+  const isNextButtonDisabled = () => {
+    const currentStepName = steps[activeStep];
+    
+    // For review step, always allow submit
+    if (currentStepName === "Review & Submit") {
+      return false;
+    }
+    
+    // For other steps, check validation
+    return !validateCurrentStep();
   };
 
   const navigationButtonsConfig: {
@@ -103,9 +165,9 @@ export const Form = ({ activeStep, setActiveStep, steps, role }: FormProps) => {
     },
     {
       navigateTo: "next",
-      isDisabled: false,
-      bgColor: "#A1B7AF",
-      textColor: "white",
+      isDisabled: isNextButtonDisabled(),
+      bgColor: isNextButtonDisabled() ? "#E0E0E0" : "#A1B7AF",
+      textColor: isNextButtonDisabled() ? "#666" : "white",
       label: steps[activeStep] === "Review & Submit" ? "Submit" : "Next →",
     },
   ];
