@@ -26,7 +26,17 @@ export const educatorStepsConfig = {
       label: "City",
       type: "select",
       required: true,
-      options: ["New York", "London", "Paris", "Tokyo"],
+      options: [
+        "France",
+        "Allemagne",
+        "Norvège",
+        "Suède",
+        "Canada",
+        "Pays-Bas",
+        "Danemark",
+        "Royaume-Uni",
+        "Émirats Arabes Unis (UAE)",
+      ],
     },
     {
       name: "country",
