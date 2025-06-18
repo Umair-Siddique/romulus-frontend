@@ -69,3 +69,29 @@ export interface ModalProps {
   showButton?: boolean;
   buttonText?: string;
 }
+
+export interface FieldConfig {
+  name: string;
+  label: string;
+  type: "text" | "file" | "select" | "date" | "tel" | "number" | "email";
+  required: boolean;
+  options?: string[] | Record<string, string[]>;
+  dependsOn?: string; // For dependent fields like city depends on country
+}
+
+export interface FormFieldProps {
+  field: FieldConfig;
+  value: any;
+  onChange: (name: string, value: any) => void;
+  formData?: Record<string, any>; // Add formData to access other field values
+}
+
+export interface Branch {
+  name: string;
+  phone: string;
+  email: string;
+  city: string;
+  country: string;
+  address: string;
+  residenceGuidelines?: File;
+}

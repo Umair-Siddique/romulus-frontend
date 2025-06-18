@@ -148,28 +148,13 @@ export const Form = ({
         }
       }
 
-      // Debug: Log FormData contents
-      console.log("FormData contents:");
-      for (let [key, value] of submitData.entries()) {
-        if (value instanceof File) {
-          console.log(
-            key,
-            `File: ${value.name} (${Math.round(value.size / 1024)}KB)`
-          );
-        } else {
-          console.log(key, value);
-        }
-      }
-
       if (role === "educator") {
-        console.log("Form data:", formData);
         await api.post(`/educators`, submitData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
       } else {
-        console.log("Form data:", formData);
         await api.post(`/organizations`, submitData, {
           headers: {
             "Content-Type": "multipart/form-data",

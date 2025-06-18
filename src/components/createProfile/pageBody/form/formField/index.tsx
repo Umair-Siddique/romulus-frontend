@@ -1,717 +1,161 @@
-import React, { useState } from "react";
+import React from "react";
+import { Box } from "@mui/material";
 import {
-  TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  Box,
-  Typography,
-  Avatar,
-  IconButton,
-  Chip,
-  InputAdornment,
-  Button,
-} from "@mui/material";
-import {
-  CloudUpload as UploadIcon,
-  Add as AddIcon,
-  Close as CloseIcon,
-  Description as DescriptionIcon,
-  CalendarToday as CalendarIcon,
-  Person as PersonIcon,
-  CameraAlt as CameraIcon,
-  KeyboardArrowDown as ArrowDownIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  Phone as PhoneIcon,
-  Email as EmailIcon,
-  LocationOn as LocationOnIcon,
-  Business as BusinessIcon,
-  FileCopy as FileIcon,
-} from "@mui/icons-material";
-import { BranchModal } from "../branchModal";
-
-export interface FieldConfig {
-  name: string;
-  label: string;
-  type: "text" | "file" | "select" | "date" | "tel" | "number" | "email";
-  required: boolean;
-  options?: string[];
-}
-
-interface FormFieldProps {
-  field: FieldConfig;
-  value: any;
-  onChange: (name: string, value: any) => void;
-}
+  ProfilePictureField,
+  SkillsField,
+  FileUploadField,
+  BranchesField,
+  SelectField,
+  DateField,
+  NumberField,
+  TextFieldComponent,
+} from "./fields";
+import { FormFieldProps } from "../../../../../interface";
 
 export const FormField: React.FC<FormFieldProps> = ({
   field,
   value,
   onChange,
+  formData = {},
 }) => {
-  const [skillInput, setSkillInput] = useState("");
-
-  const handleChange = (event: any) => {
-    const newValue =
-      field.type === "file" ? event.target.files?.[0] : event.target.value;
+  const handleCountryChange = (newValue: string) => {
     onChange(field.name, newValue);
-  };
 
-  const handleSkillAdd = () => {
-    if (skillInput.trim()) {
-      const currentItems = Array.isArray(value) ? value : [];
-      onChange(field.name, [...currentItems, skillInput.trim()]);
-      setSkillInput("");
+    // If this is a country field and there's a city field that depends on it, clear the city value
+    if (field.name === "country" && formData.city) {
+      onChange("city", "");
     }
   };
 
-  const handleSkillRemove = (itemToRemove: string) => {
-    const currentItems = Array.isArray(value) ? value : [];
-    onChange(
-      field.name,
-      currentItems.filter((item) => item !== itemToRemove)
-    );
-  };
+  // Get options for select fields
+  const getSelectOptions = () => {
+    if (
+      field.name === "city" &&
+      typeof field.options === "object" &&
+      !Array.isArray(field.options)
+    ) {
+      // Get the selected country from formData
+      const selectedCountry = formData.country;
+      console.log("Selected country from formData:", selectedCountry);
+      console.log(
+        "Available cities:",
+        selectedCountry ? field.options[selectedCountry] : []
+      );
 
-  const inputFocusStyles = {
-    "& .MuiOutlinedInput-root": {
-      borderRadius: "8px",
-      backgroundColor: "#F8FAF9",
-      "& fieldset": {
-        borderWidth: 0,
-      },
-      "&:hover fieldset": {
-        borderWidth: 0,
-      },
-      "&.Mui-focused fieldset": {
-        borderWidth: "2px",
-        borderColor: "#A1B7AF",
-      },
-      // Add this to remove blue outline
-      "&.Mui-focused": {
-        outline: "none",
-      },
-    },
-  };
+      // Return cities for the selected country, or empty array if no country selected
+      return selectedCountry && field.options[selectedCountry]
+        ? field.options[selectedCountry]
+        : [];
+    }
 
-  const selectFocusStyles = {
-    borderRadius: "8px",
-    backgroundColor: "#F8FAF9",
-    "& .MuiSelect-select": {
-      py: 1.5,
-    },
-    "& fieldset": {
-      borderWidth: 0,
-    },
-    "&:hover fieldset": {
-      borderWidth: 0,
-    },
-    "&.Mui-focused fieldset": {
-      borderWidth: "2px",
-      borderColor: "#A1B7AF",
-    },
-    // More specific targeting for Select focus styles
-    "&.Mui-focused": {
-      outline: "none !important",
-      boxShadow: "none !important",
-    },
-    "& .MuiSelect-select.Mui-focused": {
-      outline: "none !important",
-      boxShadow: "none !important",
-    },
-    "& .MuiOutlinedInput-notchedOutline": {
-      border: "none !important",
-    },
-    "&:focus-within": {
-      outline: "none !important",
-      boxShadow: "none !important",
-    },
+    // For regular select fields with array options
+    return Array.isArray(field.options) ? field.options : [];
   };
 
   const renderField = () => {
     // Profile Picture Upload
     if (field.name === "profilePicture") {
       return (
-        <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
-          <Box sx={{ position: "relative" }}>
-            <Avatar
-              sx={{
-                width: 120,
-                height: 120,
-                backgroundColor: "#E8F0EC",
-                border: "3px solid #A1B7AF",
-                cursor: "pointer",
-              }}
-              src={value ? URL.createObjectURL(value) : undefined}
-            >
-              <PersonIcon sx={{ fontSize: 40, color: "#7A8B84" }} />
-            </Avatar>
-            <IconButton
-              component="label"
-              sx={{
-                position: "absolute",
-                bottom: 0,
-                right: 0,
-                backgroundColor: "#A1B7AF",
-                color: "white",
-                width: 32,
-                height: 32,
-                "&:hover": { backgroundColor: "#8A9D95" },
-              }}
-            >
-              <CameraIcon sx={{ fontSize: 16 }} />
-              <input
-                type="file"
-                hidden
-                accept="image/*"
-                onChange={handleChange}
-              />
-            </IconButton>
-          </Box>
-        </Box>
+        <ProfilePictureField
+          value={value}
+          onChange={(file) => onChange(field.name, file)}
+        />
       );
     }
 
     // Skills with tags
     if (field.name === "skills") {
-      const skills = Array.isArray(value) ? value : [];
       return (
-        <Box>
-          <Typography
-            variant="body1"
-            sx={{ mb: 1, fontWeight: 500, color: "#3B4B44" }}
-          >
-            Add Skills {field.required && "*"}
-          </Typography>
-          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-            <TextField
-              fullWidth
-              placeholder="Add your skills (e.g., calmness, patience, concentration, report writing, teaching, sports practice, )"
-              value={skillInput}
-              onChange={(e) => setSkillInput(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && handleSkillAdd()}
-              sx={inputFocusStyles}
-            />
-            <IconButton
-              onClick={handleSkillAdd}
-              sx={{
-                ml: 1,
-                backgroundColor: "#E8F0EC",
-                color: "#A1B7AF",
-                "&:hover": {
-                  backgroundColor: "#D4E0DC",
-                },
-              }}
-            >
-              <AddIcon />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-            {skills.map((skill: string, index: number) => (
-              <Chip
-                key={index}
-                label={skill}
-                onDelete={() => handleSkillRemove(skill)}
-                deleteIcon={<CloseIcon />}
-                sx={{
-                  backgroundColor: "#E8F0EC",
-                  color: "#3B4B44",
-                  "& .MuiChip-deleteIcon": {
-                    color: "#7A8B84",
-                    "&:hover": {
-                      color: "#A1B7AF",
-                    },
-                  },
-                }}
-              />
-            ))}
-          </Box>
-        </Box>
+        <SkillsField
+          value={value}
+          onChange={(skills) => onChange(field.name, skills)}
+          required={field.required}
+        />
       );
     }
 
     // File Upload
     if (field.type === "file") {
-      const getFileUploadContent = () => {
-        if (field.name === "identityProof") {
-          return {
-            title: "Upload government-issued ID",
-            subtitle: "(Passport, Driver's License, National ID Card)",
-          };
-        }
-        if (field.name === "criminalRecord") {
-          return {
-            title: "Upload your Criminal Record B3",
-            subtitle: "(Police clearance or background check document)",
-          };
-        }
-        if (field.name === "certificateOfHonor") {
-          return {
-            title: "Upload Certificate of Honorability",
-            subtitle: "",
-          };
-        }
-        if (field.name === "diploma") {
-          return {
-            title: "Upload Certificate/Diploma",
-            subtitle: "",
-          };
-        }
-        return {
-          title: `Upload ${field.label}`,
-          subtitle: "",
-        };
-      };
-
-      const { title, subtitle } = getFileUploadContent();
-
       return (
-        <Box>
-          <Typography
-            variant="body1"
-            sx={{ mb: 1, fontWeight: 500, color: "#3B4B44" }}
-          >
-            {field.label} {!field.required && "(Optional)"}
-          </Typography>
+        <FileUploadField
+          fieldName={field.name}
+          label={field.label}
+          value={value}
+          onChange={(file) => onChange(field.name, file)}
+          required={field.required}
+        />
+      );
+    }
 
-          {value ? (
-            <Box
-              sx={{
-                border: "1px solid #D4E0DC",
-                borderRadius: "8px",
-                p: 2,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                backgroundColor: "#F8FAF9",
-              }}
-            >
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <FileIcon
-                  sx={{
-                    color: "#A1B7AF",
-                    mr: 1,
-                    fontSize: 35,
-                    border: "1px solid #A1B7AF",
-                    borderRadius: "10px",
-                    width: "40px",
-                    height: "40px",
-                  }}
-                />
-                <Typography sx={{ color: "#3B4B44" }}>{value.name}</Typography>
-              </Box>
-              <IconButton
-                size="small"
-                onClick={() => onChange(field.name, null)}
-                sx={{
-                  color: "#7A8B84",
-                  "&:hover": {
-                    color: "#A1B7AF",
-                    backgroundColor: "#E8F0EC",
-                  },
-                }}
-              >
-                <CloseIcon />
-              </IconButton>
-            </Box>
-          ) : (
-            <Box>
-              <Box
-                component="label"
-                sx={{
-                  border: "2px dashed #C1CCC5",
-                  borderRadius: "8px",
-                  p: 4,
-                  textAlign: "center",
-                  cursor: "pointer",
-                  backgroundColor: "#F8FAF9",
-                  display: "block",
-                  "&:hover": {
-                    borderColor: "#A1B7AF",
-                    backgroundColor: "#E8F0EC",
-                  },
-                }}
-              >
-                <UploadIcon sx={{ fontSize: 48, color: "#7A8B84", mb: 1 }} />
-                <Typography variant="body1" sx={{ color: "#3B4B44", mb: 0.5 }}>
-                  {title}
-                </Typography>
-                {subtitle && (
-                  <Typography variant="body2" sx={{ color: "#7A8B84", mb: 1 }}>
-                    {subtitle}
-                  </Typography>
-                )}
-                <input
-                  type="file"
-                  hidden
-                  onChange={handleChange}
-                  accept=".jpg,.jpeg,.png,.pdf"
-                />
-              </Box>
-              <Typography
-                variant="caption"
-                sx={{ color: "#7A8B84", mt: 1, display: "block" }}
-              >
-                Accepted formats: JPG, PNG, PDF (Max: 5MB)
-              </Typography>
-            </Box>
-          )}
-        </Box>
+    // Branches section
+    if (field.name === "branches") {
+      return (
+        <BranchesField
+          value={value}
+          onChange={(branches) => onChange(field.name, branches)}
+        />
       );
     }
 
     // Select dropdown
     if (field.type === "select") {
+      const options = getSelectOptions();
+
       return (
-        <FormControl fullWidth>
-          <Typography
-            variant="body1"
-            sx={{ mb: 1, fontWeight: 500, color: "#3B4B44" }}
-          >
-            {field.label} {field.required && "*"}
-          </Typography>
-          <Select
-            value={value || ""}
-            onChange={handleChange}
-            displayEmpty
-            IconComponent={ArrowDownIcon}
-            sx={{
-              ...selectFocusStyles,
-              "& .MuiSelect-icon": {
-                color: "#7A8B84",
-              },
-              color: "#3B4B44",
-            }}
-          >
-            <MenuItem value="" disabled>
-              Select {field.label.toLowerCase()}
-            </MenuItem>
-            {field.options?.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <SelectField
+          label={field.label}
+          value={value}
+          onChange={
+            field.name === "country"
+              ? handleCountryChange
+              : (newValue) => onChange(field.name, newValue)
+          }
+          options={options}
+          required={field.required}
+        />
       );
     }
 
     // Date input
     if (field.type === "date") {
       return (
-        <Box>
-          <Typography
-            variant="body1"
-            sx={{ mb: 1, fontWeight: 500, color: "#3B4B44" }}
-          >
-            {field.label} {field.required && "*"}
-          </Typography>
-          <Box sx={{ position: "relative" }}>
-            <TextField
-              fullWidth
-              type="date"
-              value={value || ""}
-              onChange={handleChange}
-              placeholder="Select your date of birth"
-              sx={{
-                ...inputFocusStyles,
-                "& .MuiInputBase-input": {
-                  color: "#3B4B44",
-                },
-                // Hide the default calendar icon
-                "& input[type='date']::-webkit-calendar-picker-indicator": {
-                  opacity: 0,
-                  position: "absolute",
-                  right: 0,
-                  width: "100%",
-                  height: "100%",
-                  cursor: "pointer",
-                },
-                "& input[type='date']": {
-                  paddingRight: "40px", // Make space for custom icon
-                },
-              }}
-            />
-            <CalendarIcon
-              sx={{
-                position: "absolute",
-                right: 12,
-                top: "50%",
-                transform: "translateY(-50%)",
-                color: "#7A8B84",
-                pointerEvents: "none",
-                zIndex: 1,
-              }}
-            />
-          </Box>
-        </Box>
-      );
-    }
-
-    // Number input (hourly rate)
-    if (field.type === "number" && field.name === "hourlyRate") {
-      return (
-        <Box>
-          <Typography
-            variant="body1"
-            sx={{ mb: 1, fontWeight: 500, color: "#3B4B44" }}
-          >
-            Your Hourly Rate {field.required && "*"}
-          </Typography>
-          <TextField
-            fullWidth
-            type="number"
-            value={value || ""}
-            onChange={handleChange}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Typography sx={{ color: "#7A8B84" }}>€</Typography>
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              ...inputFocusStyles,
-              "& .MuiInputBase-input": {
-                color: "#3B4B44",
-              },
-            }}
-          />
-        </Box>
-      );
-    }
-
-    // Branches section
-    if (field.name === "branches") {
-      const branches = Array.isArray(value) ? value : [];
-      const [showBranchModal, setShowBranchModal] = useState(false);
-
-      const addBranch = (branchData: any) => {
-        onChange(field.name, [...branches, branchData]);
-        setShowBranchModal(false);
-      };
-
-      const removeBranch = (index: number) => {
-        const updatedBranches = branches.filter(
-          (_: any, i: number) => i !== index
-        );
-        onChange(field.name, updatedBranches);
-      };
-
-      return (
-        <Box>
-          {branches.length === 0 ? (
-            // Empty state - matches the image
-            <Box
-              sx={{
-                border: "2px dashed #C1CCC5",
-                borderRadius: "16px",
-                p: 4,
-                textAlign: "center",
-                backgroundColor: "#FAFAFA",
-                mb: 2,
-              }}
-            >
-              <Typography
-                variant="h6"
-                sx={{ fontWeight: 600, color: "#3B4B44", mb: 2 }}
-              >
-                Add Branches
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "#7A8B84", mb: 3, lineHeight: 1.6 }}
-              >
-                You can register all your branch locations here. If you only
-                operate in one location, feel free to skip this step.
-              </Typography>
-
-              <Button
-                variant="text"
-                onClick={() => setShowBranchModal(true)}
-                startIcon={<AddIcon />}
-                sx={{
-                  color: "#3B4B44",
-                  textTransform: "none",
-                  fontSize: "1rem",
-                  fontWeight: 500,
-                  "&:hover": {
-                    backgroundColor: "transparent",
-                  },
-                }}
-              >
-                Add a Branch
-              </Button>
-            </Box>
-          ) : (
-            // Display existing branches
-            <>
-              {branches.map((branch: any, index: number) => (
-                <Box
-                  key={index}
-                  sx={{
-                    border: "2px solid #A1B7AF",
-                    borderRadius: "12px",
-                    p: 3,
-                    mb: 2,
-                    backgroundColor: "#FFFFFF",
-                    position: "relative",
-                  }}
-                >
-                  {/* Header with name and actions */}
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      mb: 2,
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
-                      sx={{ fontWeight: 600, color: "#3B4B44" }}
-                    >
-                      {branch.name || "Downtown"}
-                    </Typography>
-                    <Box sx={{ display: "flex", gap: 1 }}>
-                      <IconButton
-                        size="small"
-                        onClick={() => removeBranch(index)}
-                        sx={{ color: "#666" }}
-                      >
-                        <DeleteIcon fontSize="small" />
-                      </IconButton>
-                      <Button
-                        size="small"
-                        onClick={() => setShowBranchModal(true)}
-                        startIcon={<EditIcon fontSize="small" />}
-                        sx={{
-                          color: "#666",
-                          fontSize: "0.75rem",
-                          textTransform: "none",
-                          minWidth: "auto",
-                        }}
-                      >
-                        Edit
-                      </Button>
-                    </Box>
-                  </Box>
-
-                  {/* Branch details */}
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                    <PhoneIcon sx={{ color: "#A1B7AF", mr: 1, fontSize: 16 }} />
-                    <Typography variant="body2" sx={{ color: "#3B4B44" }}>
-                      {branch.phone || "+971 4 332 8789"}
-                    </Typography>
-                  </Box>
-
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                    <EmailIcon sx={{ color: "#A1B7AF", mr: 1, fontSize: 16 }} />
-                    <Typography variant="body2" sx={{ color: "#3B4B44" }}>
-                      {branch.email || "wa83@outlook.com"}
-                    </Typography>
-                  </Box>
-
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                    <LocationOnIcon
-                      sx={{ color: "#A1B7AF", mr: 1, fontSize: 16 }}
-                    />
-                    <Typography variant="body2" sx={{ color: "#3B4B44" }}>
-                      {branch.city || "Axton"}, {branch.country || "États-Unis"}
-                    </Typography>
-                  </Box>
-
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                    <BusinessIcon
-                      sx={{ color: "#A1B7AF", mr: 1, fontSize: 16 }}
-                    />
-                    <Typography variant="body2" sx={{ color: "#3B4B44" }}>
-                      {branch.address ||
-                        "Bureau 905, One Central, Trade Centre Area"}
-                    </Typography>
-                  </Box>
-
-                  {/* File attachment */}
-                  {branch.residenceGuidelines && (
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <DescriptionIcon
-                        sx={{ color: "#A1B7AF", mr: 1, fontSize: 20 }}
-                      />
-                      <Typography variant="body2" sx={{ color: "#3B4B44" }}>
-                        {branch.residenceGuidelines.name ||
-                          "Residence_guideline.pdf"}
-                      </Typography>
-                    </Box>
-                  )}
-                </Box>
-              ))}
-
-              {/* Add Branch Button */}
-              <Button
-                variant="outlined"
-                onClick={() => setShowBranchModal(true)}
-                startIcon={<AddIcon />}
-                fullWidth
-                sx={{
-                  border: "2px solid #A1B7AF",
-                  borderRadius: "12px",
-                  color: "#A1B7AF",
-                  py: 2,
-                  textTransform: "none",
-                  fontSize: "1rem",
-                  fontWeight: 500,
-                  "&:hover": {
-                    backgroundColor: "#E8F0EC",
-                    borderColor: "#A1B7AF",
-                  },
-                }}
-              >
-                Add a Branch
-              </Button>
-            </>
-          )}
-
-          {/* Branch Modal */}
-          <BranchModal
-            open={showBranchModal}
-            onClose={() => setShowBranchModal(false)}
-            onSave={addBranch}
-          />
-        </Box>
-      );
-    }
-
-    // Default text input
-    return (
-      <Box>
-        <Typography
-          variant="body1"
-          sx={{ mb: 1, fontWeight: 500, color: "#3B4B44" }}
-        >
-          {field.label} {field.required && "*"}{" "}
-          {!field.required && "(Optional)"}
-        </Typography>
-        <TextField
-          fullWidth
-          type={field.type}
-          value={value || ""}
-          onChange={handleChange}
-          placeholder={`Enter your ${field.label.toLowerCase()}`}
-          multiline={field.name === "bio" || field.name === "fullAddress"}
-          rows={field.name === "bio" ? 4 : field.name === "fullAddress" ? 2 : 1}
-          sx={{
-            ...inputFocusStyles,
-            "& .MuiInputBase-input": {
-              color: "#3B4B44",
-            },
-            "& .MuiInputBase-input::placeholder": {
-              color: "#7A8B84",
-              opacity: 1,
-            },
-          }}
+        <DateField
+          label={field.label}
+          value={value}
+          onChange={(newValue) => onChange(field.name, newValue)}
+          required={field.required}
+          placeholder={
+            field.name === "dateOfBirth"
+              ? "Select your date of birth"
+              : "Select date"
+          }
         />
-      </Box>
+      );
+    }
+
+    // Number input
+    if (field.type === "number") {
+      return (
+        <NumberField
+          fieldName={field.name}
+          label={field.label}
+          value={value}
+          onChange={(newValue) => onChange(field.name, newValue)}
+          required={field.required}
+        />
+      );
+    }
+
+    // Default text input (text, tel, email)
+    return (
+      <TextFieldComponent
+        fieldName={field.name}
+        label={field.label}
+        type={field.type as "text" | "tel" | "email"}
+        value={value}
+        onChange={(newValue) => onChange(field.name, newValue)}
+        required={field.required}
+      />
     );
   };
 
