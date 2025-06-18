@@ -10,6 +10,7 @@ import { RegisterVariables } from "../../../types/index.types";
 import { getFormFields } from "./formFields";
 import { getFormConfig } from "./formConfig";
 import { getModalConfig } from "./modalConfig";
+import { api } from "../../../utils";
 
 export const RegisterPage = () => {
   const [formStep, setFormStep] = useState(1);
@@ -55,7 +56,13 @@ export const RegisterPage = () => {
     );
   };
 
-  const formConfig = getFormConfig(formStep);
+  const requestOtpAgain = async () => {
+    await api.post("/twilio/send-otp", {
+      phone: phoneNumber,
+    });
+  };
+
+  const formConfig = getFormConfig(formStep, requestOtpAgain);
   const modalConfig = getModalConfig(
     form,
     setFormStep,

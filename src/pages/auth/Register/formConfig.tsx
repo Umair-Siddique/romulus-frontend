@@ -1,7 +1,10 @@
 import { Typography } from "@mui/material";
 import TextLink from "../../../components/textLink";
 
-export const getFormConfig = (formStep: number) => {
+export const getFormConfig = (
+  formStep: number,
+  requestOtpAgain: () => void
+) => {
   if (formStep === 1) {
     return {
       title: "Select Your User Type",
@@ -59,6 +62,7 @@ export const getFormConfig = (formStep: number) => {
             fontFamily: "montserrat, sans-serif",
             fontSize: "14px",
           }}
+          onClick={requestOtpAgain}
         >
           Request again.
         </Typography>

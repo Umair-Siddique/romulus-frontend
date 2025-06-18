@@ -43,7 +43,7 @@ const FormField: React.FC<FormFieldProps> = ({
   setUserRole = () => {},
   register,
   errors,
-  setVerificationCode
+  setVerificationCode,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [value, setValue] = useState("");
@@ -74,7 +74,6 @@ const FormField: React.FC<FormFieldProps> = ({
       if (value && index < 5) {
         inputRefs.current[index + 1]?.focus();
       }
-
     }
   };
   const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
