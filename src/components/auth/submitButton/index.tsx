@@ -2,6 +2,8 @@ import { Button } from "@mui/material";
 import React from "react";
 
 type SubmitButtonProps = {
+  type?: "submit" | "button";
+  onClick?: () => void;
   isDisabled?: boolean;
   isLoading?: boolean;
   loadingText: string;
@@ -9,6 +11,8 @@ type SubmitButtonProps = {
 };
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
+  type,
+  onClick,
   isDisabled,
   isLoading,
   loadingText,
@@ -16,7 +20,8 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
 }) => {
   return (
     <Button
-      type="submit"
+      type={type}
+      onClick={onClick}
       variant="contained"
       disabled={isDisabled}
       sx={{
