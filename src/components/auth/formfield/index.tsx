@@ -9,7 +9,6 @@ import {
   RadioGroup,
   Box,
   Tooltip,
-  Paper,
 } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { UserTypeCard } from "../userTypeCard";
@@ -30,6 +29,7 @@ type FormFieldProps = {
   setUserRole?: (role: string) => void;
   register: any;
   errors: Record<string, any>;
+  setVerificationCode?: (code: string[]) => void;
 };
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -43,6 +43,7 @@ const FormField: React.FC<FormFieldProps> = ({
   setUserRole = () => {},
   register,
   errors,
+  setVerificationCode
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [value, setValue] = useState("");
@@ -63,14 +64,19 @@ const FormField: React.FC<FormFieldProps> = ({
       const newOtp = [...otp];
       newOtp[index] = value;
       setOtp(newOtp);
+      setVerificationCode?.(newOtp);
+
+      // Update form state
+      const otpValue = newOtp.join("");
+      register(name).onChange({ target: { value: otpValue, name } });
 
       // Auto-focus next input
       if (value && index < 5) {
         inputRefs.current[index + 1]?.focus();
       }
+
     }
   };
-
   const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();

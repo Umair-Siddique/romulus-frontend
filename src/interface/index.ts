@@ -40,6 +40,7 @@ export interface FormProps {
   onSubmit?: (data: any) => void;
   isFormValid?: boolean;
   hasErrors?: boolean;
+  phoneNumber?: string;
 }
 
 export interface LoginFormData {

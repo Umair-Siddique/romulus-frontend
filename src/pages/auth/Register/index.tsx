@@ -15,6 +15,7 @@ export const RegisterPage = () => {
   const [formStep, setFormStep] = useState(1);
   const [userRole, setUserRole] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const form = useForm({
     mode: "onChange",
@@ -43,6 +44,7 @@ export const RegisterPage = () => {
         onSuccess: (response) => {
           if (!!response.success) {
             form.reset();
+            setPhoneNumber(data.phone || "");
             setShowModal(true);
           }
         },
@@ -87,6 +89,7 @@ export const RegisterPage = () => {
         onSubmit={onSubmit}
         isFormValid={form.formState.isValid}
         hasErrors={Object.keys(form.formState.errors).length > 0}
+        phoneNumber={phoneNumber}
       />
 
       <AuthBackground backgroundImage={AuthBg} />
