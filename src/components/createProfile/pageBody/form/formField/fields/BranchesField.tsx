@@ -24,16 +24,49 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
   onChange,
 }) => {
   const [showBranchModal, setShowBranchModal] = useState(false);
+  const [editingBranch, setEditingBranch] = useState<Branch | null>(null);
+  const [editingIndex, setEditingIndex] = useState<number | undefined>(
+    undefined
+  );
+
   const branches = Array.isArray(value) ? value : [];
 
-  const addBranch = (branchData: Branch) => {
-    onChange([...branches, branchData]);
+  const addBranch = (branchData: Branch, editIndex?: number) => {
+    if (editIndex !== undefined) {
+      // Update existing branch
+      const updatedBranches = [...branches];
+      updatedBranches[editIndex] = branchData;
+      onChange(updatedBranches);
+    } else {
+      // Add new branch
+      onChange([...branches, branchData]);
+    }
     setShowBranchModal(false);
+    setEditingBranch(null);
+    setEditingIndex(undefined);
   };
 
   const removeBranch = (index: number) => {
     const updatedBranches = branches.filter((_, i) => i !== index);
     onChange(updatedBranches);
+  };
+
+  const editBranch = (index: number) => {
+    setEditingBranch(branches[index]);
+    setEditingIndex(index);
+    setShowBranchModal(true);
+  };
+
+  const handleAddNewBranch = () => {
+    setEditingBranch(null);
+    setEditingIndex(undefined);
+    setShowBranchModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowBranchModal(false);
+    setEditingBranch(null);
+    setEditingIndex(undefined);
   };
 
   if (branches.length === 0) {
@@ -65,7 +98,7 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
 
           <Button
             variant="text"
-            onClick={() => setShowBranchModal(true)}
+            onClick={handleAddNewBranch}
             startIcon={<AddIcon />}
             sx={{
               color: colors.text,
@@ -83,8 +116,10 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
 
         <BranchModal
           open={showBranchModal}
-          onClose={() => setShowBranchModal(false)}
+          onClose={handleCloseModal}
           onSave={addBranch}
+          editBranch={editingBranch}
+          editIndex={editingIndex}
         />
       </Box>
     );
@@ -116,7 +151,7 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
               variant="h6"
               sx={{ fontWeight: 600, color: colors.text }}
             >
-              {branch.name || "Downtown"}
+              {branch.branchName || "Downtown"}
             </Typography>
             <Box sx={{ display: "flex", gap: 1 }}>
               <IconButton
@@ -128,7 +163,7 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
               </IconButton>
               <Button
                 size="small"
-                onClick={() => setShowBranchModal(true)}
+                onClick={() => editBranch(index)}
                 startIcon={<EditIcon fontSize="small" />}
                 sx={{
                   color: "#666",
@@ -145,14 +180,14 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
           <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
             <PhoneIcon sx={{ color: colors.primary, mr: 1, fontSize: 16 }} />
             <Typography variant="body2" sx={{ color: colors.text }}>
-              {branch.phone || "+971 4 332 8789"}
+              {branch.branchPhone || "+971 4 332 8789"}
             </Typography>
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
             <EmailIcon sx={{ color: colors.primary, mr: 1, fontSize: 16 }} />
             <Typography variant="body2" sx={{ color: colors.text }}>
-              {branch.email || "wa83@outlook.com"}
+              {branch.branchEmail || "wa83@outlook.com"}
             </Typography>
           </Box>
 
@@ -161,17 +196,18 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
               sx={{ color: colors.primary, mr: 1, fontSize: 16 }}
             />
             <Typography variant="body2" sx={{ color: colors.text }}>
-              {branch.city || "Axton"}, {branch.country || "États-Unis"}
+              {branch.branchCity || "Axton"},{" "}
+              {branch.branchCountry || "États-Unis"}
             </Typography>
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
             <BusinessIcon sx={{ color: colors.primary, mr: 1, fontSize: 16 }} />
             <Typography variant="body2" sx={{ color: colors.text }}>
-              {branch.address || "Bureau 905, One Central, Trade Centre Area"}
+              {branch.branchAddress ||
+                "Bureau 905, One Central, Trade Centre Area"}
             </Typography>
           </Box>
-
           {branch.residenceGuidelines && (
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <DescriptionIcon
@@ -187,7 +223,7 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
 
       <Button
         variant="outlined"
-        onClick={() => setShowBranchModal(true)}
+        onClick={handleAddNewBranch}
         startIcon={<AddIcon />}
         fullWidth
         sx={{
@@ -209,8 +245,10 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
 
       <BranchModal
         open={showBranchModal}
-        onClose={() => setShowBranchModal(false)}
+        onClose={handleCloseModal}
         onSave={addBranch}
+        editBranch={editingBranch}
+        editIndex={editingIndex}
       />
     </Box>
   );

@@ -87,11 +87,11 @@ export interface FormFieldProps {
 }
 
 export interface Branch {
-  name: string;
-  phone: string;
-  email: string;
-  city: string;
-  country: string;
-  address: string;
+  branchName: string;
+  branchPhone: string;
+  branchEmail: string;
+  branchCity: string;
+  branchCountry: string;
+  branchAddress: string;
   residenceGuidelines?: File;
 }

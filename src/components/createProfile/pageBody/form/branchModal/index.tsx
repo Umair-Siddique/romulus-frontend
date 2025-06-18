@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -17,12 +17,16 @@ interface BranchModalProps {
   open: boolean;
   onClose: () => void;
   onSave: (branchData: any) => void;
+  editBranch?: any; // Branch data to edit
+  editIndex?: number; // Index of branch being edited
 }
 
 export const BranchModal: React.FC<BranchModalProps> = ({
   open,
   onClose,
   onSave,
+  editBranch,
+  editIndex,
 }) => {
   const [branchData, setBranchData] = useState<{
     branchName: string;
@@ -41,6 +45,32 @@ export const BranchModal: React.FC<BranchModalProps> = ({
     branchAddress: "",
     residenceGuidelines: null,
   });
+
+  // Pre-populate form when editing
+  useEffect(() => {
+    if (editBranch && open) {
+      setBranchData({
+        branchName: editBranch.branchName || "",
+        branchEmail: editBranch.branchEmail || "",
+        branchPhone: editBranch.branchPhone || "",
+        branchCity: editBranch.branchCity || "",
+        branchCountry: editBranch.branchCountry || "",
+        branchAddress: editBranch.branchAddress || "",
+        residenceGuidelines: editBranch.residenceGuidelines || null,
+      });
+    } else if (!editBranch && open) {
+      // Reset form for adding new branch
+      setBranchData({
+        branchName: "",
+        branchEmail: "",
+        branchPhone: "",
+        branchCity: "",
+        branchCountry: "",
+        branchAddress: "",
+        residenceGuidelines: null,
+      });
+    }
+  }, [editBranch, open]);
 
   const handleChange = (field: string, value: any) => {
     setBranchData((prev) => ({ ...prev, [field]: value }));
@@ -77,6 +107,68 @@ export const BranchModal: React.FC<BranchModalProps> = ({
     },
   };
 
+  const branchCityOptions = [
+    "Paris",
+    "Marseille",
+    "Lyon",
+    "Toulouse",
+    "Nice",
+    "Berlin",
+    "Munich",
+    "Hambourg",
+    "Francfort",
+    "Cologne",
+    "Oslo",
+    "Bergen",
+    "Trondheim",
+    "Stavanger",
+    "Drammen",
+    "Stockholm",
+    "Gothenburg",
+    "Malmö",
+    "Uppsala",
+    "Västerås",
+    "Toronto",
+    "Vancouver",
+    "Montréal",
+    "Calgary",
+    "Ottawa",
+    "Amsterdam",
+    "Rotterdam",
+    "La Haye",
+    "Utrecht",
+    "Eindhoven",
+    "Copenhague",
+    "Aarhus",
+    "Odense",
+    "Aalborg",
+    "Esbjerg",
+    "Londres",
+    "Manchester",
+    "Birmingham",
+    "Édimbourg",
+    "Glasgow",
+    "Dubaï",
+    "Abou Dabi",
+    "Charjah",
+    "Ajman",
+    "Fujairah",
+  ];
+
+  const branchCountryOptions = [
+    "France",
+    "Allemagne",
+    "Norvège",
+    "Suède",
+    "Canada",
+    "Pays-Bas",
+    "Danemark",
+    "Royaume-Uni",
+    "Émirats Arabes Unis (UAE)",
+  ];
+
+  const isEditing = editBranch && editIndex !== undefined;
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogContent sx={{ p: 0 }}>
@@ -91,7 +183,7 @@ export const BranchModal: React.FC<BranchModalProps> = ({
             }}
           >
             <Typography variant="h6" sx={{ fontWeight: 600 }}>
-              Add a Branch
+              {isEditing ? "Edit Branch" : "Add a Branch"}
             </Typography>
             <IconButton onClick={onClose}>
               <Close />
@@ -150,28 +242,6 @@ export const BranchModal: React.FC<BranchModalProps> = ({
           >
             <Box>
               <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
-                City
-              </Typography>
-              <FormControl fullWidth>
-                <Select
-                  value={branchData.branchCity}
-                  onChange={(e) => handleChange("branchCity", e.target.value)}
-                  displayEmpty
-                  sx={inputStyles}
-                >
-                  <MenuItem value="" disabled>
-                    Select a city
-                  </MenuItem>
-                  <MenuItem value="New York">New York</MenuItem>
-                  <MenuItem value="London">London</MenuItem>
-                  <MenuItem value="Paris">Paris</MenuItem>
-                  <MenuItem value="Berlin">Berlin</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-
-            <Box>
-              <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
                 Country
               </Typography>
               <FormControl fullWidth>
@@ -186,10 +256,34 @@ export const BranchModal: React.FC<BranchModalProps> = ({
                   <MenuItem value="" disabled>
                     Select a country
                   </MenuItem>
-                  <MenuItem value="USA">USA</MenuItem>
-                  <MenuItem value="UK">UK</MenuItem>
-                  <MenuItem value="France">France</MenuItem>
-                  <MenuItem value="Germany">Germany</MenuItem>
+                  {branchCountryOptions.map((country) => (
+                    <MenuItem key={country} value={country}>
+                      {country}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+
+            <Box>
+              <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
+                City
+              </Typography>
+              <FormControl fullWidth>
+                <Select
+                  value={branchData.branchCity}
+                  onChange={(e) => handleChange("branchCity", e.target.value)}
+                  displayEmpty
+                  sx={inputStyles}
+                >
+                  <MenuItem value="" disabled>
+                    Select a city
+                  </MenuItem>
+                  {branchCityOptions.map((city) => (
+                    <MenuItem key={city} value={city}>
+                      {city}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Box>
@@ -223,7 +317,11 @@ export const BranchModal: React.FC<BranchModalProps> = ({
                   backgroundColor: "#F8FAF9",
                 }}
               >
-                <Typography>{branchData.residenceGuidelines.name}</Typography>
+                <Typography>
+                  {branchData.residenceGuidelines instanceof File
+                    ? branchData.residenceGuidelines.name
+                    : branchData.residenceGuidelines || ""}
+                </Typography>
               </Box>
             ) : (
               <Box
@@ -279,7 +377,7 @@ export const BranchModal: React.FC<BranchModalProps> = ({
                 "&:hover": { backgroundColor: "#8A9D95" },
               }}
             >
-              Add a Branch
+              {isEditing ? "Update Branch" : "Add a Branch"}
             </Button>
           </Box>
         </Box>

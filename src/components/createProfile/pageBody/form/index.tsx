@@ -149,17 +149,25 @@ export const Form = ({
       }
 
       if (role === "educator") {
-        await api.post(`/educators`, submitData, {
+        const res = await api.post(`/educators`, submitData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+
+        if (res.status === 201) {
+          setShowSuccessModal(true);
+        }
       } else {
-        await api.post(`/organizations`, submitData, {
+        const res = await api.post(`/organizations`, submitData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+
+        if (res.status === 201) {
+          setShowSuccessModal(true);
+        }
       }
 
       localStorage.setItem("has-profile", "true");
