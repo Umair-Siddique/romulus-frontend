@@ -173,14 +173,10 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
     title,
     onEdit,
     isEditing = false,
-    onSave,
-    onCancel,
   }: {
     title: string;
     onEdit?: () => void;
     isEditing?: boolean;
-    onSave?: () => void;
-    onCancel?: () => void;
   }) => (
     <Box
       sx={{
@@ -201,26 +197,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
         {title}
       </Typography>
 
-      {isEditing ? (
-        <Box sx={{ display: "flex", gap: 1 }}>
-          <Button
-            size="small"
-            onClick={onSave}
-            startIcon={<SaveIcon />}
-            sx={{ color: "#4CAF50", fontSize: "0.75rem" }}
-          >
-            Save
-          </Button>
-          <Button
-            size="small"
-            onClick={onCancel}
-            startIcon={<CancelIcon />}
-            sx={{ color: "#f44336", fontSize: "0.75rem" }}
-          >
-            Cancel
-          </Button>
-        </Box>
-      ) : (
+      {!isEditing && (
         <Box
           sx={{
             display: "flex",
@@ -392,229 +369,239 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
     }
   };
 
-  return (
-    <Box sx={{ maxWidth: "800px", mx: "auto" }}>
-      {/* Organization Information Section */}
+  const renderSectionContent = (
+    sectionName: string,
+    content: React.ReactNode,
+    fields: any[]
+  ) => {
+    const isEditing = editingSection === sectionName;
+
+    return (
       <Paper sx={{ p: 3, mb: 3, boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
         <SectionHeader
-          title={
-            role === "educator"
-              ? "Personal Information"
-              : "Organization Information"
-          }
-          onEdit={() => startEditing("profile")}
-          isEditing={editingSection === "profile"}
-          onSave={saveEditing}
-          onCancel={cancelEditing}
+          title={getSectionTitle(sectionName)}
+          onEdit={() => startEditing(sectionName)}
+          isEditing={isEditing}
         />
 
-        {editingSection === "profile" ? (
-          <Box>
-            {stepConfig["Profile Setup"]?.map((field: any) => (
-              <FormField
-                key={field.name}
-                field={field}
-                value={tempFormData[field.name] ?? formData[field.name]}
-                onChange={handleTempFieldChange}
-              />
-            ))}
-          </Box>
+        {isEditing ? (
+          <>
+            <Box sx={{ mb: 3 }}>
+              {fields.map((field: any) => (
+                <FormField
+                  key={field.name}
+                  field={field}
+                  value={tempFormData[field.name] ?? formData[field.name]}
+                  onChange={handleTempFieldChange}
+                />
+              ))}
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: 2,
+                mt: 3,
+              }}
+            >
+              <Button
+                variant="outlined"
+                onClick={cancelEditing}
+                startIcon={<CancelIcon />}
+                sx={{
+                  borderColor: "#E0E0E0",
+                  color: "#666",
+                  "&:hover": {
+                    borderColor: "#f44336",
+                    backgroundColor: "rgba(244, 67, 54, 0.04)",
+                    color: "#f44336",
+                  },
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                onClick={saveEditing}
+                startIcon={<SaveIcon />}
+                sx={{
+                  backgroundColor: "#4CAF50",
+                  "&:hover": {
+                    backgroundColor: "#45a049",
+                  },
+                }}
+              >
+                Save Changes
+              </Button>
+            </Box>
+          </>
         ) : (
-          renderProfileSection()
+          content
         )}
       </Paper>
+    );
+  };
+
+  const getSectionTitle = (sectionName: string) => {
+    switch (sectionName) {
+      case "profile":
+        return role === "educator"
+          ? "Personal Information"
+          : "Organization Information";
+      case "branches":
+        return "Branches";
+      case "identity":
+        return "Identity Proof";
+      case "profession":
+        return "Profession & Skills";
+      default:
+        return "";
+    }
+  };
+
+  return (
+    <Box sx={{ maxWidth: "800px", mx: "auto" }}>
+      {/* Organization/Personal Information Section */}
+      {renderSectionContent(
+        "profile",
+        renderProfileSection(),
+        stepConfig["Profile Setup"] || []
+      )}
 
       {/* Branches Section - Only for organizations */}
-      {role === "organization" && (
-        <Paper sx={{ p: 3, mb: 4, boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
-          <SectionHeader
-            title="Branches"
-            onEdit={() => startEditing("branches")}
-            isEditing={editingSection === "branches"}
-            onSave={saveEditing}
-            onCancel={cancelEditing}
-          />
-
-          {editingSection === "branches" ? (
-            <Box>
-              {stepConfig["Profile Setup"]
-                ?.filter((field: any) => field.name === "branches")
-                .map((field: any) => (
-                  <FormField
-                    key={field.name}
-                    field={field}
-                    value={tempFormData[field.name] ?? formData[field.name]}
-                    onChange={handleTempFieldChange}
-                  />
-                ))}
-            </Box>
-          ) : (
-            renderBranches(formData.branches)
-          )}
-        </Paper>
-      )}
+      {role === "organization" &&
+        renderSectionContent(
+          "branches",
+          renderBranches(formData.branches),
+          stepConfig["Profile Setup"]?.filter(
+            (field: any) => field.name === "branches"
+          ) || []
+        )}
 
       {/* Identity/Documents Section - Only for educators */}
       {role === "educator" && (
         <>
-          <Paper sx={{ p: 3, mb: 3, boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
-            <SectionHeader
-              title="Identity Proof"
-              onEdit={() => startEditing("identity")}
-              isEditing={editingSection === "identity"}
-              onSave={saveEditing}
-              onCancel={cancelEditing}
-            />
-
-            {editingSection === "identity" ? (
+          {renderSectionContent(
+            "identity",
+            <Box
+              sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3 }}
+            >
               <Box>
-                {stepConfig["Identity"]?.map((field: any) => (
-                  <FormField
-                    key={field.name}
-                    field={field}
-                    value={tempFormData[field.name] ?? formData[field.name]}
-                    onChange={handleTempFieldChange}
-                  />
-                ))}
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "#000",
+                    mb: 1.5,
+                    fontWeight: 500,
+                    fontSize: "0.875rem",
+                  }}
+                >
+                  Identity Proof
+                </Typography>
+                {renderFileDisplay(formData.identityProof)}
               </Box>
-            ) : (
-              <Box
-                sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3 }}
-              >
-                <Box>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: "#000",
-                      mb: 1.5,
-                      fontWeight: 500,
-                      fontSize: "0.875rem",
-                    }}
-                  >
-                    Identity Proof
-                  </Typography>
-                  {renderFileDisplay(formData.identityProof)}
-                </Box>
 
-                <Box>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: "#000",
-                      mb: 1.5,
-                      fontWeight: 500,
-                      fontSize: "0.875rem",
-                    }}
-                  >
-                    Criminal Record B3
-                  </Typography>
-                  {renderFileDisplay(formData.criminalRecord)}
-                </Box>
+              <Box>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "#000",
+                    mb: 1.5,
+                    fontWeight: 500,
+                    fontSize: "0.875rem",
+                  }}
+                >
+                  Criminal Record B3
+                </Typography>
+                {renderFileDisplay(formData.criminalRecord)}
               </Box>
-            )}
-          </Paper>
+            </Box>,
+            stepConfig["Identity"] || []
+          )}
 
           {/* Profession & Skills Section - Only for educators */}
-          <Paper sx={{ p: 3, mb: 4, boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
-            <SectionHeader
-              title="Profession & Skills"
-              onEdit={() => startEditing("profession")}
-              isEditing={editingSection === "profession"}
-              onSave={saveEditing}
-              onCancel={cancelEditing}
-            />
-
-            {editingSection === "profession" ? (
-              <Box>
-                {stepConfig["Profession"]?.map((field: any) => (
-                  <FormField
-                    key={field.name}
-                    field={field}
-                    value={tempFormData[field.name] ?? formData[field.name]}
-                    onChange={handleTempFieldChange}
-                  />
-                ))}
+          {renderSectionContent(
+            "profession",
+            <>
+              <Box sx={{ mb: 3 }}>
+                <InfoRow label="Profession" value={formData.profession} />
+                <InfoRow
+                  label="Hourly Rate"
+                  value={
+                    formData.hourlyRate
+                      ? `€${formData.hourlyRate}`
+                      : "Not provided"
+                  }
+                />
               </Box>
-            ) : (
-              <>
+
+              {formData.skills && (
                 <Box sx={{ mb: 3 }}>
-                  <InfoRow label="Profession" value={formData.profession} />
-                  <InfoRow
-                    label="Hourly Rate"
-                    value={
-                      formData.hourlyRate
-                        ? `€${formData.hourlyRate}`
-                        : "Not provided"
-                    }
-                  />
-                </Box>
-
-                {formData.skills && (
-                  <Box sx={{ mb: 3 }}>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: "#666",
-                        mb: 1.5,
-                        fontSize: "0.875rem",
-                      }}
-                    >
-                      Skills:
-                    </Typography>
-                    {renderSkillChips(formData.skills)}
-                  </Box>
-                )}
-
-                <Box sx={{ mb: 3 }}>
-                  <InfoRow label="Education" value={formData.education} />
-                </Box>
-
-                {(formData.certificateOfHonor || formData.diploma) && (
-                  <Box
+                  <Typography
+                    variant="body2"
                     sx={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr",
-                      gap: 3,
+                      color: "#666",
+                      mb: 1.5,
+                      fontSize: "0.875rem",
                     }}
                   >
-                    {formData.certificateOfHonor && (
-                      <Box>
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            color: "#000",
-                            mb: 1.5,
-                            fontWeight: 500,
-                            fontSize: "0.875rem",
-                          }}
-                        >
-                          Certificate of Honorability
-                        </Typography>
-                        {renderFileDisplay(formData.certificateOfHonor)}
-                      </Box>
-                    )}
+                    Skills:
+                  </Typography>
+                  {renderSkillChips(formData.skills)}
+                </Box>
+              )}
 
-                    {formData.diploma && (
-                      <Box>
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            color: "#000",
-                            mb: 1.5,
-                            fontWeight: 500,
-                            fontSize: "0.875rem",
-                          }}
-                        >
-                          Certificate/Diploma
-                        </Typography>
-                        {renderFileDisplay(formData.diploma)}
-                      </Box>
-                    )}
-                  </Box>
-                )}
-              </>
-            )}
-          </Paper>
+              <Box sx={{ mb: 3 }}>
+                <InfoRow label="Education" value={formData.education} />
+              </Box>
+
+              {(formData.certificateOfHonor || formData.diploma) && (
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 3,
+                  }}
+                >
+                  {formData.certificateOfHonor && (
+                    <Box>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: "#000",
+                          mb: 1.5,
+                          fontWeight: 500,
+                          fontSize: "0.875rem",
+                        }}
+                      >
+                        Certificate of Honorability
+                      </Typography>
+                      {renderFileDisplay(formData.certificateOfHonor)}
+                    </Box>
+                  )}
+
+                  {formData.diploma && (
+                    <Box>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: "#000",
+                          mb: 1.5,
+                          fontWeight: 500,
+                          fontSize: "0.875rem",
+                        }}
+                      >
+                        Certificate/Diploma
+                      </Typography>
+                      {renderFileDisplay(formData.diploma)}
+                    </Box>
+                  )}
+                </Box>
+              )}
+            </>,
+            stepConfig["Profession"] || []
+          )}
         </>
       )}
     </Box>
