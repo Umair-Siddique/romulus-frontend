@@ -244,6 +244,62 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
     </Box>
   );
 
+  // Helper function to get fields for Identity section
+  const getIdentityFields = () => [
+    {
+      name: "identityProof",
+      label: "Identity Proof",
+      type: "file" as const,
+      required: true,
+    },
+    {
+      name: "criminalRecord",
+      label: "Criminal Record B3",
+      type: "file" as const,
+      required: true,
+    },
+  ];
+
+  // Helper function to get fields for Profession section
+  const getProfessionFields = () => [
+    {
+      name: "profession",
+      label: "Profession",
+      type: "text" as const,
+      required: true,
+    },
+    {
+      name: "hourlyRate",
+      label: "Hourly Rate (€)",
+      type: "number" as const,
+      required: true,
+    },
+    {
+      name: "skills",
+      label: "Skills",
+      type: "text" as const,
+      required: false,
+    },
+    {
+      name: "education",
+      label: "Education",
+      type: "text" as const,
+      required: true,
+    },
+    {
+      name: "certificateOfHonor",
+      label: "Certificate of Honorability",
+      type: "file" as const,
+      required: false,
+    },
+    {
+      name: "diploma",
+      label: "Certificate/Diploma",
+      type: "file" as const,
+      required: false,
+    },
+  ];
+
   // Render Profile section based on role
   const renderProfileSection = () => {
     if (role === "educator") {
@@ -391,7 +447,11 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
                 <FormField
                   key={field.name}
                   field={field}
-                  value={tempFormData[field.name] ?? formData[field.name]}
+                  value={
+                    tempFormData.hasOwnProperty(field.name)
+                      ? tempFormData[field.name]
+                      : formData[field.name]
+                  }
                   onChange={handleTempFieldChange}
                 />
               ))}
@@ -517,7 +577,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
                 {renderFileDisplay(formData.criminalRecord)}
               </Box>
             </Box>,
-            stepConfig["Identity"] || []
+            getIdentityFields()
           )}
 
           {/* Profession & Skills Section - Only for educators */}
@@ -600,7 +660,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
                 </Box>
               )}
             </>,
-            stepConfig["Profession"] || []
+            getProfessionFields()
           )}
         </>
       )}
