@@ -25,9 +25,9 @@ export interface UserTypeCardProps {
 }
 
 export interface FormProps {
-  formTitle: string;
-  formDescription: string;
-  formfields: any[];
+  formTitle?: string;
+  formDescription?: string;
+  formFields: any[];
   formType: string;
   formStep?: number;
   setFormStep?: (step: number) => void;

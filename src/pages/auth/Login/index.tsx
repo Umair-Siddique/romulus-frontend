@@ -56,7 +56,7 @@ export const LoginPage = () => {
       <Form
         formTitle="Welcome Back!"
         formDescription="Please log in to continue."
-        formfields={formFields}
+        formFields={formFields}
         formType="login"
         isLoading={isLoading}
         bottomTextWithLink={

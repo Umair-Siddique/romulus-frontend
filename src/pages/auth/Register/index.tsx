@@ -83,7 +83,7 @@ export const RegisterPage = () => {
       <Form
         formTitle={formConfig.title}
         formDescription={formConfig.description}
-        formfields={getFormFields(form, formStep, userRole)}
+        formFields={getFormFields(form, formStep, userRole)}
         formType="register"
         formStep={formStep}
         setFormStep={setFormStep}

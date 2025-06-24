@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import Logo from "../../../assets/images/logo.png";
 import FormHeader from "../formHeader";
 import FormField from "../formField";
@@ -15,7 +15,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 export const Form: React.FC<FormProps> = ({
   formTitle,
   formDescription,
-  formfields,
+  formFields,
   formType,
   formStep,
   setFormStep = () => {},
@@ -128,7 +128,7 @@ export const Form: React.FC<FormProps> = ({
         }}
       >
         {/* Form Header */}
-        <FormHeader title={formTitle} description={formDescription} />
+        <FormHeader title={formTitle ?? ""} description={formDescription ?? ""} />
 
         {/* Form Fields */}
         <Box
@@ -144,7 +144,7 @@ export const Form: React.FC<FormProps> = ({
             width: "100%",
           }}
         >
-          {formfields.map((field, index) => (
+          {formFields.map((field, index) => (
             <FormField
               key={index}
               label={field.label}
