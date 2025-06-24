@@ -25,16 +25,16 @@ export const LoginPage = () => {
 
   const formFields = [
     {
+      name: "email",
       label: "Email",
       type: "email",
-      name: "email",
       placeholder: "Enter your email address",
       validationRules: validationRules.email,
     },
     {
+      name: "password",
       label: "Password",
       type: "password",
-      name: "password",
       placeholder: "Enter your password",
       validationRules: undefined,
     },
