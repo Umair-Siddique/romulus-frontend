@@ -15,9 +15,9 @@ export const getFormFields = (
   if (formStep === 1) {
     return [
       {
+        name: "role",
         label: "Role",
         type: "radio",
-        name: "role",
         options: [
           {
             title: "I'm Educator",
@@ -41,9 +41,9 @@ export const getFormFields = (
   } else if (formStep === 2) {
     const baseFields = [
       {
+        name: "email",
         label: "Email",
         type: "email",
-        name: "email",
         placeholder: "Enter your email address",
         validationRules: validationRules.email,
       },
@@ -51,9 +51,9 @@ export const getFormFields = (
 
     if (userRole === "educator") {
       baseFields.push({
+        name: "phone",
         label: "WhatsApp Number",
         type: "tel",
-        name: "phone",
         placeholder: "Enter your WhatsApp number",
         validationRules: validationRules.phone,
       });
@@ -61,23 +61,23 @@ export const getFormFields = (
 
     baseFields.push(
       {
+        name: "password",
         label: "Password",
         type: "password",
-        name: "password",
         placeholder: "Enter your password",
         validationRules: validationRules.password,
       },
       {
+        name: "confirmPassword",
         label: "Confirm Password",
         type: "password",
-        name: "confirmPassword",
         placeholder: "Re-enter your password",
         validationRules: validationRules.confirmPassword,
       },
       {
+        name: "toc",
         label: "I agree to the Terms and Conditions",
         type: "checkbox",
-        name: "toc",
         placeholder: "",
         validationRules: validationRules.toc,
       }
@@ -86,8 +86,8 @@ export const getFormFields = (
   } else if (formStep === 3) {
     return [
       {
-        type: "text",
         name: "verificationCode",
+        type: "text",
         placeholder: "",
         validationRules: validationRules.verificationCode,
         ...commonFieldProps,
