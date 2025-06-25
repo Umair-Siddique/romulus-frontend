@@ -11,6 +11,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import { IUser } from "../../interface";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 
 export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
   const { data: user } = useGetIdentity<IUser>();
@@ -61,6 +62,21 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
           justifyContent="end"
           alignItems="center"
         >
+          <Box
+            sx={{
+              display: {
+                xs: "none",
+                sm: "block",
+              },
+            }}
+          >
+            <NotificationsActiveIcon
+              sx={{
+                fontSize: "24px",
+                color: (theme) => theme.palette.text.primary,
+              }}
+            />
+          </Box>
           <Stack
             direction="row"
             gap={{
@@ -70,6 +86,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
             alignItems="center"
             justifyContent="center"
           >
+            <Avatar src={user?.avatar} alt={user?.name} />
             <Typography
               fontSize={{
                 xs: "12px",
@@ -79,7 +96,6 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
             >
               {user?.name}
             </Typography>
-            <Avatar src={user?.avatar} alt={user?.name} />
           </Stack>
         </Stack>
       </Toolbar>

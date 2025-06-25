@@ -9,6 +9,7 @@ import AuthBg from "../../../assets/images/auth-bg.jpg";
 import { ForgotPasswordVariables } from "../../../types/index.types";
 import { useState } from "react";
 import { Modal } from "../../../components";
+import { formFields as getStaticFields } from "../formFields";
 
 export const ForgotPasswordPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -37,17 +38,12 @@ export const ForgotPasswordPage = () => {
     });
   };
 
-  const formFields = [
-    {
-      label: "Email",
-      type: "email",
-      name: "email",
-      placeholder: "Enter your email address",
-      register: form.register,
-      errors: form.formState.errors,
-      validationRules: validationRules.email,
-    },
-  ];
+  const formFields = getStaticFields("forgotPassword").map((field) => ({
+    ...field,
+    validationRules: validationRules.email,
+    register: form.register,
+    errors: form.formState.errors,
+  }));
 
   return (
     <Box

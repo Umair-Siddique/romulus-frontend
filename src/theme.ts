@@ -1,66 +1,107 @@
-import { RefineThemes } from "@refinedev/mui";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
-import gray from "@mui/material/colors/grey";
 
-const LightTheme = createTheme({
-  ...RefineThemes.Blue,
+const baseTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#A1B7AF",
+      contrastText: "#FFFFFF",
+    },
+    secondary: {
+      main: "#768C84",
+      contrastText: "#FFFFFF",
+    },
+    background: {
+      default: "#F8FAFA",
+      paper: "#FFFFFF",
+    },
+    text: {
+      primary: "#2F2F2F",
+      secondary: "#60756E",
+    },
+    error: {
+      main: "#B55252",
+    },
+    divider: "#D1DAD6",
+  },
+  typography: {
+    fontFamily: `"Montserrat", "Inter", "Helvetica", "Arial", sans-serif`,
+    h1: {
+      fontFamily: `"Montserrat", "Inter", sans-serif`,
+      fontWeight: 600,
+      fontSize: "2.5rem",
+    },
+    h2: {
+      fontFamily: `"Montserrat", "Inter", sans-serif`,
+      fontWeight: 600,
+      fontSize: "2rem",
+    },
+    h3: {
+      fontFamily: `"Montserrat", "Inter", sans-serif`,
+      fontWeight: 600,
+      fontSize: "1.75rem",
+    },
+    h4: {
+      fontFamily: `"Montserrat", "Inter", sans-serif`,
+      fontWeight: 600,
+      fontSize: "1.5rem",
+    },
+    h5: {
+      fontFamily: `"Montserrat", "Inter", sans-serif`,
+      fontWeight: 600,
+      fontSize: "1.25rem",
+    },
+    h6: {
+      fontFamily: `"Montserrat", "Inter", sans-serif`,
+      fontWeight: 600,
+      fontSize: "1rem",
+    },
+    button: {
+      fontFamily: `"Montserrat", "Inter", sans-serif`,
+      fontWeight: 600,
+      fontSize: "0.875rem",
+    },
+    body1: {
+      fontSize: "1rem",
+      lineHeight: 1.6,
+    },
+  },
+  spacing: 8,
+  shape: {
+    borderRadius: 5,
+  },
   components: {
-    ...RefineThemes.BlueDark.components,
-    MuiChip: {
+    MuiAppBar: {
       styleOverrides: {
-        labelSmall: {
-          lineHeight: "18px",
+        root: {
+          backgroundColor: "#FFFFFF",
+          color: "#2F2F2F",
+          borderBottom: "1px solid #E8ECEB",
         },
       },
     },
-    MuiCssBaseline: {
+    MuiButton: {
       styleOverrides: {
-        "main.MuiBox-root": {
-          backgroundColor: gray[100],
+        root: {
+          borderRadius: 8,
+          padding: "8px 16px",
+          textTransform: "none",
         },
-        body: {
-          backgroundColor: gray[100],
+        contained: {
+          boxShadow: "none",
         },
       },
     },
-    MuiTypography: {
-      defaultProps: {
-        variant: "body2",
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
+          boxShadow: "0px 2px 8px rgba(126, 148, 142, 0.08)",
+        },
       },
     },
   },
 });
 
-const DarkTheme = createTheme({
-  ...RefineThemes.Blue,
-  components: {
-    ...RefineThemes.BlueDark.components,
-    MuiChip: {
-      styleOverrides: {
-        labelSmall: {
-          lineHeight: "18px",
-        },
-      },
-    },
-    MuiCssBaseline: {
-      styleOverrides: {
-        "main.MuiBox-root": {
-          backgroundColor: gray[100],
-        },
-        body: {
-          backgroundColor: gray[100],
-        },
-      },
-    },
-    MuiTypography: {
-      defaultProps: {
-        variant: "body2",
-      },
-    },
-  },
-});
+const theme = responsiveFontSizes(baseTheme);
 
-const DarkThemeWithResponsiveFontSizes = responsiveFontSizes(DarkTheme);
-const LightThemeWithResponsiveFontSizes = responsiveFontSizes(LightTheme);
-
-export { LightThemeWithResponsiveFontSizes, DarkThemeWithResponsiveFontSizes };
+export default theme;

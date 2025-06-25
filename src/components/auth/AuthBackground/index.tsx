@@ -1,9 +1,12 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 import { AuthBackgroundProps } from "../../../interface";
 
 export const AuthBackground = React.memo(
   ({ backgroundImage }: AuthBackgroundProps) => {
+    const theme = useTheme<Theme>();
+
     return (
       <Box
         sx={{
@@ -15,7 +18,7 @@ export const AuthBackground = React.memo(
           backgroundPosition: "center",
           display: { xs: "none", md: "flex" },
           alignItems: "flex-end",
-          borderRadius: "30px 0 0 30px",
+          borderRadius: `${theme.spacing(3.75)} 0 0 ${theme.spacing(3.75)}`,
           "&::after": {
             content: '""',
             position: "absolute",
@@ -25,7 +28,7 @@ export const AuthBackground = React.memo(
             height: "60%",
             background:
               "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 40%, transparent 100%)",
-            borderRadius: "30px 0 0 30px",
+            borderRadius: `${theme.spacing(3.75)} 0 0 ${theme.spacing(3.75)}`,
             pointerEvents: "none",
           },
         }}
@@ -36,8 +39,8 @@ export const AuthBackground = React.memo(
             position: "relative",
             zIndex: 1,
             color: "white",
-            p: 6,
-            pb: 8,
+            p: theme.spacing(6),
+            pb: theme.spacing(8),
             textAlign: "center",
             width: "100%",
             "&::before": {
@@ -49,7 +52,7 @@ export const AuthBackground = React.memo(
               width: "90%",
               height: "80%",
               background: "rgba(255, 255, 255, 0.15)",
-              borderRadius: "20px",
+              borderRadius: theme.spacing(2.5),
               backdropFilter: "blur(10px)",
               boxShadow: `
                 0 0 30px rgba(255, 255, 255, 0.3),
@@ -57,7 +60,16 @@ export const AuthBackground = React.memo(
                 0 0 100px rgba(255, 255, 255, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3)
               `,
-              border: "1px solid rgba(255, 255, 255, 0.2)",
+              "& fieldset": {
+                borderColor: theme.palette.divider,
+              },
+              "&:hover fieldset": {
+                borderColor: theme.palette.primary.light,
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: theme.palette.primary.light,
+                borderWidth: 2,
+              },
               zIndex: -1,
             },
           }}
@@ -65,12 +77,16 @@ export const AuthBackground = React.memo(
           <Typography
             variant="h2"
             sx={{
-              fontWeight: 600,
-              mb: 3,
-              lineHeight: 1.2,
-              fontSize: { md: "42px", lg: "48px" },
+              fontWeight: theme.typography.h2.fontWeight,
+              mb: theme.spacing(3),
+              lineHeight: theme.typography.h2.lineHeight,
+              fontSize: {
+                md: theme.typography.h1.fontSize,
+                lg: "3rem",
+              },
               textShadow: "0 2px 10px rgba(0,0,0,0.3)",
-              fontFamily: "montserrat, sans-serif",
+              fontFamily: theme.typography.h2.fontFamily,
+              color: "white",
               maxWidth: "80%",
               margin: "0 auto",
             }}
@@ -84,10 +100,11 @@ export const AuthBackground = React.memo(
               fontWeight: 400,
               maxWidth: "85%",
               margin: "0 auto",
-              fontSize: "18px",
-              lineHeight: 1.6,
+              fontSize: "1.125rem",
+              lineHeight: theme.typography.h6.lineHeight,
+              color: "white",
               textShadow: "0 1px 5px rgba(0,0,0,0.3)",
-              fontFamily: "montserrat, sans-serif",
+              fontFamily: theme.typography.h6.fontFamily,
             }}
           >
             Find your next task, collaborate with others, and make an impact.

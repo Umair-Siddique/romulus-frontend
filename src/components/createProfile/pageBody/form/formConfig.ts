@@ -332,7 +332,7 @@ export const organizationStepsConfig = {
       name: "branches",
       label: "Add Branches",
       type: "branches",
-      required: false,
+      required: true,
     },
   ],
 };

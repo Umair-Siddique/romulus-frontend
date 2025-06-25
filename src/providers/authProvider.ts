@@ -20,14 +20,20 @@ export const authProvider: AuthProvider = {
 
         if (response.data.data.role === "educator") {
           try {
-            await api.get(`/educators/${response.data.data.userId}`);
+            const res = await api.get(
+              `/educators/${response.data.data.userId}`
+            );
+            localStorage.setItem("romulus-user", JSON.stringify(res.data.data));
             hasProfile = true;
           } catch (error) {
             hasProfile = false;
           }
         } else if (response.data.data.role === "organization") {
           try {
-            await api.get(`/organizations/${response.data.data.userId}`);
+            const res = await api.get(
+              `/organizations/${response.data.data.userId}`
+            );
+            localStorage.setItem("romulus-user", JSON.stringify(res.data.data));
             hasProfile = true;
           } catch (error) {
             hasProfile = false;
@@ -35,7 +41,7 @@ export const authProvider: AuthProvider = {
         }
       }
 
-      localStorage.setItem("has-profile", JSON.stringify(hasProfile));
+      localStorage.setItem("romulus-has-profile", JSON.stringify(hasProfile));
 
       return {
         success: true,
@@ -126,7 +132,7 @@ export const authProvider: AuthProvider = {
       const response = await api.post("/auth/signout");
       localStorage.removeItem("romulus-auth");
       localStorage.removeItem("romulus-user");
-      localStorage.removeItem("has-profile");
+      localStorage.removeItem("romulus-has-profile");
 
       return {
         success: true,
@@ -186,9 +192,9 @@ export const authProvider: AuthProvider = {
     }
 
     return {
-      id: user.id,
-      name: user.name,
-      avatar: "https://i.pravatar.cc/150",
+      id: user.user,
+      name: user.organizationName || user.educatorName || user.adminName,
+      avatar: user.avatar || user.profilePicture || "",
     };
   },
 };

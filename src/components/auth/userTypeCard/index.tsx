@@ -16,8 +16,14 @@ export const UserTypeCard = ({
         display: "flex",
         flexDirection: "column",
         cursor: "pointer",
-        border: isSelected ? "2px solid #A1B7AF" : "2px solid #e0e0e0",
-        backgroundColor: isSelected ? "#F7FAFC" : "#ffffff",
+        border: (theme) =>
+          isSelected
+            ? `2px solid ${theme.palette.primary.light}`
+            : `2px solid ${theme.palette.primary.light}`,
+        backgroundColor: (theme) =>
+          isSelected
+            ? theme.palette.background.default
+            : theme.palette.background.paper,
         borderRadius: 3,
         transition: "all 0.3s ease",
         height: 250,
@@ -52,7 +58,8 @@ export const UserTypeCard = ({
           {React.cloneElement(icon, {
             sx: {
               fontSize: 32,
-              color: isSelected && "#A1B7AF",
+              color: (theme: { palette: { primary: { light: any } } }) =>
+                isSelected && theme.palette.primary.light,
             },
           })}
         </Box>

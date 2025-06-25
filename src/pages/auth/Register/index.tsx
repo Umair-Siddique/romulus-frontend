@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { useRegister } from "@refinedev/core";
-
 import { AuthBackground, Form } from "../../../components/auth";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
 import { Modal } from "../../../components";
@@ -77,7 +76,7 @@ export const RegisterPage = () => {
         display: "flex",
         minHeight: "100vh",
         width: "100vw",
-        backgroundColor: "#fff",
+        backgroundColor: (theme) => theme.palette.background.default,
       }}
     >
       <Form
@@ -98,9 +97,7 @@ export const RegisterPage = () => {
         hasErrors={Object.keys(form.formState.errors).length > 0}
         phoneNumber={phoneNumber}
       />
-
       <AuthBackground backgroundImage={AuthBg} />
-
       {showModal && (
         <Modal
           open={modalConfig.open}

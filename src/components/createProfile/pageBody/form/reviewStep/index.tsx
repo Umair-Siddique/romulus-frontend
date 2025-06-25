@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Box, Typography, Paper, Avatar, Chip, Button } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 import {
   EditNoteOutlined as EditIcon,
   Description as FileIcon,
@@ -31,6 +32,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
 }) => {
   const [editingSection, setEditingSection] = useState<string | null>(null);
   const [tempFormData, setTempFormData] = useState<FormData>({});
+  const theme = useTheme<Theme>();
 
   const startEditing = (section: string) => {
     setEditingSection(section);
@@ -470,12 +472,12 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
                 onClick={cancelEditing}
                 startIcon={<CancelIcon />}
                 sx={{
-                  borderColor: "#E0E0E0",
+                  borderColor: theme.palette.primary.light,
                   color: "#666",
                   "&:hover": {
-                    borderColor: "#f44336",
+                    borderColor: theme.palette.primary.light,
                     backgroundColor: "rgba(244, 67, 54, 0.04)",
-                    color: "#f44336",
+                    color: theme.palette.primary.main,
                   },
                 }}
               >

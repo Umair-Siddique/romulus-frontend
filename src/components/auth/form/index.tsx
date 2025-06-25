@@ -1,16 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import { Box } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
+import { GridCheckCircleIcon } from "@mui/x-data-grid";
+import CancelIcon from "@mui/icons-material/Cancel";
+
 import Logo from "../../../assets/images/logo.png";
+import { api } from "../../../utils";
+import { FormProps } from "../../../interface";
+
 import FormHeader from "../formHeader";
 import FormField from "../formField";
 import SubmitButton from "../submitButton";
 import TextLink from "../../textLink";
-import { FormProps } from "../../../interface";
-import { api } from "../../../utils";
-import { useNavigate } from "react-router";
 import { Modal } from "../../../components";
-import { GridCheckCircleIcon } from "@mui/x-data-grid";
-import CancelIcon from "@mui/icons-material/Cancel";
 
 export const Form: React.FC<FormProps> = ({
   formTitle,
@@ -30,6 +33,8 @@ export const Form: React.FC<FormProps> = ({
   hasErrors,
   phoneNumber,
 }) => {
+  const theme = useTheme<Theme>();
+
   const [modalConfig, setModalConfig] = useState({
     open: false,
     icon: <GridCheckCircleIcon />,
@@ -105,13 +110,15 @@ export const Form: React.FC<FormProps> = ({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        px: { xs: 3, md: 6 },
-        py: 4,
-        backgroundColor: "#ffffff",
+        px: { xs: theme.spacing(3), md: theme.spacing(6) },
+        py: theme.spacing(4),
+        backgroundColor: theme.palette.background.paper,
       }}
     >
       {/* Logo - Fixed to top */}
-      <Box sx={{ textAlign: "center", mb: 4, mt: 2 }}>
+      <Box
+        sx={{ textAlign: "center", mb: theme.spacing(4), mt: theme.spacing(2) }}
+      >
         <Box component="img" src={Logo} alt="Logo" />
       </Box>
 
@@ -123,12 +130,15 @@ export const Form: React.FC<FormProps> = ({
           justifyContent: "center",
           alignItems: "center",
           flex: 1,
-          width: 600,
+          width: theme.spacing(75), // 600px equivalent using theme spacing (600/8 = 75)
           maxWidth: "100%",
         }}
       >
         {/* Form Header */}
-        <FormHeader title={formTitle ?? ""} description={formDescription ?? ""} />
+        <FormHeader
+          title={formTitle ?? ""}
+          description={formDescription ?? ""}
+        />
 
         {/* Form Fields */}
         <Box
@@ -136,7 +146,7 @@ export const Form: React.FC<FormProps> = ({
           onSubmit={handleSubmit(onSubmit)}
           noValidate // Prevent browser validation
           sx={{
-            mt: 2,
+            mt: theme.spacing(2),
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -168,7 +178,7 @@ export const Form: React.FC<FormProps> = ({
                 width: "80%",
                 display: "flex",
                 justifyContent: "end",
-                mb: 3,
+                mb: theme.spacing(3),
               }}
             >
               <TextLink to="/forgot-password" label="Forgot Password" />
@@ -177,7 +187,13 @@ export const Form: React.FC<FormProps> = ({
 
           {/* Submit Button */}
           {showSubmitButton && (
-            <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                mb: theme.spacing(3),
+              }}
+            >
               <SubmitButton
                 type={formStep === 3 ? "button" : "submit"}
                 onClick={

@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Typography, IconButton } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 import {
   CloudUpload as UploadIcon,
   Close as CloseIcon,
@@ -22,6 +23,7 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
   onChange,
   required = false,
 }) => {
+  const theme = useTheme<Theme>();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
     onChange(file);
@@ -118,11 +120,11 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
               p: 4,
               textAlign: "center",
               cursor: "pointer",
-              backgroundColor: colors.background,
+              backgroundColor: theme.palette.background.default,
               display: "block",
               "&:hover": {
-                borderColor: colors.primary,
-                backgroundColor: colors.primaryLight,
+                borderColor: theme.palette.primary.light,
+                backgroundColor: theme.palette.primary.light,
               },
             }}
           >

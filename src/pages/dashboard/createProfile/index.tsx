@@ -22,7 +22,7 @@ export const CreateProfile = () => {
 
     // Check if the user has already created a profile
     // If yes, redirect to the dashboard
-    const profile = localStorage.getItem("has-profile");
+    const profile = localStorage.getItem("romulus-has-profile");
     const hasProfile = Boolean(profile);
 
     if (!hasProfile) {

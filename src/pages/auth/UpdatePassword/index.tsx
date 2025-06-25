@@ -10,6 +10,7 @@ import AuthBg from "../../../assets/images/auth-bg.jpg";
 import { UpdatePasswordVariables } from "../../../types/index.types";
 import { Modal } from "../../../components";
 import { GridCheckCircleIcon } from "@mui/x-data-grid";
+import { formFields as getStaticFields } from "../formFields";
 
 export const UpdatePasswordPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -43,23 +44,10 @@ export const UpdatePasswordPage = () => {
     });
   };
 
-  const formFields = [
-    {
-      label: "Password",
-      type: "password",
-      name: "password",
-      placeholder: "Enter your password",
-      validationRules: validationRules.password,
-    },
-    {
-      label: "Confirm Password",
-      type: "password",
-      name: "confirmPassword",
-      placeholder: "Re-enter your password",
-      validationRules: validationRules.confirmPassword,
-    },
-  ].map((field) => ({
+  const formFields = getStaticFields("updatePassword").map((field) => ({
     ...field,
+    validationRules:
+      validationRules[field.name as keyof typeof validationRules],
     register: form.register,
     errors: form.formState.errors,
   }));

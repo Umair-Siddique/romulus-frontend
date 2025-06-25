@@ -7,6 +7,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 import React, { useState } from "react";
 
 type TextInputFieldProps = {
@@ -28,6 +29,7 @@ export const TextInputField: React.FC<TextInputFieldProps> = ({
   register,
   errors,
 }) => {
+  const theme = useTheme<Theme>();
   const [showPassword, setShowPassword] = useState(false);
   const fieldError = errors[name];
   const hasError = !!fieldError;
@@ -60,24 +62,24 @@ export const TextInputField: React.FC<TextInputFieldProps> = ({
               componentsProps={{
                 tooltip: {
                   sx: {
-                    bgcolor: "#333",
-                    color: "white",
-                    fontSize: "12px",
-                    fontFamily: "inter, sans-serif",
-                    maxWidth: 300,
-                    p: 1.5,
+                    bgcolor: theme.palette.text.primary, // Using theme text primary instead of hardcoded #333
+                    color: theme.palette.primary.contrastText, // Using theme contrast text instead of hardcoded white
+                    fontSize: "0.75rem", // 12px equivalent using rem (12/16 = 0.75)
+                    fontFamily: theme.typography.caption.fontFamily,
+                    maxWidth: theme.spacing(37.5), // 300px equivalent using theme spacing (300/8 = 37.5)
+                    p: theme.spacing(1.5),
                   },
                 },
-                arrow: { sx: { color: "#333" } },
+                arrow: { sx: { color: theme.palette.text.primary } },
               }}
             >
               <IconButton
                 edge="end"
                 aria-label="phone number information"
                 sx={{
-                  color: "#666",
+                  color: theme.palette.text.secondary,
                   "&:hover": {
-                    color: "#A1B7AF",
+                    color: theme.palette.primary.light,
                     backgroundColor: "transparent",
                   },
                 }}
@@ -98,11 +100,11 @@ export const TextInputField: React.FC<TextInputFieldProps> = ({
       <Typography
         variant="body2"
         sx={{
-          mb: 1,
-          color: "#333",
+          mb: theme.spacing(1),
+          color: theme.palette.text.primary, // Using theme text primary instead of hardcoded #333
           fontWeight: 500,
-          fontSize: "14px",
-          fontFamily: "inter, sans-serif",
+          fontSize: "0.875rem", // 14px equivalent using rem (14/16 = 0.875)
+          fontFamily: theme.typography.body2.fontFamily,
         }}
       >
         {label}
@@ -116,26 +118,35 @@ export const TextInputField: React.FC<TextInputFieldProps> = ({
         error={hasError}
         helperText={hasError ? fieldError?.message : ""}
         sx={{
-          width: 450,
-          mb: hasError ? 2 : 3,
+          width: theme.spacing(56.25), // 450px equivalent using theme spacing (450/8 = 56.25)
+          mb: hasError ? theme.spacing(2) : theme.spacing(3),
           "& .MuiOutlinedInput-root": {
-            borderRadius: 4,
-            backgroundColor: "#fafafa",
+            borderRadius: theme.spacing(1.5), // 4px equivalent using theme spacing
+            backgroundColor: theme.palette.background.default, // Using theme background default instead of hardcoded #fafafa
             "& fieldset": {
-              borderColor: hasError ? "#d32f2f" : "#e0e0e0",
+              borderColor: hasError
+                ? theme.palette.error.main
+                : theme.palette.primary.light,
             },
             "&:hover fieldset": {
-              borderColor: hasError ? "#d32f2f" : "#A1B7AF",
+              borderColor: hasError
+                ? theme.palette.error.main
+                : theme.palette.primary.light,
             },
             "&.Mui-focused fieldset": {
-              borderColor: hasError ? "#d32f2f" : "#A1B7AF",
+              borderColor: hasError
+                ? theme.palette.error.main
+                : theme.palette.primary.light,
               borderWidth: 2,
             },
           },
-          "& .MuiInputBase-input": { py: 1.5 },
-          "& .MuiFormHelperText-root": { ml: 1, mt: 0.5 },
-          fontFamily: "inter, sans-serif",
-          fontSize: "14px",
+          "& .MuiInputBase-input": { py: theme.spacing(1.5) },
+          "& .MuiFormHelperText-root": {
+            ml: theme.spacing(1),
+            mt: theme.spacing(0.5),
+          },
+          fontFamily: theme.typography.body1.fontFamily,
+          fontSize: "0.875rem", // 14px equivalent using rem (14/16 = 0.875)
         }}
         InputProps={getInputProps()}
       />

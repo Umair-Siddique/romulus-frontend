@@ -1,5 +1,5 @@
 import { Authenticated, Refine } from "@refinedev/core";
-import { KBarProvider } from "@refinedev/kbar";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   ErrorComponent,
   useNotificationProvider,
@@ -27,15 +27,16 @@ import {
   RegisterPage,
   UpdatePasswordPage,
 } from "./pages/auth";
+import theme from "./theme";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <KBarProvider>
-        <CssBaseline />
-        <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
+      <BrowserRouter>
         <RefineSnackbarProvider>
           <Refine
             routerProvider={routerProvider}
@@ -119,8 +120,8 @@ const App: React.FC = () => {
             <DocumentTitleHandler />
           </Refine>
         </RefineSnackbarProvider>
-      </KBarProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };
 

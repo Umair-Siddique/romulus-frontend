@@ -8,6 +8,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { useTheme, Theme } from "@mui/material/styles";
 
 import { ModalProps } from "../../interface";
 
@@ -21,6 +22,8 @@ export const Modal = ({
   showButton,
   buttonText,
 }: ModalProps) => {
+  const theme = useTheme<Theme>();
+
   return (
     <Dialog
       open={open}
@@ -30,7 +33,7 @@ export const Modal = ({
       disableEscapeKeyDown={false}
       sx={{
         "& .MuiDialog-paper": {
-          borderRadius: 3,
+          borderRadius: theme.shape.borderRadius * 1.5,
           padding: 0,
         },
       }}
@@ -41,9 +44,9 @@ export const Modal = ({
           onClick={onClose}
           sx={{
             position: "absolute",
-            right: 16,
-            top: 16,
-            color: "#666",
+            right: theme.spacing(2), // 16px equivalent
+            top: theme.spacing(2), // 16px equivalent
+            color: theme.palette.text.secondary,
             zIndex: 1,
           }}
         >
@@ -56,16 +59,16 @@ export const Modal = ({
             flexDirection: "column",
             alignItems: "center",
             textAlign: "center",
-            px: 4,
-            py: 5,
+            px: theme.spacing(4),
+            py: theme.spacing(5),
           }}
         >
           {/* Icon */}
           <Box
             sx={{
-              fontSize: 80,
-              color: "#4CAF50",
-              mb: 3,
+              fontSize: theme.spacing(10), // 80px equivalent using theme spacing
+              color: theme.palette.primary.main, // Using primary color since success isn't defined in your theme
+              mb: theme.spacing(3),
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -81,10 +84,10 @@ export const Modal = ({
           <Typography
             variant="h5"
             sx={{
-              fontWeight: 600,
-              color: "#333",
-              mb: 2,
-              fontFamily: "inter, sans-serif",
+              fontWeight: theme.typography.h5.fontWeight,
+              color: theme.palette.text.primary,
+              mb: theme.spacing(2),
+              fontFamily: theme.typography.h5.fontFamily,
             }}
           >
             {title}
@@ -94,11 +97,11 @@ export const Modal = ({
           <Typography
             variant="body1"
             sx={{
-              color: "#666",
-              mb: 4,
-              lineHeight: 1.6,
-              maxWidth: 400,
-              fontFamily: "inter, sans-serif",
+              color: theme.palette.text.secondary,
+              mb: theme.spacing(4),
+              lineHeight: theme.typography.body1.lineHeight,
+              maxWidth: theme.spacing(50), // 400px equivalent using theme spacing (400/8 = 50)
+              fontFamily: theme.typography.body1.fontFamily,
             }}
           >
             {description}
@@ -111,16 +114,16 @@ export const Modal = ({
               variant="contained"
               size="large"
               sx={{
-                backgroundColor: "#A1B7AF",
+                backgroundColor: theme.palette.primary.main,
                 color: "white",
-                px: 4,
-                py: 1.5,
-                borderRadius: 2,
-                fontWeight: 500,
+                px: theme.spacing(4),
+                py: theme.spacing(1.5),
+                borderRadius: theme.shape.borderRadius / 4,
+                fontWeight: theme.typography.button.fontWeight,
                 textTransform: "none",
-                fontFamily: "inter, sans-serif",
+                fontFamily: theme.typography.button.fontFamily,
                 "&:hover": {
-                  backgroundColor: "#A1B7AF",
+                  backgroundColor: theme.palette.primary.dark,
                 },
               }}
             >

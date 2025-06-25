@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTheme } from "@mui/material/styles";
 import { Box, Paper } from "@mui/material";
 import { CheckCircle, Cancel } from "@mui/icons-material";
 import { NavigationButton } from "../navigationButtons";
@@ -36,6 +37,7 @@ export const Form = ({
   const [config, setConfig] = useState<Record<string, any[]>>({});
 
   const navigate = useNavigate();
+  const theme = useTheme();
 
   useEffect(() => {
     if (role === "educator") {
@@ -150,8 +152,10 @@ export const Form = ({
         }
       }
 
+      let res;
+
       if (role === "educator") {
-        const res = await api.post(`/educators`, submitData, {
+        res = await api.post(`/educators`, submitData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -161,7 +165,7 @@ export const Form = ({
           setShowSuccessModal(true);
         }
       } else {
-        const res = await api.post(`/organizations`, submitData, {
+        res = await api.post(`/organizations`, submitData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -172,8 +176,9 @@ export const Form = ({
         }
       }
 
-      localStorage.setItem("has-profile", "true");
-      // Show success modal instead of alert
+      localStorage.setItem("romulus-has-profile", "true");
+      localStorage.setItem("romulus-user", JSON.stringify(res.data.data));
+
       setShowSuccessModal(true);
     } catch (error: any) {
       console.error("Submission error:", error);
@@ -328,6 +333,7 @@ export const Form = ({
     return !validateCurrentStep();
   };
 
+  // Use MUI's theme to resolve colors before passing to NavigationButton
   const navigationButtonsConfig: {
     navigateTo: "back" | "next";
     isDisabled: boolean;
@@ -345,8 +351,12 @@ export const Form = ({
     {
       navigateTo: "next",
       isDisabled: isNextButtonDisabled(),
-      bgColor: isNextButtonDisabled() ? "#E0E0E0" : "#A1B7AF",
-      textColor: isNextButtonDisabled() ? "#666" : "white",
+      bgColor: isNextButtonDisabled()
+        ? theme.palette.primary?.light || "#e0e0e0"
+        : theme.palette.primary.main,
+      textColor: isNextButtonDisabled()
+        ? theme.palette.text.disabled
+        : theme.palette.common.white,
       label: steps[activeStep] === "Review & Submit" ? "Submit" : "Next →",
     },
   ];

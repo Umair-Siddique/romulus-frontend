@@ -1,3 +1,4 @@
+import { useTheme, Theme } from "@mui/material/styles";
 import { Box, TextField, Typography } from "@mui/material";
 import React, { useRef, useState } from "react";
 
@@ -20,6 +21,8 @@ export const OTPField: React.FC<OTPFieldProps> = ({
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const fieldError = errors[name];
   const hasError = !!fieldError;
+
+  const theme = useTheme<Theme>();
 
   const handleOTPChange = (index: number, value: string) => {
     if (value.length <= 1 && /^\d*$/.test(value)) {
@@ -52,11 +55,11 @@ export const OTPField: React.FC<OTPFieldProps> = ({
       <Typography
         variant="body2"
         sx={{
-          mb: 2,
-          color: "#333",
+          mb: theme.spacing(2),
+          color: theme.palette.text.primary, // Using theme text primary instead of hardcoded #333
           fontWeight: 500,
-          fontSize: "14px",
-          fontFamily: "inter, sans-serif",
+          fontSize: "0.875rem", // 14px equivalent using rem (14/16 = 0.875)
+          fontFamily: theme.typography.body2.fontFamily,
           alignSelf: "flex-start",
         }}
       >
@@ -66,11 +69,11 @@ export const OTPField: React.FC<OTPFieldProps> = ({
       <Box
         sx={{
           display: "flex",
-          gap: 1,
+          gap: theme.spacing(1),
           justifyContent: "center",
-          mb: hasError ? 1 : 3,
+          mb: hasError ? theme.spacing(1) : theme.spacing(3),
           width: "100%",
-          maxWidth: 360,
+          maxWidth: theme.spacing(45), // 360px equivalent using theme spacing (360/8 = 45)
         }}
       >
         {otp.map((digit, index) => (
@@ -85,32 +88,38 @@ export const OTPField: React.FC<OTPFieldProps> = ({
               maxLength: 1,
               style: {
                 textAlign: "center",
-                fontSize: "20px",
+                fontSize: "1.25rem", // 20px equivalent using rem (20/16 = 1.25)
                 fontWeight: "600",
-                color: "#333",
-                fontFamily: "inter, sans-serif",
+                color: theme.palette.text.primary, // Using theme text primary instead of hardcoded #333
+                fontFamily: theme.typography.body1.fontFamily,
               },
             }}
             sx={{
-              width: 50,
-              height: 50,
+              width: theme.spacing(6.25), // 50px equivalent using theme spacing (50/8 = 6.25)
+              height: theme.spacing(6.25), // 50px equivalent using theme spacing (50/8 = 6.25)
               "& .MuiOutlinedInput-root": {
-                borderRadius: 2,
-                backgroundColor: "#fafafa",
+                borderRadius: theme.spacing(1.5), // 2px equivalent using theme spacing
+                backgroundColor: theme.palette.background.default, // Using theme background default instead of hardcoded #fafafa
                 height: "100%",
                 "& fieldset": {
-                  borderColor: hasError ? "#d32f2f" : "#e0e0e0",
+                  borderColor: hasError
+                    ? theme.palette.error.main
+                    : theme.palette.divider, // Using theme divider instead of hardcoded #e0e0e0
                 },
                 "&:hover fieldset": {
-                  borderColor: hasError ? "#d32f2f" : "#A1B7AF",
+                  borderColor: hasError
+                    ? theme.palette.error.main
+                    : theme.palette.primary.light,
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: hasError ? "#d32f2f" : "#A1B7AF",
+                  borderColor: hasError
+                    ? theme.palette.error.main
+                    : theme.palette.primary.light,
                   borderWidth: 2,
                 },
               },
               "& .MuiOutlinedInput-input": {
-                padding: "12px",
+                padding: theme.spacing(1.5), // 12px equivalent using theme spacing
               },
             }}
           />
@@ -121,12 +130,12 @@ export const OTPField: React.FC<OTPFieldProps> = ({
         <Typography
           variant="caption"
           sx={{
-            color: "#d32f2f",
-            mt: 0.5,
-            mb: 2,
+            color: theme.palette.error.main, // Using theme error color instead of hardcoded #d32f2f
+            mt: theme.spacing(0.5),
+            mb: theme.spacing(2),
             display: "block",
-            fontSize: "12px",
-            fontFamily: "inter, sans-serif",
+            fontSize: "0.75rem", // 12px equivalent using rem (12/16 = 0.75)
+            fontFamily: theme.typography.caption.fontFamily,
             textAlign: "center",
           }}
         >

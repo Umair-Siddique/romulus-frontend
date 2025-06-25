@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 import React from "react";
 
 type SubmitButtonProps = {
@@ -18,6 +19,8 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   loadingText,
   loadedText,
 }) => {
+  const theme = useTheme<Theme>();
+
   return (
     <Button
       type={type}
@@ -25,18 +28,20 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
       variant="contained"
       disabled={isDisabled}
       sx={{
-        background: "#A1B7AF",
-        py: 1.8,
-        px: 6,
-        width: 300,
-        textTransform: "none",
-        fontSize: "16px",
-        fontWeight: 600,
-        borderRadius: 4,
-        boxShadow: "#A1B7AF",
-        fontFamily: "montserrat, sans-serif",
+        background: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
+        py: theme.spacing(1.8), // Keeping original spacing proportions
+        px: theme.spacing(6),
+        width: theme.spacing(37.5), // 300px equivalent using theme spacing (300/8 = 37.5)
+        textTransform: "none", // This matches your theme's button override
+        fontSize: "1rem", // 16px equivalent using rem, or could use theme.typography.button.fontSize
+        fontWeight: theme.typography.button.fontWeight, // Using theme's button fontWeight (600)
+        borderRadius: theme.spacing(2), // 8px equivalent, matching your theme's button borderRadius override
+        boxShadow: "0px 2px 4px rgba(126, 148, 142, 0.2)",
+        fontFamily: theme.typography.button.fontFamily,
         "&:hover": {
-          background: "#8fa89f",
+          background: theme.palette.primary.dark,
+          boxShadow: "0px 4px 8px rgba(126, 148, 142, 0.3)",
         },
       }}
     >

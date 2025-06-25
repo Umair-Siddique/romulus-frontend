@@ -1,4 +1,5 @@
 import { RadioGroup, Typography } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 import React, { useState } from "react";
 import { UserTypeCard } from "../userTypeCard";
 
@@ -24,6 +25,7 @@ export const RadioField: React.FC<RadioFieldProps> = ({
   errors,
   name,
 }) => {
+  const theme = useTheme<Theme>();
   const [value, setValue] = useState("");
   const fieldError = errors[name];
   const hasError = !!fieldError;
@@ -41,8 +43,8 @@ export const RadioField: React.FC<RadioFieldProps> = ({
         sx={{
           display: "flex",
           flexDirection: { xs: "column", sm: "row" },
-          gap: 3,
-          mb: 4,
+          gap: theme.spacing(3),
+          mb: theme.spacing(4),
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -63,12 +65,12 @@ export const RadioField: React.FC<RadioFieldProps> = ({
         <Typography
           variant="caption"
           sx={{
-            color: "#d32f2f",
-            ml: 1,
-            mt: 0.5,
+            color: theme.palette.error.main, // Using theme error color instead of hardcoded #d32f2f
+            ml: theme.spacing(1),
+            mt: theme.spacing(0.5),
             display: "block",
-            fontSize: "12px",
-            fontFamily: "inter, sans-serif",
+            fontSize: "0.75rem", // 12px equivalent using rem (12/16 = 0.75)
+            fontFamily: theme.typography.caption.fontFamily,
           }}
         >
           {fieldError?.message}

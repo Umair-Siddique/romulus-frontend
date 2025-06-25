@@ -7,7 +7,7 @@ export const Home = () => {
   useEffect(() => {
     // Read localStorage values inside useEffect to get fresh values
     const user = localStorage.getItem("romulus-user");
-    const profile = localStorage.getItem("has-profile");
+    const profile = localStorage.getItem("romulus-has-profile");
     const hasProfile = profile ? JSON.parse(profile) : false;
 
     // If no user, redirect to login
