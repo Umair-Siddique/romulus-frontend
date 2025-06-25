@@ -8,11 +8,13 @@ import {
   MenuItem,
 } from "@mui/material";
 import { AccountCircle, ArrowDropDown } from "@mui/icons-material";
+import { useLogout } from "@refinedev/core";
+import { useTheme, Theme } from "@mui/material/styles";
 
 import Logo from "../../../assets/images/logo.png";
-import { useLogout } from "@refinedev/core";
 
 export const PageHeader: React.FC = () => {
+  const theme = useTheme<Theme>();
   const { mutate: logout } = useLogout();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -34,14 +36,20 @@ export const PageHeader: React.FC = () => {
       position="static"
       elevation={0}
       sx={{
-        bgcolor: "white",
-        borderBottom: "1px solid #e0e0e0",
+        bgcolor: theme.palette.background.paper, // Using theme background paper instead of hardcoded "white"
+        borderBottom: `1px solid ${theme.palette.divider}`, // Using theme divider color instead of hardcoded #e0e0e0
       }}
     >
-      <Toolbar sx={{ justifyContent: "space-between", py: 1 }}>
+      <Toolbar sx={{ justifyContent: "space-between", py: theme.spacing(1) }}>
         {/* Logo */}
         <Box sx={{ textAlign: "center" }}>
-          <Box component="img" src={Logo} alt="Logo" width={40} height={40} />
+          <Box
+            component="img"
+            src={Logo}
+            alt="Logo"
+            width={theme.spacing(5)} // 40px equivalent using theme spacing (40/8 = 5)
+            height={theme.spacing(5)} // 40px equivalent using theme spacing (40/8 = 5)
+          />
         </Box>
 
         {/* Profile Dropdown */}
@@ -51,10 +59,10 @@ export const PageHeader: React.FC = () => {
             sx={{
               display: "flex",
               alignItems: "center",
-              color: "#666",
+              color: theme.palette.text.secondary, // Using theme text secondary instead of hardcoded #666
             }}
           >
-            <AccountCircle sx={{ mr: 0.5 }} />
+            <AccountCircle sx={{ mr: theme.spacing(0.5) }} />
             <ArrowDropDown />
           </IconButton>
 

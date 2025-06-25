@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useTheme } from "@mui/material/styles";
+import { useNavigate } from "react-router";
+import { useTheme, Theme } from "@mui/material/styles";
 import { Box, Paper } from "@mui/material";
 import { CheckCircle, Cancel } from "@mui/icons-material";
-import { NavigationButton } from "../navigationButtons";
-import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";
 
-import { useNavigate } from "react-router";
 import { ReviewStep } from "./reviewStep";
 import { FormStep } from "./formStep";
 import { api } from "../../../../utils";
 import { Modal } from "../../../modal";
+import { NavigationButton } from "../navigationButtons";
+import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";
 
 interface FormProps {
   activeStep: number;
@@ -37,7 +37,7 @@ export const Form = ({
   const [config, setConfig] = useState<Record<string, any[]>>({});
 
   const navigate = useNavigate();
-  const theme = useTheme();
+  const theme = useTheme<Theme>();
 
   useEffect(() => {
     if (role === "educator") {
@@ -323,14 +323,15 @@ export const Form = ({
     }
   };
 
-  const isNextButtonDisabled = () => {
-    const currentStepName = steps[activeStep];
-
-    if (currentStepName === "Review & Submit") {
-      return false;
+  const isNavigationDisabled = (navigateTo: "back" | "next") => {
+    switch (navigateTo) {
+      case "back":
+        return activeStep === 0;
+      case "next":
+        return activeStep === steps.length - 2
+      default:
+        return false;
     }
-
-    return !validateCurrentStep();
   };
 
   // Use MUI's theme to resolve colors before passing to NavigationButton
@@ -343,20 +344,24 @@ export const Form = ({
   }[] = [
     {
       navigateTo: "back",
-      isDisabled: activeStep === 0,
-      bgColor: "#FFF",
-      textColor: "black",
+      isDisabled: isNavigationDisabled("back"),
+      bgColor: isNavigationDisabled("back")
+        ? theme.palette.action.disabled
+        : theme.palette.primary.main,
+      textColor: isNavigationDisabled("back")
+        ? theme.palette.text.disabled
+        : theme.palette.primary.contrastText,
       label: "← Back",
     },
     {
       navigateTo: "next",
-      isDisabled: isNextButtonDisabled(),
-      bgColor: isNextButtonDisabled()
-        ? theme.palette.primary?.light || "#e0e0e0"
+      isDisabled: isNavigationDisabled("next"),
+      bgColor: isNavigationDisabled("next")
+        ? theme.palette.action.disabled
         : theme.palette.primary.main,
-      textColor: isNextButtonDisabled()
+      textColor: isNavigationDisabled("next")
         ? theme.palette.text.disabled
-        : theme.palette.common.white,
+        : theme.palette.primary.contrastText,
       label: steps[activeStep] === "Review & Submit" ? "Submit" : "Next →",
     },
   ];
@@ -365,10 +370,10 @@ export const Form = ({
     <>
       <Paper
         sx={{
-          borderRadius: 2,
+          borderRadius: theme.spacing(0.25), // 2px equivalent using theme spacing
           boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
-          p: 4,
-          minHeight: 500,
+          p: theme.spacing(4),
+          minHeight: theme.spacing(62.5), // 500px equivalent using theme spacing (500/8 = 62.5)
         }}
       >
         {getCurrentStepComponent()}
@@ -377,7 +382,7 @@ export const Form = ({
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            mt: 4,
+            mt: theme.spacing(4),
           }}
         >
           {navigationButtonsConfig.map((buttonConfig) => (
@@ -411,7 +416,7 @@ export const Form = ({
         open={showErrorModal}
         onClose={handleErrorModalClose}
         onSubmit={handleErrorModalSubmit}
-        icon={<Cancel sx={{ color: "#f44336" }} />}
+        icon={<Cancel sx={{ color: theme.palette.error.main }} />}
         title="Submission Failed"
         description={errorMessage}
         showButton={true}
