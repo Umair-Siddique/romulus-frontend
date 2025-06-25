@@ -72,6 +72,7 @@ export interface ModalProps {
 }
 
 export interface FieldConfig {
+  maxlength?: number | undefined;
   name: string;
   label: string;
   type: "text" | "file" | "select" | "date" | "tel" | "number" | "email";

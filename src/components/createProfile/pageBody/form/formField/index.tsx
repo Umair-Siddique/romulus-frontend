@@ -152,6 +152,7 @@ export const FormField: React.FC<FormFieldProps> = ({
         fieldName={field.name}
         label={field.label}
         type={field.type as "text" | "tel" | "email"}
+        maxLength={field.maxlength}
         value={value}
         onChange={(newValue) => onChange(field.name, newValue)}
         required={field.required}

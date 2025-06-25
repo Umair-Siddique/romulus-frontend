@@ -8,6 +8,7 @@ interface TextFieldComponentProps {
   type: "text" | "tel" | "email";
   value: string;
   onChange: (value: string) => void;
+  maxLength?: number;
   required?: boolean;
   placeholder?: string;
 }
@@ -16,6 +17,7 @@ export const TextFieldComponent: React.FC<TextFieldComponentProps> = ({
   fieldName,
   label,
   type,
+  maxLength,
   value,
   onChange,
   required = false,
@@ -53,6 +55,10 @@ export const TextFieldComponent: React.FC<TextFieldComponentProps> = ({
         fullWidth
         type={type}
         value={value || ""}
+        name={fieldName}
+        inputProps={{
+          maxLength: maxLength,
+        }}
         onChange={handleChange}
         placeholder={getPlaceholder()}
         multiline={isMultiline}

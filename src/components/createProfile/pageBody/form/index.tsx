@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Paper } from "@mui/material";
 import { CheckCircle, Cancel } from "@mui/icons-material";
 import { NavigationButton } from "../navigationButtons";
@@ -33,15 +33,17 @@ export const Form = ({
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [config, setConfig] = useState<Record<string, any[]>>({});
 
   const navigate = useNavigate();
 
-  // Get field configuration based on role and step
-  const getStepConfig = () => {
-    const config =
-      role === "educator" ? educatorStepsConfig : organizationStepsConfig;
-    return config as any;
-  };
+  useEffect(() => {
+    if (role === "educator") {
+      setConfig(educatorStepsConfig);
+    } else if (role === "organization") {
+      setConfig(organizationStepsConfig);
+    }
+  }, [role]);
 
   const handleFieldChange = (name: string, value: any) => {
     setFormData((prev) => ({
@@ -83,7 +85,7 @@ export const Form = ({
               });
               resolve(compressedFile);
             } else {
-              resolve(file); // Fallback to original if compression fails
+              resolve(file);
             }
           },
           file.type,
@@ -222,8 +224,7 @@ export const Form = ({
   // Validation function to check if current step is complete
   const validateCurrentStep = () => {
     const currentStepName = steps[activeStep];
-    const stepConfig = getStepConfig();
-    const currentStepFields = stepConfig[currentStepName] || [];
+    const currentStepFields = config[currentStepName] || [];
 
     for (const field of currentStepFields) {
       if (field.required) {
@@ -244,8 +245,7 @@ export const Form = ({
   // Get missing required fields for current step
   const getMissingRequiredFields = () => {
     const currentStepName = steps[activeStep];
-    const stepConfig = getStepConfig();
-    const currentStepFields = stepConfig[currentStepName] || [];
+    const currentStepFields = config[currentStepName] || [];
     const missingFields: string[] = [];
 
     for (const field of currentStepFields) {
@@ -266,7 +266,6 @@ export const Form = ({
 
   const getCurrentStepComponent = () => {
     const currentStepName = steps[activeStep];
-    const stepConfig = getStepConfig();
 
     // In Form component, update the ReviewStep call:
     if (currentStepName === "Review & Submit") {
@@ -274,12 +273,12 @@ export const Form = ({
         <ReviewStep
           formData={formData}
           onFieldChange={handleFieldChange}
-          stepConfig={stepConfig}
+          stepConfig={config}
           role={role} // Add this line
         />
       );
     }
-    const fields = stepConfig[currentStepName] || [];
+    const fields = config[currentStepName] || [];
     return (
       <FormStep
         title={currentStepName}
