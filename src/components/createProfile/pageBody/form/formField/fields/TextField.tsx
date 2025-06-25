@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography, TextField } from "@mui/material";
-import { inputFocusStyles, colors } from "../styles";
+import { useTheme, Theme } from "@mui/material/styles";
 
 interface TextFieldComponentProps {
   fieldName: string;
@@ -23,6 +23,8 @@ export const TextFieldComponent: React.FC<TextFieldComponentProps> = ({
   required = false,
   placeholder,
 }) => {
+  const theme = useTheme<Theme>();
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
   };
@@ -47,7 +49,11 @@ export const TextFieldComponent: React.FC<TextFieldComponentProps> = ({
     <Box>
       <Typography
         variant="body1"
-        sx={{ mb: 1, fontWeight: 500, color: colors.text }}
+        sx={{
+          mb: theme.spacing(1),
+          fontWeight: 500,
+          color: theme.palette.text.primary,
+        }}
       >
         {label} {required && "*"} {!required && "(Optional)"}
       </Typography>
@@ -64,12 +70,25 @@ export const TextFieldComponent: React.FC<TextFieldComponentProps> = ({
         multiline={isMultiline}
         rows={isMultiline ? rows : undefined}
         sx={{
-          ...inputFocusStyles,
+          "& .MuiOutlinedInput-root": {
+            borderRadius: theme.spacing(0.5),
+            backgroundColor: theme.palette.background.default,
+            "& fieldset": {
+              borderColor: theme.palette.divider,
+            },
+            "&:hover fieldset": {
+              borderColor: theme.palette.primary.light,
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: theme.palette.primary.light,
+              borderWidth: 2,
+            },
+          },
           "& .MuiInputBase-input": {
-            color: colors.text,
+            color: theme.palette.text.primary,
           },
           "& .MuiInputBase-input::placeholder": {
-            color: colors.textSecondary,
+            color: theme.palette.text.secondary,
             opacity: 1,
           },
         }}

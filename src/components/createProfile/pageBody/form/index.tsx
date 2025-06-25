@@ -326,9 +326,9 @@ export const Form = ({
   const isNavigationDisabled = (navigateTo: "back" | "next") => {
     switch (navigateTo) {
       case "back":
-        return activeStep === 0;
+        return activeStep === 0 || !validateCurrentStep();
       case "next":
-        return activeStep === steps.length - 2
+        return !validateCurrentStep();
       default:
         return false;
     }

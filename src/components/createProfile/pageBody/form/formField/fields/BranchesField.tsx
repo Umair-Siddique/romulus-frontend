@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 import {
   Add as AddIcon,
   Edit as EditIcon,
@@ -11,7 +12,6 @@ import {
   Description as DescriptionIcon,
 } from "@mui/icons-material";
 import { BranchModal } from "../../branchModal";
-import { colors } from "../styles";
 import { Branch } from "../../../../../../interface";
 
 interface BranchesFieldProps {
@@ -23,6 +23,7 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
   value,
   onChange,
 }) => {
+  const theme = useTheme<Theme>();
   const [showBranchModal, setShowBranchModal] = useState(false);
   const [editingBranch, setEditingBranch] = useState<Branch | null>(null);
   const [editingIndex, setEditingIndex] = useState<number | undefined>(
@@ -74,23 +75,31 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
       <Box>
         <Box
           sx={{
-            border: `2px dashed ${colors.border}`,
-            borderRadius: "16px",
-            p: 4,
+            border: `2px dashed ${theme.palette.divider}`,
+            borderRadius: theme.spacing(2), // 16px equivalent
+            p: theme.spacing(4),
             textAlign: "center",
-            backgroundColor: colors.backgroundAlt,
-            mb: 2,
+            backgroundColor: theme.palette.background.default,
+            mb: theme.spacing(2),
           }}
         >
           <Typography
             variant="h6"
-            sx={{ fontWeight: 600, color: colors.text, mb: 2 }}
+            sx={{
+              fontWeight: theme.typography.h6.fontWeight,
+              color: theme.palette.text.primary,
+              mb: theme.spacing(2),
+            }}
           >
             Add Branches
           </Typography>
           <Typography
             variant="body2"
-            sx={{ color: colors.textSecondary, mb: 3, lineHeight: 1.6 }}
+            sx={{
+              color: theme.palette.text.secondary,
+              mb: theme.spacing(3),
+              lineHeight: 1.6,
+            }}
           >
             You can register all your branch locations here. If you only operate
             in one location, feel free to skip this step.
@@ -101,12 +110,12 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
             onClick={handleAddNewBranch}
             startIcon={<AddIcon />}
             sx={{
-              color: colors.text,
+              color: theme.palette.text.primary,
               textTransform: "none",
               fontSize: "1rem",
               fontWeight: 500,
               "&:hover": {
-                backgroundColor: "transparent",
+                backgroundColor: theme.palette.primary.light,
               },
             }}
           >
@@ -131,11 +140,11 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
         <Box
           key={index}
           sx={{
-            border: `2px solid ${colors.primary}`,
-            borderRadius: "12px",
-            p: 3,
-            mb: 2,
-            backgroundColor: "#FFFFFF",
+            border: `2px solid ${theme.palette.primary.main}`,
+            borderRadius: theme.spacing(1.5), // 12px equivalent
+            p: theme.spacing(3),
+            mb: theme.spacing(2),
+            backgroundColor: theme.palette.background.paper,
             position: "relative",
           }}
         >
@@ -144,20 +153,29 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              mb: 2,
+              mb: theme.spacing(2),
             }}
           >
             <Typography
               variant="h6"
-              sx={{ fontWeight: 600, color: colors.text }}
+              sx={{
+                fontWeight: theme.typography.h6.fontWeight,
+                color: theme.palette.text.primary,
+              }}
             >
               {branch.branchName || "Downtown"}
             </Typography>
-            <Box sx={{ display: "flex", gap: 1 }}>
+            <Box sx={{ display: "flex", gap: theme.spacing(1) }}>
               <IconButton
                 size="small"
                 onClick={() => removeBranch(index)}
-                sx={{ color: "#666" }}
+                sx={{
+                  color: theme.palette.text.secondary,
+                  "&:hover": {
+                    color: theme.palette.error.main,
+                    backgroundColor: theme.palette.error.light,
+                  },
+                }}
               >
                 <DeleteIcon fontSize="small" />
               </IconButton>
@@ -166,10 +184,14 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
                 onClick={() => editBranch(index)}
                 startIcon={<EditIcon fontSize="small" />}
                 sx={{
-                  color: "#666",
+                  color: theme.palette.text.secondary,
                   fontSize: "0.75rem",
                   textTransform: "none",
                   minWidth: "auto",
+                  "&:hover": {
+                    color: theme.palette.primary.main,
+                    backgroundColor: theme.palette.primary.light,
+                  },
                 }}
               >
                 Edit
@@ -177,43 +199,93 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
             </Box>
           </Box>
 
-          <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-            <PhoneIcon sx={{ color: colors.primary, mr: 1, fontSize: 16 }} />
-            <Typography variant="body2" sx={{ color: colors.text }}>
+          <Box
+            sx={{ display: "flex", alignItems: "center", mb: theme.spacing(1) }}
+          >
+            <PhoneIcon
+              sx={{
+                color: theme.palette.primary.main,
+                mr: theme.spacing(1),
+                fontSize: 16,
+              }}
+            />
+            <Typography
+              variant="body2"
+              sx={{ color: theme.palette.text.primary }}
+            >
               {branch.branchPhone || "+971 4 332 8789"}
             </Typography>
           </Box>
 
-          <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-            <EmailIcon sx={{ color: colors.primary, mr: 1, fontSize: 16 }} />
-            <Typography variant="body2" sx={{ color: colors.text }}>
+          <Box
+            sx={{ display: "flex", alignItems: "center", mb: theme.spacing(1) }}
+          >
+            <EmailIcon
+              sx={{
+                color: theme.palette.primary.main,
+                mr: theme.spacing(1),
+                fontSize: 16,
+              }}
+            />
+            <Typography
+              variant="body2"
+              sx={{ color: theme.palette.text.primary }}
+            >
               {branch.branchEmail || "wa83@outlook.com"}
             </Typography>
           </Box>
 
-          <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+          <Box
+            sx={{ display: "flex", alignItems: "center", mb: theme.spacing(1) }}
+          >
             <LocationOnIcon
-              sx={{ color: colors.primary, mr: 1, fontSize: 16 }}
+              sx={{
+                color: theme.palette.primary.main,
+                mr: theme.spacing(1),
+                fontSize: 16,
+              }}
             />
-            <Typography variant="body2" sx={{ color: colors.text }}>
+            <Typography
+              variant="body2"
+              sx={{ color: theme.palette.text.primary }}
+            >
               {branch.branchCity || "Axton"},{" "}
               {branch.branchCountry || "États-Unis"}
             </Typography>
           </Box>
 
-          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-            <BusinessIcon sx={{ color: colors.primary, mr: 1, fontSize: 16 }} />
-            <Typography variant="body2" sx={{ color: colors.text }}>
+          <Box
+            sx={{ display: "flex", alignItems: "center", mb: theme.spacing(2) }}
+          >
+            <BusinessIcon
+              sx={{
+                color: theme.palette.primary.main,
+                mr: theme.spacing(1),
+                fontSize: 16,
+              }}
+            />
+            <Typography
+              variant="body2"
+              sx={{ color: theme.palette.text.primary }}
+            >
               {branch.branchAddress ||
                 "Bureau 905, One Central, Trade Centre Area"}
             </Typography>
           </Box>
+
           {branch.residenceGuidelines && (
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <DescriptionIcon
-                sx={{ color: colors.primary, mr: 1, fontSize: 20 }}
+                sx={{
+                  color: theme.palette.primary.main,
+                  mr: theme.spacing(1),
+                  fontSize: 20,
+                }}
               />
-              <Typography variant="body2" sx={{ color: colors.text }}>
+              <Typography
+                variant="body2"
+                sx={{ color: theme.palette.text.primary }}
+              >
                 {branch.residenceGuidelines.name || "Residence_guideline.pdf"}
               </Typography>
             </Box>
@@ -227,16 +299,16 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
         startIcon={<AddIcon />}
         fullWidth
         sx={{
-          border: `2px solid ${colors.primary}`,
-          borderRadius: "12px",
-          color: colors.primary,
-          py: 2,
+          border: `2px solid ${theme.palette.primary.main}`,
+          borderRadius: theme.spacing(1.5), // 12px equivalent
+          color: theme.palette.primary.main,
+          py: theme.spacing(2),
           textTransform: "none",
           fontSize: "1rem",
           fontWeight: 500,
           "&:hover": {
-            backgroundColor: colors.primaryLight,
-            borderColor: colors.primary,
+            backgroundColor: theme.palette.primary.light,
+            borderColor: theme.palette.primary.main,
           },
         }}
       >

@@ -169,7 +169,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
                   "&:hover": {
                     borderColor: theme.palette.primary.light,
                     backgroundColor: theme.palette.error.light,
-                    color: theme.palette.primary.main,
+                    color: theme.palette.primary.contrastText,
                   },
                 }}
               >

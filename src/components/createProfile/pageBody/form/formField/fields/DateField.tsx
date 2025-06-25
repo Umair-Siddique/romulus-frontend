@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, TextField } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 import { CalendarToday as CalendarIcon } from "@mui/icons-material";
-import { inputFocusStyles, colors } from "../styles";
 
 interface DateFieldProps {
   label: string;
@@ -18,6 +18,8 @@ export const DateField: React.FC<DateFieldProps> = ({
   required = false,
   placeholder = "Select date",
 }) => {
+  const theme = useTheme<Theme>();
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
   };
@@ -26,7 +28,11 @@ export const DateField: React.FC<DateFieldProps> = ({
     <Box>
       <Typography
         variant="body1"
-        sx={{ mb: 1, fontWeight: 500, color: colors.text }}
+        sx={{
+          mb: theme.spacing(1),
+          fontWeight: 500,
+          color: theme.palette.text.primary,
+        }}
       >
         {label} {required && "*"}
       </Typography>
@@ -38,9 +44,23 @@ export const DateField: React.FC<DateFieldProps> = ({
           onChange={handleChange}
           placeholder={placeholder}
           sx={{
-            ...inputFocusStyles,
+            "& .MuiOutlinedInput-root": {
+              borderRadius: theme.spacing(0.5),
+              backgroundColor: theme.palette.background.default,
+              "& fieldset": {
+                borderColor: theme.palette.divider,
+              },
+              "&:hover fieldset": {
+                borderColor: theme.palette.primary.light,
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: theme.palette.primary.light,
+                borderWidth: 2,
+              },
+            },
             "& .MuiInputBase-input": {
-              color: colors.text,
+              color: theme.palette.text.primary,
+              paddingRight: theme.spacing(5), // 40px equivalent
             },
             "& input[type='date']::-webkit-calendar-picker-indicator": {
               opacity: 0,
@@ -50,18 +70,15 @@ export const DateField: React.FC<DateFieldProps> = ({
               height: "100%",
               cursor: "pointer",
             },
-            "& input[type='date']": {
-              paddingRight: "40px",
-            },
           }}
         />
         <CalendarIcon
           sx={{
             position: "absolute",
-            right: 12,
+            right: theme.spacing(1.5), // 12px equivalent
             top: "50%",
             transform: "translateY(-50%)",
-            color: colors.textSecondary,
+            color: theme.palette.text.secondary,
             pointerEvents: "none",
             zIndex: 1,
           }}

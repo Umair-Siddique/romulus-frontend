@@ -6,7 +6,6 @@ import {
   Close as CloseIcon,
   FileCopy as FileIcon,
 } from "@mui/icons-material";
-import { colors } from "../styles";
 
 interface FileUploadFieldProps {
   fieldName: string;
@@ -24,6 +23,7 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
   required = false,
 }) => {
   const theme = useTheme<Theme>();
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
     onChange(file);
@@ -65,7 +65,11 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
     <Box>
       <Typography
         variant="body1"
-        sx={{ mb: 1, fontWeight: 500, color: colors.text }}
+        sx={{
+          mb: theme.spacing(1),
+          fontWeight: 500,
+          color: theme.palette.text.primary,
+        }}
       >
         {label} {!required && "(Optional)"}
       </Typography>
@@ -73,37 +77,53 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
       {value ? (
         <Box
           sx={{
-            border: `1px solid ${colors.borderLight}`,
-            borderRadius: "8px",
-            p: 2,
+            border: `1px solid ${theme.palette.divider}`,
+            borderRadius: theme.spacing(1),
+            p: theme.spacing(2),
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            backgroundColor: colors.background,
+            backgroundColor: theme.palette.background.default,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            sx={{ display: "flex", alignItems: "center", minWidth: 0, flex: 1 }}
+          >
             <FileIcon
               sx={{
-                color: colors.primary,
-                mr: 1,
+                color: theme.palette.primary.main,
+                mr: theme.spacing(1),
                 fontSize: 35,
-                border: `1px solid ${colors.primary}`,
-                borderRadius: "10px",
-                width: "40px",
-                height: "40px",
+                border: `1px solid ${theme.palette.primary.main}`,
+                borderRadius: theme.spacing(1.25),
+                width: theme.spacing(5),
+                height: theme.spacing(5),
+                flexShrink: 0,
               }}
             />
-            <Typography sx={{ color: colors.text }}>{value.name}</Typography>
+            <Typography
+              sx={{
+                color: theme.palette.text.primary,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                minWidth: 0,
+              }}
+              title={value.name}
+            >
+              {value.name}
+            </Typography>
           </Box>
           <IconButton
             size="small"
             onClick={() => onChange(null)}
             sx={{
-              color: colors.textSecondary,
+              color: theme.palette.text.secondary,
+              ml: theme.spacing(1),
+              flexShrink: 0,
               "&:hover": {
-                color: colors.primary,
-                backgroundColor: colors.primaryLight,
+                color: theme.palette.primary.main,
+                backgroundColor: theme.palette.primary.light,
               },
             }}
           >
@@ -115,9 +135,9 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
           <Box
             component="label"
             sx={{
-              border: `2px dashed ${colors.border}`,
-              borderRadius: "8px",
-              p: 4,
+              border: `2px dashed ${theme.palette.divider}`,
+              borderRadius: theme.spacing(1),
+              p: theme.spacing(4),
               textAlign: "center",
               cursor: "pointer",
               backgroundColor: theme.palette.background.default,
@@ -129,15 +149,28 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
             }}
           >
             <UploadIcon
-              sx={{ fontSize: 48, color: colors.textSecondary, mb: 1 }}
+              sx={{
+                fontSize: 48,
+                color: theme.palette.text.secondary,
+                mb: theme.spacing(1),
+              }}
             />
-            <Typography variant="body1" sx={{ color: colors.text, mb: 0.5 }}>
+            <Typography
+              variant="body1"
+              sx={{
+                color: theme.palette.text.primary,
+                mb: theme.spacing(0.5),
+              }}
+            >
               {title}
             </Typography>
             {subtitle && (
               <Typography
                 variant="body2"
-                sx={{ color: colors.textSecondary, mb: 1 }}
+                sx={{
+                  color: theme.palette.text.secondary,
+                  mb: theme.spacing(1),
+                }}
               >
                 {subtitle}
               </Typography>
@@ -151,7 +184,11 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
           </Box>
           <Typography
             variant="caption"
-            sx={{ color: colors.textSecondary, mt: 1, display: "block" }}
+            sx={{
+              color: theme.palette.text.secondary,
+              mt: theme.spacing(1),
+              display: "block",
+            }}
           >
             Accepted formats: JPG, PNG, PDF (Max: 5MB)
           </Typography>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography, TextField, InputAdornment } from "@mui/material";
-import { inputFocusStyles, colors } from "../styles";
+import { useTheme, Theme } from "@mui/material/styles";
 
 interface NumberFieldProps {
   fieldName: string;
@@ -23,6 +23,8 @@ export const NumberField: React.FC<NumberFieldProps> = ({
   startAdornment,
   endAdornment,
 }) => {
+  const theme = useTheme<Theme>();
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
   };
@@ -50,7 +52,11 @@ export const NumberField: React.FC<NumberFieldProps> = ({
     <Box>
       <Typography
         variant="body1"
-        sx={{ mb: 1, fontWeight: 500, color: colors.text }}
+        sx={{
+          mb: theme.spacing(1),
+          fontWeight: 500,
+          color: theme.palette.text.primary,
+        }}
       >
         {fieldProps.label} {required && "*"}
       </Typography>
@@ -64,7 +70,7 @@ export const NumberField: React.FC<NumberFieldProps> = ({
           ...(fieldProps.startAdornment && {
             startAdornment: (
               <InputAdornment position="start">
-                <Typography sx={{ color: colors.textSecondary }}>
+                <Typography sx={{ color: theme.palette.text.secondary }}>
                   {fieldProps.startAdornment}
                 </Typography>
               </InputAdornment>
@@ -73,7 +79,7 @@ export const NumberField: React.FC<NumberFieldProps> = ({
           ...(fieldProps.endAdornment && {
             endAdornment: (
               <InputAdornment position="end">
-                <Typography sx={{ color: colors.textSecondary }}>
+                <Typography sx={{ color: theme.palette.text.secondary }}>
                   {fieldProps.endAdornment}
                 </Typography>
               </InputAdornment>
@@ -81,12 +87,25 @@ export const NumberField: React.FC<NumberFieldProps> = ({
           }),
         }}
         sx={{
-          ...inputFocusStyles,
+          "& .MuiOutlinedInput-root": {
+            borderRadius: theme.spacing(0.5),
+            backgroundColor: theme.palette.background.default,
+            "& fieldset": {
+              borderColor: theme.palette.divider,
+            },
+            "&:hover fieldset": {
+              borderColor: theme.palette.primary.light,
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: theme.palette.primary.light,
+              borderWidth: 2,
+            },
+          },
           "& .MuiInputBase-input": {
-            color: colors.text,
+            color: theme.palette.text.primary,
           },
           "& .MuiInputBase-input::placeholder": {
-            color: colors.textSecondary,
+            color: theme.palette.text.secondary,
             opacity: 1,
           },
         }}

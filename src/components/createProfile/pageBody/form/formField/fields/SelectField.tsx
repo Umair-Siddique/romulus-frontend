@@ -1,7 +1,7 @@
 import React from "react";
 import { FormControl, Typography, Select, MenuItem } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 import { KeyboardArrowDown as ArrowDownIcon } from "@mui/icons-material";
-import { selectFocusStyles, colors } from "../styles";
 
 interface SelectFieldProps {
   label: string;
@@ -18,6 +18,8 @@ export const SelectField: React.FC<SelectFieldProps> = ({
   options,
   required = false,
 }) => {
+  const theme = useTheme<Theme>();
+
   const handleChange = (event: any) => {
     onChange(event.target.value);
   };
@@ -26,7 +28,11 @@ export const SelectField: React.FC<SelectFieldProps> = ({
     <FormControl fullWidth>
       <Typography
         variant="body1"
-        sx={{ mb: 1, fontWeight: 500, color: colors.text }}
+        sx={{
+          mb: theme.spacing(1),
+          fontWeight: 500,
+          color: theme.palette.text.primary,
+        }}
       >
         {label} {required && "*"}
       </Typography>
@@ -36,11 +42,24 @@ export const SelectField: React.FC<SelectFieldProps> = ({
         displayEmpty
         IconComponent={ArrowDownIcon}
         sx={{
-          ...selectFocusStyles,
-          "& .MuiSelect-icon": {
-            color: colors.textSecondary,
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: theme.palette.divider,
           },
-          color: colors.text,
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: theme.palette.primary.light,
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: theme.palette.primary.light,
+            borderWidth: 2,
+          },
+          "& .MuiSelect-select": {
+            backgroundColor: theme.palette.background.default,
+            borderRadius: theme.spacing(0.5),
+            color: theme.palette.text.primary,
+          },
+          "& .MuiSelect-icon": {
+            color: theme.palette.text.secondary,
+          },
         }}
       >
         <MenuItem value="" disabled>
