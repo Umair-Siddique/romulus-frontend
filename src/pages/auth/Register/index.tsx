@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { useRegister } from "@refinedev/core";
+
+import { api } from "../../../utils";
 import { AuthBackground, Form } from "../../../components/auth";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
 import { Modal } from "../../../components";
@@ -9,7 +11,6 @@ import { RegisterVariables } from "../../../types/index.types";
 import { getFormFields } from "./formFields";
 import { getFormConfig } from "./formConfig";
 import { getModalConfig } from "./modalConfig";
-import { api } from "../../../utils";
 
 export const RegisterPage = () => {
   const [formStep, setFormStep] = useState(1);
