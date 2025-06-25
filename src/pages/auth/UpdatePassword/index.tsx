@@ -76,7 +76,7 @@ export const UpdatePasswordPage = () => {
       <Form
         formTitle="Reset your password"
         formDescription="Choose a new password that is secure and easy to remember."
-        formfields={formFields}
+        formFields={formFields}
         formType="updatePassword"
         isLoading={isLoading}
         submitLoadingText="Saving New Password..."

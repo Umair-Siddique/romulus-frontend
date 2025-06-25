@@ -61,7 +61,7 @@ export const ForgotPasswordPage = () => {
       <Form
         formTitle="Forgot Password?"
         formDescription="Enter the email address associated with your account, and we'll send you a link to reset it."
-        formfields={formFields}
+        formFields={formFields}
         formType="forgotPassword"
         isLoading={isLoading}
         submitLoadingText="Sending Reset Link..."
