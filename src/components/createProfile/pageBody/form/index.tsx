@@ -35,6 +35,7 @@ export const Form = ({
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [config, setConfig] = useState<Record<string, any[]>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
   const theme = useTheme<Theme>();
@@ -100,6 +101,8 @@ export const Form = ({
   };
 
   const handleSubmit = async () => {
+    setIsSubmitting(true);
+
     try {
       // Create FormData object for efficient file uploads
       const submitData = new FormData();
@@ -203,6 +206,8 @@ export const Form = ({
       // Set error message and show error modal
       setErrorMessage(apiErrorMessage);
       setShowErrorModal(true);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -326,9 +331,9 @@ export const Form = ({
   const isNavigationDisabled = (navigateTo: "back" | "next") => {
     switch (navigateTo) {
       case "back":
-        return activeStep === 0 || !validateCurrentStep();
+        return activeStep === 0 || !validateCurrentStep() || isSubmitting;
       case "next":
-        return !validateCurrentStep();
+        return !validateCurrentStep() || isSubmitting;
       default:
         return false;
     }
@@ -362,7 +367,12 @@ export const Form = ({
       textColor: isNavigationDisabled("next")
         ? theme.palette.text.disabled
         : theme.palette.primary.contrastText,
-      label: steps[activeStep] === "Review & Submit" ? "Submit" : "Next →",
+      label:
+        steps[activeStep] === "Review & Submit"
+          ? isSubmitting
+            ? "Submitting..."
+            : "Submit"
+          : "Next →",
     },
   ];
 
