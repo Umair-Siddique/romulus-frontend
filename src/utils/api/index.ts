@@ -19,23 +19,3 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
-
-// Response interceptor - handle errors
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    // Auto logout on 401 (token expired)
-    if (error.response?.status === 401) {
-      localStorage.removeItem("romulus-auth");
-      localStorage.removeItem("romulus-user");
-      // window.location.href = "/login";
-    }
-
-    // Log errors in development
-    if (process.env.NODE_ENV === "development") {
-      console.error("API Error:", error.response?.data);
-    }
-
-    return Promise.reject(error);
-  }
-);

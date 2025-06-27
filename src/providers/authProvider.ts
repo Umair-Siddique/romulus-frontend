@@ -1,3 +1,5 @@
+import { jwtDecode } from "jwt-decode";
+
 import type { AuthProvider } from "@refinedev/core";
 import { api } from "../utils";
 
@@ -18,11 +20,14 @@ export const authProvider: AuthProvider = {
           JSON.stringify(response.data.data)
         );
 
+        const id =
+          response.data.data.organizationId ||
+          response.data.data.educatorId ||
+          response.data.data.adminId;
+
         if (response.data.data.role === "educator") {
           try {
-            const res = await api.get(
-              `/educators/${response.data.data.userId}`
-            );
+            const res = await api.get(`/educators/${id}`);
             localStorage.setItem("romulus-user", JSON.stringify(res.data.data));
             hasProfile = true;
           } catch (error) {
@@ -30,9 +35,7 @@ export const authProvider: AuthProvider = {
           }
         } else if (response.data.data.role === "organization") {
           try {
-            const res = await api.get(
-              `/organizations/${response.data.data.userId}`
-            );
+            const res = await api.get(`/organizations/${id}`);
             localStorage.setItem("romulus-user", JSON.stringify(res.data.data));
             hasProfile = true;
           } catch (error) {
@@ -165,7 +168,27 @@ export const authProvider: AuthProvider = {
 
   check: async () => {
     const token = localStorage.getItem("romulus-auth");
+
     if (token) {
+      const decoded = jwtDecode(token);
+      const currentTime = Math.floor(Date.now() / 1000);
+
+      if (decoded.exp && decoded.exp < currentTime) {
+        localStorage.removeItem("romulus-auth");
+        localStorage.removeItem("romulus-user");
+        localStorage.removeItem("romulus-has-profile");
+
+        return {
+          authenticated: false,
+          error: {
+            message: "Token expired",
+            name: "Session expired",
+          },
+          logout: true,
+          redirectTo: "/login",
+        };
+      }
+
       return {
         authenticated: true,
       };

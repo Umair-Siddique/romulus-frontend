@@ -44,6 +44,7 @@
     "@uiw/react-md-editor": "^3.19.5",
     "axios": "^1.6.2",
     "dayjs": "^1.10.7",
+    "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.511.0",
     "react": "^18.0.0",
