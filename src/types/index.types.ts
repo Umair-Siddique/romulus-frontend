@@ -21,5 +21,5 @@ export type ForgotPasswordVariables = {
 export type UpdatePasswordVariables = {
   password: string;
   confirmPassword?: string;
-  token: string;
+  accessToken: string;
 };

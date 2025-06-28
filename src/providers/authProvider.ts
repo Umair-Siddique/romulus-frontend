@@ -166,10 +166,10 @@ export const authProvider: AuthProvider = {
   },
 
   check: async () => {
-    const token = localStorage.getItem("romulus-auth");
+    const accessToken = localStorage.getItem("romulus-auth");
 
-    if (token) {
-      const decoded = jwtDecode(token);
+    if (accessToken) {
+      const decoded = jwtDecode(accessToken);
       const currentTime = Math.floor(Date.now() / 1000);
 
       if (decoded.exp && decoded.exp < currentTime) {

@@ -20,7 +20,7 @@ export const UpdatePasswordPage = () => {
     defaultValues: {
       password: "",
       confirmPassword: "",
-      token: new URLSearchParams(window.location.search).get("token") || "",
+      accessToken: new URLSearchParams(window.location.search).get("accessToken") || "",
     },
   });
 

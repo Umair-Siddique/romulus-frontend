@@ -11,11 +11,11 @@ export const api = axios.create({
   },
 });
 
-// Request interceptor - add auth token
+// Request interceptor - add auth accessToken
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("romulus-auth");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  const accessToken = localStorage.getItem("romulus-auth");
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;
 });
