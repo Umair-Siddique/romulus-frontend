@@ -8,13 +8,12 @@ export const authProvider: AuthProvider = {
     try {
       const response = await api.post("/auth/signin", params);
 
-      let token: string;
       let hasProfile: boolean = false;
 
-      if (response.data.token && response.data.data.userId) {
-        token = response.data.token;
+      if (response.data.accessToken && response.data.data.userId) {
+        const accessToken: string = response.data.accessToken;
 
-        localStorage.setItem("romulus-auth", token);
+        localStorage.setItem("romulus-auth", accessToken);
         localStorage.setItem(
           "romulus-user",
           JSON.stringify(response.data.data)
