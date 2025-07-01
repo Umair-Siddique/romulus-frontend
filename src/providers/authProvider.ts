@@ -8,7 +8,8 @@ export const authProvider: AuthProvider = {
     try {
       const response = await api.post("/auth/signin", params);
 
-      let hasProfile: boolean = false;
+      let hasProfile = false;
+      let redirectTo = "/";
 
       if (response.data.accessToken && response.data.data.userId) {
         const accessToken: string = response.data.accessToken;
@@ -24,30 +25,64 @@ export const authProvider: AuthProvider = {
           response.data.data.educatorId ||
           response.data.data.adminId;
 
-        if (response.data.data.role === "educator") {
-          try {
-            const res = await api.get(`/educators/${id}`);
-            localStorage.setItem("romulus-user", JSON.stringify(res.data.data));
-            hasProfile = true;
-          } catch (error) {
-            hasProfile = false;
-          }
-        } else if (response.data.data.role === "organization") {
-          try {
-            const res = await api.get(`/organizations/${id}`);
-            localStorage.setItem("romulus-user", JSON.stringify(res.data.data));
-            hasProfile = true;
-          } catch (error) {
-            hasProfile = false;
-          }
+        const role = response.data.data.role;
+
+        switch (role) {
+          case "educator":
+            try {
+              const res = await api.get(`/educators/${id}`);
+              localStorage.setItem(
+                "romulus-user",
+                JSON.stringify(res.data.data)
+              );
+              hasProfile = true;
+            } catch (error) {
+              hasProfile = false;
+            }
+            break;
+          case "organization":
+            try {
+              const res = await api.get(`/organizations/${id}`);
+              localStorage.setItem(
+                "romulus-user",
+                JSON.stringify(res.data.data)
+              );
+              hasProfile = true;
+            } catch (error) {
+              hasProfile = false;
+            }
+
+            break;
+          case "admin":
+            try {
+              const res = await api.get(`/admin/${id}`);
+              localStorage.setItem(
+                "romulus-user",
+                JSON.stringify(res.data.data)
+              );
+              hasProfile = true;
+            } catch (error) {
+              hasProfile = false;
+            }
+            break;
+          default:
+        }
+
+        if (role === "educator" || role === "organization") {
+          redirectTo = hasProfile ? "/" : "/create-profile";
+          localStorage.setItem(
+            "romulus-has-profile",
+            JSON.stringify(hasProfile)
+          );
+        } else {
+          redirectTo = "/";
+          localStorage.setItem("romulus-has-profile", JSON.stringify(true));
         }
       }
 
-      localStorage.setItem("romulus-has-profile", JSON.stringify(hasProfile));
-
       return {
         success: true,
-        redirectTo: hasProfile ? "/" : "/create-profile",
+        redirectTo,
         successNotification: {
           message: response.data.message || "Login successful",
           description: "Welcome back!",

@@ -19,8 +19,9 @@ const baseTheme = createTheme({
       paper: "#F6F6F6",
     },
     text: {
-      primary: "#2F2F2F",
-      secondary: "#60756E",
+      primary: "#000000",
+      secondary: "#9E9E9E",
+      disabled: "#B0BEC5",
     },
     error: {
       main: "#B55252",

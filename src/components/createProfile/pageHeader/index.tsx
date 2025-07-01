@@ -11,7 +11,7 @@ import { AccountCircle, ArrowDropDown } from "@mui/icons-material";
 import { useLogout } from "@refinedev/core";
 import { useTheme, Theme } from "@mui/material/styles";
 
-import LogoImage from "../../../assets/images/logo.png";
+import logoImage from "../../../assets/images/logo.png";
 import { Logo } from "../../auth/logo";
 
 export const PageHeader: React.FC = () => {
@@ -44,7 +44,7 @@ export const PageHeader: React.FC = () => {
       <Toolbar sx={{ justifyContent: "space-between", py: theme.spacing(1) }}>
         <Box sx={{ textAlign: "center" }}>
           {/* Logo */}
-          <Logo LogoImage={LogoImage} width={50} />
+          <Logo logoImage={logoImage} width={50} />
         </Box>
 
         {/* Profile Dropdown */}

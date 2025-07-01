@@ -5,7 +5,7 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { GridCheckCircleIcon } from "@mui/x-data-grid";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-import LogoImage from "../../../assets/images/logo.png";
+import logoImage from "../../../assets/images/logo.png";
 import { api } from "../../../utils";
 import { FormProps } from "../../../interface";
 
@@ -117,7 +117,7 @@ export const Form: React.FC<FormProps> = ({
       }}
     >
       {/* Logo - Fixed to top */}
-      <Logo LogoImage={LogoImage} width={115} />
+      <Logo logoImage={logoImage} width={115} />
 
       {/* Content Container - Centered vertically in remaining space */}
       <Box
