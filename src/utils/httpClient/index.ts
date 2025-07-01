@@ -3,7 +3,7 @@ import axios from "axios";
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 // Create optimized axios instance
-export const api = axios.create({
+export const httpClient = axios.create({
   baseURL: apiBaseUrl,
   timeout: 10000,
   headers: {
@@ -12,7 +12,7 @@ export const api = axios.create({
 });
 
 // Request interceptor - add auth accessToken
-api.interceptors.request.use((config) => {
+httpClient.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem("romulus-auth");
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;

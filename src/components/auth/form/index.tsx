@@ -6,7 +6,7 @@ import { GridCheckCircleIcon } from "@mui/x-data-grid";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 import logoImage from "../../../assets/images/logo.png";
-import { api } from "../../../utils";
+import { httpClient } from "../../../utils";
 import { FormProps } from "../../../interface";
 
 import FormHeader from "../formHeader";
@@ -60,7 +60,7 @@ export const Form: React.FC<FormProps> = ({
 
   const verifyOtp = async () => {
     try {
-      const res = await api.post("/twilio/verify-otp", {
+      const res = await httpClient.post("/twilio/verify-otp", {
         phone: phoneNumber,
         code: verificationCode?.join(""),
       });

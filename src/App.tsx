@@ -16,7 +16,6 @@ import routerProvider, {
   DocumentTitleHandler,
 } from "@refinedev/react-router";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router";
-import Dashboard from "@mui/icons-material/Dashboard";
 import Box from "@mui/material/Box";
 import { authProvider } from "./providers";
 import { Home, CreateProfile } from "./pages/dashboard";
@@ -29,6 +28,8 @@ import {
 } from "./pages/auth";
 import theme from "./theme";
 import { Sider } from "./components";
+import { UserProvider } from "./context";
+import { httpClient } from "./utils";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -41,7 +42,14 @@ const App: React.FC = () => {
         <RefineSnackbarProvider>
           <Refine
             routerProvider={routerProvider}
-            dataProvider={dataProvider(API_URL)}
+            dataProvider={{
+              default: dataProvider(API_URL, httpClient),
+              educators: dataProvider(`${API_URL}/educators`, httpClient),
+              organization: dataProvider(
+                `${API_URL}/organizations`,
+                httpClient
+              ),
+            }}
             authProvider={authProvider}
             options={{
               syncWithLocation: true,
@@ -50,73 +58,65 @@ const App: React.FC = () => {
               useNewQueryKeys: true,
             }}
             notificationProvider={useNotificationProvider}
-            resources={[
-              {
-                name: "dashboard",
-                list: "/",
-                meta: {
-                  label: "Dashboard",
-                  icon: <Dashboard />,
-                },
-              },
-            ]}
           >
-            <Routes>
-              <Route path="/create-profile" element={<CreateProfile />} />
-              <Route
-                element={
-                  <Authenticated
-                    key="authenticated-routes"
-                    fallback={<CatchAllNavigate to="/login" />}
-                  >
-                    <ThemedLayoutV2 Header={Header} Sider={Sider}>
-                      <Box
-                        sx={{
-                          maxWidth: "100%",
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                        }}
-                      >
+            <UserProvider>
+              <Routes>
+                <Route path="/create-profile" element={<CreateProfile />} />
+                <Route
+                  element={
+                    <Authenticated
+                      key="authenticated-routes"
+                      fallback={<CatchAllNavigate to="/login" />}
+                    >
+                      <ThemedLayoutV2 Header={Header} Sider={Sider}>
+                        <Box
+                          sx={{
+                            maxWidth: "100%",
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                          }}
+                        >
+                          <Outlet />
+                        </Box>
+                      </ThemedLayoutV2>
+                    </Authenticated>
+                  }
+                >
+                  <Route index element={<Home />} />
+                </Route>
+
+                <Route
+                  element={
+                    <Authenticated key="auth-pages" fallback={<Outlet />}>
+                      <NavigateToResource resource="dashboard" />
+                    </Authenticated>
+                  }
+                >
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/register" element={<RegisterPage />} />
+                  <Route
+                    path="/forgot-password"
+                    element={<ForgotPasswordPage />}
+                  />
+                  <Route
+                    path="/update-password"
+                    element={<UpdatePasswordPage />}
+                  />
+                </Route>
+
+                <Route
+                  element={
+                    <Authenticated key="catch-all">
+                      <ThemedLayoutV2 Header={Header} Sider={Sider}>
                         <Outlet />
-                      </Box>
-                    </ThemedLayoutV2>
-                  </Authenticated>
-                }
-              >
-                <Route index element={<Home />} />
-              </Route>
-
-              <Route
-                element={
-                  <Authenticated key="auth-pages" fallback={<Outlet />}>
-                    <NavigateToResource resource="dashboard" />
-                  </Authenticated>
-                }
-              >
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route
-                  path="/forgot-password"
-                  element={<ForgotPasswordPage />}
-                />
-                <Route
-                  path="/update-password"
-                  element={<UpdatePasswordPage />}
-                />
-              </Route>
-
-              <Route
-                element={
-                  <Authenticated key="catch-all">
-                    <ThemedLayoutV2 Header={Header} Sider={Sider}>
-                      <Outlet />
-                    </ThemedLayoutV2>
-                  </Authenticated>
-                }
-              >
-                <Route path="*" element={<ErrorComponent />} />
-              </Route>
-            </Routes>
+                      </ThemedLayoutV2>
+                    </Authenticated>
+                  }
+                >
+                  <Route path="*" element={<ErrorComponent />} />
+                </Route>
+              </Routes>
+            </UserProvider>
             <UnsavedChangesNotifier />
             <DocumentTitleHandler />
           </Refine>

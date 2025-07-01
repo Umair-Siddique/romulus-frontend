@@ -1,8 +1,15 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { Logout as LogoutIcon } from "@mui/icons-material";
+import { useLogout } from "@refinedev/core";
 
 export const LogoutButton = () => {
+  const { mutate: logout } = useLogout();
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <Button
       fullWidth
@@ -18,8 +25,9 @@ export const LogoutButton = () => {
           backgroundColor: "#ffebee",
         },
       }}
+      onClick={handleLogout}
     >
-      Log-Out
+      Log Out
     </Button>
   );
 };

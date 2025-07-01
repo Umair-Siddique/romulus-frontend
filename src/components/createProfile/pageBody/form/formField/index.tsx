@@ -36,11 +36,6 @@ export const FormField: React.FC<FormFieldProps> = ({
     ) {
       // Get the selected country from formData
       const selectedCountry = formData.country;
-      console.log("Selected country from formData:", selectedCountry);
-      console.log(
-        "Available cities:",
-        selectedCountry ? field.options[selectedCountry] : []
-      );
 
       // Return cities for the selected country, or empty array if no country selected
       return selectedCountry && field.options[selectedCountry]

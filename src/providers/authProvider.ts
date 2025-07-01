@@ -1,89 +1,14 @@
-import { jwtDecode } from "jwt-decode";
-
 import type { AuthProvider } from "@refinedev/core";
-import { api } from "../utils";
+import { httpClient } from "../utils";
 
 export const authProvider: AuthProvider = {
   login: async (params: any) => {
     try {
-      const response = await api.post("/auth/signin", params); // Full response object
-      const dataObj = response?.data; // Actual data sent by the API
-
-      let redirectTo = "/";
-      
-      if (dataObj) {
-        let hasProfile = false;
-        const { accessToken, data: userData } = dataObj;
-        const { userId, educatorId, organizationId, role } = userData;
-
-        const stringifiedUserData = JSON.stringify(userData);
-
-        localStorage.setItem("romulus-auth", accessToken);
-        localStorage.setItem("romulus-user", stringifiedUserData);
-
-        switch (role) {
-          case "educator":
-            try {
-              const response = await api.get(`/educators/${educatorId}`);
-              const dataObj = response?.data;
-
-              const { data: educatorData } = dataObj;
-              const stringifiedEducatorData = JSON.stringify(educatorData);
-
-              localStorage.setItem("romulus-user", stringifiedEducatorData);
-              hasProfile = true;
-            } catch (error) {
-              hasProfile = false;
-              redirectTo = "/create-profile";
-              console.error("Error fetching educator data:", error);
-            }
-            break;
-          case "organization":
-            try {
-              const response = await api.get(
-                `/organizations/${organizationId}`
-              );
-              const dataObj = response?.data;
-
-              const { data: organizationData } = dataObj;
-              const stringifiedOrganizationData =
-                JSON.stringify(organizationData);
-
-              localStorage.setItem("romulus-user", stringifiedOrganizationData);
-              hasProfile = true;
-            } catch (error) {
-              hasProfile = false;
-              redirectTo = "/create-profile";
-              console.error("Error fetching organization data:", error);
-            }
-            break;
-          case "admin":
-            try {
-              const response = await api.get(`/users/${userId}`);
-              const dataObj = response?.data;
-
-              const { data: adminData } = dataObj;
-              const stringifiedAdminData = JSON.stringify(adminData);
-
-              localStorage.setItem("romulus-user", stringifiedAdminData);
-              hasProfile = true;
-            } catch (error) {
-              console.error("Error fetching admin data:", error);
-            }
-            break;
-          default:
-        }
-
-        localStorage.setItem("romulus-has-profile", JSON.stringify(hasProfile));
-      }
+      const response = await httpClient.post("/auth/signin", params);
 
       return {
         success: true,
-        redirectTo,
-        successNotification: {
-          message: response.data.message || "Login successful",
-          description: "Welcome back!",
-        },
+        data: response.data,
       };
     } catch (error: any) {
       return {
@@ -98,7 +23,7 @@ export const authProvider: AuthProvider = {
 
   register: async (params: any) => {
     try {
-      const response = await api.post("/auth/signup", params);
+      const response = await httpClient.post("/auth/signup", params);
 
       return {
         success: true,
@@ -119,7 +44,7 @@ export const authProvider: AuthProvider = {
 
   updatePassword: async (params) => {
     try {
-      const response = await api.patch("/auth/update-password", params);
+      const response = await httpClient.patch("/auth/update-password", params);
 
       return {
         success: true,
@@ -141,7 +66,7 @@ export const authProvider: AuthProvider = {
 
   forgotPassword: async (params: any) => {
     try {
-      const response = await api.post("/auth/forgot-password", params);
+      const response = await httpClient.post("/auth/forgot-password", params);
 
       return {
         success: true,
@@ -163,10 +88,8 @@ export const authProvider: AuthProvider = {
 
   logout: async () => {
     try {
-      const response = await api.post("/auth/signout");
-      localStorage.removeItem("romulus-auth");
-      localStorage.removeItem("romulus-user");
-      localStorage.removeItem("romulus-has-profile");
+      const response = await httpClient.post("/auth/signout");
+      localStorage.clear();
 
       return {
         success: true,
@@ -198,41 +121,18 @@ export const authProvider: AuthProvider = {
   },
 
   check: async () => {
-    const accessToken = localStorage.getItem("romulus-auth");
+    const userString = localStorage.getItem("romulus-user");
+    const user = userString ? JSON.parse(userString) : null;
 
-    if (accessToken) {
-      const decoded = jwtDecode(accessToken);
-      const currentTime = Math.floor(Date.now() / 1000);
-
-      if (decoded.exp && decoded.exp < currentTime) {
-        localStorage.removeItem("romulus-auth");
-        localStorage.removeItem("romulus-user");
-        localStorage.removeItem("romulus-has-profile");
-
-        return {
-          authenticated: false,
-          error: {
-            message: "Token expired",
-            name: "Session expired",
-          },
-          logout: true,
-          redirectTo: "/login",
-        };
-      }
-
-      return {
-        authenticated: true,
-      };
+    if (!user) {
+      return { authenticated: false, redirectTo: "/login" };
     }
 
     return {
-      authenticated: false,
-      error: {
-        message: "Check failed",
-        name: "Token not found",
-      },
-      logout: true,
-      redirectTo: "/login",
+      authenticated: true,
+      userId: user.userId,
+      userRole: user.role,
+      redirectTo: "/",
     };
   },
 
@@ -246,8 +146,7 @@ export const authProvider: AuthProvider = {
     }
 
     return {
-      id: user.user,
-      name: user.organizationName || user.educatorName || user.adminName,
+      id: user.userId,
       avatar: user.avatar || user.profilePicture || "",
     };
   },

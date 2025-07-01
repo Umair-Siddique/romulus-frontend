@@ -1,32 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useUserContext } from "../../../context";
 
 export const Home = () => {
-  const navigate = useNavigate();
+  const { role } = useUserContext();
 
-  useEffect(() => {
-    // Read localStorage values inside useEffect to get fresh values
-    const user = localStorage.getItem("romulus-user");
-    const profile = localStorage.getItem("romulus-has-profile");
-    const hasProfile = profile ? JSON.parse(profile) : false;
+  console.log("User role in Home:", role);
 
-    // If no user, redirect to login
-    if (!user) {
-      navigate("/login");
-      return;
-    }
-
-    // If user has profile, redirect to home
-    if (hasProfile) {
-      navigate("/");
-      return;
-    } else {
-      navigate("/create-profile");
-      return;
-    }
-
-    // If user exists but no profile, stay on create-profile page
-  }, [navigate]);
-
-  return <div>Home</div>;
+  return <div>Hey, {role}</div>;
 };

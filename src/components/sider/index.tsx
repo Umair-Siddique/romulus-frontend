@@ -5,10 +5,12 @@ import { LogoutButton } from "./LogoutButton";
 import { TrainingProgressCard } from "./TrainingProgressCard";
 import { getNavigationItems } from "./navigationData";
 import { Header } from "./header";
+import { useUserContext } from "../../context";
 
 export const Sider = () => {
-  const role = "educator";
-  const navigationItems = getNavigationItems(role);
+  // const { userRole } = useUserContext();
+
+  const navigationItems = getNavigationItems("educator");
 
   return (
     <Drawer
@@ -26,9 +28,7 @@ export const Sider = () => {
       }}
     >
       <Header />
-      <NavigationList
-        items={navigationItems}
-      />
+      <NavigationList items={navigationItems} />
 
       <Box sx={{ mt: "auto", p: 2 }}>
         <LogoutButton />

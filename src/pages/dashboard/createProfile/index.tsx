@@ -1,40 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import { Box } from "@mui/material";
 
 import { PageHeader, PageBody } from "../../../components/createProfile";
+import { useUserContext } from "../../../context";
 
 export const CreateProfile = () => {
-  const [user, setUser] = useState(null);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Check if the user is logged in
-    // If not logged in, redirect to login page
-    const user = localStorage.getItem("romulus-user");
-    const isLoggedIn = Boolean(user);
-
-    if (!isLoggedIn) {
-      navigate("/login");
-      return;
-    }
-
-    // Check if the user has already created a profile
-    // If yes, redirect to the dashboard
-    const profile = localStorage.getItem("romulus-has-profile");
-    const hasProfile = Boolean(profile);
-
-    if (!hasProfile) {
-      navigate("/");
-      return;
-    }
-
-    // Determine the steps based on user role
-    const parsedUser = user ? JSON.parse(user) : null;
-
-    setUser(parsedUser);
-  }, [navigate]);
+  const { user } = useUserContext();
+  console.log("User in CreateProfile:", user);
 
   return (
     <Box>

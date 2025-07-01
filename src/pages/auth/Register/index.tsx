@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { useRegister } from "@refinedev/core";
 
-import { api } from "../../../utils";
+import { httpClient } from "../../../utils";
 import { AuthBackground, Form } from "../../../components/auth";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
 import { Modal } from "../../../components";
@@ -57,7 +57,7 @@ export const RegisterPage = () => {
   };
 
   const requestOtpAgain = async () => {
-    await api.post("/twilio/send-otp", {
+    await httpClient.post("/twilio/send-otp", {
       phone: phoneNumber,
     });
   };

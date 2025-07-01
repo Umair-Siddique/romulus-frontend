@@ -6,10 +6,11 @@ import { CheckCircle, Cancel } from "@mui/icons-material";
 
 import { ReviewStep } from "./reviewStep";
 import { FormStep } from "./formStep";
-import { api } from "../../../../utils";
+import { httpClient } from "../../../../utils";
 import { Modal } from "../../../modal";
 import { NavigationButton } from "../navigationButtons";
 import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";
+import { useUserContext } from "../../../../context";
 
 interface FormProps {
   activeStep: number;
@@ -36,6 +37,7 @@ export const Form = ({
   const [errorMessage, setErrorMessage] = useState("");
   const [config, setConfig] = useState<Record<string, any[]>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { setUser, setHasProfile } = useUserContext();
 
   const navigate = useNavigate();
   const theme = useTheme<Theme>();
@@ -158,7 +160,7 @@ export const Form = ({
       let res;
 
       if (role === "educator") {
-        res = await api.post(`/educators`, submitData, {
+        res = await httpClient.post(`/educators`, submitData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -168,7 +170,7 @@ export const Form = ({
           setShowSuccessModal(true);
         }
       } else {
-        res = await api.post(`/organizations`, submitData, {
+        res = await httpClient.post(`/organizations`, submitData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -179,9 +181,8 @@ export const Form = ({
         }
       }
 
-      localStorage.setItem("romulus-has-profile", "true");
-      localStorage.setItem("romulus-user", JSON.stringify(res.data.data));
-
+      setUser(res.data.data);
+      setHasProfile(true);
       setShowSuccessModal(true);
     } catch (error: any) {
       console.error("Submission error:", error);
