@@ -6,78 +6,75 @@ import { api } from "../utils";
 export const authProvider: AuthProvider = {
   login: async (params: any) => {
     try {
-      const response = await api.post("/auth/signin", params);
+      const response = await api.post("/auth/signin", params); // Full response object
+      const dataObj = response?.data; // Actual data sent by the API
 
-      let hasProfile = false;
       let redirectTo = "/";
+      
+      if (dataObj) {
+        let hasProfile = false;
+        const { accessToken, data: userData } = dataObj;
+        const { userId, educatorId, organizationId, role } = userData;
 
-      if (response.data.accessToken && response.data.data.userId) {
-        const accessToken: string = response.data.accessToken;
+        const stringifiedUserData = JSON.stringify(userData);
 
         localStorage.setItem("romulus-auth", accessToken);
-        localStorage.setItem(
-          "romulus-user",
-          JSON.stringify(response.data.data)
-        );
-
-        const id =
-          response.data.data.organizationId ||
-          response.data.data.educatorId ||
-          response.data.data.adminId;
-
-        const role = response.data.data.role;
+        localStorage.setItem("romulus-user", stringifiedUserData);
 
         switch (role) {
           case "educator":
             try {
-              const res = await api.get(`/educators/${id}`);
-              localStorage.setItem(
-                "romulus-user",
-                JSON.stringify(res.data.data)
-              );
+              const response = await api.get(`/educators/${educatorId}`);
+              const dataObj = response?.data;
+
+              const { data: educatorData } = dataObj;
+              const stringifiedEducatorData = JSON.stringify(educatorData);
+
+              localStorage.setItem("romulus-user", stringifiedEducatorData);
               hasProfile = true;
             } catch (error) {
               hasProfile = false;
+              redirectTo = "/create-profile";
+              console.error("Error fetching educator data:", error);
             }
             break;
           case "organization":
             try {
-              const res = await api.get(`/organizations/${id}`);
-              localStorage.setItem(
-                "romulus-user",
-                JSON.stringify(res.data.data)
+              const response = await api.get(
+                `/organizations/${organizationId}`
               );
+              const dataObj = response?.data;
+
+              const { data: organizationData } = dataObj;
+              const stringifiedOrganizationData =
+                JSON.stringify(organizationData);
+
+              localStorage.setItem("romulus-user", stringifiedOrganizationData);
               hasProfile = true;
             } catch (error) {
               hasProfile = false;
+              redirectTo = "/create-profile";
+              console.error("Error fetching organization data:", error);
             }
-
             break;
           case "admin":
             try {
-              const res = await api.get(`/admin/${id}`);
-              localStorage.setItem(
-                "romulus-user",
-                JSON.stringify(res.data.data)
-              );
+              const response = await api.get(`/users/${userId}`);
+              const dataObj = response?.data;
+
+              const { data: adminData } = dataObj;
+              const stringifiedAdminData = JSON.stringify(adminData);
+
+              localStorage.setItem("romulus-user", stringifiedAdminData);
               hasProfile = true;
             } catch (error) {
-              hasProfile = false;
+              console.error("Error fetching admin data:", error);
             }
             break;
           default:
         }
 
-        if (role === "educator" || role === "organization") {
-          redirectTo = hasProfile ? "/" : "/create-profile";
-          localStorage.setItem(
-            "romulus-has-profile",
-            JSON.stringify(hasProfile)
-          );
-        } else {
-          redirectTo = "/";
-          localStorage.setItem("romulus-has-profile", JSON.stringify(true));
-        }
+        localStorage.setItem("romulus-has-profile", JSON.stringify(hasProfile));
       }
 
       return {
