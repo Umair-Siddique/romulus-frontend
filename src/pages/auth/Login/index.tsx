@@ -40,7 +40,7 @@ export const LoginPage = () => {
         display: "flex",
         minHeight: "100vh",
         width: "100vw",
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.palette.background.default,
       }}
     >
       <Form

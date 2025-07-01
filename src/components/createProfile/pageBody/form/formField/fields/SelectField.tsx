@@ -53,7 +53,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
             borderWidth: 2,
           },
           "& .MuiSelect-select": {
-            backgroundColor: theme.palette.background.default,
+            backgroundColor: theme.palette.background.paper,
             borderRadius: theme.spacing(0.5),
             color: theme.palette.text.primary,
           },

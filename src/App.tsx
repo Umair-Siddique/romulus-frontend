@@ -1,5 +1,5 @@
 import { Authenticated, Refine } from "@refinedev/core";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import {
   ErrorComponent,
   useNotificationProvider,
@@ -20,7 +20,7 @@ import Dashboard from "@mui/icons-material/Dashboard";
 import Box from "@mui/material/Box";
 import { authProvider } from "./providers";
 import { Home, CreateProfile } from "./pages/dashboard";
-import { Header, Title } from "./components";
+import { Header } from "./components";
 import {
   LoginPage,
   ForgotPasswordPage,
@@ -28,6 +28,7 @@ import {
   UpdatePasswordPage,
 } from "./pages/auth";
 import theme from "./theme";
+import { Sider } from "./components";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -68,10 +69,10 @@ const App: React.FC = () => {
                     key="authenticated-routes"
                     fallback={<CatchAllNavigate to="/login" />}
                   >
-                    <ThemedLayoutV2 Header={Header} Title={Title}>
+                    <ThemedLayoutV2 Header={Header} Sider={Sider}>
                       <Box
                         sx={{
-                          maxWidth: "1200px",
+                          maxWidth: "100%",
                           marginLeft: "auto",
                           marginRight: "auto",
                         }}
@@ -107,7 +108,7 @@ const App: React.FC = () => {
               <Route
                 element={
                   <Authenticated key="catch-all">
-                    <ThemedLayoutV2 Header={Header} Title={Title}>
+                    <ThemedLayoutV2 Header={Header} Sider={Sider}>
                       <Outlet />
                     </ThemedLayoutV2>
                   </Authenticated>

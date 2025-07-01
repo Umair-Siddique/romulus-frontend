@@ -10,6 +10,10 @@ import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useTheme, Theme } from "@mui/material/styles";
 import { IUser } from "../../interface";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -17,6 +21,15 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
   const theme = useTheme<Theme>();
   const { data: user } = useGetIdentity<IUser>();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleUserMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <AppBar
@@ -25,19 +38,23 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
       elevation={0}
       sx={{
         "& .MuiToolbar-root": {
-          minHeight: theme.spacing(8), // 64px equivalent using theme spacing
+          minHeight: theme.spacing(8),
         },
-        height: theme.spacing(8), // 64px equivalent using theme spacing
+        height: theme.spacing(8),
         borderBottom: `1px solid ${theme.palette.divider}`,
-        backgroundColor: theme.palette.background.paper,
+        // add some drop shadow
+        boxShadow: `0px 2px 8px rgba(126, 148, 142, 0.08)`,
       }}
     >
       <Toolbar
         sx={{
           paddingLeft: {
-            xs: theme.spacing(0),
-            sm: theme.spacing(2), // 16px equivalent
-            md: theme.spacing(3), // 24px equivalent
+            xs: theme.spacing(2),
+            sm: theme.spacing(3),
+          },
+          paddingRight: {
+            xs: theme.spacing(2),
+            sm: theme.spacing(3),
           },
         }}
       >
@@ -49,68 +66,84 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
             sm: theme.spacing(2), // 16px equivalent
           }}
           sx={{
-            "& .MuiButtonBase-root": {
-              marginLeft: 0,
-              marginRight: 0,
-            },
+            fontWeight: 600,
+            fontSize: "1.25rem",
+            color: theme.palette.text.primary,
+            flexGrow: 1,
           }}
         >
-          <HamburgerMenu />
+          Missions
         </Box>
 
-        <Stack
-          direction="row"
-          width="100%"
-          justifyContent="end"
-          alignItems="center"
-        >
-          <Box
+        {/* Right side - Notification and User */}
+        <Stack direction="row" alignItems="center" spacing={2}>
+          {/* Notification Icon */}
+          <IconButton
             sx={{
-              display: {
-                xs: "none",
-                sm: "block",
-              },
-              mr: theme.spacing(2), // Add consistent spacing before user info
+              color: theme.palette.text.secondary,
             }}
           >
-            <NotificationsOutlinedIcon
-              sx={{
-                fontSize: theme.spacing(3), // 24px equivalent using theme spacing
-                color: theme.palette.primary.main,
-              }}
-            />
-          </Box>
+            <NotificationsOutlinedIcon />
+          </IconButton>
+
+          {/* User Info with Dropdown */}
           <Stack
             direction="row"
-            gap={{
-              xs: theme.spacing(1), // 8px equivalent
-              sm: theme.spacing(2), // 16px equivalent
-            }}
             alignItems="center"
-            justifyContent="center"
+            spacing={1}
+            sx={{
+              cursor: "pointer",
+              padding: theme.spacing(0.5, 1),
+              borderRadius: theme.spacing(1),
+              "&:hover": {
+                backgroundColor: theme.palette.action.hover,
+              },
+            }}
+            onClick={handleUserMenuClick}
           >
             <Avatar
               src={user?.avatar}
               alt={user?.name}
               sx={{
-                width: theme.spacing(5), // 40px equivalent for consistent sizing
-                height: theme.spacing(5), // 40px equivalent for consistent sizing
+                width: theme.spacing(4),
+                height: theme.spacing(4),
               }}
             />
             <Typography
-              fontSize={{
-                xs: "0.75rem", // 12px equivalent using rem
-                sm: "0.875rem", // 14px equivalent using rem
-              }}
               variant="subtitle2"
               sx={{
                 color: theme.palette.text.primary,
-                fontWeight: theme.typography.subtitle2.fontWeight,
+                fontWeight: 500,
               }}
             >
-              {user?.name}
+              {user?.name || "John Doe"}
             </Typography>
+            <KeyboardArrowDownIcon
+              sx={{
+                fontSize: "1rem",
+                color: theme.palette.text.secondary,
+              }}
+            />
           </Stack>
+
+          {/* User Dropdown Menu */}
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleUserMenuClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+          >
+            <MenuItem onClick={handleUserMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={handleUserMenuClose}>Settings</MenuItem>
+            <MenuItem onClick={handleUserMenuClose}>Logout</MenuItem>
+          </Menu>
         </Stack>
       </Toolbar>
     </AppBar>

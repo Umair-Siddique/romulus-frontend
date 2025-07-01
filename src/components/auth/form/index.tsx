@@ -5,7 +5,7 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { GridCheckCircleIcon } from "@mui/x-data-grid";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-import Logo from "../../../assets/images/logo.png";
+import LogoImage from "../../../assets/images/logo.png";
 import { api } from "../../../utils";
 import { FormProps } from "../../../interface";
 
@@ -14,6 +14,7 @@ import FormField from "../formField";
 import SubmitButton from "../submitButton";
 import TextLink from "../../textLink";
 import { Modal } from "../../../components";
+import { Logo } from "../logo";
 
 export const Form: React.FC<FormProps> = ({
   formTitle,
@@ -112,15 +113,11 @@ export const Form: React.FC<FormProps> = ({
         alignItems: "center",
         px: { xs: theme.spacing(3), md: theme.spacing(6) },
         py: theme.spacing(4),
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.palette.background.default,
       }}
     >
       {/* Logo - Fixed to top */}
-      <Box
-        sx={{ textAlign: "center", mb: theme.spacing(4), mt: theme.spacing(2) }}
-      >
-        <Box component="img" src={Logo} alt="Logo" />
-      </Box>
+      <Logo LogoImage={LogoImage} width={115} />
 
       {/* Content Container - Centered vertically in remaining space */}
       <Box

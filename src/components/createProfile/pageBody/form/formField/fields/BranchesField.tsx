@@ -79,7 +79,7 @@ export const BranchesField: React.FC<BranchesFieldProps> = ({
             borderRadius: theme.spacing(2), // 16px equivalent
             p: theme.spacing(4),
             textAlign: "center",
-            backgroundColor: theme.palette.background.default,
+            backgroundColor: theme.palette.background.paper,
             mb: theme.spacing(2),
           }}
         >

@@ -126,6 +126,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           p: theme.spacing(3),
           mb: theme.spacing(3),
           boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+          backgroundColor: theme.palette.background.default,
         }}
       >
         <SectionHeader

@@ -35,6 +35,7 @@ export const Modal = ({
         "& .MuiDialog-paper": {
           borderRadius: theme.shape.borderRadius * 1.5,
           padding: 0,
+          backgroundColor: theme.palette.background.default, // Using theme background default
         },
       }}
     >

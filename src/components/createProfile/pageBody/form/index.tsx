@@ -381,6 +381,7 @@ export const Form = ({
       <Paper
         sx={{
           borderRadius: theme.spacing(0.25), // 2px equivalent using theme spacing
+          backgroundColor: theme.palette.background.default, // Using theme background paper
           boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
           p: theme.spacing(4),
           minHeight: theme.spacing(62.5), // 500px equivalent using theme spacing (500/8 = 62.5)

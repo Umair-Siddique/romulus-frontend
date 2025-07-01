@@ -88,7 +88,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 lineHeight: 1.6,
                 fontSize: "0.875rem",
                 p: theme.spacing(2),
-                backgroundColor: theme.palette.background.default,
+                backgroundColor: theme.palette.background.paper,
                 boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
               }}
             >

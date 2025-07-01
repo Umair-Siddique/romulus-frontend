@@ -83,7 +83,7 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            backgroundColor: theme.palette.background.default,
+            backgroundColor: theme.palette.background.paper,
           }}
         >
           <Box
@@ -140,7 +140,7 @@ export const FileUploadField: React.FC<FileUploadFieldProps> = ({
               p: theme.spacing(4),
               textAlign: "center",
               cursor: "pointer",
-              backgroundColor: theme.palette.background.default,
+              backgroundColor: theme.palette.background.paper,
               display: "block",
               "&:hover": {
                 borderColor: theme.palette.primary.light,

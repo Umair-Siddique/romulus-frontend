@@ -17,7 +17,7 @@ export const FileDisplay: React.FC<FileDisplayProps> = ({ file }) => {
       sx={{
         display: "flex",
         alignItems: "center",
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: theme.palette.background.paper,
         p: theme.spacing(1.5),
         borderRadius: theme.spacing(0.125),
         border: `1px solid ${theme.palette.divider}`,

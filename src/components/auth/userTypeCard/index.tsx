@@ -23,7 +23,7 @@ export const UserTypeCard = ({
         backgroundColor: (theme) =>
           isSelected
             ? theme.palette.background.default
-            : theme.palette.background.paper,
+            : theme.palette.background.default,
         borderRadius: 3,
         transition: "all 0.3s ease",
         height: 250,

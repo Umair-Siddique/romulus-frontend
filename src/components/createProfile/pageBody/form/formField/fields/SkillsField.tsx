@@ -51,7 +51,7 @@ export const SkillsField: React.FC<SkillsFieldProps> = ({
           sx={{
             "& .MuiOutlinedInput-root": {
               borderRadius: theme.spacing(0.5),
-              backgroundColor: theme.palette.background.default,
+              backgroundColor: theme.palette.background.paper,
               "& fieldset": {
                 borderColor: theme.palette.divider,
               },

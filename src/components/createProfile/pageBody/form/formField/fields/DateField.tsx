@@ -46,7 +46,7 @@ export const DateField: React.FC<DateFieldProps> = ({
           sx={{
             "& .MuiOutlinedInput-root": {
               borderRadius: theme.spacing(0.5),
-              backgroundColor: theme.palette.background.default,
+              backgroundColor: theme.palette.background.paper,
               "& fieldset": {
                 borderColor: theme.palette.divider,
               },
