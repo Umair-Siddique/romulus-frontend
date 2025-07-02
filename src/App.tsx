@@ -44,7 +44,7 @@ const App: React.FC = () => {
             dataProvider={{
               default: dataProvider(baseURL, httpClient),
               educators: dataProvider(`${baseURL}/educators`, httpClient),
-              organization: dataProvider(
+              organizations: dataProvider(
                 `${baseURL}/organizations`,
                 httpClient
               ),

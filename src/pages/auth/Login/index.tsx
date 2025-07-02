@@ -3,7 +3,6 @@ import { useForm } from "@refinedev/react-hook-form";
 import { useLogin, useOne } from "@refinedev/core";
 import { useTheme, Theme } from "@mui/material/styles";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
 
 import { validationRules } from "../../../constants/validation";
 import { AuthBackground, Form } from "../../../components/auth";
