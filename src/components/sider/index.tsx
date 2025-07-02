@@ -5,11 +5,8 @@ import { LogoutButton } from "./LogoutButton";
 import { TrainingProgressCard } from "./TrainingProgressCard";
 import { getNavigationItems } from "./navigationData";
 import { Header } from "./header";
-import { useUserContext } from "../../context";
 
 export const Sider = () => {
-  // const { userRole } = useUserContext();
-
   const navigationItems = getNavigationItems("educator");
 
   return (

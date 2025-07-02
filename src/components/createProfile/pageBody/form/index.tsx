@@ -10,7 +10,6 @@ import { httpClient } from "../../../../utils";
 import { Modal } from "../../../modal";
 import { NavigationButton } from "../navigationButtons";
 import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";
-import { useUserContext } from "../../../../context";
 
 interface FormProps {
   activeStep: number;

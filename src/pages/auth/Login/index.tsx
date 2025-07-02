@@ -10,6 +10,7 @@ import AuthBg from "../../../assets/images/auth-bg.jpg";
 import TextLink from "../../../components/textLink";
 import { LoginVariables } from "../../../types/index.types";
 import { formFields as getStaticFields } from "../formFields";
+import { useUserContext } from "../../../context";
 
 type LoginPhase = "idle" | "logging-in" | "fetching-profile" | "complete";
 
@@ -21,6 +22,7 @@ interface UserData {
 
 export const LoginPage = () => {
   const theme = useTheme<Theme>();
+  const { setUser, setUserProfile } = useUserContext();
 
   // Phase-based state management
   const [loginPhase, setLoginPhase] = useState<LoginPhase>("idle");
@@ -77,6 +79,7 @@ export const LoginPage = () => {
         return;
       }
 
+      setUserProfile(educatorData);
       setLoginPhase("complete");
     };
 
@@ -92,6 +95,7 @@ export const LoginPage = () => {
         return;
       }
 
+      setUserProfile(organizationData);
       setLoginPhase("complete");
     };
 
@@ -129,7 +133,7 @@ export const LoginPage = () => {
           return;
         }
 
-        // User has profile ID - proceed to fetch profile data
+        setUser(loginData);
         setUserData(loginData);
         setLoginPhase("fetching-profile");
       },

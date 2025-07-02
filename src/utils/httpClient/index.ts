@@ -13,7 +13,7 @@ export const httpClient = axios.create({
 
 // Request interceptor - add auth accessToken
 httpClient.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem("romulus-auth");
+  const accessToken = localStorage.getItem("romulus-access-token");
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }

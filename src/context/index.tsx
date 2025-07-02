@@ -1,40 +1,27 @@
-import {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-} from "react";
+import { createContext, useContext, ReactNode, useState, useEffect } from "react";
 
 type UserContextType = {
   user: any;
   setUser: (user: any) => void;
-  role: string;
-  setRole: (role: string) => void;
-  hasProfile: boolean | null;
-  setHasProfile: (hasProfile: boolean | null) => void;
-  accessToken: string | null;
-  setAccessToken: (token: string | null) => void;
+  userProfile: any;
+  setUserProfile: (profile: any) => void;
 };
 
 const userContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState();
-  const [role, setRole] = useState("");
-  const [hasProfile, setHasProfile] = useState<boolean | null>(null);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [userProfile, setUserProfile] = useState();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("romulus-user");
-    const storedToken = localStorage.getItem("romulus-auth");
+    const storedProfile = localStorage.getItem("romulus-user-profile");
 
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-
-    if (storedToken) {
-      setAccessToken(storedToken);
+    if (storedProfile) {
+      setUserProfile(JSON.parse(storedProfile));
     }
   }, []);
 
@@ -43,12 +30,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       value={{
         user,
         setUser,
-        role,
-        setRole,
-        hasProfile,
-        setHasProfile,
-        accessToken,
-        setAccessToken,
+        userProfile,
+        setUserProfile,
       }}
     >
       {children}

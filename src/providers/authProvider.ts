@@ -8,7 +8,7 @@ export const authProvider: AuthProvider = {
       const { accessToken, data } = response.data;
       const { educatorId, organizationId } = data;
 
-      localStorage.setItem("romulus-auth", accessToken);
+      localStorage.setItem("romulus-access-token", accessToken);
       localStorage.setItem("romulus-user", JSON.stringify(data));
 
       const hasProfile = educatorId || organizationId;
