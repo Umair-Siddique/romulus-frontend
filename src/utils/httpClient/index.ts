@@ -20,7 +20,7 @@ httpClient.interceptors.request.use((config) => {
   return config;
 });
 
-export const createHttpClient = (accessToken: string | null) => {
+export const createHttpClient = (accessToken?: string | null) => {
   const instance = axios.create({
     baseURL,
   });

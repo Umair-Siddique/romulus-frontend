@@ -24,7 +24,7 @@ interface UserData {
 export const LoginPage = () => {
   const theme = useTheme<Theme>();
   const navigate = useNavigate();
-  const { setUser, setRole, setHasProfile, setAccessToken } = useUserContext();
+  const { setUser, setRole, setHasProfile } = useUserContext();
 
   // Phase-based state management
   const [loginPhase, setLoginPhase] = useState<LoginPhase>("idle");
@@ -156,13 +156,7 @@ export const LoginPage = () => {
 
     login(data, {
       onSuccess: (response: any) => {
-        const {
-          data: { accessToken, data: loginUserData },
-        } = response;
-
-        // Store access token immediately
-        setAccessToken(accessToken);
-        localStorage.setItem("romulus-auth", accessToken);
+        const { data: loginUserData } = response;
 
         // Store basic user data for profile fetching
         const userInfo: UserData = {
