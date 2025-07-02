@@ -22,7 +22,6 @@ interface UserData {
 
 export const LoginPage = () => {
   const theme = useTheme<Theme>();
-  const navigate = useNavigate();
 
   // Phase-based state management
   const [loginPhase, setLoginPhase] = useState<LoginPhase>("idle");
@@ -76,22 +75,10 @@ export const LoginPage = () => {
       if (isEducatorError) {
         console.error("Error fetching educator profile:", educatorError);
         setLoginPhase("complete");
-        navigate("/create-profile");
         return;
       }
 
-      if (educatorData?.data) {
-        // Profile exists - complete setup and navigate to main app
-        const profileData = educatorData.data;
-        localStorage.setItem("romulus-user", JSON.stringify(profileData));
-
-        setLoginPhase("complete");
-        navigate("/");
-      } else {
-        // No profile found - redirect to create profile
-        setLoginPhase("complete");
-        navigate("/create-profile");
-      }
+      setLoginPhase("complete");
     };
 
     const handleOrganizationProfile = () => {
@@ -103,29 +90,15 @@ export const LoginPage = () => {
           organizationError
         );
         setLoginPhase("complete");
-        navigate("/create-profile");
         return;
       }
 
-      if (organizationData?.data) {
-        // Profile exists - complete setup and navigate to main app
-        const profileData = organizationData.data;
-        localStorage.setItem("romulus-user", JSON.stringify(profileData));
-
-        setLoginPhase("complete");
-        navigate("/");
-      } else {
-        // No profile found - redirect to create profile
-        setLoginPhase("complete");
-        navigate("/create-profile");
-      }
+      setLoginPhase("complete");
     };
 
-    if (userData.role === "educator" && userData.educatorId) {
-      handleEducatorProfile();
-    } else if (userData.role === "organization" && userData.organizationId) {
-      handleOrganizationProfile();
-    }
+    userData.role === "educator"
+      ? handleEducatorProfile()
+      : handleOrganizationProfile();
   }, [
     loginPhase,
     userData,
@@ -137,7 +110,6 @@ export const LoginPage = () => {
     isOrganizationError,
     educatorError,
     organizationError,
-    navigate,
   ]);
 
   const onSubmit = (data: LoginVariables) => {
@@ -145,29 +117,21 @@ export const LoginPage = () => {
 
     login(data, {
       onSuccess: (response: any) => {
-        const { data: loginUserData } = response;
-
-        // Store basic user data for profile fetching
-        const userInfo: UserData = {
-          educatorId: loginUserData.educatorId,
-          organizationId: loginUserData.organizationId,
-          role: loginUserData.role,
-        };
+        const { data: loginData } = response;
 
         // Check if user has the required profile ID for their role
         const hasRequiredId =
-          (userInfo.role === "educator" && userInfo.educatorId) ||
-          (userInfo.role === "organization" && userInfo.organizationId);
+          (loginData.role === "educator" && loginData.educatorId) ||
+          (loginData.role === "organization" && loginData.organizationId);
 
         if (!hasRequiredId) {
           // User doesn't have a profile - skip API call and go to create profile
           setLoginPhase("complete");
-          navigate("/create-profile");
           return;
         }
 
         // User has profile ID - proceed to fetch profile data
-        setUserData(userInfo);
+        setUserData(loginData);
         setLoginPhase("fetching-profile");
       },
       onError: (error) => {

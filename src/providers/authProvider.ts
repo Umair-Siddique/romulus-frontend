@@ -6,12 +6,18 @@ export const authProvider: AuthProvider = {
     try {
       const response = await httpClient.post("/auth/signin", params);
       const { accessToken, data } = response.data;
+      const { educatorId, organizationId } = data;
 
       localStorage.setItem("romulus-auth", accessToken);
+      localStorage.setItem("romulus-user", JSON.stringify(data));
+
+      const hasProfile = educatorId || organizationId;
+      const redirectTo = hasProfile ? "/" : "/create-profile";
 
       return {
         success: true,
-        data: data,
+        redirectTo,
+        data,
       };
     } catch (error: any) {
       return {

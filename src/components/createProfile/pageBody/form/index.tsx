@@ -37,7 +37,6 @@ export const Form = ({
   const [errorMessage, setErrorMessage] = useState("");
   const [config, setConfig] = useState<Record<string, any[]>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { setUser, setHasProfile } = useUserContext();
 
   const navigate = useNavigate();
   const theme = useTheme<Theme>();
@@ -157,32 +156,32 @@ export const Form = ({
         }
       }
 
-      let res;
+      let response, profileData;
 
       if (role === "educator") {
-        res = await httpClient.post(`/educators`, submitData, {
+        response = await httpClient.post(`/educators`, submitData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
 
-        if (res.status === 201) {
+        if (response.status === 201) {
+          profileData = response.data.data;
           setShowSuccessModal(true);
         }
       } else {
-        res = await httpClient.post(`/organizations`, submitData, {
+        response = await httpClient.post(`/organizations`, submitData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
 
-        if (res.status === 201) {
+        if (response.status === 201) {
+          profileData = response.data.data;
           setShowSuccessModal(true);
         }
       }
 
-      setUser(res.data.data);
-      setHasProfile(true);
       setShowSuccessModal(true);
     } catch (error: any) {
       console.error("Submission error:", error);
