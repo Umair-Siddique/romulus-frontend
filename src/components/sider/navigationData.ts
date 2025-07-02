@@ -49,7 +49,7 @@ export const getNavigationItems = (role: string | null): NavigationItem[] => {
         },
         {
           text: "Branches",
-          to: "/manage-branches",
+          to: "/branches",
           icon: BranchesIcon,
           active: false,
         },
@@ -66,7 +66,7 @@ export const getNavigationItems = (role: string | null): NavigationItem[] => {
       return [
         {
           text: "Dashboard",
-          to: "/dashboard",
+          to: "/admin",
           icon: DashboardIcon,
           active: true,
         },

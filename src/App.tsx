@@ -17,7 +17,7 @@ import routerProvider, {
 import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import Box from "@mui/material/Box";
 import { authProvider, dataProvider } from "./providers";
-import { Home, CreateProfile } from "./pages/dashboard";
+import { Missions, CreateProfile, Admin } from "./pages/dashboard";
 import { Header } from "./components";
 import {
   LoginPage,
@@ -27,8 +27,11 @@ import {
 } from "./pages/auth";
 import theme from "./theme";
 import { Sider } from "./components";
+import { useUserContext } from "./context";
 
 const App: React.FC = () => {
+  const { user } = useUserContext();
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -69,7 +72,11 @@ const App: React.FC = () => {
                   </Authenticated>
                 }
               >
-                <Route index element={<Home />} />
+                <Route
+                  index
+                  element={user?.role === "admin" ? <Admin /> : <Missions />}
+                />
+                <Route path="/admin" element={<Admin />} />
                 <Route path="/organizations" element={<h1>Organizations</h1>} />
                 <Route
                   path="/organizations/:id"
@@ -82,7 +89,7 @@ const App: React.FC = () => {
                   element={<h1>Educator Details</h1>}
                 />
 
-                <Route path="/missions" element={<h1>Missions</h1>} />
+                <Route path="/missions" element={<Missions />} />
                 <Route
                   path="/missions/:id"
                   element={<h1>Mission Details</h1>}

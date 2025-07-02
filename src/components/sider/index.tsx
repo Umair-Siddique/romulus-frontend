@@ -31,7 +31,7 @@ export const Sider = () => {
 
       <Box sx={{ mt: "auto", p: 2 }}>
         <LogoutButton />
-        {user?.role === "educator" && <TrainingProgressCard progress={50} />}
+        {user?.role === "educator" && <TrainingProgressCard />}
       </Box>
     </Drawer>
   );
