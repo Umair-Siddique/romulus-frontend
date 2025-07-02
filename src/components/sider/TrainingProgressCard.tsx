@@ -7,96 +7,102 @@ import {
   Stack,
   Box,
   Button,
+  useTheme,
 } from "@mui/material";
 import {
   CheckCircle as CheckIcon,
   RadioButtonUnchecked as UncheckedIcon,
 } from "@mui/icons-material";
 
-export const TrainingProgressCard = ({ progress = 50 }) => {
+export const TrainingProgressCard = () => {
+  const theme = useTheme();
+
+  const progress = 50;
+  const totalVideos = 4;
+  const completedVideos = 2;
+  const quizAttempted = false;
+
   return (
     <Card
       sx={{
-        backgroundColor: "#2196f3",
+        width: "100%",
+        background: "linear-gradient(to right, #0754D8, #6FB1FC)",
         color: "white",
         borderRadius: 3,
+        boxShadow: 2,
+        maxWidth: 340,
+        mx: "auto", // center if used in flex or grid layout
       }}
     >
-      <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
-        <Typography
-          variant="subtitle1"
-          sx={{
-            fontWeight: 600,
-            mb: 1,
-          }}
-        >
-          Training Progress
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            mb: 2,
-            opacity: 0.9,
-          }}
-        >
-          Complete training to unlock missions.
-        </Typography>
+      <CardContent sx={{ p: 2 }}>
+        <Stack spacing={1.2}>
+          {/* Title */}
+          <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+            Training Progress
+          </Typography>
 
-        {/* Progress Bar */}
-        <Box sx={{ mb: 2 }}>
+          {/* Subtitle */}
+          <Typography variant="caption" sx={{ lineHeight: 1.4 }}>
+            Complete training to unlock missions.
+          </Typography>
+
+          {/* Progress Stats */}
+          <Stack direction="row" justifyContent="space-between">
+            <Typography variant="caption">{progress}%</Typography>
+            <Typography variant="caption">
+              {completedVideos} of {totalVideos} videos
+            </Typography>
+          </Stack>
+
+          {/* Progress Bar */}
           <LinearProgress
             variant="determinate"
             value={progress}
             sx={{
               height: 6,
-              borderRadius: 3,
-              backgroundColor: "rgba(255,255,255,0.3)",
+              borderRadius: 4,
+              backgroundColor: "rgba(255, 255, 255, 0.3)",
               "& .MuiLinearProgress-bar": {
-                backgroundColor: "#4caf50",
-                borderRadius: 3,
+                backgroundColor: "#FFB800",
               },
             }}
           />
-          <Typography
-            variant="caption"
+
+          {/* Video Completion Status */}
+          <Stack direction="row" alignItems="center" spacing={1} mt={1}>
+            <CheckIcon sx={{ fontSize: 16 }} />
+            <Typography variant="caption">
+              {completedVideos} of {totalVideos} videos completed
+            </Typography>
+          </Stack>
+
+          {/* Quiz Status */}
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <UncheckedIcon sx={{ fontSize: 16 }} />
+            <Typography variant="caption">📝Quiz not attempted</Typography>
+          </Stack>
+
+          {/* Resume Button */}
+          <Button
+            variant="contained"
             sx={{
-              display: "block",
-              mt: 0.5,
-              opacity: 0.9,
+              mt: 1.5,
+              backgroundColor: "white",
+              color: theme.palette.primary.main,
+              borderRadius: "999px",
+              fontWeight: 600,
+              fontSize: "0.75rem",
+              textTransform: "none",
+              py: 1,
+              "&:hover": {
+                backgroundColor: "#f0f0f0",
+              },
             }}
+            fullWidth
           >
-            {progress}%
-          </Typography>
-        </Box>
-
-        {/* Progress Items */}
-        <Stack spacing={1} sx={{ mb: 2 }}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <CheckIcon sx={{ fontSize: 16, mr: 1, color: "#4caf50" }} />
-            <Typography variant="caption">2 of 4 videos completed</Typography>
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <UncheckedIcon sx={{ fontSize: 16, mr: 1, opacity: 0.7 }} />
-            <Typography variant="caption">Quiz not attempted</Typography>
-          </Box>
+            Resume Training
+          </Button>
         </Stack>
-
-        {/* Resume Button */}
-        <Button
-          fullWidth
-          variant="contained"
-          sx={{
-            backgroundColor: "white",
-            color: "#2196f3",
-            fontWeight: 600,
-            textTransform: "none",
-            "&:hover": {
-              backgroundColor: "#f5f5f5",
-            },
-          }}
-        >
-          Resume Training
-        </Button>
       </CardContent>
     </Card>
   );

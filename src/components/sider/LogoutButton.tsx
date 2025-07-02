@@ -2,8 +2,10 @@ import React from "react";
 import { Button } from "@mui/material";
 import { Logout as LogoutIcon } from "@mui/icons-material";
 import { useLogout } from "@refinedev/core";
+import { useTheme, Theme } from "@mui/material/styles";
 
 export const LogoutButton = () => {
+  const theme = useTheme<Theme>();
   const { mutate: logout } = useLogout();
 
   const handleLogout = () => {
@@ -16,13 +18,12 @@ export const LogoutButton = () => {
       variant="outlined"
       startIcon={<LogoutIcon />}
       sx={{
-        borderColor: "#f44336",
-        color: "#f44336",
+        borderColor: theme.palette.error.main,
+        color: theme.palette.error.main,
         mb: 2,
         textTransform: "none",
         "&:hover": {
-          borderColor: "#f44336",
-          backgroundColor: "#ffebee",
+          borderColor: theme.palette.error.main,
         },
       }}
       onClick={handleLogout}
