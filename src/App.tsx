@@ -17,7 +17,6 @@ import routerProvider, {
 import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import Box from "@mui/material/Box";
 import { authProvider, dataProvider } from "./providers";
-import { Missions, CreateProfile, Admin } from "./pages/dashboard";
 import { Header } from "./components";
 import {
   LoginPage,
@@ -25,6 +24,7 @@ import {
   RegisterPage,
   UpdatePasswordPage,
 } from "./pages/auth";
+import { Missions, CreateProfile, Admin } from "./pages";
 import theme from "./theme";
 import { Sider } from "./components";
 import { useUserContext } from "./context";
