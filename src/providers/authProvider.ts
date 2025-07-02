@@ -130,17 +130,14 @@ export const authProvider: AuthProvider = {
   },
 
   check: async () => {
-    const userString = localStorage.getItem("romulus-user");
-    const user = userString ? JSON.parse(userString) : null;
+    const accessToken = localStorage.getItem("romulus-access-token");
 
-    if (!user) {
+    if (!accessToken) {
       return { authenticated: false, redirectTo: "/login" };
     }
 
     return {
       authenticated: true,
-      userId: user.userId,
-      userRole: user.role,
       redirectTo: "/",
     };
   },
