@@ -28,16 +28,11 @@ import {
 } from "./pages/auth";
 import theme from "./theme";
 import { Sider } from "./components";
-import { createHttpClient } from "./utils";
-import { useUserContext } from "./context";
+import { httpClient } from "./utils";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const App: React.FC = () => {
-  const { accessToken } = useUserContext();
-  const httpClient = createHttpClient(accessToken);
-
-  console.log("Access Token:", accessToken);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

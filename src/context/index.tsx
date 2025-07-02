@@ -3,6 +3,7 @@ import {
   useContext,
   ReactNode,
   useState,
+  useEffect,
 } from "react";
 
 type UserContextType = {
@@ -23,6 +24,19 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [role, setRole] = useState("");
   const [hasProfile, setHasProfile] = useState<boolean | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("romulus-user");
+    const storedToken = localStorage.getItem("romulus-auth");
+
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
+    if (storedToken) {
+      setAccessToken(storedToken);
+    }
+  }, []);
 
   return (
     <userContext.Provider

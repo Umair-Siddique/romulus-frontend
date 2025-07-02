@@ -19,18 +19,3 @@ httpClient.interceptors.request.use((config) => {
   }
   return config;
 });
-
-export const createHttpClient = (accessToken?: string | null) => {
-  const instance = axios.create({
-    baseURL,
-  });
-
-  instance.interceptors.request.use((config) => {
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-    return config;
-  });
-
-  return instance;
-};

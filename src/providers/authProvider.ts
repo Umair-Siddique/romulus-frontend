@@ -1,7 +1,5 @@
 import type { AuthProvider } from "@refinedev/core";
-import { createHttpClient } from "../utils";
-
-let httpClient = createHttpClient();
+import { httpClient } from "../utils";
 
 export const authProvider: AuthProvider = {
   login: async (params: any) => {
@@ -10,8 +8,6 @@ export const authProvider: AuthProvider = {
       const { accessToken, data } = response.data;
 
       localStorage.setItem("romulus-auth", accessToken);
-
-      httpClient = createHttpClient(accessToken);
 
       return {
         success: true,
