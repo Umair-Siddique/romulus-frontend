@@ -332,7 +332,7 @@ export const Form = ({
   const isNavigationDisabled = (navigateTo: "back" | "next") => {
     switch (navigateTo) {
       case "back":
-        return activeStep === 0 || !validateCurrentStep() || isSubmitting;
+        return activeStep === 0 || isSubmitting;
       case "next":
         return !validateCurrentStep() || isSubmitting;
       default:
