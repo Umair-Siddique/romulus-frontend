@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 // Create optimized axios instance
 export const httpClient = axios.create({
-  baseURL: apiBaseUrl,
+  baseURL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -19,3 +19,18 @@ httpClient.interceptors.request.use((config) => {
   }
   return config;
 });
+
+export const createHttpClient = (accessToken: string | null) => {
+  const instance = axios.create({
+    baseURL,
+  });
+
+  instance.interceptors.request.use((config) => {
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+  });
+
+  return instance;
+};

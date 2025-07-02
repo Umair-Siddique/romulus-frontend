@@ -5,16 +5,19 @@ import App from "./App";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { UserProvider } from "./context";
 
 dayjs.extend(relativeTime);
 
 const container = document.getElementById("root");
-// eslint-disable-next-line
+
 const root = createRoot(container!);
 root.render(
   <React.StrictMode>
     <React.Suspense>
-      <App />
+      <UserProvider>
+        <App />
+      </UserProvider>
     </React.Suspense>
   </React.StrictMode>
 );
