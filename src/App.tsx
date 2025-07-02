@@ -8,7 +8,6 @@ import {
 } from "@refinedev/mui";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import CssBaseline from "@mui/material/CssBaseline";
-import dataProvider from "@refinedev/simple-rest";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
@@ -17,7 +16,7 @@ import routerProvider, {
 } from "@refinedev/react-router";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import Box from "@mui/material/Box";
-import { authProvider } from "./providers";
+import { authProvider, dataProvider } from "./providers";
 import { Home, CreateProfile } from "./pages/dashboard";
 import { Header } from "./components";
 import {
@@ -28,9 +27,6 @@ import {
 } from "./pages/auth";
 import theme from "./theme";
 import { Sider } from "./components";
-import { httpClient } from "./utils";
-
-const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const App: React.FC = () => {
   return (
@@ -41,15 +37,8 @@ const App: React.FC = () => {
         <RefineSnackbarProvider>
           <Refine
             routerProvider={routerProvider}
-            dataProvider={{
-              default: dataProvider(baseURL, httpClient),
-              educators: dataProvider(`${baseURL}/educators`, httpClient),
-              organizations: dataProvider(
-                `${baseURL}/organizations`,
-                httpClient
-              ),
-            }}
             authProvider={authProvider}
+            dataProvider={{ default: dataProvider }}
             options={{
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
