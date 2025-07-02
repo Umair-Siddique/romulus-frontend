@@ -70,12 +70,29 @@ const App: React.FC = () => {
                 }
               >
                 <Route index element={<Home />} />
+                <Route path="/organizations" element={<h1>Organizations</h1>} />
+                <Route
+                  path="/organizations/:id"
+                  element={<h1>Organization Details</h1>}
+                />
+
+                <Route path="/educators" element={<h1>Educators</h1>} />
+                <Route
+                  path="/educators/:id"
+                  element={<h1>Educator Details</h1>}
+                />
+
                 <Route path="/missions" element={<h1>Missions</h1>} />
-                <Route path="/missions/:id" element={<h1>Mission Details</h1>} />
+                <Route
+                  path="/missions/:id"
+                  element={<h1>Mission Details</h1>}
+                />
+
                 <Route path="/find-educator" element={<h1>Find Educator</h1>} />
                 <Route path="/branches" element={<h1>Branches</h1>} />
                 <Route path="/chats" element={<h1>Chats</h1>} />
                 <Route path="/training" element={<h1>Training</h1>} />
+                <Route path="/reports" element={<h1>Reports</h1>} />
                 <Route path="/settings" element={<h1>Settings</h1>} />
               </Route>
 
