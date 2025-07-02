@@ -153,7 +153,7 @@ export const authProvider: AuthProvider = {
 
     return {
       id: user.userId,
-      avatar: user.avatar || user.profilePicture || "",
+      avatar: user.avatar || "",
     };
   },
 };
