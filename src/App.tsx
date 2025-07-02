@@ -24,7 +24,22 @@ import {
   RegisterPage,
   UpdatePasswordPage,
 } from "./pages/auth";
-import { Missions, CreateProfile, Admin } from "./pages";
+import {
+  CreateProfile,
+  Admin,
+  Organizations,
+  OrganizationDetails,
+  Educators,
+  EducatorDetails,
+  Missions,
+  MissionDetails,
+  FindEducator,
+  Branches,
+  Chats,
+  Training,
+  Reports,
+  Settings,
+} from "./pages";
 import theme from "./theme";
 import { Sider } from "./components";
 import { useUserContext } from "./context";
@@ -77,30 +92,24 @@ const App: React.FC = () => {
                   element={user?.role === "admin" ? <Admin /> : <Missions />}
                 />
                 <Route path="/admin" element={<Admin />} />
-                <Route path="/organizations" element={<h1>Organizations</h1>} />
+                <Route path="/organizations" element={<Organizations />} />
                 <Route
                   path="/organizations/:id"
-                  element={<h1>Organization Details</h1>}
+                  element={<OrganizationDetails />}
                 />
 
-                <Route path="/educators" element={<h1>Educators</h1>} />
-                <Route
-                  path="/educators/:id"
-                  element={<h1>Educator Details</h1>}
-                />
+                <Route path="/educators" element={<Educators />} />
+                <Route path="/educators/:id" element={<EducatorDetails />} />
 
                 <Route path="/missions" element={<Missions />} />
-                <Route
-                  path="/missions/:id"
-                  element={<h1>Mission Details</h1>}
-                />
+                <Route path="/missions/:id" element={<MissionDetails />} />
 
-                <Route path="/find-educator" element={<h1>Find Educator</h1>} />
-                <Route path="/branches" element={<h1>Branches</h1>} />
-                <Route path="/chats" element={<h1>Chats</h1>} />
-                <Route path="/training" element={<h1>Training</h1>} />
-                <Route path="/reports" element={<h1>Reports</h1>} />
-                <Route path="/settings" element={<h1>Settings</h1>} />
+                <Route path="/find-educator" element={<FindEducator />} />
+                <Route path="/branches" element={<Branches />} />
+                <Route path="/chats" element={<Chats />} />
+                <Route path="/training" element={<Training />} />
+                <Route path="/reports" element={<Reports />} />
+                <Route path="/settings" element={<Settings />} />
               </Route>
 
               <Route
