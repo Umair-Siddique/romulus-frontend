@@ -61,7 +61,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
         "& .MuiToolbar-root": {
           minHeight: theme.spacing(8),
         },
-        height: theme.spacing(8),
+        height: theme.spacing(10),
         borderBottom: `1px solid ${theme.palette.divider}`,
         boxShadow: `inset 0 2px 8px rgba(126, 148, 142, 0.08), inset 0 -2px 8px rgba(126, 148, 142, 0.08), inset 2px 0 8px rgba(126, 148, 142, 0.08), inset -2px 0 8px rgba(126, 148, 142, 0.08)`,
         borderRadius: theme.shape.borderRadius,
@@ -77,6 +77,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
             xs: theme.spacing(2),
             sm: theme.spacing(3),
           },
+          height: "100%",
         }}
       >
         <Box
