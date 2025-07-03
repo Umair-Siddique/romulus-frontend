@@ -1,5 +1,5 @@
-import { Box, Typography } from "@mui/material";
-import React from "react";
+import { Box, Typography, Tabs, Tab } from "@mui/material";
+import React, { useState } from "react";
 import { useTheme, Theme } from "@mui/material/styles";
 import KpiCard from "./KpiCard";
 import {
@@ -8,6 +8,8 @@ import {
   Cancel,
   HourglassBottom,
   WatchLater,
+  CalendarToday,
+  ViewList,
 } from "@mui/icons-material";
 
 interface AdminDashboardProps {
@@ -16,47 +18,81 @@ interface AdminDashboardProps {
   description: string;
 }
 
+// Placeholder components for different tab views
+const CalendarView: React.FC = () => (
+  <Box sx={{ p: 3, textAlign: "center" }}>
+    <Typography variant="h6">Calendar View</Typography>
+    <Typography variant="body2" color="text.secondary">
+      Calendar component will be loaded here
+    </Typography>
+  </Box>
+);
+
+const MissionsView: React.FC = () => (
+  <Box sx={{ p: 3, textAlign: "center" }}>
+    <Typography variant="h6">Missions List View</Typography>
+    <Typography variant="body2" color="text.secondary">
+      Missions list component will be loaded here
+    </Typography>
+  </Box>
+);
+
 export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
   title,
   description,
 }) => {
   const theme = useTheme<Theme>();
+  const [activeTab, setActiveTab] = useState(0);
 
   const kpiCardsData = [
     {
       title: "Total",
       total: 120,
-      icon: <Assignment sx={{ color: "#1976d2", fontSize: "1.5rem" }} />, // Blue - neutral/informational
-      iconBg: "#e3f2fd", // Light blue background
+      icon: <Assignment sx={{ color: "#1976d2", fontSize: "1.5rem" }} />,
+      iconBg: "#e3f2fd",
     },
     {
       title: "Ongoing",
       total: 35,
-      icon: <HourglassBottom sx={{ color: "#ff9800", fontSize: "1.5rem" }} />, // Orange - in progress
-      iconBg: "#fff3e0", // Light orange background
+      icon: <HourglassBottom sx={{ color: "#ff9800", fontSize: "1.5rem" }} />,
+      iconBg: "#fff3e0",
     },
     {
       title: "Pending",
       total: 50,
-      icon: <WatchLater sx={{ color: "#ffc107", fontSize: "1.5rem" }} />, // Amber - waiting/caution
-      iconBg: "#fff8e1", // Light amber background
+      icon: <WatchLater sx={{ color: "#ffc107", fontSize: "1.5rem" }} />,
+      iconBg: "#fff8e1",
     },
     {
       title: "Completed",
       total: 85,
-      // Green - success/completed
       icon: (
         <AssignmentTurnedIn sx={{ color: "#4caf50", fontSize: "1.5rem" }} />
       ),
-      iconBg: "#e8f5e9", // Light green background
+      iconBg: "#e8f5e9",
     },
     {
       title: "Cancelled",
       total: 15,
-      icon: <Cancel sx={{ color: "#f44336", fontSize: "1.5rem" }} />, // Red - error/cancelled
-      iconBg: "#ffebee", // Light red background
+      icon: <Cancel sx={{ color: "#f44336", fontSize: "1.5rem" }} />,
+      iconBg: "#ffebee",
     },
   ];
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setActiveTab(newValue);
+  };
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 0:
+        return <CalendarView />;
+      case 1:
+        return <MissionsView />;
+      default:
+        return <CalendarView />;
+    }
+  };
 
   return (
     <>
@@ -66,7 +102,7 @@ export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
           fontWeight: theme.typography.h3.fontWeight,
           mb: theme.spacing(1),
           color: theme.palette.text.primary,
-          fontSize: { xs: "1.75rem", md: "2rem" }, // 28px and 32px equivalents using rem
+          fontSize: { xs: "1.75rem", md: "2rem" },
           fontFamily: theme.typography.h4.fontFamily,
         }}
       >
@@ -77,7 +113,7 @@ export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
         sx={{
           color: theme.palette.text.secondary,
           mb: theme.spacing(1),
-          fontSize: "0.9375rem", // 15px equivalent using rem (15/16 = 0.9375)
+          fontSize: "0.9375rem",
           lineHeight: theme.typography.body1.lineHeight,
           fontFamily: theme.typography.body1.fontFamily,
         }}
@@ -90,8 +126,8 @@ export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
         flexWrap="wrap"
         gap={3}
         mt={2}
-        width="100%" // Full width
-        justifyContent="space-between" // Equal spacing across full width
+        width="100%"
+        justifyContent="space-between"
       >
         {kpiCardsData.map((kpi) => (
           <KpiCard
@@ -102,6 +138,46 @@ export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
             iconBg={kpi.iconBg}
           />
         ))}
+      </Box>
+
+      {/* Tabs Section */}
+      <Box sx={{ mt: 4, borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
+          value={activeTab}
+          onChange={handleTabChange}
+          sx={{
+            "& .MuiTabs-indicator": {
+              backgroundColor: theme.palette.primary.main,
+              height: 3,
+            },
+            "& .MuiTab-root": {
+              textTransform: "none",
+              fontWeight: 500,
+              fontSize: "0.875rem",
+              minHeight: 48,
+              "&.Mui-selected": {
+                color: theme.palette.primary.main,
+                fontWeight: 600,
+              },
+            },
+          }}
+        >
+          <Tab
+            icon={<CalendarToday sx={{ fontSize: "1.25rem" }} />}
+            label="Calendar"
+            iconPosition="start"
+          />
+          <Tab
+            icon={<ViewList sx={{ fontSize: "1.25rem" }} />}
+            label="Missions"
+            iconPosition="start"
+          />
+        </Tabs>
+      </Box>
+
+      {/* Tab Content */}
+      <Box sx={{ mt: 0 }}>
+        {renderTabContent()}
       </Box>
     </>
   );
