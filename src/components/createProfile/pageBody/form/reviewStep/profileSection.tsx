@@ -31,8 +31,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               mr: theme.spacing(2),
             }}
             src={
-              formData.profilePicture
-                ? URL.createObjectURL(formData.profilePicture)
+              formData.avatar
+                ? URL.createObjectURL(formData.avatar)
                 : undefined
             }
           />
@@ -112,8 +112,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               mr: theme.spacing(2),
             }}
             src={
-              formData.profilePicture
-                ? URL.createObjectURL(formData.profilePicture)
+              formData.avatar
+                ? URL.createObjectURL(formData.avatar)
                 : undefined
             }
           />

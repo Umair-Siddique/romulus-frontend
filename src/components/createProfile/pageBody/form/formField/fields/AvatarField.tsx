@@ -6,12 +6,12 @@ import {
   CameraAlt as CameraIcon,
 } from "@mui/icons-material";
 
-interface ProfilePictureFieldProps {
+interface AvatarFieldProps {
   value: File | null;
   onChange: (file: File | null) => void;
 }
 
-export const ProfilePictureField: React.FC<ProfilePictureFieldProps> = ({
+export const AvatarField: React.FC<AvatarFieldProps> = ({
   value,
   onChange,
 }) => {

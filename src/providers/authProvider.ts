@@ -155,14 +155,15 @@ export const authProvider: AuthProvider = {
   getPermissions: async () => null,
 
   getIdentity: async () => {
-    const userString = localStorage.getItem("romulus-user");
+    const userString = localStorage.getItem("romulus-user-profile");
     const user = userString ? JSON.parse(userString) : null;
     if (!user) {
       return null;
     }
 
     return {
-      id: user.userId,
+      id: user.user._id,
+      name: user.firstName + " " + user.lastName,
       avatar: user.avatar || "",
     };
   },

@@ -33,8 +33,8 @@ export const FormStep: React.FC<FormStepProps> = ({
   const renderFields = () => {
     // Handle Profile Setup step with specific layout
     if (title === "Profile Setup") {
-      const profilePictureField = fields.find(
-        (f) => f.name === "profilePicture"
+      const avatarField = fields.find(
+        (f) => f.name === "avatar"
       );
 
       if (role === "educator") {
@@ -56,10 +56,10 @@ export const FormStep: React.FC<FormStepProps> = ({
         return (
           <Box>
             {/* Profile Picture */}
-            {profilePictureField && (
+            {avatarField && (
               <FormField
-                field={profilePictureField}
-                value={formData[profilePictureField.name]}
+                field={avatarField}
+                value={formData[avatarField.name]}
                 onChange={onFieldChange}
               />
             )}
@@ -96,15 +96,15 @@ export const FormStep: React.FC<FormStepProps> = ({
         );
       } else if (role === "organization") {
         // Organization layout: single column for most fields
-        const otherFields = fields.filter((f) => f.name !== "profilePicture");
+        const otherFields = fields.filter((f) => f.name !== "avatar");
 
         return (
           <Box>
             {/* Profile Picture */}
-            {profilePictureField && (
+            {avatarField && (
               <FormField
-                field={profilePictureField}
-                value={formData[profilePictureField.name]}
+                field={avatarField}
+                value={formData[avatarField.name]}
                 onChange={onFieldChange}
               />
             )}

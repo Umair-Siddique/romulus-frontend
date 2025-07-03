@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
 import {
-  ProfilePictureField,
+  AvatarField,
   SkillsField,
   FileUploadField,
   BranchesField,
@@ -49,9 +49,9 @@ export const FormField: React.FC<FormFieldProps> = ({
 
   const renderField = () => {
     // Profile Picture Upload
-    if (field.name === "profilePicture") {
+    if (field.name === "avatar") {
       return (
-        <ProfilePictureField
+        <AvatarField
           value={value}
           onChange={(file) => onChange(field.name, file)}
         />

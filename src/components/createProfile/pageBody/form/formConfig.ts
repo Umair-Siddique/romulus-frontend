@@ -1,7 +1,7 @@
 export const educatorStepsConfig = {
   "Profile Setup": [
     {
-      name: "profilePicture",
+      name: "avatar",
       label: "Profile Picture",
       type: "file",
       required: false,
@@ -211,7 +211,7 @@ export const educatorStepsConfig = {
 export const organizationStepsConfig = {
   "Profile Setup": [
     {
-      name: "profilePicture",
+      name: "avatar",
       label: "Profile Picture",
       type: "file",
       required: false,
