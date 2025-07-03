@@ -72,7 +72,7 @@ const baseTheme = createTheme({
   },
   spacing: 8,
   shape: {
-    borderRadius: 5,
+    borderRadius: 4,
   },
   components: {
     MuiAppBar: {

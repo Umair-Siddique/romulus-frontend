@@ -63,7 +63,8 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
         },
         height: theme.spacing(8),
         borderBottom: `1px solid ${theme.palette.divider}`,
-        boxShadow: `0px 2px 8px rgba(126, 148, 142, 0.08)`,
+        boxShadow: `inset 0 2px 8px rgba(126, 148, 142, 0.08), inset 0 -2px 8px rgba(126, 148, 142, 0.08), inset 2px 0 8px rgba(126, 148, 142, 0.08), inset -2px 0 8px rgba(126, 148, 142, 0.08)`,
+        borderRadius: theme.shape.borderRadius,
       }}
     >
       <Toolbar
