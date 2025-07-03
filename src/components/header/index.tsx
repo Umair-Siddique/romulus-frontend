@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useGetIdentity, useOne } from "@refinedev/core";
+import { useLogout, useOne } from "@refinedev/core";
 import { type RefineThemedLayoutV2HeaderProps } from "@refinedev/mui";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
@@ -34,6 +34,8 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const location = useLocation();
 
+  const { mutate: logout } = useLogout();
+
   useEffect(() => {
     const path = location.pathname.split("/").pop();
     setPageName(path ? path.charAt(0).toUpperCase() + path.slice(1) : "");
@@ -43,8 +45,11 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleUserMenuClose = () => {
+  const handleUserMenuClose = (action: "logout") => {
     setAnchorEl(null);
+    if (action === "logout") {
+      logout();
+    }
   };
 
   return (
@@ -58,7 +63,6 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
         },
         height: theme.spacing(8),
         borderBottom: `1px solid ${theme.palette.divider}`,
-        // add some drop shadow
         boxShadow: `0px 2px 8px rgba(126, 148, 142, 0.08)`,
       }}
     >
@@ -97,9 +101,11 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
           <IconButton
             sx={{
               color: theme.palette.text.secondary,
+              border: `1px solid ${theme.palette.divider}`,
+              borderRadius: theme.spacing(1),
             }}
           >
-            <NotificationsOutlinedIcon />
+            <NotificationsOutlinedIcon sx={{ fontSize: "25px" }} />
           </IconButton>
 
           {/* User Info with Dropdown */}
@@ -121,8 +127,8 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
               src={data?.data.avatar}
               alt="avatar"
               sx={{
-                width: theme.spacing(4),
-                height: theme.spacing(4),
+                width: theme.spacing(5),
+                height: theme.spacing(5),
               }}
             />
             <Typography
@@ -159,9 +165,9 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
               horizontal: "right",
             }}
           >
-            <MenuItem onClick={handleUserMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleUserMenuClose}>Settings</MenuItem>
-            <MenuItem onClick={handleUserMenuClose}>Logout</MenuItem>
+            <MenuItem onClick={() => handleUserMenuClose("logout")}>
+              Logout
+            </MenuItem>
           </Menu>
         </Stack>
       </Toolbar>
