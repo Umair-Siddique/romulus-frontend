@@ -159,7 +159,17 @@ export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
       </Box>
 
       {/* Tab Content */}
-      <Box sx={{ mt: 0 }}>{renderTabContent()}</Box>
+      <Box
+        sx={{
+          p: 3,
+          textAlign: "center",
+          border: `${theme.palette.primary.main} 1px solid`,
+          borderRadius: theme.shape.borderRadius,
+          marginTop: 2,
+        }}
+      >
+        {renderTabContent()}
+      </Box>
     </>
   );
 };
