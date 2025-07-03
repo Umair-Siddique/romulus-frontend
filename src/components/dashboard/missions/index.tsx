@@ -22,7 +22,7 @@ export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
 }) => {
   const theme = useTheme<Theme>();
 
-  const kpiCardData = [
+  const kpiCardsData = [
     {
       title: "Total",
       total: 120,
@@ -93,7 +93,7 @@ export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
         width="100%" // Full width
         justifyContent="space-between" // Equal spacing across full width
       >
-        {kpiCardData.map((kpi) => (
+        {kpiCardsData.map((kpi) => (
           <KpiCard
             key={kpi.title}
             title={kpi.title}
