@@ -11,7 +11,7 @@ import {
   ViewList,
 } from "@mui/icons-material";
 
-import KpiCard from "./kpCard";
+import KpiCard from "./kpiCard";
 import { CalendarTab, MissionsTab } from "./tabs";
 
 interface UserDashboardProps {
