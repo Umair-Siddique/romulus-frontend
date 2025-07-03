@@ -3,10 +3,10 @@ import { useNavigate } from "react-router";
 import { useTheme, Theme } from "@mui/material/styles";
 import { Box, Paper } from "@mui/material";
 import { CheckCircle, Cancel } from "@mui/icons-material";
+import { useCreate } from "@refinedev/core";
 
 import { ReviewStep } from "./reviewStep";
 import { FormStep } from "./formStep";
-import { httpClient } from "../../../../utils";
 import { Modal } from "../../../modal";
 import { NavigationButton } from "../navigationButtons";
 import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";
@@ -30,12 +30,31 @@ export const Form = ({
   role,
   user,
 }: FormProps) => {
-  const [formData, setFormData] = useState<FormData>({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [config, setConfig] = useState<Record<string, any[]>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState<FormData>({});
+  const [config, setConfig] = useState<Record<string, any[]>>({});
+
+  const { mutate } = useCreate({
+    resource: role === "educator" ? "educators" : "organizations",
+    mutationOptions: {
+      onSuccess: (data) => {
+        console.log("Submission successful:", data);
+        setShowSuccessModal(true);
+        setIsSubmitting(false);
+      },
+      onError: (error) => {
+        console.error("Submission failed:", error.message);
+        setErrorMessage(
+          "An unexpected error occurred. Please try again later."
+        );
+        setShowErrorModal(true);
+        setIsSubmitting(false);
+      },
+    },
+  });
 
   const navigate = useNavigate();
   const theme = useTheme<Theme>();
@@ -103,111 +122,63 @@ export const Form = ({
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
-    try {
-      // Create FormData object for efficient file uploads
-      const submitData = new FormData();
+    const submitData = new FormData();
 
-      // Add user ID if available
-      if (user?.userId) {
-        submitData.append("user", user.userId);
-      }
-
-      // Process each field in formData
-      for (const [key, value] of Object.entries(formData)) {
-        if (value !== null && value !== undefined) {
-          if (value instanceof File) {
-            if (value.type.startsWith("image/")) {
-              const compressedFile = await compressImage(value, 800, 0.7);
-              submitData.append(key, compressedFile);
-            } else {
-              // Add non-image files directly
-              submitData.append(key, value);
-            }
-          } else if (key === "branches" && Array.isArray(value)) {
-            // Handle branches array specially
-            value.forEach((branch, index) => {
-              // Add each branch field individually
-              Object.entries(branch).forEach(([branchKey, branchValue]) => {
-                if (branchValue instanceof File) {
-                  // Handle files in branches (like residence guidelines)
-                  submitData.append(
-                    `branches[${index}][${branchKey}]`,
-                    branchValue
-                  );
-                } else if (branchValue !== null && branchValue !== undefined) {
-                  // Handle regular branch fields
-                  submitData.append(
-                    `branches[${index}][${branchKey}]`,
-                    branchValue.toString()
-                  );
-                }
-              });
-            });
-          } else if (Array.isArray(value)) {
-            // Handle other arrays (like skills) - send as JSON string
-            if (value.length > 0) {
-              submitData.append(key, JSON.stringify(value));
-            }
-          } else {
-            // Handle regular form fields
-            submitData.append(key, value.toString());
-          }
-        }
-      }
-
-      let response, profileData;
-
-      if (role === "educator") {
-        response = await httpClient.post(`/educators`, submitData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-
-        if (response.status === 201) {
-          profileData = response.data.data;
-          setShowSuccessModal(true);
-        }
-      } else {
-        response = await httpClient.post(`/organizations`, submitData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-
-        if (response.status === 201) {
-          profileData = response.data.data;
-          setShowSuccessModal(true);
-        }
-      }
-
-      setShowSuccessModal(true);
-    } catch (error: any) {
-      console.error("Submission error:", error);
-
-      // Extract error message from API response
-      let apiErrorMessage = "An unexpected error occurred. Please try again.";
-
-      if (error.response?.data?.message) {
-        apiErrorMessage = error.response.data.message;
-      } else if (error.response?.status === 413) {
-        apiErrorMessage =
-          "Files are too large. Please try uploading smaller images or documents.";
-      } else if (error.response?.status === 400) {
-        apiErrorMessage =
-          "Invalid data provided. Please check your inputs and try again.";
-      } else if (error.response?.status === 500) {
-        apiErrorMessage = "Server error occurred. Please try again later.";
-      } else if (error.message) {
-        apiErrorMessage = error.message;
-      }
-
-      // Set error message and show error modal
-      setErrorMessage(apiErrorMessage);
-      setShowErrorModal(true);
-    } finally {
-      setIsSubmitting(false);
+    if (user?.userId) {
+      submitData.append("user", user.userId);
     }
+
+    // Process each field in formData
+    for (const [key, value] of Object.entries(formData)) {
+      if (value !== null && value !== undefined) {
+        if (value instanceof File) {
+          if (value.type.startsWith("image/")) {
+            const compressedFile = await compressImage(value, 800, 0.7);
+            submitData.append(key, compressedFile);
+          } else {
+            // Add non-image files directly
+            submitData.append(key, value);
+          }
+        } else if (key === "branches" && Array.isArray(value)) {
+          // Handle branches array specially
+          value.forEach((branch, index) => {
+            // Add each branch field individually
+            Object.entries(branch).forEach(([branchKey, branchValue]) => {
+              if (branchValue instanceof File) {
+                // Handle files in branches (like residence guidelines)
+                submitData.append(
+                  `branches[${index}][${branchKey}]`,
+                  branchValue
+                );
+              } else if (branchValue !== null && branchValue !== undefined) {
+                // Handle regular branch fields
+                submitData.append(
+                  `branches[${index}][${branchKey}]`,
+                  branchValue.toString()
+                );
+              }
+            });
+          });
+        } else if (Array.isArray(value)) {
+          // Handle other arrays (like skills) - send as JSON string
+          if (value.length > 0) {
+            submitData.append(key, JSON.stringify(value));
+          }
+        } else {
+          // Handle regular form fields
+          submitData.append(key, value.toString());
+        }
+      }
+    }
+
+    mutate({
+      values: submitData,
+      meta: {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    });
   };
 
   const handleSuccessModalClose = () => {
