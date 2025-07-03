@@ -11,8 +11,7 @@ import {
   CalendarToday,
   ViewList,
 } from "@mui/icons-material";
-import { CalendarTab } from "./calendarTab";
-import { MissionsTab } from "./missionsTab";
+import { CalendarTab, MissionsTab } from "./tabs";
 
 interface AdminDashboardProps {
   role: string;
@@ -159,9 +158,7 @@ export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
       </Box>
 
       {/* Tab Content */}
-      <Box sx={{ mt: 0 }}>
-        {renderTabContent()}
-      </Box>
+      <Box sx={{ mt: 0 }}>{renderTabContent()}</Box>
     </>
   );
 };
