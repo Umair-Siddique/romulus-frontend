@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useUserContext } from "../../context";
 
 export const Educators = () => {
-  return (
-    <div>Educators</div>
-  )
-}
+  const { user } = useUserContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user.role !== "admin") {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [user, navigate]);
+
+  return <div>Educators</div>;
+};

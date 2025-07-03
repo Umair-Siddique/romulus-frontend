@@ -22,7 +22,12 @@ export const getNavigationItems = (role: string | null): NavigationItem[] => {
   switch (role) {
     case "educator":
       return [
-        { text: "Missions", to: "/missions", icon: MissionsIcon, active: true },
+        {
+          text: "Dashboard",
+          to: "/dashboard",
+          icon: DashboardIcon,
+          active: true,
+        },
         {
           text: "Training",
           to: "/training",
@@ -40,7 +45,12 @@ export const getNavigationItems = (role: string | null): NavigationItem[] => {
 
     case "organization":
       return [
-        { text: "Missions", to: "/missions", icon: MissionsIcon, active: true },
+        {
+          text: "Dashboard",
+          to: "/dashboard",
+          icon: DashboardIcon,
+          active: true,
+        },
         {
           text: "Find Educator",
           to: "/find-educator",
@@ -66,7 +76,7 @@ export const getNavigationItems = (role: string | null): NavigationItem[] => {
       return [
         {
           text: "Dashboard",
-          to: "/admin",
+          to: "/dashboard",
           icon: DashboardIcon,
           active: true,
         },

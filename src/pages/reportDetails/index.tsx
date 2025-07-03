@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
-import { useUserContext } from "../../context";
 import { useNavigate } from "react-router";
+import { useUserContext } from "../../context";
 
-export const FindEducator = () => {
+export const ReportDetails = () => {
   const { user } = useUserContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user.role !== "organization") {
+    if (user.role !== "admin") {
       navigate("/dashboard", { replace: true });
     }
   }, [user, navigate]);
 
-  return <div>FindEducator</div>;
+  return <div>ReportDetails</div>;
 };

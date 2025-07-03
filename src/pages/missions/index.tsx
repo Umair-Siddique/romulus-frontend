@@ -1,11 +1,16 @@
+import { useEffect } from "react";
 import { useUserContext } from "../../context";
+import { useNavigate } from "react-router";
 
 export const Missions = () => {
   const { user } = useUserContext();
+  const navigate = useNavigate();
 
-  return (
-    <div>
-      Hi, {user?.role}
-    </div>
-  );
+  useEffect(() => {
+    if (user.role !== "admin") {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [user, navigate]);
+
+  return <div>Hi, {user?.role}</div>;
 };

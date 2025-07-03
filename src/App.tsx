@@ -38,6 +38,7 @@ import {
   Chats,
   Training,
   Reports,
+  ReportDetails,
   Settings,
 } from "./pages";
 import theme from "./theme";
@@ -87,13 +88,8 @@ const App: React.FC = () => {
                   </Authenticated>
                 }
               >
-                <Route
-                  index
-                  element={
-                    user?.role === "admin" ? <Dashboard /> : <Missions />
-                  }
-                />
-                <Route path="/admin" element={<Dashboard />} />
+                <Route index element={<Dashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/organizations" element={<Organizations />} />
                 <Route
                   path="/organizations/:id"
@@ -106,11 +102,13 @@ const App: React.FC = () => {
                 <Route path="/missions" element={<Missions />} />
                 <Route path="/missions/:id" element={<MissionDetails />} />
 
+                <Route path="/reports" element={<Reports />} />
+                <Route path="/reports/:id" element={<ReportDetails />} />
+
                 <Route path="/find-educator" element={<FindEducator />} />
                 <Route path="/branches" element={<Branches />} />
                 <Route path="/chats" element={<Chats />} />
                 <Route path="/training" element={<Training />} />
-                <Route path="/reports" element={<Reports />} />
                 <Route path="/settings" element={<Settings />} />
               </Route>
 
