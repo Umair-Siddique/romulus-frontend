@@ -41,7 +41,6 @@ export const Form = ({
     resource: role === "educator" ? "educators" : "organizations",
     mutationOptions: {
       onSuccess: (data) => {
-        console.log("Submission successful:", data);
         setShowSuccessModal(true);
         setIsSubmitting(false);
       },

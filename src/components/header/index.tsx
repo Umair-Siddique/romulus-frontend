@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useGetIdentity } from "@refinedev/core";
+import React, { useEffect, useState } from "react";
+import { useGetIdentity, useOne } from "@refinedev/core";
 import { type RefineThemedLayoutV2HeaderProps } from "@refinedev/mui";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
@@ -12,20 +12,32 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useTheme, Theme } from "@mui/material/styles";
-import { IUser } from "../../interface";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import { useLocation } from "react-router";
+import { useUserContext } from "../../context";
 
 export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
   const theme = useTheme<Theme>();
-  const { data: user } = useGetIdentity<IUser>();
+  const [pageName, setPageName] = useState<string>("");
+
+  const { user } = useUserContext();
+  const { educatorId, organizationId, role } = user;
+
+  const { data } = useOne({
+    resource: role === "educator" ? "educators" : "organizations",
+    id: educatorId || organizationId,
+    queryOptions: {
+      enabled: !!(educatorId || organizationId),
+    },
+  });
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const location = useLocation();
 
-  console.log("Header -> user:", user);
-  console.log("Header -> user:", user);
-
-  console.log("Header -> location.pathname:", location.pathname);
+  useEffect(() => {
+    const path = location.pathname.split("/").pop();
+    setPageName(path ? path.charAt(0).toUpperCase() + path.slice(1) : "");
+  }, [location.pathname]);
 
   const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -76,7 +88,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
             flexGrow: 1,
           }}
         >
-          Missions
+          {pageName || "Dashboard"}
         </Box>
 
         {/* Right side - Notification and User */}
@@ -106,8 +118,8 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
             onClick={handleUserMenuClick}
           >
             <Avatar
-              src={user?.avatar}
-              alt={user?.name}
+              src={data?.data.avatar}
+              alt="avatar"
               sx={{
                 width: theme.spacing(4),
                 height: theme.spacing(4),
@@ -120,7 +132,10 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
                 fontWeight: 500,
               }}
             >
-              {user?.name || "John Doe"}
+              {data?.data.organizationName ||
+                (data?.data.firstName &&
+                  data?.data.firstName + " " + data?.data.lastName) ||
+                "Admin"}
             </Typography>
             <KeyboardArrowDownIcon
               sx={{

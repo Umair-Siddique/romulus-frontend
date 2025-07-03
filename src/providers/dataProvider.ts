@@ -5,11 +5,11 @@ export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }: { resource: string; id: any }) => {
     const { data } = await httpClient.get(`/${resource}/${id}`);
 
-    data.user &&
-      localStorage.setItem("romulus-user-profile", JSON.stringify(data));
+    data.data &&
+      localStorage.setItem("romulus-user-profile", JSON.stringify(data.data));
 
     return {
-      data,
+      data: data.data,
     };
   },
 
@@ -40,7 +40,7 @@ export const dataProvider: DataProvider = {
       localStorage.setItem("romulus-user-profile", JSON.stringify(data.data));
 
     return {
-      data,
+      data: data.data,
     };
   },
 

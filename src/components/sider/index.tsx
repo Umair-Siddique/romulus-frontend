@@ -9,6 +9,7 @@ import { useUserContext } from "../../context";
 
 export const Sider = () => {
   const { user } = useUserContext();
+  console.log("Sider -> user:", user);
   const navigationItems = getNavigationItems(user?.role);
 
   return (

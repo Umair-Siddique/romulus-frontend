@@ -18,7 +18,7 @@ export const authProvider: AuthProvider = {
       return {
         success: true,
         redirectTo,
-        data,
+        data: userData,
       };
     } catch (error: any) {
       return {
