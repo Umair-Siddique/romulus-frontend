@@ -3,8 +3,7 @@ import { httpClient } from "../utils";
 
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }: { resource: string; id: any }) => {
-    const response = await httpClient.get(`/${resource}/${id}`);
-    const { data } = response.data;
+    const { data } = await httpClient.get(`/${resource}/${id}`);
 
     data.user &&
       localStorage.setItem("romulus-user-profile", JSON.stringify(data));
@@ -15,8 +14,7 @@ export const dataProvider: DataProvider = {
   },
 
   getList: async ({ resource }: { resource: string }) => {
-    const response = await httpClient.get(`/${resource}`);
-    const { data } = response.data;
+    const { data } = await httpClient.get(`/${resource}`);
 
     return {
       data,
@@ -27,12 +25,19 @@ export const dataProvider: DataProvider = {
   create: async ({
     resource,
     variables,
+    meta,
   }: {
     resource: string;
     variables: any;
+    meta?: any;
   }) => {
-    const response = await httpClient.post(`/${resource}`, variables);
-    const { data } = response.data;
+    const headers = meta?.headers ?? {};
+    const { data } = await httpClient.post(`/${resource}`, variables, {
+      headers,
+    });
+
+    data.user &&
+      localStorage.setItem("romulus-user-profile", JSON.stringify(data));
 
     return {
       data,
@@ -48,8 +53,7 @@ export const dataProvider: DataProvider = {
     id: any;
     variables: any;
   }) => {
-    const response = await httpClient.patch(`/${resource}/${id}`, variables);
-    const { data } = response.data;
+    const { data } = await httpClient.patch(`/${resource}/${id}`, variables);
 
     return {
       data,
@@ -57,8 +61,7 @@ export const dataProvider: DataProvider = {
   },
 
   deleteOne: async ({ resource, id }: { resource: string; id: any }) => {
-    const response = await httpClient.delete(`/${resource}/${id}`);
-    const { data } = response.data;
+    const { data } = await httpClient.delete(`/${resource}/${id}`);
 
     return {
       data,

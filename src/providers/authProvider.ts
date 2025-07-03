@@ -5,12 +5,12 @@ import { httpClient } from "../utils";
 export const authProvider: AuthProvider = {
   login: async (params: any) => {
     try {
-      const response = await httpClient.post("/auth/signin", params);
-      const { accessToken, data } = response.data;
-      const { educatorId, organizationId } = data;
+      const { data } = await httpClient.post("/auth/signin", params);
+      const { accessToken, data: userData } = data;
+      const { educatorId, organizationId } = userData;
 
       localStorage.setItem("romulus-access-token", accessToken);
-      localStorage.setItem("romulus-user", JSON.stringify(data));
+      localStorage.setItem("romulus-user", JSON.stringify(userData));
 
       const hasProfile = educatorId || organizationId;
       const redirectTo = hasProfile ? "/" : "/create-profile";
@@ -33,12 +33,12 @@ export const authProvider: AuthProvider = {
 
   register: async (params: any) => {
     try {
-      const response = await httpClient.post("/auth/signup", params);
+      const { data } = await httpClient.post("/auth/signup", params);
 
       return {
         success: true,
         successNotification: {
-          message: response.data.message || "Registration successful",
+          message: data.message || "Registration successful",
         },
       };
     } catch (error: any) {
@@ -54,12 +54,12 @@ export const authProvider: AuthProvider = {
 
   updatePassword: async (params) => {
     try {
-      const response = await httpClient.patch("/auth/update-password", params);
+      const { data } = await httpClient.patch("/auth/update-password", params);
 
       return {
         success: true,
         successNotification: {
-          message: response.data.message || "Password updated successfully",
+          message: data.message || "Password updated successfully",
           description: "Your password has been changed.",
         },
       };
@@ -76,12 +76,12 @@ export const authProvider: AuthProvider = {
 
   forgotPassword: async (params: any) => {
     try {
-      const response = await httpClient.post("/auth/forgot-password", params);
+      const { data } = await httpClient.post("/auth/forgot-password", params);
 
       return {
         success: true,
         successNotification: {
-          message: response.data.message || "Forgot password successful",
+          message: data.message || "Forgot password successful",
           description: "Please check your email for further instructions.",
         },
       };
@@ -98,14 +98,14 @@ export const authProvider: AuthProvider = {
 
   logout: async () => {
     try {
-      const response = await httpClient.post("/auth/signout");
+      const { data } = await httpClient.post("/auth/signout");
       localStorage.clear();
 
       return {
         success: true,
         redirectTo: "/login",
         successNotification: {
-          message: response.data.message || "Logout successful",
+          message: data.message || "Logout successful",
           description: "You have been logged out.",
         },
       };
