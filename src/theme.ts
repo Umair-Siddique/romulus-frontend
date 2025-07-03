@@ -20,7 +20,7 @@ const baseTheme = createTheme({
     },
     text: {
       primary: "#000000",
-      secondary: "#9E9E9E",
+      secondary: "#747474",
       disabled: "#B0BEC5",
     },
     error: {
@@ -32,32 +32,32 @@ const baseTheme = createTheme({
     fontFamily: `"Montserrat", "Inter", "Helvetica", "Arial", sans-serif`,
     h1: {
       fontFamily: `"Montserrat", "Inter", sans-serif`,
-      fontWeight: 600,
+      fontWeight: 700, // Boldest for highest importance
       fontSize: "2.5rem",
     },
     h2: {
       fontFamily: `"Montserrat", "Inter", sans-serif`,
-      fontWeight: 600,
+      fontWeight: 600, // Slightly less bold
       fontSize: "2rem",
     },
     h3: {
       fontFamily: `"Montserrat", "Inter", sans-serif`,
-      fontWeight: 600,
+      fontWeight: 500, // Medium-bold, balanced
       fontSize: "1.75rem",
     },
     h4: {
       fontFamily: `"Montserrat", "Inter", sans-serif`,
-      fontWeight: 600,
+      fontWeight: 500,
       fontSize: "1.5rem",
     },
     h5: {
       fontFamily: `"Montserrat", "Inter", sans-serif`,
-      fontWeight: 600,
+      fontWeight: 400, // Regular weight for subheadings
       fontSize: "1.25rem",
     },
     h6: {
       fontFamily: `"Montserrat", "Inter", sans-serif`,
-      fontWeight: 600,
+      fontWeight: 400, // Same as body text weight, minimal emphasis
       fontSize: "1rem",
     },
     button: {
