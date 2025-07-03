@@ -1,4 +1,5 @@
 import type { AuthProvider } from "@refinedev/core";
+import { jwtDecode } from "jwt-decode";
 import { httpClient } from "../utils";
 
 export const authProvider: AuthProvider = {
@@ -131,8 +132,17 @@ export const authProvider: AuthProvider = {
 
   check: async () => {
     const accessToken = localStorage.getItem("romulus-access-token");
-
     if (!accessToken) {
+      return { authenticated: false, redirectTo: "/login" };
+    }
+
+    const decoded = jwtDecode(accessToken);
+    const currentTime = Math.floor(Date.now() / 1000);
+    if (decoded.exp && decoded.exp < currentTime) {
+      localStorage.removeItem("romulus-access-token");
+      localStorage.removeItem("romulus-user-profile");
+      localStorage.removeItem("romulus-user");
+
       return { authenticated: false, redirectTo: "/login" };
     }
 
