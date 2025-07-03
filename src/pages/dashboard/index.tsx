@@ -1,4 +1,4 @@
-import { AdminDashboard, MissionsDashboard } from "../../components/dashboard";
+import { AdminDashboard, UserDashboard } from "../../components/dashboard";
 import { useUserContext } from "../../context";
 
 export const Dashboard = () => {
@@ -11,7 +11,7 @@ export const Dashboard = () => {
       case "organization":
       case "educator":
         return (
-          <MissionsDashboard
+          <UserDashboard
             role={user.role}
             title="Manage & Monitor Missions"
             description={`Manage all your missions, ${
