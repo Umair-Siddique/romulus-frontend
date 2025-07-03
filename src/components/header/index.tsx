@@ -88,7 +88,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
             flexGrow: 1,
           }}
         >
-          {pageName || "Dashboard"}
+          {pageName === "Admin" ? "Dashboard" : pageName}
         </Box>
 
         {/* Right side - Notification and User */}

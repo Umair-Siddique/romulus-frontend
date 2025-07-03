@@ -1,4 +1,4 @@
-export * from "./admin"
+export * from "./dashboard"
 export * from "./createProfile"
 export * from "./organizations"
 export * from "./organizationDetails"

@@ -26,7 +26,7 @@ import {
 } from "./pages/auth";
 import {
   CreateProfile,
-  Admin,
+  Dashboard,
   Organizations,
   OrganizationDetails,
   Educators,
@@ -89,9 +89,11 @@ const App: React.FC = () => {
               >
                 <Route
                   index
-                  element={user?.role === "admin" ? <Admin /> : <Missions />}
+                  element={
+                    user?.role === "admin" ? <Dashboard /> : <Missions />
+                  }
                 />
-                <Route path="/admin" element={<Admin />} />
+                <Route path="/admin" element={<Dashboard />} />
                 <Route path="/organizations" element={<Organizations />} />
                 <Route
                   path="/organizations/:id"
