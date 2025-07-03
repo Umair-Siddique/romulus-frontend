@@ -11,31 +11,14 @@ import {
   CalendarToday,
   ViewList,
 } from "@mui/icons-material";
+import { CalendarTab } from "./calendarTab";
+import { MissionsTab } from "./missionsTab";
 
 interface AdminDashboardProps {
   role: string;
   title: string;
   description: string;
 }
-
-// Placeholder components for different tab views
-const CalendarView: React.FC = () => (
-  <Box sx={{ p: 3, textAlign: "center" }}>
-    <Typography variant="h6">Calendar View</Typography>
-    <Typography variant="body2" color="text.secondary">
-      Calendar component will be loaded here
-    </Typography>
-  </Box>
-);
-
-const MissionsView: React.FC = () => (
-  <Box sx={{ p: 3, textAlign: "center" }}>
-    <Typography variant="h6">Missions List View</Typography>
-    <Typography variant="body2" color="text.secondary">
-      Missions list component will be loaded here
-    </Typography>
-  </Box>
-);
 
 export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
   title,
@@ -86,11 +69,11 @@ export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
   const renderTabContent = () => {
     switch (activeTab) {
       case 0:
-        return <CalendarView />;
+        return <CalendarTab />;
       case 1:
-        return <MissionsView />;
+        return <MissionsTab />;
       default:
-        return <CalendarView />;
+        return <CalendarTab />;
     }
   };
 
