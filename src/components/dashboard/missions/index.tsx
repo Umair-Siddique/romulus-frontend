@@ -1,6 +1,14 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import { useTheme, Theme } from "@mui/material/styles";
+import KpiCard from "./KpiCard";
+import {
+  Assignment,
+  AssignmentTurnedIn,
+  Cancel,
+  HourglassBottom,
+  WatchLater,
+} from "@mui/icons-material";
 
 interface AdminDashboardProps {
   role: string;
@@ -13,6 +21,42 @@ export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
   description,
 }) => {
   const theme = useTheme<Theme>();
+
+  const kpiCardData = [
+    {
+      title: "Total",
+      total: 120,
+      icon: <Assignment sx={{ color: "#1976d2", fontSize: "1.5rem" }} />, // Blue - neutral/informational
+      iconBg: "#e3f2fd", // Light blue background
+    },
+    {
+      title: "Ongoing",
+      total: 35,
+      icon: <HourglassBottom sx={{ color: "#ff9800", fontSize: "1.5rem" }} />, // Orange - in progress
+      iconBg: "#fff3e0", // Light orange background
+    },
+    {
+      title: "Pending",
+      total: 50,
+      icon: <WatchLater sx={{ color: "#ffc107", fontSize: "1.5rem" }} />, // Amber - waiting/caution
+      iconBg: "#fff8e1", // Light amber background
+    },
+    {
+      title: "Completed",
+      total: 85,
+      // Green - success/completed
+      icon: (
+        <AssignmentTurnedIn sx={{ color: "#4caf50", fontSize: "1.5rem" }} />
+      ),
+      iconBg: "#e8f5e9", // Light green background
+    },
+    {
+      title: "Cancelled",
+      total: 15,
+      icon: <Cancel sx={{ color: "#f44336", fontSize: "1.5rem" }} />, // Red - error/cancelled
+      iconBg: "#ffebee", // Light red background
+    },
+  ];
 
   return (
     <>
@@ -40,6 +84,25 @@ export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
       >
         {description}
       </Typography>
+
+      <Box
+        display="flex"
+        flexWrap="wrap"
+        gap={3}
+        mt={2}
+        width="100%" // Full width
+        justifyContent="space-between" // Equal spacing across full width
+      >
+        {kpiCardData.map((kpi) => (
+          <KpiCard
+            key={kpi.title}
+            title={kpi.title}
+            total={kpi.total}
+            icon={kpi.icon}
+            iconBg={kpi.iconBg}
+          />
+        ))}
+      </Box>
     </>
   );
 };

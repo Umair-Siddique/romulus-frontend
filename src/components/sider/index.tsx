@@ -17,7 +17,7 @@ export const Sider = () => {
       variant="persistent"
       open={true}
       sx={{
-        width: 240,
+        width: 245,
         flexShrink: 0,
         [`& .MuiDrawer-paper`]: {
           width: 240,

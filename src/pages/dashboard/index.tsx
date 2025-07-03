@@ -13,7 +13,7 @@ export const Dashboard = () => {
           role={user.role}
           title="Manage & Monitor Missions"
           description={`Manage all your missions, ${
-            user.role === "organization" && "track educators, "
+            user.role === "organization" ? "track educators, " : ""
           }
         and monitor progress in one place.`}
         />
