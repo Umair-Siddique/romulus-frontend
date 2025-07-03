@@ -36,8 +36,8 @@ export const dataProvider: DataProvider = {
       headers,
     });
 
-    data.user &&
-      localStorage.setItem("romulus-user-profile", JSON.stringify(data));
+    data.data &&
+      localStorage.setItem("romulus-user-profile", JSON.stringify(data.data));
 
     return {
       data,

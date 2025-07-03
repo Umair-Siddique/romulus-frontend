@@ -1,9 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGetIdentity } from "@refinedev/core";
-import {
-  type RefineThemedLayoutV2HeaderProps,
-  HamburgerMenu,
-} from "@refinedev/mui";
+import { type RefineThemedLayoutV2HeaderProps } from "@refinedev/mui";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
@@ -17,11 +14,18 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useTheme, Theme } from "@mui/material/styles";
 import { IUser } from "../../interface";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import { useLocation } from "react-router";
 
 export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
   const theme = useTheme<Theme>();
   const { data: user } = useGetIdentity<IUser>();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const location = useLocation();
+
+  console.log("Header -> user:", user);
+  console.log("Header -> user:", user);
+
+  console.log("Header -> location.pathname:", location.pathname);
 
   const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
