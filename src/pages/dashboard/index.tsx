@@ -2,7 +2,10 @@ import { AdminDashboard, UserDashboard } from "../../components/dashboard";
 import { useUserContext } from "../../context";
 
 export const Dashboard = () => {
-  const { user } = useUserContext();
+   const { user } = useUserContext();
+  if (!user) {
+    return null; // or handle loading state
+  }
 
   const renderDashboardContent = () => {
     switch (user.role) {

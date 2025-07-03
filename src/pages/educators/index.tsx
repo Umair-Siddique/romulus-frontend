@@ -3,7 +3,10 @@ import { useNavigate } from "react-router";
 import { useUserContext } from "../../context";
 
 export const Educators = () => {
-  const { user } = useUserContext();
+   const { user } = useUserContext();
+  if (!user) {
+    return null; // or handle loading state
+  }
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -3,7 +3,10 @@ import { useUserContext } from "../../context";
 import { useNavigate } from "react-router";
 
 export const OrganizationDetails = () => {
-  const { user } = useUserContext();
+   const { user } = useUserContext();
+  if (!user) {
+    return null; // or handle loading state
+  }
   const navigate = useNavigate();
 
   useEffect(() => {

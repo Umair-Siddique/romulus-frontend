@@ -21,6 +21,10 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
   const [pageName, setPageName] = useState<string>("");
 
   const { user } = useUserContext();
+  if (!user) {
+    return null; // or handle loading state
+  }
+
   const { educatorId, organizationId, role } = user;
 
   const { data } = useOne({
