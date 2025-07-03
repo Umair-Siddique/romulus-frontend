@@ -1,7 +1,6 @@
 import { Box, Typography, Tabs, Tab } from "@mui/material";
 import React, { useState } from "react";
 import { useTheme, Theme } from "@mui/material/styles";
-import KpiCard from "./KpiCard";
 import {
   Assignment,
   AssignmentTurnedIn,
@@ -11,6 +10,8 @@ import {
   CalendarToday,
   ViewList,
 } from "@mui/icons-material";
+
+import KpiCard from "./KpiCard";
 import { CalendarTab, MissionsTab } from "./tabs";
 
 interface AdminDashboardProps {
