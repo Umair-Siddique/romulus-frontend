@@ -11,16 +11,16 @@ import {
   ViewList,
 } from "@mui/icons-material";
 
-import KpiCard from "./KpiCard";
+import KpiCard from "./kpCard";
 import { CalendarTab, MissionsTab } from "./tabs";
 
-interface AdminDashboardProps {
+interface UserDashboardProps {
   role: string;
   title: string;
   description: string;
 }
 
-export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
+export const UserDashboard: React.FC<UserDashboardProps> = ({
   title,
   description,
 }) => {
