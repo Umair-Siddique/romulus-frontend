@@ -43,14 +43,8 @@ import {
 } from "./pages";
 import theme from "./theme";
 import { Sider } from "./components";
-import { useUserContext } from "./context";
 
 const App: React.FC = () => {
-   const { user } = useUserContext();
-  if (!user) {
-    return null; // or handle loading state
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
