@@ -163,7 +163,7 @@ export const MissionsDashboard: React.FC<AdminDashboardProps> = ({
         sx={{
           p: 3,
           textAlign: "center",
-          border: `${theme.palette.primary.main} 1px solid`,
+          border: `1px solid ${theme.palette.primary.light}`,
           borderRadius: theme.shape.borderRadius,
           marginTop: 2,
         }}

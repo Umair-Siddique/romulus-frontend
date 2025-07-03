@@ -26,7 +26,7 @@ const baseTheme = createTheme({
     error: {
       main: "#B55252",
     },
-    divider: "#D1DAD6",
+    divider: "#E0E0E0",
   },
   typography: {
     fontFamily: `"Montserrat", "Inter", "Helvetica", "Arial", sans-serif`,
