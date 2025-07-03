@@ -20,9 +20,11 @@ export const CalendarTab: React.FC = () => {
       setEventsData([
         ...eventsData,
         {
+          id: Date.now(),
           start,
           end,
           title,
+          desc: "",
         },
       ]);
   };
