@@ -1,7 +1,7 @@
 import { Box, Typography, Avatar } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 
-import { InfoRow } from "./infoRow";
+import { InfoRow } from "./InfoRow";
 
 import { ProfileSectionProps } from "#types";
 

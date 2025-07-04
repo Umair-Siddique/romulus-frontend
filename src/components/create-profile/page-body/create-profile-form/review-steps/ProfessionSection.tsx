@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 
-import { InfoRow } from "./infoRow";
-import { SkillChips } from "./skillChips";
-import { FileDisplay } from "./fileDisplay";
+import { InfoRow } from "./InfoRow";
+import { SkillChips } from "./SkillChips";
+import { FileDisplay } from "./FileDisplay";
 
 import { ProfessionSectionProps } from "#types";
 
