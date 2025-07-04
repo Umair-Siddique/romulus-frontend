@@ -9,7 +9,7 @@ import {
 import { Close } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
 
-import { ModalProps } from "../interface";
+import { ModalProps } from "#types";
 
 export const Modal = ({
   open,

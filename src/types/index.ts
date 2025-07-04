@@ -374,3 +374,14 @@ export type UpdatePasswordVariables = {
   confirmPassword?: string;
   accessToken: string;
 };
+
+export interface ModalProps {
+  open: boolean;
+  onClose: () => void;
+  onSubmit?: () => void;
+  icon: React.ReactElement;
+  title: string;
+  description: string;
+  showButton?: boolean;
+  buttonText?: string;
+}
