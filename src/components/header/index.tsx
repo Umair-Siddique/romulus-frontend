@@ -22,9 +22,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
 
   const { user } = useUserContext();
 
-  if (!user) {
-    return null; // or handle loading state
-  }
+  if (!user) null; // handle loading state
 
   const { educatorId, organizationId, role } = user;
 
