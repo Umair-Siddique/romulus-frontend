@@ -3,13 +3,14 @@ import { useNavigate } from "react-router";
 import { useUserContext } from "../../context";
 
 export const Branches = () => {
-   const { user } = useUserContext();
+  const { user } = useUserContext();
 
-  if (!user) null; // handle loading state
+  const { role } = user || {};
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user.role !== "organization") {
+    if (role !== "organization") {
       navigate("/dashboard", { replace: true });
     }
   }, [user, navigate]);

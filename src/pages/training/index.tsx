@@ -3,16 +3,17 @@ import { useNavigate } from "react-router";
 import { useUserContext } from "../../context";
 
 export const Training = () => {
-   const { user } = useUserContext();
+  const { user } = useUserContext();
 
-  if (!user) null; // handle loading state
+  const { role } = user || {};
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user.role !== "educator") {
+    if (role !== "educator") {
       navigate("/dashboard", { replace: true });
     }
-  }, [user, navigate]);
+  }, [role, navigate]);
 
   return <div>Training</div>;
 };

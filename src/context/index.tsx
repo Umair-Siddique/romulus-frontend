@@ -10,7 +10,7 @@ type UserContextType = {
 const userContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const [userProfile, setUserProfile] = useState();
 
   useEffect(() => {

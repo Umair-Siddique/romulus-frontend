@@ -22,9 +22,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
 
   const { user } = useUserContext();
 
-  if (!user) null; // handle loading state
-
-  const { educatorId, organizationId, role } = user;
+  const { educatorId, organizationId, role } = user || {};
 
   const { data } = useOne({
     resource: role === "educator" ? "educators" : "organizations",

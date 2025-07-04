@@ -3,16 +3,17 @@ import { useUserContext } from "../../context";
 import { useNavigate } from "react-router";
 
 export const Chats = () => {
-   const { user } = useUserContext();
+  const { user } = useUserContext();
 
-  if (!user) null; // handle loading state
+  const { role } = user || {};
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user.role === "admin") {
+    if (role === "admin") {
       navigate("/dashboard", { replace: true });
     }
-  }, [user, navigate]);
+  }, [role, navigate]);
 
   return <div>Chats</div>;
 };

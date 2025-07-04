@@ -8,10 +8,11 @@ import { Header } from "./header";
 import { useUserContext } from "../../context";
 
 export const Sider = () => {
-   const { user } = useUserContext();
+  const { user } = useUserContext();
 
-  if (!user) null; // handle loading state
-  const navigationItems = getNavigationItems(user?.role);
+  const { role } = user || {};
+
+  const navigationItems = getNavigationItems(role);
 
   return (
     <Drawer
@@ -33,7 +34,7 @@ export const Sider = () => {
 
       <Box sx={{ mt: "auto", p: 2 }}>
         <LogoutButton />
-        {user?.role === "educator" && <TrainingProgressCard />}
+        {role === "educator" && <TrainingProgressCard />}
       </Box>
     </Drawer>
   );
