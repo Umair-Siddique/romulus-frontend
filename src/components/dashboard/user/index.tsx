@@ -1,19 +1,11 @@
-import React from "react";
 import { TabsView } from "./tabView";
 import { KpiCards } from "./kpiCards";
-import { PageMeta } from "../../pageMeta";
+import { PageMeta } from "../../page-meta";
 import { kpiCardsData } from "./kpiCardsData";
 
-interface UserDashboardProps {
-  role: string;
-  title: string;
-  description: string;
-}
+import { UserDashboardProps } from "#types";
 
-export const UserDashboard: React.FC<UserDashboardProps> = ({
-  title,
-  description,
-}) => {
+export const UserDashboard = ({ title, description }: UserDashboardProps) => {
   return (
     <>
       <PageMeta title={title} description={description} />

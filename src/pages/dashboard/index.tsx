@@ -1,5 +1,5 @@
-import { AdminDashboard, UserDashboard } from "../../components/dashboard";
-import { useUserContext } from "../../context";
+import { AdminDashboard, UserDashboard } from "#components/dashboard";
+import { useUserContext } from "#context";
 
 export const Dashboard = () => {
   const { user } = useUserContext();

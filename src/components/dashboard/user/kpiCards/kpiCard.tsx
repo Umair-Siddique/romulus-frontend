@@ -1,15 +1,8 @@
-// src/components/kpi-card.tsx
-import React from "react";
 import { Card, Typography, Box, Avatar } from "@mui/material";
 
-interface KpiCardProps {
-  title: string;
-  total: number;
-  icon: React.ReactNode;
-  iconBg: string; // Optional background color for the icon
-}
+import { KpiCardProps } from "#types";
 
-const KpiCard: React.FC<KpiCardProps> = ({ title, total, icon, iconBg }) => {
+const KpiCard = ({ title, total, icon, iconBg }: KpiCardProps) => {
   return (
     <Card
       elevation={0}

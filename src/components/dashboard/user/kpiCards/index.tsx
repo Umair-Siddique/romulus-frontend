@@ -1,16 +1,9 @@
 import { Box } from "@mui/material";
 import KpiCard from "./kpiCard";
 
-interface KpiCardData {
-  title: string;
-  total: number;
-  icon: React.ReactNode;
-  iconBg: string; // Optional background color for the icon
-}
+import { KpiCardData } from "#types";
 
-export const KpiCards: React.FC<{ kpiCardsData: KpiCardData[] }> = ({
-  kpiCardsData,
-}) => {
+export const KpiCards = ({ kpiCardsData }: { kpiCardsData: KpiCardData[] }) => {
   return (
     <Box
       display="flex"

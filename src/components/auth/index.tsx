@@ -1,2 +1,2 @@
-export * from "./authBackground";
-export * from "./form";
+export * from "./auth-background";
+export * from "./auth-form";

@@ -1,29 +1,25 @@
-import { Authenticated, Refine } from "@refinedev/core";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
+import GlobalStyles from "@mui/material/GlobalStyles";
+import { Authenticated, Refine } from "@refinedev/core";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import {
   ErrorComponent,
   useNotificationProvider,
   ThemedLayoutV2,
   RefineSnackbarProvider,
 } from "@refinedev/mui";
-import GlobalStyles from "@mui/material/GlobalStyles";
-import CssBaseline from "@mui/material/CssBaseline";
 import routerProvider, {
   CatchAllNavigate,
   NavigateToResource,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
 } from "@refinedev/react-router";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router";
-import Box from "@mui/material/Box";
-import { authProvider, dataProvider } from "./providers";
-import { Header } from "./components";
-import {
-  LoginPage,
-  ForgotPasswordPage,
-  RegisterPage,
-  UpdatePasswordPage,
-} from "./pages/auth";
+
+import theme from "./theme";
+import { Header, Sider } from "#components";
+import { authProvider, dataProvider } from "#providers";
 import {
   CreateProfile,
   Dashboard,
@@ -40,11 +36,13 @@ import {
   Reports,
   ReportDetails,
   Settings,
-} from "./pages";
-import theme from "./theme";
-import { Sider } from "./components";
+  LoginPage,
+  ForgotPasswordPage,
+  RegisterPage,
+  UpdatePasswordPage,
+} from "#pages";
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

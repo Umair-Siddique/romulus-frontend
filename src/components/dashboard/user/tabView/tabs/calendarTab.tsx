@@ -1,14 +1,11 @@
-import React, { useState } from "react";
-import { Typography } from "@mui/material";
-import { useTheme, Theme } from "@mui/material/styles";
+import { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import events from "./events";
-import "react-big-calendar/lib/css/react-big-calendar.css";
 
 moment.locale("en-GB");
-export const CalendarTab: React.FC = () => {
-  const theme = useTheme<Theme>();
+
+export const CalendarTab = () => {
   const [eventsData, setEventsData] = useState(events);
   const localizer = momentLocalizer(moment);
 
@@ -30,18 +27,16 @@ export const CalendarTab: React.FC = () => {
   };
 
   return (
-    <>
-      <Calendar
-        selectable
-        localizer={localizer}
-        defaultDate={new Date()}
-        defaultView="month"
-        views={["month"]} // lock to month view only
-        events={eventsData}
-        style={{ height: "100vh" }}
-        onSelectEvent={(event) => alert(event.title)}
-        onSelectSlot={handleSelect}
-      />
-    </>
+    <Calendar
+      selectable
+      localizer={localizer}
+      defaultDate={new Date()}
+      defaultView="month"
+      views={["month"]} // lock to month view only
+      events={eventsData}
+      style={{ height: "100vh" }}
+      onSelectEvent={(event) => alert(event.title)}
+      onSelectSlot={handleSelect}
+    />
   );
 };

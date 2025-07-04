@@ -1,11 +1,9 @@
-import React from "react";
 import {
   Card,
   CardContent,
   Typography,
   LinearProgress,
   Stack,
-  Box,
   Button,
   useTheme,
 } from "@mui/material";
@@ -20,7 +18,6 @@ export const TrainingProgressCard = () => {
   const progress = 50;
   const totalVideos = 4;
   const completedVideos = 2;
-  const quizAttempted = false;
 
   return (
     <Card

@@ -1,8 +1,7 @@
-import React from "react";
 import { Button } from "@mui/material";
-import { Logout as LogoutIcon } from "@mui/icons-material";
 import { useLogout } from "@refinedev/core";
 import { useTheme, Theme } from "@mui/material/styles";
+import { Logout as LogoutIcon } from "@mui/icons-material";
 
 export const LogoutButton = () => {
   const theme = useTheme<Theme>();

@@ -11,12 +11,7 @@ import {
   AssessmentOutlined as ReportsIcon,
 } from "@mui/icons-material";
 
-interface NavigationItem {
-  text: string;
-  to: string;
-  icon: React.ComponentType;
-  active: boolean;
-}
+import { NavigationItem } from "#types";
 
 export const getNavigationItems = (role: string | null): NavigationItem[] => {
   switch (role) {

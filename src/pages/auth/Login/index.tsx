@@ -4,11 +4,11 @@ import { useLogin } from "@refinedev/core";
 import { useTheme, Theme } from "@mui/material/styles";
 import { useState } from "react";
 
-import { validationRules } from "../../../constants/validation";
-import { AuthBackground, Form } from "../../../components/auth";
+import { validationRules } from "#constants";
+import { AuthBackground, AuthForm } from "../../../components/auth";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
-import TextLink from "../../../components/textLink";
-import { LoginVariables } from "../../../types/index.types";
+import TextLink from "../../../components/TextLink";
+import { LoginVariables } from "#types";
 import { formFields as getStaticFields } from "../formFields";
 import { useUserContext } from "../../../context";
 
@@ -67,7 +67,7 @@ export const LoginPage = () => {
         backgroundColor: theme.palette.background.default,
       }}
     >
-      <Form
+      <AuthForm
         formTitle="Welcome Back!"
         formDescription="Please log in to continue."
         formFields={formFields}

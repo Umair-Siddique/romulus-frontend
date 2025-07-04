@@ -1,13 +1,13 @@
+import { useState } from "react";
 import { Box } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { useForgotPassword } from "@refinedev/core";
 import EmailIcon from "@mui/icons-material/Email";
 
-import { validationRules } from "../../../constants/validation";
-import { AuthBackground, Form } from "../../../components/auth";
+import { validationRules } from "../../../constants/validationRules";
+import { AuthBackground, AuthForm } from "../../../components/auth";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
-import { ForgotPasswordVariables } from "../../../types/index.types";
-import { useState } from "react";
+import { ForgotPasswordVariables } from "#types";
 import { Modal } from "../../../components";
 import { formFields as getStaticFields } from "../formFields";
 
@@ -54,7 +54,7 @@ export const ForgotPasswordPage = () => {
         backgroundColor: "#fff",
       }}
     >
-      <Form
+      <AuthForm
         formTitle="Forgot Password?"
         formDescription="Enter the email address associated with your account, and we'll send you a link to reset it."
         formFields={formFields}

@@ -1,5 +1,6 @@
 import type { DataProvider } from "@refinedev/core";
-import { httpClient } from "../utils";
+
+import { httpClient } from "#utils";
 
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }: { resource: string; id: any }) => {

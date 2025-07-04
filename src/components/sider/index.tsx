@@ -1,11 +1,11 @@
-import React from "react";
 import { Drawer, Box } from "@mui/material";
-import { NavigationList } from "./NavigationList";
-import { LogoutButton } from "./LogoutButton";
-import { TrainingProgressCard } from "./TrainingProgressCard";
-import { getNavigationItems } from "./navigationData";
+
 import { Header } from "./header";
-import { useUserContext } from "../../context";
+import { LogoutButton } from "./LogoutButton";
+import { useUserContext } from "#context";
+import { NavigationList } from "./NavigationList";
+import { getNavigationItems } from "./navigationData";
+import { TrainingProgressCard } from "./TrainingProgressCard";
 
 export const Sider = () => {
   const { user } = useUserContext();

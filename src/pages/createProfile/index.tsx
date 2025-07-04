@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 
-import { PageHeader, PageBody } from "../../components/createProfile";
+import { PageHeader, PageBody } from "../../components/create-profile";
 import { useEffect, useState } from "react";
 
 export const CreateProfile = () => {

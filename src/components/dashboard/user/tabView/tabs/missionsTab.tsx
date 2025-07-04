@@ -1,8 +1,7 @@
 import { Typography } from "@mui/material";
-import React from "react";
 import { useTheme, Theme } from "@mui/material/styles";
 
-export const MissionsTab: React.FC = () => {
+export const MissionsTab = () => {
   const theme = useTheme<Theme>();
 
   return (

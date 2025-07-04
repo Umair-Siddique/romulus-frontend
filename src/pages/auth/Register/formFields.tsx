@@ -1,6 +1,6 @@
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import PersonIcon from "@mui/icons-material/Person";
-import { validationRules } from "../../../constants/validation";
+import { validationRules } from "../../../constants/validationRules";
 
 export const getFormFields = (
   form: any,

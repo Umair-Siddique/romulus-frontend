@@ -8,18 +8,9 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { Link } from "react-router";
 
-interface NavigationItem {
-  text: string;
-  to: string;
-  icon: React.ComponentType;
-  active: boolean;
-}
+import { NavigationListProps } from "#types";
 
-interface NavigationListProps {
-  items: NavigationItem[];
-}
-
-export const NavigationList: React.FC<NavigationListProps> = ({ items }) => {
+export const NavigationList = ({ items }: NavigationListProps) => {
   const theme = useTheme();
 
   return (
@@ -28,7 +19,7 @@ export const NavigationList: React.FC<NavigationListProps> = ({ items }) => {
         const IconComponent = item.icon;
 
         return (
-          <Link to={item.to} key={item.text} style={{ textDecoration: 'none' }}>
+          <Link to={item.to} key={item.text} style={{ textDecoration: "none" }}>
             <ListItemButton
               sx={{
                 borderRadius: 2,

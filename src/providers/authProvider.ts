@@ -1,6 +1,7 @@
-import type { AuthProvider } from "@refinedev/core";
 import { jwtDecode } from "jwt-decode";
-import { httpClient } from "../utils";
+import type { AuthProvider } from "@refinedev/core";
+
+import { httpClient } from "#utils";
 
 export const authProvider: AuthProvider = {
   login: async (params: any) => {

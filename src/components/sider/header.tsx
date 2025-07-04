@@ -1,15 +1,16 @@
-import React from "react";
-import { Box, Typography, Stack } from "@mui/material";
-import { Logo } from "../auth/logo";
-import logoImage from "../../assets/images/logo.png";
 import { useTheme, Theme } from "@mui/material/styles";
+import { Box, Typography, Stack } from "@mui/material";
+
+import logoImage from "#assets/images/logo.png";
+import { LogoComponent } from "../LogoComponent";
 
 export const Header = () => {
   const theme = useTheme<Theme>();
+
   return (
     <Box p={3}>
       <Stack direction="row" alignItems="center" spacing={1}>
-        <Logo logoImage={logoImage} width={35} />
+        <LogoComponent logoImage={logoImage} width={35} />
         <Typography
           variant="h6"
           sx={{

@@ -3,11 +3,11 @@ import { Box } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { useRegister } from "@refinedev/core";
 
-import { httpClient } from "../../../utils";
-import { AuthBackground, Form } from "../../../components/auth";
+import { httpClient } from "#utils";
+import { AuthBackground, AuthForm } from "../../../components/auth";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
 import { Modal } from "../../../components";
-import { RegisterVariables } from "../../../types/index.types";
+import { RegisterVariables } from "#types";
 import { getFormFields } from "./formFields";
 import { getFormConfig } from "./formConfig";
 import { getModalConfig } from "./modalConfig";
@@ -80,7 +80,7 @@ export const RegisterPage = () => {
         backgroundColor: (theme) => theme.palette.background.default,
       }}
     >
-      <Form
+      <AuthForm
         formTitle={formConfig.title}
         formDescription={formConfig.description}
         formFields={getFormFields(form, formStep, userRole)}

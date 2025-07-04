@@ -6,6 +6,7 @@ import App from "./App";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { UserProvider } from "./context";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 dayjs.extend(relativeTime);
 

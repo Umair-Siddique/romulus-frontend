@@ -4,10 +4,10 @@ import { useForm } from "@refinedev/react-hook-form";
 import { useNavigate } from "react-router";
 import { useUpdatePassword } from "@refinedev/core";
 
-import { validationRules } from "../../../constants/validation";
-import { AuthBackground, Form } from "../../../components/auth";
+import { validationRules } from "../../../constants/validationRules";
+import { AuthBackground, AuthForm } from "../../../components/auth";
 import AuthBg from "../../../assets/images/auth-bg.jpg";
-import { UpdatePasswordVariables } from "../../../types/index.types";
+import { UpdatePasswordVariables } from "#types";
 import { Modal } from "../../../components";
 import { GridCheckCircleIcon } from "@mui/x-data-grid";
 import { formFields as getStaticFields } from "../formFields";
@@ -61,7 +61,7 @@ export const UpdatePasswordPage = () => {
         backgroundColor: "#fff",
       }}
     >
-      <Form
+      <AuthForm
         formTitle="Reset your password"
         formDescription="Choose a new password that is secure and easy to remember."
         formFields={formFields}
