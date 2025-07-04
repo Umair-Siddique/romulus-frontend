@@ -1,5 +1,5 @@
-import { PageDescription } from "./pageDescription";
-import { PageTitle } from "./pageTitle";
+import { PageDescription } from "./PageDescription";
+import { PageTitle } from "./PageTitle";
 
 import { PageMetaProps } from "#types";
 

@@ -1,6 +1,6 @@
 import { Drawer, Box } from "@mui/material";
 
-import { Header } from "./header";
+import { Header } from "./Header";
 import { LogoutButton } from "./LogoutButton";
 import { useUserContext } from "#context";
 import { NavigationList } from "./NavigationList";

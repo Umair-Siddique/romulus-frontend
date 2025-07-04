@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import KpiCard from "./kpiCard";
+import KpiCard from "./KpiCard";
 
 import { KpiCardData } from "#types";
 

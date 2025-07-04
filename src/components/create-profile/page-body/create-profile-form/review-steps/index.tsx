@@ -4,11 +4,11 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { Save as SaveIcon, Cancel as CancelIcon } from "@mui/icons-material";
 
 import { FormField } from "../form-field";
-import { SectionHeader } from "./sectionHeader";
-import { ProfileSection } from "./profileSection";
+import { SectionHeader } from "./SectionHeader";
+import { ProfileSection } from "./ProfileSection";
 import { BranchesSection } from "./branches-section";
-import { IdentitySection } from "./identitySection";
-import { ProfessionSection } from "./professionSection";
+import { IdentitySection } from "./IdentitySection";
+import { ProfessionSection } from "./ProfessionSection";
 
 import {
   FormDataProps,

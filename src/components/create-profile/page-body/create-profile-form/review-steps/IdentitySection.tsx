@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 
-import { FileDisplay } from "./fileDisplay";
+import { FileDisplay } from "./FileDisplay";
 import { IdentitySectionProps } from "#types";
 
 export const IdentitySection = ({ formData }: IdentitySectionProps) => {
