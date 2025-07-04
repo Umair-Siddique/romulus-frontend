@@ -14,3 +14,5 @@ export const Logo = ({ logoImage, width }: LogoProps) => {
       <Box component="img" src={logoImage} alt="Logo" width={width} />
   );
 };
+
+Logo.displayName = "Logo";

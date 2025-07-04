@@ -81,3 +81,5 @@ export const PageHeader: React.FC = () => {
     </AppBar>
   );
 };
+
+PageHeader.displayName = "PageHeader";

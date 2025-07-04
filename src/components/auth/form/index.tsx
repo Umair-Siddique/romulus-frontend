@@ -227,3 +227,5 @@ export const Form: React.FC<FormProps> = ({
     </Box>
   );
 };
+
+Form.displayName = "Form";

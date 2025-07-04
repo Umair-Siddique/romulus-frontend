@@ -43,3 +43,5 @@ const FormHeader: React.FC<FormHeaderProps> = ({ title, description }) => {
 };
 
 export default FormHeader;
+
+FormHeader.displayName = "FormHeader";

@@ -405,3 +405,5 @@ export const Form = ({
     </>
   );
 };
+
+Form.displayName = "Form";

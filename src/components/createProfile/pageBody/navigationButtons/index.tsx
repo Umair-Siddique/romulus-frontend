@@ -45,3 +45,5 @@ export const NavigationButton = ({
     </Button>
   );
 };
+
+NavigationButton.displayName = "NavigationButton";

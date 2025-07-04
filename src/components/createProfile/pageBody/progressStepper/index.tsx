@@ -54,3 +54,5 @@ export const ProgressStepper = ({
     </Box>
   );
 };
+
+ProgressStepper.displayName = "ProgressStepper";

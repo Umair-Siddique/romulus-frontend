@@ -51,3 +51,5 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
 };
 
 export default SubmitButton;
+
+SubmitButton.displayName = "SubmitButton";

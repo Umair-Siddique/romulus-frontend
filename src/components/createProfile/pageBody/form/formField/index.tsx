@@ -157,3 +157,5 @@ export const FormField: React.FC<FormFieldProps> = ({
 
   return <Box sx={{ mb: 3 }}>{renderField()}</Box>;
 };
+
+FormField.displayName = "FormField";

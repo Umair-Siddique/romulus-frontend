@@ -31,3 +31,5 @@ export const HeroHeader = ({ userRole }: HeroHeaderProps) => {
     </Box>
   );
 };
+
+HeroHeader.displayName = "HeroHeader";
