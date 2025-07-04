@@ -4,6 +4,7 @@ import { useUserContext } from "../../context";
 
 export const Reports = () => {
    const { user } = useUserContext();
+
   if (!user) {
     return null; // or handle loading state
   }

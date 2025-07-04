@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 
 export const Organizations = () => {
    const { user } = useUserContext();
+
   if (!user) {
     return null; // or handle loading state
   }

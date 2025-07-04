@@ -3,6 +3,7 @@ import { useUserContext } from "../../context";
 
 export const Dashboard = () => {
    const { user } = useUserContext();
+
   if (!user) {
     return null; // or handle loading state
   }

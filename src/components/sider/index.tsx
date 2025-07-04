@@ -9,6 +9,7 @@ import { useUserContext } from "../../context";
 
 export const Sider = () => {
    const { user } = useUserContext();
+
   if (!user) {
     return null; // or handle loading state
   }

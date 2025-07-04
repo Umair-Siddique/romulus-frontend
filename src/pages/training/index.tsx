@@ -4,6 +4,7 @@ import { useUserContext } from "../../context";
 
 export const Training = () => {
    const { user } = useUserContext();
+
   if (!user) {
     return null; // or handle loading state
   }
