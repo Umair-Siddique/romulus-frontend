@@ -55,9 +55,9 @@ const App = () => {
       <BrowserRouter>
         <RefineSnackbarProvider>
           <Refine
-            routerProvider={routerProvider}
             authProvider={authProvider}
             dataProvider={dataProvider}
+            routerProvider={routerProvider}
             notificationProvider={useNotificationProvider}
             options={{
               syncWithLocation: true,
