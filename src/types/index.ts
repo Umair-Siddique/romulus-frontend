@@ -47,6 +47,15 @@ export interface AuthFormFieldProps {
   setVerificationCode?: (code: string[]) => void;
 }
 
+export interface SubmitButtonProps {
+  type?: "submit" | "button";
+  onClick?: () => void;
+  isDisabled?: boolean;
+  isLoading?: boolean;
+  loadingText: string;
+  loadedText: string;
+}
+
 export interface CheckboxFieldProps {
   label: string;
   name: string;

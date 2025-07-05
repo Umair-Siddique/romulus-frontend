@@ -1,14 +1,7 @@
 import { Button } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 
-type SubmitButtonProps = {
-  type?: "submit" | "button";
-  onClick?: () => void;
-  isDisabled?: boolean;
-  isLoading?: boolean;
-  loadingText: string;
-  loadedText: string;
-};
+import { SubmitButtonProps } from "#types";
 
 const AuthSubmitButton = ({
   type,

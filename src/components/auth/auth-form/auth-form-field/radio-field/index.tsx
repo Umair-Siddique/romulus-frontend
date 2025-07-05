@@ -2,7 +2,7 @@ import { useState } from "react";
 import { RadioGroup, Typography } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 
-import { UserTypeCard } from "./user-type-card";
+import { UserTypeCard } from "./UserTypeCard";
 import { RadioFieldProps } from "#types";
 
 export const RadioField = ({

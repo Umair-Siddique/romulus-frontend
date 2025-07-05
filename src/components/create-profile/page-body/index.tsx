@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Container } from "@mui/material";
 
-import { HeroHeader } from "./hero-header";
-import { CreateProfileForm } from "./create-profile-form";
+import { HeroHeader } from "./HeroHeader";
 import { ProgressStepper } from "./ProgressStepper";
+import { CreateProfileForm } from "./create-profile-form";
 
 import { PageBodyProps } from "#types";
 

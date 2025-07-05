@@ -1,5 +1,5 @@
 import { CheckboxField } from "./CheckboxField";
-import { RadioField } from "./RadioField";
+import { RadioField } from "./radio-field";
 import { OTPField } from "./OtpField";
 import { TextInputField } from "./TextInputField";
 
