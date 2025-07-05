@@ -8,6 +8,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { Analytics } from "@vercel/analytics/next";
 import { UserProvider } from "./context";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "./index.css";
 
 dayjs.extend(relativeTime);
 

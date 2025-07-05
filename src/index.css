@@ -1,9 +1,64 @@
-#root
-  > div
-  > nav
-  > div
-  > div
-  > div.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation0.css-72ufq7-MuiPaper-root
-  > button {
-  display: none !important;
+.rbc-month-view {
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+}
+
+.rbc-header {
+  color: #9e9e9e;
+  font-weight: 500;
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+}
+
+.rbc-off-range-bg {
+  background-color: #f8f8f8;
+}
+
+.rbc-today {
+  background-color: #fff;
+}
+
+.rbc-button-link {
+  color: #747474;
+  font-weight: 500;
+  font-size: 1.1rem;
+  font-family: "Montserrat", sans-serif;
+}
+
+.rbc-event {
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #a2b8b0;
+  background-color: #f0f4f3;
+  width: 80%;
+  text-align: center;
+}
+
+.rbc-date-cell {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-top: 0.8rem;
+  padding-left: 0.5rem;
+}
+
+.rbc-off-range > button {
+  color: #bbb;
+}
+
+.rbc-row-segment {
+  padding-top: 5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: start; */
+}
+
+div.rbc-selected.rbc-event {
+  color: #a2b8b0;
+  background-color: #f0f4f3;
 }
