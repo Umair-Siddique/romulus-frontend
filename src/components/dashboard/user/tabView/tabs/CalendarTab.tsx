@@ -21,7 +21,6 @@ export const CalendarTab = () => {
           start,
           end,
           title,
-          desc: "",
         },
       ]);
   };
