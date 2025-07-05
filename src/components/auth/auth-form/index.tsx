@@ -5,16 +5,16 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { GridCheckCircleIcon } from "@mui/x-data-grid";
 import CancelIcon from "@mui/icons-material/Cancel";
 
+import { httpClient } from "#utils";
+import { Modal } from "../../Modal";
+import TextLink from "../../TextLink";
+import logoImage from "/images/logo.png";
 import AuthFormField from "./auth-form-field";
 import AuthFormHeader from "./auth-form-header";
 import AuthSubmitButton from "./auth-submit-button";
-import TextLink from "../../TextLink";
 import { LogoComponent } from "../../LogoComponent";
-import { Modal } from "../../Modal";
 
-import { httpClient } from "#utils";
 import { AuthFormProps } from "#types";
-import logoImage from "#assets/images/logo.png";
 
 export const AuthForm = ({
   formTitle,

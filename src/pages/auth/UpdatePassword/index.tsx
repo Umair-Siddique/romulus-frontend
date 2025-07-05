@@ -4,13 +4,14 @@ import { useForm } from "@refinedev/react-hook-form";
 import { useNavigate } from "react-router";
 import { useUpdatePassword } from "@refinedev/core";
 
-import { validationRules } from "../../../constants/validationRules";
-import { AuthBackground, AuthForm } from "../../../components/auth";
-import AuthBg from "../../../assets/images/auth-bg.jpg";
-import { UpdatePasswordVariables } from "#types";
 import { Modal } from "../../../components";
 import { GridCheckCircleIcon } from "@mui/x-data-grid";
+import AuthBg from "/images/auth-bg.jpg";
 import { formFields as getStaticFields } from "../formFields";
+import { validationRules } from "../../../constants/validationRules";
+import { AuthBackground, AuthForm } from "../../../components/auth";
+
+import { UpdatePasswordVariables } from "#types";
 
 export const UpdatePasswordPage = () => {
   const [showModal, setShowModal] = useState(false);

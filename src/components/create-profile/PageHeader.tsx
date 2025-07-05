@@ -11,7 +11,7 @@ import { AccountCircle, ArrowDropDown } from "@mui/icons-material";
 import { useLogout } from "@refinedev/core";
 import { useTheme, Theme } from "@mui/material/styles";
 
-import logoImage from "#assets/images/logo.png"; // Adjust the path as necessary
+import logoImage from "/images/logo.png"; // Adjust the path as necessary
 import { LogoComponent } from "../LogoComponent";
 
 export const PageHeader = () => {

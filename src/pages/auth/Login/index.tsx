@@ -4,13 +4,14 @@ import { useLogin } from "@refinedev/core";
 import { useTheme, Theme } from "@mui/material/styles";
 import { useState } from "react";
 
+import AuthBg from "/images/auth-bg.jpg";
 import { validationRules } from "#constants";
-import { AuthBackground, AuthForm } from "../../../components/auth";
-import AuthBg from "../../../assets/images/auth-bg.jpg";
-import TextLink from "../../../components/TextLink";
-import { LoginVariables } from "#types";
-import { formFields as getStaticFields } from "../formFields";
 import { useUserContext } from "../../../context";
+import TextLink from "../../../components/TextLink";
+import { formFields as getStaticFields } from "../formFields";
+import { AuthBackground, AuthForm } from "../../../components/auth";
+
+import { LoginVariables } from "#types";
 
 type LoginPhase = "idle" | "logging-in" | "complete";
 

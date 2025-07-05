@@ -4,13 +4,14 @@ import { useForm } from "@refinedev/react-hook-form";
 import { useRegister } from "@refinedev/core";
 
 import { httpClient } from "#utils";
-import { AuthBackground, AuthForm } from "../../../components/auth";
-import AuthBg from "../../../assets/images/auth-bg.jpg";
+import AuthBg from "/images/auth-bg.jpg";
 import { Modal } from "../../../components";
-import { RegisterVariables } from "#types";
 import { getFormFields } from "./formFields";
 import { getFormConfig } from "./formConfig";
 import { getModalConfig } from "./modalConfig";
+import { AuthBackground, AuthForm } from "../../../components/auth";
+
+import { RegisterVariables } from "#types";
 
 export const RegisterPage = () => {
   const [formStep, setFormStep] = useState(1);

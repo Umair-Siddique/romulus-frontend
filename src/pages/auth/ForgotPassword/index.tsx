@@ -4,12 +4,13 @@ import { useForm } from "@refinedev/react-hook-form";
 import { useForgotPassword } from "@refinedev/core";
 import EmailIcon from "@mui/icons-material/Email";
 
-import { validationRules } from "../../../constants/validationRules";
-import { AuthBackground, AuthForm } from "../../../components/auth";
-import AuthBg from "../../../assets/images/auth-bg.jpg";
-import { ForgotPasswordVariables } from "#types";
+import AuthBg from "/images/auth-bg.jpg";
 import { Modal } from "../../../components";
 import { formFields as getStaticFields } from "../formFields";
+import { AuthBackground, AuthForm } from "../../../components/auth";
+import { validationRules } from "../../../constants/validationRules";
+
+import { ForgotPasswordVariables } from "#types";
 
 export const ForgotPasswordPage = () => {
   const [showModal, setShowModal] = useState(false);

@@ -1,7 +1,7 @@
 import { useTheme, Theme } from "@mui/material/styles";
 import { Box, Typography, Stack } from "@mui/material";
 
-import logoImage from "#assets/images/logo.png";
+import logoImage from "/images/logo.png";
 import { LogoComponent } from "../LogoComponent";
 
 export const Header = () => {
