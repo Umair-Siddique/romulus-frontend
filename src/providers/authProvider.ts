@@ -105,10 +105,6 @@ export const authProvider: AuthProvider = {
       return {
         success: true,
         redirectTo: "/login",
-        successNotification: {
-          message: data.message || "Logout successful",
-          description: "You have been logged out.",
-        },
       };
     } catch (error: any) {
       return {

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useTheme, Theme } from "@mui/material/styles";
 import { Box, Paper } from "@mui/material";
 import { CheckCircle, Cancel } from "@mui/icons-material";
-import { useCreate } from "@refinedev/core";
+import { useCreate, useLogout } from "@refinedev/core";
 
 import { Modal } from "../../../Modal";
 
@@ -27,11 +27,12 @@ export const CreateProfileForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormDataProps>({});
   const [config, setConfig] = useState<Record<string, any[]>>({});
+  const { mutate: logout } = useLogout();
 
   const { mutate } = useCreate({
     resource: role === "educator" ? "educators" : "organizations",
     mutationOptions: {
-      onSuccess: (data) => {
+      onSuccess: (response: any) => {
         setShowSuccessModal(true);
         setIsSubmitting(false);
       },
@@ -177,7 +178,7 @@ export const CreateProfileForm = ({
 
   const handleSuccessModalSubmit = () => {
     setShowSuccessModal(false);
-    navigate("/");
+    logout()
   };
 
   const handleErrorModalClose = () => {
@@ -379,7 +380,7 @@ export const CreateProfileForm = ({
         title="Submitted successfully!"
         description={`Your profile has been received and is now under review. After submission, your profile will be reviewed within 24-48 hours. You will be informed by email.`}
         showButton={true}
-        buttonText="Continue to Dashboard"
+        buttonText="Login and continue to dashboard"
       />
 
       {/* Error Modal */}
