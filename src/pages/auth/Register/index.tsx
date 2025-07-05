@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
-import { useRegister } from "@refinedev/core";
+import { useCustom, useRegister } from "@refinedev/core";
 
-import { httpClient } from "#utils";
 import AuthBg from "/images/auth-bg.jpg";
 import { Modal } from "../../../components";
 import { getFormFields } from "./formFields";
@@ -18,6 +17,22 @@ export const RegisterPage = () => {
   const [userRole, setUserRole] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
+
+  const { refetch: sendOtp } = useCustom({
+    method: "post",
+    url: "/twilio/send-otp",
+    config: {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      payload: {
+        phone: phoneNumber,
+      },
+    },
+    queryOptions: {
+      enabled: false, // Disable automatic refetching
+    },
+  });
 
   const form = useForm({
     mode: "onChange",
@@ -58,9 +73,7 @@ export const RegisterPage = () => {
   };
 
   const requestOtpAgain = async () => {
-    await httpClient.post("/twilio/send-otp", {
-      phone: phoneNumber,
-    });
+    await sendOtp();
   };
 
   const formConfig = getFormConfig(formStep, requestOtpAgain);

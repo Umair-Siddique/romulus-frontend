@@ -5,7 +5,6 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { GridCheckCircleIcon } from "@mui/x-data-grid";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-import { httpClient } from "#utils";
 import { Modal } from "../../Modal";
 import TextLink from "../../TextLink";
 import logoImage from "/images/logo.png";
@@ -15,6 +14,7 @@ import AuthSubmitButton from "./AuthSubmitButton";
 import { LogoComponent } from "../../LogoComponent";
 
 import { AuthFormProps } from "#types";
+import { useCustom } from "@refinedev/core";
 
 export const AuthForm = ({
   formTitle,
@@ -48,8 +48,25 @@ export const AuthForm = ({
 
   const [verificationCode, setVerificationCode] = useState<string[]>();
   const showForgotPassword = formType === "login";
-  const showSubmitButton = formStep !== 1;
 
+  const { refetch: verifyOtp } = useCustom({
+    method: "post",
+    url: "/twilio/verify-otp",
+    config: {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      payload: {
+        phone: phoneNumber,
+        code: verificationCode?.join(""),
+      },
+    },
+    queryOptions: {
+      enabled: false, // Disable automatic refetching
+    },
+  });
+
+  const showSubmitButton = formStep !== 1;
   const navigate = useNavigate();
 
   const isButtonDisabled = !isFormValid || hasErrors || isLoading;
@@ -58,39 +75,24 @@ export const AuthForm = ({
     setModalConfig((prev) => ({ ...prev, open: false }));
   };
 
-  const verifyOtp = async () => {
-    try {
-      const res = await httpClient.post("/twilio/verify-otp", {
-        phone: phoneNumber,
-        code: verificationCode?.join(""),
-      });
+  const handleVerifyOtp = async () => {
+    const result = await verifyOtp();
 
-      if (res.data.success) {
-        setVerificationCode([]);
-        setModalConfig({
-          open: true,
-          icon: <GridCheckCircleIcon />,
-          title: "OTP verified successfully!",
-          description: "You're all set. You can now log in to your account.",
-          buttonText: "Go to Login",
-          showButton: true,
-          onSubmit: () => {
-            closeModal();
-            navigate("/login");
-          },
-        });
-      } else {
-        setModalConfig({
-          open: true,
-          icon: <CancelIcon color="error" fontSize="inherit" />,
-          title: "OTP verification failed",
-          description: "Please check your OTP and try again.",
-          buttonText: "Retry",
-          showButton: true,
-          onSubmit: closeModal,
-        });
-      }
-    } catch (error) {
+    if (result) {
+      setVerificationCode([]);
+      setModalConfig({
+        open: true,
+        icon: <GridCheckCircleIcon />,
+        title: "OTP verified successfully!",
+        description: "You're all set. You can now log in to your account.",
+        buttonText: "Go to Login",
+        showButton: true,
+        onSubmit: () => {
+          closeModal();
+          navigate("/login");
+        },
+      });
+    } else {
       setModalConfig({
         open: true,
         icon: <CancelIcon color="error" fontSize="inherit" />,
@@ -196,7 +198,7 @@ export const AuthForm = ({
                 onClick={
                   formStep === 3
                     ? () => {
-                        void verifyOtp();
+                        void handleVerifyOtp();
                       }
                     : undefined
                 }

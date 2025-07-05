@@ -69,6 +69,30 @@ export const dataProvider: DataProvider = {
     };
   },
 
+  custom: async ({
+    url,
+    method,
+    filters,
+    sorters,
+    payload,
+    query,
+    headers,
+    meta,
+  }) => {
+    const { data } = await requestAPI(method, url, payload, {
+      params: {
+        filters,
+        sorters,
+        query,
+      },
+      headers,
+    });
+
+    return {
+      data,
+    };
+  },
+
   getApiUrl: () => {
     return import.meta.env.VITE_API_BASE_URL;
   },
