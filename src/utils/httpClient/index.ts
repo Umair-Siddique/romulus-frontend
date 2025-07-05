@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig, Method } from "axios";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
@@ -19,3 +19,18 @@ httpClient.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// Generic API request function
+export const requestAPI = <T = any>(
+  method: Method,
+  url: string,
+  data?: any,
+  config?: AxiosRequestConfig
+) => {
+  return httpClient.request<T>({
+    method,
+    url,
+    data,
+    ...config,
+  });
+};

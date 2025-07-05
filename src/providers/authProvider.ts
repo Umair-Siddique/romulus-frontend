@@ -1,12 +1,12 @@
 import { jwtDecode } from "jwt-decode";
 import type { AuthProvider } from "@refinedev/core";
 
-import { httpClient } from "#utils";
+import { requestAPI } from "#utils";
 
 export const authProvider: AuthProvider = {
   login: async (params: any) => {
     try {
-      const { data } = await httpClient.post("/auth/signin", params);
+      const { data } = await requestAPI("POST", "/auth/signin", params);
       const { accessToken, data: userData } = data;
       const { educatorId, organizationId } = userData;
 
@@ -34,7 +34,7 @@ export const authProvider: AuthProvider = {
 
   register: async (params: any) => {
     try {
-      const { data } = await httpClient.post("/auth/signup", params);
+      const { data } = await requestAPI("POST", "/auth/signup", params);
 
       return {
         success: true,
@@ -55,7 +55,7 @@ export const authProvider: AuthProvider = {
 
   updatePassword: async (params) => {
     try {
-      const { data } = await httpClient.patch("/auth/update-password", params);
+      const { data } = await requestAPI("PATCH", "/auth/update-password", params);
 
       return {
         success: true,
@@ -77,7 +77,7 @@ export const authProvider: AuthProvider = {
 
   forgotPassword: async (params: any) => {
     try {
-      const { data } = await httpClient.post("/auth/forgot-password", params);
+      const { data } = await requestAPI("POST", "/auth/forgot-password", params);
 
       return {
         success: true,
@@ -99,7 +99,7 @@ export const authProvider: AuthProvider = {
 
   logout: async () => {
     try {
-      const { data } = await httpClient.post("/auth/signout");
+      const { data } = await requestAPI("POST", "/auth/signout");
       localStorage.clear();
 
       return {

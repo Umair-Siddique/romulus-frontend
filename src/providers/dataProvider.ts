@@ -1,10 +1,10 @@
 import type { DataProvider } from "@refinedev/core";
 
-import { httpClient } from "#utils";
+import { requestAPI } from "#utils";
 
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }: { resource: string; id: any }) => {
-    const { data } = await httpClient.get(`/${resource}/${id}`);
+    const { data } = await requestAPI("GET", `/${resource}/${id}`);
 
     data.data &&
       localStorage.setItem("romulus-user-profile", JSON.stringify(data.data));
@@ -15,7 +15,7 @@ export const dataProvider: DataProvider = {
   },
 
   getList: async ({ resource }: { resource: string }) => {
-    const { data } = await httpClient.get(`/${resource}`);
+    const { data } = await requestAPI("GET", `/${resource}`);
 
     return {
       data,
@@ -33,7 +33,7 @@ export const dataProvider: DataProvider = {
     meta?: any;
   }) => {
     const headers = meta?.headers ?? {};
-    const { data } = await httpClient.post(`/${resource}`, variables, {
+    const { data } = await requestAPI("POST", `/${resource}`, variables, {
       headers,
     });
 
@@ -54,7 +54,7 @@ export const dataProvider: DataProvider = {
     id: any;
     variables: any;
   }) => {
-    const { data } = await httpClient.patch(`/${resource}/${id}`, variables);
+    const { data } = await requestAPI("PATCH", `/${resource}/${id}`, variables);
 
     return {
       data,
@@ -62,7 +62,7 @@ export const dataProvider: DataProvider = {
   },
 
   deleteOne: async ({ resource, id }: { resource: string; id: any }) => {
-    const { data } = await httpClient.delete(`/${resource}/${id}`);
+    const { data } = await requestAPI("DELETE", `/${resource}/${id}`);
 
     return {
       data,
