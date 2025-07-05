@@ -57,7 +57,7 @@ const App = () => {
           <Refine
             routerProvider={routerProvider}
             authProvider={authProvider}
-            dataProvider={{ default: dataProvider }}
+            dataProvider={dataProvider}
             options={{
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
