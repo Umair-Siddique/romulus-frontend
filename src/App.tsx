@@ -58,13 +58,13 @@ const App = () => {
             routerProvider={routerProvider}
             authProvider={authProvider}
             dataProvider={dataProvider}
+            notificationProvider={useNotificationProvider}
             options={{
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
               breadcrumb: false,
               useNewQueryKeys: true,
             }}
-            notificationProvider={useNotificationProvider}
           >
             <Routes>
               <Route path="/create-profile" element={<CreateProfile />} />
