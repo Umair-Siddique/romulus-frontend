@@ -14,8 +14,12 @@ import { useTheme } from "@mui/material/styles";
 interface Mission {
   id: string;
   title: string;
-  mission: string;
-  status: "Ongoing" | "New" | "Completed" | "Pending";
+  venue: string;
+  location: string;
+  date: string;
+  time: string;
+  address: string;
+  status: string;
 }
 
 interface MissionsModalProps {
@@ -174,7 +178,7 @@ export const MissionsModal: React.FC<MissionsModalProps> = ({
                         fontSize: "0.875rem",
                       }}
                     >
-                      Mission: {mission.mission}
+                      Mission: {mission.title}
                     </Typography>
                   </Box>
                 </Box>

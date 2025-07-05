@@ -8,55 +8,13 @@ import { MissionsModal } from "./MissionsModal";
 
 moment.locale("en-GB");
 
-export const CalendarTab = () => {
+interface CalendarTabProps {
+  missions: any[]; // Define the type of missions if known
+}
+
+export const CalendarTab = ({ missions }: CalendarTabProps) => {
   const localizer = momentLocalizer(moment);
   const [open, setOpen] = useState(false);
-
-  interface Mission {
-    id: string;
-    title: string;
-    mission: string;
-    status: "Ongoing" | "New" | "Completed" | "Pending";
-  }
-
-  const sampleMissions: Mission[] = [
-    {
-      id: "1",
-      title: "The Learning Hub",
-      mission: "English Speaking Session",
-      status: "Ongoing",
-    },
-    {
-      id: "2",
-      title: "The Learning Hub",
-      mission: "English Speaking Session",
-      status: "New",
-    },
-    {
-      id: "3",
-      title: "The Learning Hub",
-      mission: "English Speaking Session",
-      status: "Ongoing",
-    },
-    {
-      id: "4",
-      title: "The Learning Hub",
-      mission: "English Speaking Session",
-      status: "New",
-    },
-    {
-      id: "5",
-      title: "The Learning Hub",
-      mission: "English Speaking Session",
-      status: "Ongoing",
-    },
-    {
-      id: "6",
-      title: "The Learning Hub",
-      mission: "English Speaking Session",
-      status: "New",
-    },
-  ];
 
   const handleMissionSelect = (event: any) => {
     // Handle the event selection logic here
@@ -75,7 +33,6 @@ export const CalendarTab = () => {
         events={events}
         style={{ height: "100vh" }}
         onSelectEvent={handleMissionSelect}
-        //   onSelectSlot={handleSelect}
         components={{
           toolbar: CustomToolbar,
         }}
@@ -84,7 +41,7 @@ export const CalendarTab = () => {
         open={open}
         onClose={() => setOpen(false)}
         date="May 6, 2025"
-        missions={sampleMissions}
+        missions={missions}
       />
     </>
   );

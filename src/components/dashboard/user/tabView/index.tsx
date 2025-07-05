@@ -1,5 +1,5 @@
-import { Box, Tabs, Tab } from "@mui/material";
 import React, { useState } from "react";
+import { Box, Tabs, Tab } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 import { CalendarToday, ViewList } from "@mui/icons-material";
 
@@ -13,14 +13,27 @@ export const TabsView = () => {
     setActiveTab(newValue);
   };
 
+  const missions = [
+    {
+      id: "1",
+      title: "Science Fair Coordination",
+      venue: "The Learning Hub",
+      location: "Downton",
+      date: "12 May, 2025",
+      time: "01:00 pm to 04:00 pm",
+      address: "Aston, USA",
+      status: "Pending",
+    },
+  ];
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 0:
-        return <CalendarTab />;
+        return <CalendarTab missions={missions} />;
       case 1:
-        return <MissionsTab />;
+        return <MissionsTab missions={missions} />;
       default:
-        return <CalendarTab />;
+        return <CalendarTab missions={missions} />;
     }
   };
 
