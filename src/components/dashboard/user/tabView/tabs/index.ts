@@ -1,2 +1,2 @@
-export * from "./CalendarTab"
+export * from "./calendar-tab"
 export * from "./MissionsTab"
