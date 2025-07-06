@@ -20,15 +20,7 @@ import {
 } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
 
-interface MissionCardProps {
-  title: string;
-  venue: string;
-  location: string;
-  date: string;
-  time: string;
-  address: string;
-  status: string;
-}
+import { MissionCardProps } from "#types";
 
 export const MissionCard = ({
   title,

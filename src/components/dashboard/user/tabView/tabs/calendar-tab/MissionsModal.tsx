@@ -11,23 +11,7 @@ import {
 import { Close, Business, ArrowForward } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 
-interface Mission {
-  id: string;
-  title: string;
-  venue: string;
-  location: string;
-  date: string;
-  time: string;
-  address: string;
-  status: string;
-}
-
-interface MissionsModalProps {
-  open: boolean;
-  onClose: () => void;
-  date: string;
-  missions: Mission[];
-}
+import { MissionsModalProps } from "#types";
 
 export const MissionsModal: React.FC<MissionsModalProps> = ({
   open,

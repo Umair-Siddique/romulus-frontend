@@ -6,11 +6,9 @@ import events from "./events";
 import CustomToolbar from "./CustomToolbar";
 import { MissionsModal } from "./MissionsModal";
 
-moment.locale("en-GB");
+import { CalendarTabProps } from "#types";
 
-interface CalendarTabProps {
-  missions: any[]; // Define the type of missions if known
-}
+moment.locale("en-GB");
 
 export const CalendarTab = ({ missions }: CalendarTabProps) => {
   const localizer = momentLocalizer(moment);

@@ -1,8 +1,5 @@
+import { MissionsTabProps } from "#types";
 import { MissionCard } from "./MissionCard";
-
-interface MissionsTabProps {
-  missions?: any[]; // Define the type of missions if known
-}
 
 export const MissionsTab = ({ missions }: MissionsTabProps) => {
   return (

@@ -395,3 +395,39 @@ export interface ModalProps {
   showButton?: boolean;
   buttonText?: string;
 }
+
+export interface CalendarTabProps {
+  missions: any[];
+}
+
+export interface MissionsTabProps {
+  missions: any[];
+}
+
+interface Mission {
+  id: string;
+  title: string;
+  venue: string;
+  location: string;
+  date: string;
+  time: string;
+  address: string;
+  status: string;
+}
+
+export interface MissionsModalProps {
+  open: boolean;
+  onClose: () => void;
+  date: string;
+  missions: Mission[];
+}
+
+export interface MissionCardProps {
+  title: string;
+  venue: string;
+  location: string;
+  date: string;
+  time: string;
+  address: string;
+  status: string;
+}
