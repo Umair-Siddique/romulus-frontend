@@ -25,7 +25,7 @@ const CustomToolbar = ({
     <Box
       sx={{
         display: "flex",
-        justifyContent: "flex-start",
+        justifyContent: "flex-end",
         alignItems: "center",
         gap: 2,
         mb: 2,
@@ -33,6 +33,19 @@ const CustomToolbar = ({
         py: 1,
       }}
     >
+      <Typography
+        variant="h6"
+        sx={{
+          fontWeight: 600,
+          color: "text.primary",
+          fontFamily: "Montserrat, sans-serif",
+          fontSize: "2rem",
+          // width: "275px",
+          textAlign: "start",
+        }}
+      >
+        {label}
+      </Typography>
       <Box sx={{ display: "flex", gap: 1 }}>
         <IconButton
           onClick={goToPrevious}
@@ -63,19 +76,6 @@ const CustomToolbar = ({
           <ChevronRight />
         </IconButton>
       </Box>
-      <Typography
-        variant="h6"
-        sx={{
-          fontWeight: 600,
-          color: "text.primary",
-          fontFamily: "Montserrat, sans-serif",
-          fontSize: "2rem",
-          width: "275px",
-          textAlign: "start",
-        }}
-      >
-        {label}
-      </Typography>
     </Box>
   );
 };
