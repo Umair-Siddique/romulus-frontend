@@ -351,6 +351,7 @@ export interface NavigationItem {
 
 export interface NavigationListProps {
   items: NavigationItem[];
+  onItemClick: (index: number) => void;
 }
 
 export interface TextLinkProps {

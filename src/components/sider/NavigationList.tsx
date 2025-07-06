@@ -10,17 +10,18 @@ import { Link } from "react-router";
 
 import { NavigationListProps } from "#types";
 
-export const NavigationList = ({ items }: NavigationListProps) => {
+export const NavigationList = ({ items, onItemClick }: NavigationListProps) => {
   const theme = useTheme();
 
   return (
     <List sx={{ px: 2 }}>
-      {items.map((item) => {
+      {items.map((item, index) => {
         const IconComponent = item.icon;
 
         return (
           <Link to={item.to} key={item.text} style={{ textDecoration: "none" }}>
             <ListItemButton
+              onClick={() => onItemClick(index)}
               sx={{
                 borderRadius: 2,
                 mb: 0.5,

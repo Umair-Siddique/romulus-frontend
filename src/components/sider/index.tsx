@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Drawer, Box } from "@mui/material";
 
 import { Header } from "./Header";
@@ -9,10 +10,18 @@ import { TrainingProgressCard } from "./TrainingProgressCard";
 
 export const Sider = () => {
   const { user } = useUserContext();
-
   const { role } = user || {};
 
-  const navigationItems = getNavigationItems(role);
+  const [items, setItems] = useState(() => getNavigationItems(role));
+
+  const handleItemClick = (index: number) => {
+    setItems((prevItems) =>
+      prevItems.map((item, i) => ({
+        ...item,
+        active: i === index,
+      }))
+    );
+  };
 
   return (
     <Drawer
@@ -30,8 +39,7 @@ export const Sider = () => {
       }}
     >
       <Header />
-      <NavigationList items={navigationItems} />
-
+      <NavigationList items={items} onItemClick={handleItemClick} />
       <Box sx={{ mt: "auto", p: 2 }}>
         <LogoutButton />
         {role === "educator" && <TrainingProgressCard />}
