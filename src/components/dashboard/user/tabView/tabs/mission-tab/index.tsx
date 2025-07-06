@@ -9,7 +9,7 @@ import {
   useTheme,
   styled,
 } from "@mui/material";
-import { CalendarToday, KeyboardArrowDown } from "@mui/icons-material";
+import { Add, CalendarToday, KeyboardArrowDown } from "@mui/icons-material";
 import { MissionsTabProps } from "#types";
 import { MissionCard } from "./MissionCard";
 
@@ -132,6 +132,19 @@ export const MissionsTab = ({ missions }: MissionsTabProps) => {
             }}
           >
             {selectedBranch}
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              textTransform: "none",
+              padding: theme.spacing(1, 2),
+              fontSize: theme.typography.body2.fontSize,
+            }}
+          >
+            Create Mission
+            <Add sx={{ ml: 1 }} />
           </Button>
         </Stack>
       </Box>
