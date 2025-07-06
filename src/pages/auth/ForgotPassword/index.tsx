@@ -5,9 +5,9 @@ import { useForgotPassword } from "@refinedev/core";
 import EmailIcon from "@mui/icons-material/Email";
 
 import AuthBg from "/images/auth-bg.jpg";
-import { Modal } from "../../../components";
+import { Modal } from "#components";
+import { AuthBackground, AuthForm } from "#components/auth";
 import { formFields as getStaticFields } from "../formFields";
-import { AuthBackground, AuthForm } from "../../../components/auth";
 import { validationRules } from "../../../constants/validationRules";
 
 import { ForgotPasswordVariables } from "#types";

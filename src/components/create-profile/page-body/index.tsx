@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { Container } from "@mui/material";
+import { useEffect, useState } from "react";
 
 import { HeroHeader } from "./HeroHeader";
 import { ProgressStepper } from "./ProgressStepper";

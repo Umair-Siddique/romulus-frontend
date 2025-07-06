@@ -5,9 +5,8 @@ import { Box, Paper } from "@mui/material";
 import { CheckCircle, Cancel } from "@mui/icons-material";
 import { useCreate, useLogout } from "@refinedev/core";
 
-import { Modal } from "../../../Modal";
-
 import { FormStep } from "./FormStep";
+import { Modal } from "../../../Modal";
 import { ReviewStep } from "./review-steps";
 import { NavigationButton } from "./NavigationButtons";
 import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";

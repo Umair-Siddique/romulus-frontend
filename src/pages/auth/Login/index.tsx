@@ -5,11 +5,11 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { useState } from "react";
 
 import AuthBg from "/images/auth-bg.jpg";
+import TextLink from "#components/TextLink";
 import { validationRules } from "#constants";
 import { useUserContext } from "../../../context";
-import TextLink from "../../../components/TextLink";
+import { AuthBackground, AuthForm } from "#components/auth";
 import { formFields as getStaticFields } from "../formFields";
-import { AuthBackground, AuthForm } from "../../../components/auth";
 
 import { LoginVariables } from "#types";
 

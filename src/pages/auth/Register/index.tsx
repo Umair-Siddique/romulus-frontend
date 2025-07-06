@@ -4,7 +4,7 @@ import { useForm } from "@refinedev/react-hook-form";
 import { useCustom, useRegister } from "@refinedev/core";
 
 import AuthBg from "/images/auth-bg.jpg";
-import { Modal } from "../../../components";
+import { Modal } from "#components";
 import { getFormFields } from "./formFields";
 import { getFormConfig } from "./formConfig";
 import { getModalConfig } from "./modalConfig";

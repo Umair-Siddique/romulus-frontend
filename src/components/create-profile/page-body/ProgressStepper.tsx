@@ -1,5 +1,5 @@
-import { Box, Step, StepLabel, Stepper } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
+import { Box, Step, StepLabel, Stepper } from "@mui/material";
 
 import { ProgressStepperProps } from "#types";
 

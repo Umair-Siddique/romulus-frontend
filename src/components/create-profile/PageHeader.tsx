@@ -7,9 +7,9 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import { AccountCircle, ArrowDropDown } from "@mui/icons-material";
 import { useLogout } from "@refinedev/core";
 import { useTheme, Theme } from "@mui/material/styles";
+import { AccountCircle, ArrowDropDown } from "@mui/icons-material";
 
 import logoImage from "/images/logo.png"; // Adjust the path as necessary
 import { LogoComponent } from "../LogoComponent";
