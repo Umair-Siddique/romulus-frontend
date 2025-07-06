@@ -39,7 +39,7 @@ export const Header = () => {
 
   useEffect(() => {
     const path = location.pathname.split("/").pop();
-    setPageName(path ? path.charAt(0).toUpperCase() + path.slice(1) : "");
+    setPageName(path ? path.charAt(0).toUpperCase() + path.slice(1) : "Dashboard");
   }, [location.pathname]);
 
   const handleUserMenuClick = (event: { currentTarget: SetStateAction<HTMLElement | null>; }) => {
