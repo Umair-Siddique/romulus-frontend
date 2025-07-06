@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useUserContext } from "../../context";
+import { useUserContext } from "#context";
 
 export const Branches = () => {
   const { user } = useUserContext();

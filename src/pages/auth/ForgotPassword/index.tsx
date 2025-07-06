@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
-import { useForm } from "@refinedev/react-hook-form";
-import { useForgotPassword } from "@refinedev/core";
 import EmailIcon from "@mui/icons-material/Email";
+import { useForgotPassword } from "@refinedev/core";
+import { useForm } from "@refinedev/react-hook-form";
 
 import AuthBg from "/images/auth-bg.jpg";
-import { Modal } from "#components";
-import { AuthBackground, AuthForm } from "#components/auth";
+import { validationRules } from "#constants";
+import { Modal, AuthBackground, AuthForm } from "#components";
 import { formFields as getStaticFields } from "../formFields";
-import { validationRules } from "../../../constants/validationRules";
 
 import { ForgotPasswordVariables } from "#types";
 

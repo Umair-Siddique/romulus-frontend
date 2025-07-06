@@ -3,7 +3,7 @@ import { useTheme, Theme } from "@mui/material/styles";
 
 import { TextLinkProps } from "#types";
 
-const TextLink = ({ to, label }: TextLinkProps) => {
+export const TextLink = ({ to, label }: TextLinkProps) => {
   const theme = useTheme<Theme>();
 
   return (
@@ -25,5 +25,3 @@ const TextLink = ({ to, label }: TextLinkProps) => {
     </Link>
   );
 };
-
-export default TextLink;

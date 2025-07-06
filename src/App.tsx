@@ -1,4 +1,3 @@
-import type { IResourceItem, Action } from "@refinedev/core";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";

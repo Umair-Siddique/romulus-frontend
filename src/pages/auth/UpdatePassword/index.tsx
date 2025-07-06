@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
-import { useForm } from "@refinedev/react-hook-form";
 import { useNavigate } from "react-router";
 import { useUpdatePassword } from "@refinedev/core";
-
-import { Modal } from "../../../components";
+import { useForm } from "@refinedev/react-hook-form";
 import { GridCheckCircleIcon } from "@mui/x-data-grid";
+
 import AuthBg from "/images/auth-bg.jpg";
+import { validationRules } from "#constants";
+import { Modal, AuthBackground, AuthForm } from "#components";
 import { formFields as getStaticFields } from "../formFields";
-import { validationRules } from "../../../constants/validationRules";
-import { AuthBackground, AuthForm } from "../../../components/auth";
 
 import { UpdatePasswordVariables } from "#types";
 
@@ -21,7 +20,8 @@ export const UpdatePasswordPage = () => {
     defaultValues: {
       password: "",
       confirmPassword: "",
-      resetToken: new URLSearchParams(window.location.search).get("resetToken") || "",
+      resetToken:
+        new URLSearchParams(window.location.search).get("resetToken") || "",
     },
   });
 

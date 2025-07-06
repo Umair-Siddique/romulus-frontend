@@ -5,8 +5,10 @@ import App from "./App";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { Analytics } from "@vercel/analytics/next";
-import { UserProvider } from "./context";
+import { Analytics } from "@vercel/analytics/react";
+
+import { UserProvider } from "#context";
+
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./index.css";
 
@@ -19,6 +21,7 @@ root.render(
   <React.StrictMode>
     <React.Suspense>
       <UserProvider>
+        <Analytics />
         <App />
       </UserProvider>
     </React.Suspense>

@@ -7,8 +7,8 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { GridCheckCircleIcon } from "@mui/x-data-grid";
 
 import { Modal } from "../../Modal";
-import TextLink from "../../TextLink";
 import logoImage from "/images/logo.png";
+import { TextLink } from "../../TextLink";
 import AuthFormField from "./auth-form-field";
 import AuthFormHeader from "./AuthFormHeader";
 import AuthSubmitButton from "./AuthSubmitButton";

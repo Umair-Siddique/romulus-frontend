@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 
-import TextLink from "#components/TextLink";
+import { TextLink } from "#components";
 
 export const getFormConfig = (
   formStep: number,

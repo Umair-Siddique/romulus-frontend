@@ -3,12 +3,11 @@ import { Box } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { useCustom, useRegister } from "@refinedev/core";
 
-import { Modal } from "#components";
 import AuthBg from "/images/auth-bg.jpg";
 import { getFormConfig } from "./formConfig";
 import { getFormFields } from "./formFields";
 import { getModalConfig } from "./modalConfig";
-import { AuthBackground, AuthForm } from "../../../components/auth";
+import { Modal, AuthBackground, AuthForm } from "#components";
 
 import { RegisterVariables } from "#types";
 
