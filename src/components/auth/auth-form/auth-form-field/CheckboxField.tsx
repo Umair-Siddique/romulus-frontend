@@ -1,5 +1,5 @@
-import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
+import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 
 import { CheckboxFieldProps } from "#types";
 

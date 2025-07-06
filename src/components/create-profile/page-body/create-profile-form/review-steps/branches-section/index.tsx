@@ -1,4 +1,4 @@
-import { BranchCard } from "./BranchCard";
+import { BranchCard } from "./branchCard";
 
 import { BranchesSectionProps } from "#types";
 

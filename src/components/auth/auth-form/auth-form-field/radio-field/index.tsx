@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { RadioGroup, Typography } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
+import { RadioGroup, Typography } from "@mui/material";
+
+import { RadioFieldProps } from "#types";
 
 import { UserTypeCard } from "./UserTypeCard";
-import { RadioFieldProps } from "#types";
 
 export const RadioField = ({
   options,

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTheme, Theme } from "@mui/material/styles";
 import { Info, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
@@ -8,7 +9,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useTheme, Theme } from "@mui/material/styles";
 
 import { TextInputFieldProps } from "#types";
 

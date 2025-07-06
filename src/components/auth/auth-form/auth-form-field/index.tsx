@@ -1,6 +1,6 @@
-import { CheckboxField } from "./CheckboxField";
-import { RadioField } from "./radio-field";
 import { OTPField } from "./OtpField";
+import { RadioField } from "./radio-field";
+import { CheckboxField } from "./CheckboxField";
 import { TextInputField } from "./TextInputField";
 
 import { AuthFormFieldProps } from "#types";

@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Avatar, IconButton } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
+import { Box, Avatar, IconButton } from "@mui/material";
 import {
   Person as PersonIcon,
   CameraAlt as CameraIcon,

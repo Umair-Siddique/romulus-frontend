@@ -1,11 +1,11 @@
 import React from "react";
-import { Box, Typography, IconButton } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 import {
   CloudUpload as UploadIcon,
   Close as CloseIcon,
   FileCopy as FileIcon,
 } from "@mui/icons-material";
+import { Box, Typography, IconButton } from "@mui/material";
 
 import { FileUploadFieldProps } from "#types";
 

@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Typography, TextField, InputAdornment } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
+import { Box, Typography, TextField, InputAdornment } from "@mui/material";
 
 import { NumberFieldProps } from "#types";
 

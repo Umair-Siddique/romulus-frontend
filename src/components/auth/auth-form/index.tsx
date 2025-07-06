@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import { Box } from "@mui/material";
+import { useNavigate } from "react-router";
+import { useCustom } from "@refinedev/core";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { useTheme, Theme } from "@mui/material/styles";
 import { GridCheckCircleIcon } from "@mui/x-data-grid";
-import CancelIcon from "@mui/icons-material/Cancel";
 
 import { Modal } from "../../Modal";
 import TextLink from "../../TextLink";
@@ -14,7 +15,6 @@ import AuthSubmitButton from "./AuthSubmitButton";
 import { LogoComponent } from "../../LogoComponent";
 
 import { AuthFormProps } from "#types";
-import { useCustom } from "@refinedev/core";
 
 export const AuthForm = ({
   formTitle,

@@ -1,6 +1,6 @@
 import { useTheme, Theme } from "@mui/material/styles";
-import { FormControl, Typography, Select, MenuItem } from "@mui/material";
 import { KeyboardArrowDown as ArrowDownIcon } from "@mui/icons-material";
+import { FormControl, Typography, Select, MenuItem } from "@mui/material";
 
 import { SelectFieldProps } from "#types";
 

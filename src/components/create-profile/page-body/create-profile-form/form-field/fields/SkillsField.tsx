@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Box, Typography, TextField, IconButton, Chip } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 import { Add as AddIcon, Close as CloseIcon } from "@mui/icons-material";
+import { Box, Typography, TextField, IconButton, Chip } from "@mui/material";
 
 import { SkillsFieldProps } from "#types";
 

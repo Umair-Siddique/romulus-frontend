@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +10,7 @@ import {
   MenuItem,
   FormControl,
 } from "@mui/material";
+import { useState, useEffect } from "react";
 import { Close, CloudUpload as UploadIcon } from "@mui/icons-material";
 
 import { BranchModalProps } from "#types";
