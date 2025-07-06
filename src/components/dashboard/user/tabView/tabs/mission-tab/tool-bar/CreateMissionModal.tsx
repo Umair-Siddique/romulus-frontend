@@ -7,7 +7,6 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel,
   Chip,
   Box,
   Button,
@@ -18,8 +17,8 @@ import {
   styled,
 } from "@mui/material";
 import {
-  Close,
-  Add,
+  Close as CloseIcon,
+  Add as AddIcon,
   Upload,
   CalendarToday,
   AccessTime,
@@ -34,9 +33,10 @@ interface CreateMissionModalProps {
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialog-paper": {
     borderRadius: "16px",
-    maxWidth: "600px",
+    maxWidth: "700px", // Increased from 600px
     width: "100%",
     margin: theme.spacing(2),
+    backgroundColor: theme.palette.background.default,
   },
 }));
 
@@ -99,7 +99,7 @@ export const CreateMissionModal = ({
     }
   };
 
-  const handleRemoveSkill = (skillToRemove: string) => {
+  const handleSkillRemove = (skillToRemove: string) => {
     setFormData((prev) => ({
       ...prev,
       skills: prev.skills.filter((skill) => skill !== skillToRemove),
@@ -140,59 +140,164 @@ export const CreateMissionModal = ({
           pb: 2,
         }}
       >
-        <Typography variant="h6" fontWeight={600}>
+        <Typography variant="h5" fontWeight={600}>
           Create Mission
         </Typography>
         <IconButton onClick={onClose} size="small">
-          <Close />
+          <CloseIcon />
         </IconButton>
       </DialogTitle>
 
       <DialogContent sx={{ pt: 0 }}>
         <Stack spacing={3}>
           {/* Mission Title */}
-          <TextField
-            label="Mission Title"
-            placeholder="Enter title"
-            fullWidth
-            value={formData.title}
-            onChange={(e) => handleInputChange("title", e.target.value)}
-            variant="outlined"
-          />
+          <Box>
+            <Typography
+              variant="body2"
+              sx={{
+                mb: theme.spacing(1),
+                fontWeight: 500,
+                color: theme.palette.text.primary,
+              }}
+            >
+              Mission Title
+            </Typography>
+            <TextField
+              placeholder="Enter title"
+              fullWidth
+              value={formData.title}
+              onChange={(e) => handleInputChange("title", e.target.value)}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: theme.spacing(0.5),
+                  backgroundColor: theme.palette.background.paper,
+                  "& fieldset": {
+                    borderColor: theme.palette.divider,
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.primary.light,
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: theme.palette.primary.light,
+                    borderWidth: 2,
+                  },
+                },
+                "& .MuiInputBase-input": {
+                  color: theme.palette.text.primary,
+                },
+                "& .MuiInputBase-input::placeholder": {
+                  color: theme.palette.text.secondary,
+                  opacity: 1,
+                },
+              }}
+              variant="outlined"
+            />
+          </Box>
 
           {/* Branch Selection */}
-          <FormControl fullWidth>
-            <InputLabel>Branch</InputLabel>
-            <Select
-              value={formData.branch}
-              onChange={(e) => handleInputChange("branch", e.target.value)}
-              label="Branch"
+          <Box>
+            <Typography
+              variant="body2"
+              sx={{
+                mb: theme.spacing(1),
+                fontWeight: 500,
+                color: theme.palette.text.primary,
+              }}
             >
-              {branches.map((branch) => (
-                <MenuItem key={branch} value={branch}>
-                  {branch}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              Branch
+            </Typography>
+            <FormControl
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: theme.spacing(0.5),
+                  backgroundColor: theme.palette.background.paper,
+                  "& fieldset": {
+                    borderColor: theme.palette.divider,
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.primary.light,
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: theme.palette.primary.light,
+                    borderWidth: 2,
+                  },
+                },
+                "& .MuiInputBase-input": {
+                  color: theme.palette.text.primary,
+                },
+                "& .MuiInputBase-input::placeholder": {
+                  color: theme.palette.text.secondary,
+                  opacity: 1,
+                },
+              }}
+              fullWidth
+            >
+              <Select
+                value={formData.branch}
+                onChange={(e) => handleInputChange("branch", e.target.value)}
+                displayEmpty
+                renderValue={(selected) => {
+                  if (!selected) {
+                    return (
+                      <Typography color="text.disabled">
+                        Select branch
+                      </Typography>
+                    );
+                  }
+                  return selected;
+                }}
+              >
+                {branches.map((branch) => (
+                  <MenuItem key={branch} value={branch}>
+                    {branch}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
 
           {/* Skills Section */}
           <Box>
-            <Typography variant="body2" color="text.secondary" mb={1}>
+            <Typography
+              variant="body2"
+              sx={{
+                mb: theme.spacing(1),
+                fontWeight: 500,
+                color: theme.palette.text.primary,
+              }}
+            >
               Add Skills
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
               <TextField
-                placeholder="Add your skills (e.g., Math, Science, Programming, Language Teaching)"
                 fullWidth
-                size="small"
+                placeholder="Add your skills (e.g., calmness, patience, concentration, report writing, teaching, sports practice)"
                 value={newSkill}
                 onChange={(e) => setNewSkill(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    handleAddSkill();
-                  }
+                onKeyPress={(e) => e.key === "Enter" && handleAddSkill()}
+                size="small"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: theme.spacing(0.5),
+                    backgroundColor: theme.palette.background.paper,
+                    "& fieldset": {
+                      borderColor: theme.palette.divider,
+                    },
+                    "&:hover fieldset": {
+                      borderColor: theme.palette.primary.light,
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: theme.palette.primary.light,
+                      borderWidth: 2,
+                    },
+                  },
+                  "& .MuiInputBase-input": {
+                    color: theme.palette.text.primary,
+                  },
+                  "& .MuiInputBase-input::placeholder": {
+                    color: theme.palette.text.secondary,
+                    opacity: 1,
+                  },
                 }}
               />
               <IconButton
@@ -204,88 +309,262 @@ export const CreateMissionModal = ({
                   },
                 }}
               >
-                <Add />
+                <AddIcon />
               </IconButton>
             </Box>
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-              {formData.skills.map((skill) => (
+            <Box
+              sx={{ display: "flex", flexWrap: "wrap", gap: theme.spacing(1) }}
+            >
+              {formData.skills.map((skill, index) => (
                 <Chip
-                  key={skill}
+                  key={index}
                   label={skill}
-                  onDelete={() => handleRemoveSkill(skill)}
-                  variant="outlined"
+                  onDelete={() => handleSkillRemove(skill)}
+                  deleteIcon={<CloseIcon />}
                   size="small"
+                  sx={{
+                    backgroundColor: theme.palette.primary.light,
+                    color: theme.palette.text.primary,
+                    fontSize: "0.875rem",
+                    "& .MuiChip-deleteIcon": {
+                      color: theme.palette.text.secondary,
+                      "&:hover": {
+                        color: theme.palette.primary.main,
+                      },
+                    },
+                  }}
                 />
               ))}
             </Box>
           </Box>
 
           {/* Date Selection */}
-          <Stack direction="row" spacing={2}>
-            <TextField
-              label="Start Date"
-              type="date"
-              fullWidth
-              value={formData.startDate}
-              onChange={(e) => handleInputChange("startDate", e.target.value)}
-              InputLabelProps={{ shrink: true }}
-              InputProps={{
-                startAdornment: <CalendarToday sx={{ mr: 1, fontSize: 18 }} />,
+          <Box>
+            <Typography
+              variant="body2"
+              sx={{
+                mb: theme.spacing(1),
+                fontWeight: 500,
+                color: theme.palette.text.primary,
               }}
-            />
-            <TextField
-              label="End Date"
-              type="date"
-              fullWidth
-              value={formData.endDate}
-              onChange={(e) => handleInputChange("endDate", e.target.value)}
-              InputLabelProps={{ shrink: true }}
-              InputProps={{
-                startAdornment: <CalendarToday sx={{ mr: 1, fontSize: 18 }} />,
-              }}
-            />
-          </Stack>
+            >
+              Date Range
+            </Typography>
+            <Stack direction="row" spacing={2}>
+              <TextField
+                placeholder="Start Date"
+                type="date"
+                fullWidth
+                value={formData.startDate}
+                onChange={(e) => handleInputChange("startDate", e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  startAdornment: (
+                    <CalendarToday sx={{ mr: 1, fontSize: 18 }} />
+                  ),
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: theme.spacing(0.5),
+                    backgroundColor: theme.palette.background.paper,
+                    "& fieldset": {
+                      borderColor: theme.palette.divider,
+                    },
+                    "&:hover fieldset": {
+                      borderColor: theme.palette.primary.light,
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: theme.palette.primary.light,
+                      borderWidth: 2,
+                    },
+                  },
+                  "& .MuiInputBase-input": {
+                    color: theme.palette.text.primary,
+                  },
+                  "& .MuiInputBase-input::placeholder": {
+                    color: theme.palette.text.secondary,
+                    opacity: 1,
+                  },
+                }}
+              />
+              <TextField
+                placeholder="End Date"
+                type="date"
+                fullWidth
+                value={formData.endDate}
+                onChange={(e) => handleInputChange("endDate", e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  startAdornment: (
+                    <CalendarToday sx={{ mr: 1, fontSize: 18 }} />
+                  ),
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: theme.spacing(0.5),
+                    backgroundColor: theme.palette.background.paper,
+                    "& fieldset": {
+                      borderColor: theme.palette.divider,
+                    },
+                    "&:hover fieldset": {
+                      borderColor: theme.palette.primary.light,
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: theme.palette.primary.light,
+                      borderWidth: 2,
+                    },
+                  },
+                  "& .MuiInputBase-input": {
+                    color: theme.palette.text.primary,
+                  },
+                  "& .MuiInputBase-input::placeholder": {
+                    color: theme.palette.text.secondary,
+                    opacity: 1,
+                  },
+                }}
+              />
+            </Stack>
+          </Box>
 
           {/* Time Selection */}
-          <Stack direction="row" spacing={2}>
-            <TextField
-              label="From"
-              type="time"
-              fullWidth
-              value={formData.startTime}
-              onChange={(e) => handleInputChange("startTime", e.target.value)}
-              InputLabelProps={{ shrink: true }}
-              InputProps={{
-                startAdornment: <AccessTime sx={{ mr: 1, fontSize: 18 }} />,
+          <Box>
+            <Typography
+              variant="body2"
+              sx={{
+                mb: theme.spacing(1),
+                fontWeight: 500,
+                color: theme.palette.text.primary,
               }}
-            />
-            <TextField
-              label="To"
-              type="time"
-              fullWidth
-              value={formData.endTime}
-              onChange={(e) => handleInputChange("endTime", e.target.value)}
-              InputLabelProps={{ shrink: true }}
-              InputProps={{
-                startAdornment: <AccessTime sx={{ mr: 1, fontSize: 18 }} />,
-              }}
-            />
-          </Stack>
+            >
+              Time Range
+            </Typography>
+            <Stack direction="row" spacing={2}>
+              <TextField
+                placeholder="From"
+                type="time"
+                fullWidth
+                value={formData.startTime}
+                onChange={(e) => handleInputChange("startTime", e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  startAdornment: <AccessTime sx={{ mr: 1, fontSize: 18 }} />,
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: theme.spacing(0.5),
+                    backgroundColor: theme.palette.background.paper,
+                    "& fieldset": {
+                      borderColor: theme.palette.divider,
+                    },
+                    "&:hover fieldset": {
+                      borderColor: theme.palette.primary.light,
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: theme.palette.primary.light,
+                      borderWidth: 2,
+                    },
+                  },
+                  "& .MuiInputBase-input": {
+                    color: theme.palette.text.primary,
+                  },
+                  "& .MuiInputBase-input::placeholder": {
+                    color: theme.palette.text.secondary,
+                    opacity: 1,
+                  },
+                }}
+              />
+              <TextField
+                placeholder="To"
+                type="time"
+                fullWidth
+                value={formData.endTime}
+                onChange={(e) => handleInputChange("endTime", e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  startAdornment: <AccessTime sx={{ mr: 1, fontSize: 18 }} />,
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: theme.spacing(0.5),
+                    backgroundColor: theme.palette.background.paper,
+                    "& fieldset": {
+                      borderColor: theme.palette.divider,
+                    },
+                    "&:hover fieldset": {
+                      borderColor: theme.palette.primary.light,
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: theme.palette.primary.light,
+                      borderWidth: 2,
+                    },
+                  },
+                  "& .MuiInputBase-input": {
+                    color: theme.palette.text.primary,
+                  },
+                  "& .MuiInputBase-input::placeholder": {
+                    color: theme.palette.text.secondary,
+                    opacity: 1,
+                  },
+                }}
+              />
+            </Stack>
+          </Box>
 
           {/* Description */}
-          <TextField
-            label="Description"
-            placeholder="Write here..."
-            fullWidth
-            multiline
-            rows={4}
-            value={formData.description}
-            onChange={(e) => handleInputChange("description", e.target.value)}
-          />
+          <Box>
+            <Typography
+              variant="body2"
+              sx={{
+                mb: theme.spacing(1),
+                fontWeight: 500,
+                color: theme.palette.text.primary,
+              }}
+            >
+              Description
+            </Typography>
+            <TextField
+              placeholder="Write here..."
+              fullWidth
+              multiline
+              rows={4}
+              value={formData.description}
+              onChange={(e) => handleInputChange("description", e.target.value)}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: theme.spacing(0.5),
+                  backgroundColor: theme.palette.background.paper,
+                  "& fieldset": {
+                    borderColor: theme.palette.divider,
+                  },
+                  "&:hover fieldset": {
+                    borderColor: theme.palette.primary.light,
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: theme.palette.primary.light,
+                    borderWidth: 2,
+                  },
+                },
+                "& .MuiInputBase-input": {
+                  color: theme.palette.text.primary,
+                },
+                "& .MuiInputBase-input::placeholder": {
+                  color: theme.palette.text.secondary,
+                  opacity: 1,
+                },
+              }}
+            />
+          </Box>
 
           {/* File Upload */}
           <Box>
-            <Typography variant="body2" color="text.secondary" mb={1}>
+            <Typography
+              variant="body2"
+              sx={{
+                mb: theme.spacing(1),
+                fontWeight: 500,
+                color: theme.palette.text.primary,
+              }}
+            >
               Upload Technical Document
             </Typography>
             <UploadArea
@@ -318,18 +597,14 @@ export const CreateMissionModal = ({
           {/* Submit Button */}
           <Button
             variant="contained"
-            fullWidth
             onClick={handleSubmit}
+            color="primary"
             sx={{
-              backgroundColor: theme.palette.info.main,
-              color: "white",
               textTransform: "none",
-              py: 1.5,
-              borderRadius: "8px",
-              fontWeight: 600,
-              "&:hover": {
-                backgroundColor: theme.palette.info.dark,
-              },
+              padding: theme.spacing(1, 2),
+              fontSize: theme.typography.body2.fontSize,
+              width: "30%",
+              alignSelf: "center",
             }}
           >
             Find Educator
