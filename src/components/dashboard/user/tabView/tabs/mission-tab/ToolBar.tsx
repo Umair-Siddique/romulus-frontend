@@ -1,0 +1,195 @@
+import { useState } from "react";
+import {
+  Box,
+  Chip,
+  Button,
+  Menu,
+  MenuItem,
+  Stack,
+  useTheme,
+  styled,
+} from "@mui/material";
+import { Add, CalendarToday, KeyboardArrowDown } from "@mui/icons-material";
+
+export const ToolBar = () => {
+  const theme = useTheme();
+  const [selectedStatus, setSelectedStatus] = useState("All");
+  const [dateAnchor, setDateAnchor] = useState(null);
+  const [branchAnchor, setBranchAnchor] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("Date");
+  const [selectedBranch, setSelectedBranch] = useState("Branch");
+
+  const statusFilters = ["All", "Ongoing", "Completed", "Cancelled"];
+  const dateOptions = ["Today", "This Week", "This Month", "Custom Range"];
+  const branchOptions = ["All Branches", "Downtown", "Uptown", "Midtown"];
+
+  const handleStatusClick = (status: any) => {
+    setSelectedStatus(status);
+  };
+
+  const handleDateClick = (event: any) => {
+    setDateAnchor(event.currentTarget);
+  };
+
+  const handleBranchClick = (event: any) => {
+    setBranchAnchor(event.currentTarget);
+  };
+
+  const handleDateClose = () => {
+    setDateAnchor(null);
+  };
+
+  const handleBranchClose = () => {
+    setBranchAnchor(null);
+  };
+
+  const handleDateSelect = (option: any) => {
+    setSelectedDate(option);
+    handleDateClose();
+  };
+
+  const handleBranchSelect = (option: any) => {
+    setSelectedBranch(option);
+    handleBranchClose();
+  };
+
+  const CustomChip = styled(Chip)(({ theme }) => ({
+    borderRadius: "12px", // your custom radius
+    padding: theme.spacing(0.5, 1),
+  }));
+
+  return (
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: theme.spacing(3),
+          flexWrap: "wrap",
+          gap: theme.spacing(2),
+        }}
+      >
+        {/* Left side - Status filters */}
+        <Stack direction="row" spacing={1}>
+          {statusFilters.map((status) => (
+            <CustomChip
+              key={status}
+              label={status}
+              onClick={() => handleStatusClick(status)}
+              sx={{
+                width: "auto",
+                cursor: "pointer",
+                padding: theme.spacing(0.5),
+                color: theme.palette.text.primary,
+                fontSize: theme.typography.body2.fontSize,
+                fontWeight: selectedStatus === status ? 500 : 400,
+                backgroundColor:
+                  selectedStatus === status
+                    ? theme.palette.primary.light
+                    : theme.palette.background.default,
+                border:
+                  selectedStatus === status
+                    ? "none"
+                    : `1px solid ${theme.palette.text.disabled}`,
+              }}
+            />
+          ))}
+        </Stack>
+
+        {/* Right side - Date and Branch filters */}
+        <Stack direction="row" spacing={1}>
+          <Button
+            variant="outlined"
+            onClick={handleDateClick}
+            endIcon={<KeyboardArrowDown />}
+            startIcon={<CalendarToday sx={{ fontSize: 18 }} />}
+            sx={{
+              textTransform: "none",
+              color: theme.palette.text.secondary,
+              borderColor: theme.palette.divider,
+              "&:hover": {
+                borderColor: theme.palette.primary.main,
+              },
+            }}
+          >
+            {selectedDate}
+          </Button>
+
+          <Button
+            variant="outlined"
+            onClick={handleBranchClick}
+            endIcon={<KeyboardArrowDown />}
+            sx={{
+              textTransform: "none",
+              color: theme.palette.text.secondary,
+              borderColor: theme.palette.divider,
+              "&:hover": {
+                borderColor: theme.palette.primary.main,
+              },
+            }}
+          >
+            {selectedBranch}
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              textTransform: "none",
+              padding: theme.spacing(1, 2),
+              fontSize: theme.typography.body2.fontSize,
+            }}
+          >
+            Create Mission
+            <Add sx={{ ml: 1 }} />
+          </Button>
+        </Stack>
+      </Box>
+
+      {/* Date Menu */}
+      <Menu
+        anchorEl={dateAnchor}
+        open={Boolean(dateAnchor)}
+        onClose={handleDateClose}
+      >
+        {dateOptions.map((option) => (
+          <MenuItem
+            key={option}
+            onClick={() => handleDateSelect(option)}
+            sx={{
+              color: theme.palette.text.primary,
+              "&:hover": {
+                backgroundColor: theme.palette.action.hover,
+              },
+            }}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
+
+      {/* Branch Menu */}
+      <Menu
+        anchorEl={branchAnchor}
+        open={Boolean(branchAnchor)}
+        onClose={handleBranchClose}
+      >
+        {branchOptions.map((option) => (
+          <MenuItem
+            key={option}
+            onClick={() => handleBranchSelect(option)}
+            sx={{
+              color: theme.palette.text.primary,
+              "&:hover": {
+                backgroundColor: theme.palette.action.hover,
+              },
+            }}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+  );
+};
