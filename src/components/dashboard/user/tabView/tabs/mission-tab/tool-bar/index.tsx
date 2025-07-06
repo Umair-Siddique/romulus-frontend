@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import { Add, CalendarToday, KeyboardArrowDown } from "@mui/icons-material";
 
+import { CreateMissionModal } from "./CreateMissionModal";
+
 export const ToolBar = () => {
   const theme = useTheme();
   const [selectedStatus, setSelectedStatus] = useState("All");
@@ -18,6 +20,7 @@ export const ToolBar = () => {
   const [branchAnchor, setBranchAnchor] = useState(null);
   const [selectedDate, setSelectedDate] = useState("Date");
   const [selectedBranch, setSelectedBranch] = useState("Branch");
+  const [modalOpen, setModalOpen] = useState(false);
 
   const statusFilters = ["All", "Ongoing", "Completed", "Cancelled"];
   const dateOptions = ["Today", "This Week", "This Month", "Custom Range"];
@@ -53,8 +56,21 @@ export const ToolBar = () => {
     handleBranchClose();
   };
 
+  const handleCreateMission = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
+  const handleMissionSubmit = (missionData: any) => {
+    console.log("Mission created:", missionData);
+    // Handle mission creation logic here
+  };
+
   const CustomChip = styled(Chip)(({ theme }) => ({
-    borderRadius: "12px", // your custom radius
+    borderRadius: "12px",
     padding: theme.spacing(0.5, 1),
   }));
 
@@ -135,6 +151,7 @@ export const ToolBar = () => {
           <Button
             variant="contained"
             color="primary"
+            onClick={handleCreateMission}
             sx={{
               textTransform: "none",
               padding: theme.spacing(1, 2),
@@ -190,6 +207,13 @@ export const ToolBar = () => {
           </MenuItem>
         ))}
       </Menu>
+
+      {/* Create Mission Modal */}
+      <CreateMissionModal
+        open={modalOpen}
+        onClose={handleModalClose}
+        onSubmit={handleMissionSubmit}
+      />
     </>
   );
 };

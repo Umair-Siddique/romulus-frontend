@@ -1,6 +1,6 @@
 import { MissionsTabProps } from "#types";
 import { MissionCard } from "./MissionCard";
-import { ToolBar } from "./ToolBar";
+import { ToolBar } from "./tool-bar";
 
 export const MissionsTab = ({ missions }: MissionsTabProps) => {
   return (
