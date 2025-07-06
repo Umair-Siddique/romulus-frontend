@@ -5,9 +5,9 @@ import { useCustom, useRegister } from "@refinedev/core";
 
 import AuthBg from "/images/auth-bg.jpg";
 import { Modal } from "#components";
-import { getFormFields } from "./FormFields";
-import { getFormConfig } from "./FormConfig";
-import { getModalConfig } from "./ModalConfig";
+import { getFormFields } from "./formFields";
+import { getFormConfig } from "./formConfig";
+import { getModalConfig } from "./modalConfig";
 import { AuthBackground, AuthForm } from "../../../components/auth";
 
 import { RegisterVariables } from "#types";
