@@ -9,7 +9,7 @@ import { FormStep } from "./FormStep";
 import { Modal } from "../../../Modal";
 import { ReviewStep } from "./review-steps";
 import { NavigationButton } from "./NavigationButtons";
-import { educatorStepsConfig, organizationStepsConfig } from "./formConfig";
+import { educatorStepsConfig, organizationStepsConfig } from "./form-config";
 
 import { CreateProfileFormProps, FormDataProps } from "#types";
 
