@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import type { LatLngTuple } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Box } from "@mui/material";
@@ -6,19 +6,18 @@ import { Box } from "@mui/material";
 const position: LatLngTuple = [51.505, -0.09];
 const mapStyle = { height: "90vh" };
 
-const Leaflet = () => {
-  let markers;
+interface MarkerProps {
+  position: {
+    lng: number;
+    lat: number;
+  };
+  name: string;
+  skills: string[];
+}
 
+const Leaflet = ({ markers }: { markers: MarkerProps[] }) => {
   const addMarkers = () => {
-    markers = [];
-    for (let i = 0; i < 10000; i++) {
-      markers.push({
-        position: {
-          lng: -122.673447 + Math.random() * 200.0,
-          lat: 45.5225581 - 60 + Math.random() * 80,
-        },
-      });
-    }
+    return markers;
   };
 
   addMarkers();
@@ -36,7 +35,7 @@ const Leaflet = () => {
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          maxZoom={19}
+          maxZoom={100}
           tileSize={256}
           zoomOffset={0}
           detectRetina={true}
@@ -44,7 +43,14 @@ const Leaflet = () => {
           updateWhenIdle={false}
           updateWhenZooming={true}
         />
-        {/* <MarkerCluster markers={markers} addMarkers={addMarkers} /> */}
+        {markers.map((marker, index) => {
+          return (
+            <Marker
+              key={index}
+              position={[marker.position.lat, marker.position.lng]}
+            ></Marker>
+          );
+        })}
       </MapContainer>
     </Box>
   );

@@ -10,6 +10,8 @@ export const FindEducator = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { role } = user;
+
   const { data, isLoading } = useList({
     resource: "educators/nearby",
     filters: [
@@ -33,7 +35,29 @@ export const FindEducator = () => {
     },
   });
 
-  const { role } = user;
+  type Marker = {
+    position: {
+      lng: number;
+      lat: number;
+    };
+    name: string;
+    skills: string[];
+  };
+
+  const markers: Marker[] = [];
+
+  if (data) {
+    data?.data?.data.forEach((educator: any) => {
+      markers.push({
+        position: {
+          lng: educator.fullAddressCoordinates.coordinates[0],
+          lat: educator.fullAddressCoordinates.coordinates[1],
+        },
+        name: educator.name,
+        skills: educator.skills,
+      });
+    });
+  }
 
   useEffect(() => {
     if (role !== "organization") {
@@ -52,5 +76,5 @@ export const FindEducator = () => {
     }
   }, [location.state]);
 
-  return <Leaflet />;
+  return <Leaflet markers={markers} />;
 };
