@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 
 import { useUserContext } from "#context";
-import { useList, useOne } from "@refinedev/core";
+import { useList } from "@refinedev/core";
+import Leaflet from "./LeafLet";
 
 export const FindEducator = () => {
   const { user } = useUserContext();
@@ -24,6 +25,12 @@ export const FindEducator = () => {
       },
       { field: "distance", operator: "eq", value: 5 },
     ],
+    queryOptions: {
+      enabled: !!location.state?.coordinates && !!location.state?.skills,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchInterval: false,
+    },
   });
 
   const { role } = user;
@@ -45,5 +52,5 @@ export const FindEducator = () => {
     }
   }, [location.state]);
 
-  return <div>FindEducator</div>;
+  return <Leaflet />;
 };
