@@ -84,6 +84,7 @@ export const dataProvider: DataProvider = {
         filters,
         sorters,
         query,
+        meta,
       },
       headers,
     });
