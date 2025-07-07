@@ -23,6 +23,7 @@ import {
   CalendarToday,
   AccessTime,
 } from "@mui/icons-material";
+import { useUserContext } from "#context";
 
 interface CreateMissionModalProps {
   open: boolean;
@@ -58,6 +59,7 @@ export const CreateMissionModal = ({
   onSubmit,
 }: CreateMissionModalProps) => {
   const theme = useTheme();
+  const { userProfile } = useUserContext();
   const [formData, setFormData] = useState({
     title: "",
     branch: "",
@@ -72,15 +74,10 @@ export const CreateMissionModal = ({
 
   const [newSkill, setNewSkill] = useState("");
 
-  const branches = ["Downtown", "Uptown", "Midtown"];
-  const commonSkills = [
-    "Math",
-    "Science",
-    "Language Teaching",
-    "Programming",
-    "Physics",
-    "Chemistry",
-  ];
+  const branches = userProfile?.branches.map((branch: any) => ({
+    name: branch.branchName,
+    coordinates: branch.branchAddressCoordinates.coordinates,
+  }));
 
   const handleInputChange = (field: string, value: any) => {
     setFormData((prev) => ({
@@ -247,9 +244,9 @@ export const CreateMissionModal = ({
                   return selected;
                 }}
               >
-                {branches.map((branch) => (
-                  <MenuItem key={branch} value={branch}>
-                    {branch}
+                {branches.map((branch: any) => (
+                  <MenuItem key={branch.name} value={branch.name}>
+                    {branch.name}
                   </MenuItem>
                 ))}
               </Select>
