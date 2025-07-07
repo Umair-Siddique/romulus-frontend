@@ -11,20 +11,25 @@ import { UserContextType } from "#types";
 const userContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState(null);
-  const [userProfile, setUserProfile] = useState();
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("romulus-user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
+  const [userProfile, setUserProfile] = useState(() => {
+    const storedProfile = localStorage.getItem("romulus-user-profile");
+    return storedProfile ? JSON.parse(storedProfile) : null;
+  });
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("romulus-user");
-    const storedProfile = localStorage.getItem("romulus-user-profile");
+    if (user !== null) {
+      localStorage.setItem("romulus-user", JSON.stringify(user));
+    }
 
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    if (userProfile !== null) {
+      localStorage.setItem("romulus-user-profile", JSON.stringify(userProfile));
     }
-    if (storedProfile) {
-      setUserProfile(JSON.parse(storedProfile));
-    }
-  }, []);
+  }, [user, userProfile]);
 
   return (
     <userContext.Provider

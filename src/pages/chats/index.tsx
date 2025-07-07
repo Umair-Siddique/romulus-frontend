@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 export const Chats = () => {
   const { user } = useUserContext();
 
-  const { role } = user || {};
+  const { role } = user;
 
   const navigate = useNavigate();
 

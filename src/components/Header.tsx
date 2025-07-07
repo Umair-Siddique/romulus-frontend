@@ -22,7 +22,7 @@ export const Header = () => {
 
   const { user, setUserProfile } = useUserContext();
 
-  const { educatorId, organizationId, role } = user || {};
+  const { educatorId, organizationId, role } = user;
 
   const { data } = useOne({
     resource: role === "educator" ? "educators" : "organizations",

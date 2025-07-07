@@ -5,7 +5,7 @@ import { useUserContext } from "#context";
 export const Branches = () => {
   const { user } = useUserContext();
 
-  const { role } = user || {};
+  const { role } = user;
 
   const navigate = useNavigate();
 

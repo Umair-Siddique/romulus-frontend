@@ -6,7 +6,7 @@ import { useUserContext } from "#context";
 export const OrganizationDetails = () => {
   const { user } = useUserContext();
 
-  const { role } = user || {};
+  const { role } = user;
 
   const navigate = useNavigate();
 

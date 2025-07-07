@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Drawer, Box } from "@mui/material";
 
 import { Header } from "./Header";
@@ -10,7 +10,8 @@ import { TrainingProgressCard } from "./TrainingProgressCard";
 
 export const Sider = () => {
   const { user } = useUserContext();
-  const { role } = user || {};
+
+  const { role } = user;
 
   const [items, setItems] = useState(() => getNavigationItems(role));
 
