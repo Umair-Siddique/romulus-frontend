@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig, Method } from "axios";
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 // Create optimized axios instance
-const httpClient = axios.create({
+export const httpClient = axios.create({
   baseURL,
   timeout: 10000,
   headers: {

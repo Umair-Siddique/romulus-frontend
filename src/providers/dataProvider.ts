@@ -77,14 +77,12 @@ export const dataProvider: DataProvider = {
     payload,
     query,
     headers,
-    meta,
   }) => {
     const { data } = await requestAPI(method, url, payload, {
       params: {
         filters,
         sorters,
         query,
-        meta,
       },
       headers,
     });

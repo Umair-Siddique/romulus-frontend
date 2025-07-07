@@ -1,20 +1,31 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 import { useUserContext } from "#context";
 
 export const FindEducator = () => {
   const { user } = useUserContext();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const { role } = user;
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (role !== "organization") {
       navigate("/dashboard", { replace: true });
     }
   }, [role, navigate]);
+
+  useEffect(() => {
+    // Capture and log the state passed from CreateMission component
+    if (location.state) {
+      console.log("State received from CreateMission:", location.state);
+      console.log("Coordinates:", location.state.coordinates);
+      console.log("Skills:", location.state.skills);
+    } else {
+      console.log("No state received");
+    }
+  }, [location.state]);
 
   return <div>FindEducator</div>;
 };
