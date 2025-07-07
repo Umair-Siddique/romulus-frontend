@@ -14,8 +14,18 @@ export const dataProvider: DataProvider = {
     };
   },
 
-  getList: async ({ resource }: { resource: string }) => {
-    const { data } = await requestAPI("GET", `/${resource}`);
+  getList: async ({ resource, filters }) => {
+    // Serialize filters into query parameters
+    const params: any = [];
+    if (filters) {
+      filters.forEach((filter) => {
+        if ("field" in filter) {
+          params.push(`${filter.field}=${filter.value}`);
+        }
+      });
+    }
+    const query = params.length ? `?${params.join("&")}` : "";
+    const { data } = await requestAPI("GET", `/${resource}${query}`);
 
     return {
       data,

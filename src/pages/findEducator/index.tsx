@@ -2,11 +2,29 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 
 import { useUserContext } from "#context";
+import { useList, useOne } from "@refinedev/core";
 
 export const FindEducator = () => {
   const { user } = useUserContext();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { data, isLoading } = useList({
+    resource: "educators/nearby",
+    filters: [
+      {
+        field: "coordinates",
+        operator: "eq",
+        value: location.state?.coordinates.join(","),
+      },
+      {
+        field: "skills",
+        operator: "eq",
+        value: location.state?.skills.join(","),
+      },
+      { field: "distance", operator: "eq", value: 5 },
+    ],
+  });
 
   const { role } = user;
 
