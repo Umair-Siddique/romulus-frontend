@@ -20,7 +20,7 @@ export const Header = () => {
   const theme = useTheme<Theme>();
   const [pageName, setPageName] = useState<string>("");
 
-  const { user } = useUserContext();
+  const { user, setUserProfile } = useUserContext();
 
   const { educatorId, organizationId, role } = user || {};
 
@@ -32,17 +32,27 @@ export const Header = () => {
     },
   });
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  useEffect(() => {
+    if (data?.data) {
+      setUserProfile(data.data);
+    }
+  }, [data, setUserProfile]);
+
   const location = useLocation();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const { mutate: logout } = useLogout();
 
   useEffect(() => {
     const path = location.pathname.split("/").pop();
-    setPageName(path ? path.charAt(0).toUpperCase() + path.slice(1) : "Dashboard");
+    setPageName(
+      path ? path.charAt(0).toUpperCase() + path.slice(1) : "Dashboard"
+    );
   }, [location.pathname]);
 
-  const handleUserMenuClick = (event: { currentTarget: SetStateAction<HTMLElement | null>; }) => {
+  const handleUserMenuClick = (event: {
+    currentTarget: SetStateAction<HTMLElement | null>;
+  }) => {
     setAnchorEl(event.currentTarget);
   };
 
