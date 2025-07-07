@@ -577,7 +577,7 @@ export const CreateMissionModal = ({
                 Accepted formats: JPG, PNG, PDF (Max: 5MB)
               </Typography>
               {formData.document && (
-                <Typography variant="body2" color="primary" mt={1}>
+                <Typography variant="body2" color="default" mt={1}>
                   Selected: {formData.document.name}
                 </Typography>
               )}
