@@ -26,7 +26,7 @@ const Leaflet = ({ markers }: { markers: MarkerProps[] }) => {
     <Box>
       <MapContainer
         center={position}
-        zoom={2}
+        zoom={10}
         style={mapStyle}
         maxZoom={20}
         scrollWheelZoom={true}
