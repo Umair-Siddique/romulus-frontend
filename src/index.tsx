@@ -10,6 +10,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { UserProvider } from "#context";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "leaflet/dist/leaflet.css";
 import "./index.css";
 
 dayjs.extend(relativeTime);
