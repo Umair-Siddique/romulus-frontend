@@ -1,9 +1,10 @@
 import { useEffect } from "react";
+import { LatLngTuple } from "leaflet";
+import { useList } from "@refinedev/core";
 import { useNavigate, useLocation } from "react-router";
 
+import Map from "./Map";
 import { useUserContext } from "#context";
-import { useList } from "@refinedev/core";
-import Leaflet from "./LeafLet";
 
 export const FindEducator = () => {
   const { user } = useUserContext();
@@ -18,22 +19,37 @@ export const FindEducator = () => {
       {
         field: "coordinates",
         operator: "eq",
-        value: location.state?.coordinates.join(","),
+        value: location.state?.coordinates?.join(","),
       },
       {
         field: "skills",
         operator: "eq",
-        value: location.state?.skills.join(","),
+        value: location.state?.skills?.join(","),
       },
       { field: "distance", operator: "eq", value: 5 },
     ],
     queryOptions: {
       enabled: !!location.state?.coordinates && !!location.state?.skills,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      refetchInterval: false,
     },
   });
+
+  useEffect(() => {
+    if (role !== "organization") {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [role, navigate]);
+
+  const center: LatLngTuple = [
+    location.state?.coordinates[1] ?? 0,
+    location.state?.coordinates[0] ?? 0,
+  ];
+
+  console.log(
+    "FindEducator -> location.state?.coordinates:",
+    location.state?.coordinates
+  );
+
+  console.log("FindEducator -> center:", center);
 
   type Marker = {
     position: {
@@ -59,22 +75,5 @@ export const FindEducator = () => {
     });
   }
 
-  useEffect(() => {
-    if (role !== "organization") {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [role, navigate]);
-
-  useEffect(() => {
-    // Capture and log the state passed from CreateMission component
-    if (location.state) {
-      console.log("State received from CreateMission:", location.state);
-      console.log("Coordinates:", location.state.coordinates);
-      console.log("Skills:", location.state.skills);
-    } else {
-      console.log("No state received");
-    }
-  }, [location.state]);
-
-  return <Leaflet markers={markers} />;
+  return <Map markers={markers} center={center} />;
 };

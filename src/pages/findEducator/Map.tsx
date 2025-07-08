@@ -4,10 +4,15 @@ import { MapContainer, Marker, TileLayer } from "react-leaflet";
 
 import { MarkerProps } from "#types";
 
-const position: LatLngTuple = [51.505, -0.09];
 const mapStyle = { height: "90vh" };
 
-const Leaflet = ({ markers }: { markers: MarkerProps[] }) => {
+const Map = ({
+  markers,
+  center,
+}: {
+  markers: MarkerProps[];
+  center: LatLngTuple;
+}) => {
   const addMarkers = () => {
     return markers;
   };
@@ -17,7 +22,7 @@ const Leaflet = ({ markers }: { markers: MarkerProps[] }) => {
   return (
     <Box>
       <MapContainer
-        center={position}
+        center={center}
         zoom={10}
         style={mapStyle}
         maxZoom={20}
@@ -47,4 +52,4 @@ const Leaflet = ({ markers }: { markers: MarkerProps[] }) => {
   );
 };
 
-export default Leaflet;
+export default Map;
