@@ -25,6 +25,7 @@ import { useForm } from "@refinedev/react-hook-form";
 import { useUserContext } from "#context";
 import { httpClient } from "#utils";
 import { useNavigate } from "react-router";
+import { error } from "console";
 
 interface CreateMissionModalProps {
   open: boolean;
@@ -426,36 +427,26 @@ export const CreateMissionModal = ({
                   />
                 ))}
               </Box>
-              {skillsArray.length === 0 && (
+              {errors.skills && (
                 <Typography variant="caption" color="error" sx={{ mt: 0.5 }}>
-                  At least one skill is required
+                  {errors.skills.message}
                 </Typography>
               )}
             </Box>
 
             {/* Date Selection */}
             <Box>
-              <Typography
-                variant="body2"
-                sx={{
-                  mb: theme.spacing(1),
-                  fontWeight: 500,
-                  color: theme.palette.text.primary,
-                }}
-              >
-                Date Range *
-              </Typography>
               <Stack direction="row" spacing={2}>
                 <Box sx={{ flex: 1 }}>
                   <Typography
                     variant="body2"
                     sx={{
-                      mb: theme.spacing(0.5),
-                      fontWeight: 400,
-                      color: theme.palette.text.secondary,
+                      mb: theme.spacing(1),
+                      fontWeight: 500,
+                      color: theme.palette.text.primary,
                     }}
                   >
-                    Start Date
+                    Start Date *
                   </Typography>
                   <TextField
                     placeholder="Start Date"
@@ -496,12 +487,12 @@ export const CreateMissionModal = ({
                   <Typography
                     variant="body2"
                     sx={{
-                      mb: theme.spacing(0.5),
-                      fontWeight: 400,
-                      color: theme.palette.text.secondary,
+                      mb: theme.spacing(1),
+                      fontWeight: 500,
+                      color: theme.palette.text.primary,
                     }}
                   >
-                    End Date
+                    End Date *
                   </Typography>
                   <TextField
                     placeholder="End Date"
@@ -552,27 +543,17 @@ export const CreateMissionModal = ({
 
             {/* Time Selection */}
             <Box>
-              <Typography
-                variant="body2"
-                sx={{
-                  mb: theme.spacing(1),
-                  fontWeight: 500,
-                  color: theme.palette.text.primary,
-                }}
-              >
-                Time Range *
-              </Typography>
               <Stack direction="row" spacing={2}>
                 <Box sx={{ flex: 1 }}>
                   <Typography
                     variant="body2"
                     sx={{
-                      mb: theme.spacing(0.5),
-                      fontWeight: 400,
-                      color: theme.palette.text.secondary,
+                      mb: theme.spacing(1),
+                      fontWeight: 500,
+                      color: theme.palette.text.primary,
                     }}
                   >
-                    Start Time
+                    Start Time *
                   </Typography>
                   <TextField
                     placeholder="Start Time"
@@ -616,12 +597,12 @@ export const CreateMissionModal = ({
                   <Typography
                     variant="body2"
                     sx={{
-                      mb: theme.spacing(0.5),
-                      fontWeight: 400,
-                      color: theme.palette.text.secondary,
+                      mb: theme.spacing(1),
+                      fontWeight: 500,
+                      color: theme.palette.text.primary,
                     }}
                   >
-                    End Time
+                    End Time *
                   </Typography>
                   <TextField
                     placeholder="End Time"
@@ -764,7 +745,7 @@ export const CreateMissionModal = ({
                 id="file-upload"
                 type="file"
                 accept=".jpg,.jpeg,.png,.pdf"
-                onChange={handleFileUpload}
+                // onChange={handleFileUpload}
                 style={{ display: "none" }}
                 {...register("technicalDocument")}
               />
