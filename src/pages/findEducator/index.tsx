@@ -47,7 +47,7 @@ export const FindEducator = () => {
   const markers: Marker[] = [];
 
   if (data) {
-    data?.data?.data.forEach((educator: any) => {
+    data?.data.forEach((educator: any) => {
       markers.push({
         position: {
           lng: educator.fullAddressCoordinates.coordinates[0],

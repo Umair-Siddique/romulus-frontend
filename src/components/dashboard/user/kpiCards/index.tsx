@@ -18,7 +18,7 @@ export const KpiCards = ({ kpiCardsData }: { kpiCardsData: KpiCardData[] }) => {
         <KpiCard
           key={kpi.title}
           title={kpi.title}
-          total={kpi.total}
+          total={kpi.total ?? 0}
           icon={kpi.icon}
           iconBg={kpi.iconBg}
         />

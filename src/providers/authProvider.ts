@@ -37,6 +37,7 @@ export const authProvider: AuthProvider = {
       const { data } = await requestAPI("POST", "/auth/signup", params);
 
       return {
+        data: data.data,
         success: true,
         successNotification: {
           message: data.message || "Registration successful",
@@ -55,9 +56,14 @@ export const authProvider: AuthProvider = {
 
   updatePassword: async (params) => {
     try {
-      const { data } = await requestAPI("PATCH", "/auth/update-password", params);
+      const { data } = await requestAPI(
+        "PATCH",
+        "/auth/update-password",
+        params
+      );
 
       return {
+        data: data.data,
         success: true,
         successNotification: {
           message: data.message || "Password updated successfully",
@@ -77,9 +83,14 @@ export const authProvider: AuthProvider = {
 
   forgotPassword: async (params: any) => {
     try {
-      const { data } = await requestAPI("POST", "/auth/forgot-password", params);
+      const { data } = await requestAPI(
+        "POST",
+        "/auth/forgot-password",
+        params
+      );
 
       return {
+        data: data.data,
         success: true,
         successNotification: {
           message: data.message || "Forgot password successful",
@@ -108,6 +119,7 @@ export const authProvider: AuthProvider = {
       };
     } catch (error: any) {
       return {
+        logout: true,
         success: false,
         error: {
           message: "Logout failed",
