@@ -109,6 +109,10 @@ export const UserDashboard = ({
     );
   }, [data?.data]);
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <PageMeta title={title} description={description} />
