@@ -15,13 +15,13 @@ export const TabsView = () => {
 
   const missions = [
     {
-      id: "1",
+      id: 1,
       title: "Science Fair Coordination",
-      venue: "The Learning Hub",
-      location: "Downton",
+      organizationName: "The Learning Hub",
+      branchName: "Downton",
       date: "12 May, 2025",
       time: "01:00 pm to 04:00 pm",
-      address: "Aston, USA",
+      branchAddress: "Aston, USA",
       status: "Pending",
     },
   ];

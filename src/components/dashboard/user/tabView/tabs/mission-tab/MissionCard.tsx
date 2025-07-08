@@ -23,12 +23,13 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { MissionCardProps } from "#types";
 
 export const MissionCard = ({
+  id,
   title,
-  venue,
-  location,
+  organizationName,
+  branchName,
   date,
   time,
-  address,
+  branchAddress,
   status,
 }: MissionCardProps) => {
   const theme = useTheme<Theme>();
@@ -105,7 +106,7 @@ export const MissionCard = ({
               sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
             />
             <Typography variant="body2" color="text.secondary">
-              {venue}
+              {organizationName}
             </Typography>
           </Box>
 
@@ -120,7 +121,7 @@ export const MissionCard = ({
               sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
             />
             <Typography variant="body2" color="text.secondary">
-              {location}
+              {branchName}
             </Typography>
           </Box>
 
@@ -165,7 +166,7 @@ export const MissionCard = ({
               sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
             />
             <Typography variant="body2" color="text.secondary">
-              {address}
+              {branchAddress}
             </Typography>
           </Box>
         </Stack>

@@ -409,11 +409,11 @@ export interface MissionsTabProps {
 interface Mission {
   id: string;
   title: string;
-  venue: string;
-  location: string;
+  organizationName: string;
+  branchName: string;
   date: string;
   time: string;
-  address: string;
+  branchAddress: string;
   status: string;
 }
 
@@ -425,12 +425,13 @@ export interface MissionsModalProps {
 }
 
 export interface MissionCardProps {
+  id: string;
   title: string;
-  venue: string;
-  location: string;
+  organizationName: string;
+  branchName: string;
   date: string;
   time: string;
-  address: string;
+  branchAddress: string;
   status: string;
 }
 
