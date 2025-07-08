@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Drawer, Box } from "@mui/material";
 
 import { Header } from "./Header";
@@ -14,6 +14,15 @@ export const Sider = () => {
   const { role } = user;
 
   const [items, setItems] = useState(() => getNavigationItems(role));
+
+  useEffect(() => {
+    setItems((prevItems) =>
+      prevItems.map((item) => ({
+        ...item,
+        active: item.to === window.location.pathname,
+      }))
+    );
+  }, []);
 
   const handleItemClick = (index: number) => {
     setItems((prevItems) =>
