@@ -6,15 +6,6 @@ import { Box } from "@mui/material";
 const position: LatLngTuple = [51.505, -0.09];
 const mapStyle = { height: "90vh" };
 
-interface MarkerProps {
-  position: {
-    lng: number;
-    lat: number;
-  };
-  name: string;
-  skills: string[];
-}
-
 const Leaflet = ({ markers }: { markers: MarkerProps[] }) => {
   const addMarkers = () => {
     return markers;

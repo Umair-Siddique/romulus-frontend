@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 export interface UserContextType {
   user: any;
   setUser: (user: any) => void;
@@ -311,7 +313,7 @@ export interface ProgressStepperProps {
 
 export interface KpiCardData {
   title: string;
-  total: number;
+  total: number | undefined;
   icon: React.ReactNode;
   iconBg: string; // Optional background color for the icon
 }
@@ -430,4 +432,26 @@ export interface MissionCardProps {
   time: string;
   address: string;
   status: string;
+}
+
+export interface KpiItem {
+  title: string;
+  total: number | undefined;
+  icon: ReactElement;
+  iconBg: string;
+}
+
+export interface CreateMissionModalProps {
+  open: boolean;
+  onClose: () => void;
+  onSubmit: (missionData: any) => void;
+}
+
+export interface MarkerProps {
+  position: {
+    lng: number;
+    lat: number;
+  };
+  name: string;
+  skills: string[];
 }

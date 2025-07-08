@@ -22,28 +22,11 @@ import {
   Upload,
 } from "@mui/icons-material";
 import { useForm } from "@refinedev/react-hook-form";
+import { useNavigate } from "react-router";
+
 import { useUserContext } from "#context";
 import { httpClient } from "#utils";
-import { useNavigate } from "react-router";
-import { error } from "console";
-
-interface CreateMissionModalProps {
-  open: boolean;
-  onClose: () => void;
-  onSubmit: (missionData: any) => void;
-}
-
-interface FormData {
-  title: string;
-  branch: string;
-  skills: string;
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
-  description: string;
-  technicalDocument?: FileList; // Changed from File to FileList
-}
+import { CreateMissionModalProps, FormDataProps } from "#types";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialog-paper": {
@@ -77,7 +60,6 @@ export const CreateMissionModal = ({
   const [newSkill, setNewSkill] = useState("");
   const [selectedDocument, setSelectedDocument] = useState<File | null>(null);
   const [skillsArray, setSkillsArray] = useState<string[]>([]);
-  const [coordinates, setCoordinates] = useState<any>(null);
   const {
     register,
     handleSubmit,
@@ -126,17 +108,7 @@ export const CreateMissionModal = ({
     setValue("skills", updatedSkills.join(", "), { shouldValidate: true });
   };
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      setSelectedDocument(files[0]);
-      setValue("technicalDocument", files, {
-        shouldValidate: true,
-      });
-    }
-  };
-
-  const onFormSubmit = async (data: FormData) => {
+  const onFormSubmit = async (data: FormDataProps) => {
     try {
       const formData = new FormData();
       const branchCoordinates = branches.find(
@@ -164,8 +136,6 @@ export const CreateMissionModal = ({
           "Content-Type": "multipart/form-data",
         },
       });
-
-      setCoordinates(branchCoordinates);
 
       navigate("/find-educator", {
         state: { coordinates: branchCoordinates, skills: skillsArray },
