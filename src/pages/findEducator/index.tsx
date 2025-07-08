@@ -13,7 +13,7 @@ export const FindEducator = () => {
 
   const { role } = user;
 
-  const { data, isLoading } = useList({
+  const { data, isLoading, isError } = useList({
     resource: "educators/nearby",
     filters: [
       {
@@ -64,6 +64,8 @@ export const FindEducator = () => {
 
   if (isLoading) {
     return <div>Loading...</div>;
+  } else if (isError) {
+    return <div>Error loading data</div>;
   }
 
   if (data) {

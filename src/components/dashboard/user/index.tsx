@@ -111,6 +111,8 @@ export const UserDashboard = ({
 
   if (isLoading) {
     return <div>Loading...</div>;
+  } else if (isError) {
+    return <div>Error loading data</div>;
   }
 
   return (
