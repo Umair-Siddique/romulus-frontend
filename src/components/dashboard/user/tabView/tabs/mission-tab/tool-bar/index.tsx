@@ -12,9 +12,11 @@ import {
 import { Add, CalendarToday, KeyboardArrowDown } from "@mui/icons-material";
 
 import { CreateMissionModal } from "./CreateMissionModal";
+import { useUserContext } from "#context";
 
 export const ToolBar = () => {
   const theme = useTheme();
+  const { user } = useUserContext();
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [dateAnchor, setDateAnchor] = useState(null);
   const [branchAnchor, setBranchAnchor] = useState(null);
@@ -148,19 +150,21 @@ export const ToolBar = () => {
             {selectedBranch}
           </Button>
 
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleCreateMission}
-            sx={{
-              textTransform: "none",
-              padding: theme.spacing(1, 2),
-              fontSize: theme.typography.body2.fontSize,
-            }}
-          >
-            Create Mission
-            <Add sx={{ ml: 1 }} />
-          </Button>
+          {user.role === "organization" && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleCreateMission}
+              sx={{
+                textTransform: "none",
+                padding: theme.spacing(1, 2),
+                fontSize: theme.typography.body2.fontSize,
+              }}
+            >
+              Create Mission
+              <Add sx={{ ml: 1 }} />
+            </Button>
+          )}
         </Stack>
       </Box>
 
@@ -209,11 +213,13 @@ export const ToolBar = () => {
       </Menu>
 
       {/* Create Mission Modal */}
-      <CreateMissionModal
-        open={modalOpen}
-        onClose={handleModalClose}
-        onSubmit={handleMissionSubmit}
-      />
+      {user.role === "organization" && (
+        <CreateMissionModal
+          open={modalOpen}
+          onClose={handleModalClose}
+          onSubmit={handleMissionSubmit}
+        />
+      )}
     </>
   );
 };
