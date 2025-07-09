@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { LatLngTuple } from "leaflet";
 import { useList } from "@refinedev/core";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate } from "react-router";
 import { Box, Button } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 
@@ -38,7 +38,7 @@ export const FindEducator = () => {
       { field: "distance", operator: "eq", value: 5 },
     ],
     queryOptions: {
-      enabled: !!educatorData?.coordinates && !!educatorData?.skills,
+      enabled: !!educatorData?.coordinates.length && !!educatorData?.skills.length,
     },
   });
 
