@@ -14,10 +14,14 @@ import { Add, CalendarToday, KeyboardArrowDown } from "@mui/icons-material";
 import { CreateMissionModal } from "./CreateMissionModal";
 import { useUserContext } from "#context";
 
-export const ToolBar = () => {
+interface ToolBarProps {
+  selectedStatus: string;
+  setSelectedStatus: (status: string) => void;
+}
+
+export const ToolBar = ({ selectedStatus, setSelectedStatus }: ToolBarProps) => {
   const theme = useTheme();
   const { user } = useUserContext();
-  const [selectedStatus, setSelectedStatus] = useState("All");
   const [dateAnchor, setDateAnchor] = useState(null);
   const [branchAnchor, setBranchAnchor] = useState(null);
   const [selectedDate, setSelectedDate] = useState("Date");

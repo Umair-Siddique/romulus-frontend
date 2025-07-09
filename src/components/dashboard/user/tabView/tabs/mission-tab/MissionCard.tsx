@@ -58,7 +58,7 @@ export const MissionCard = ({
       sx={{
         width: "48%",
         height: "auto",
-        borderRadius: theme.shape.borderRadius * 1.5,
+        borderRadius: theme.shape.borderRadius,
         border: `1px solid ${theme.palette.divider}`,
         position: "relative",
         backgroundColor: theme.palette.background.default,
