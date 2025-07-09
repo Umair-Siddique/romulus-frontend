@@ -1,7 +1,7 @@
 import React from "react";
 import { useTheme, Theme } from "@mui/material/styles";
 import { Box, Typography, TextField } from "@mui/material";
-import { CalendarToday as CalendarIcon } from "@mui/icons-material";
+import { CalendarToday as CalendarTodayIcon } from "@mui/icons-material";
 
 import { DateFieldProps } from "#types";
 
@@ -66,7 +66,7 @@ export const DateField = ({
             },
           }}
         />
-        <CalendarIcon
+        <CalendarTodayIcon
           sx={{
             position: "absolute",
             right: theme.spacing(1.5), // 12px equivalent

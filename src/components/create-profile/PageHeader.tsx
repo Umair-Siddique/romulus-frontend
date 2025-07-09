@@ -9,7 +9,10 @@ import {
 } from "@mui/material";
 import { useLogout } from "@refinedev/core";
 import { useTheme, Theme } from "@mui/material/styles";
-import { AccountCircle, ArrowDropDown } from "@mui/icons-material";
+import {
+  AccountCircle as AccountCircleIcon,
+  ArrowDropDown as ArrowDropDownIcon,
+} from "@mui/icons-material";
 
 import logoImage from "/images/logo.png"; // Adjust the path as necessary
 import { LogoComponent } from "../LogoComponent";
@@ -57,8 +60,8 @@ export const PageHeader = () => {
               color: theme.palette.text.secondary, // Using theme text secondary instead of hardcoded #666
             }}
           >
-            <AccountCircle sx={{ mr: theme.spacing(0.5) }} />
-            <ArrowDropDown />
+            <AccountCircleIcon sx={{ mr: theme.spacing(0.5) }} />
+            <ArrowDropDownIcon />
           </IconButton>
 
           <Menu

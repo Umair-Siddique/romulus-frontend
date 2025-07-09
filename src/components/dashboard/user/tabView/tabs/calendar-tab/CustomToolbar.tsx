@@ -1,7 +1,7 @@
 import { ToolbarProps } from "react-big-calendar";
 import { useTheme, Theme } from "@mui/material/styles";
 import { Box, IconButton, Typography } from "@mui/material";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import { ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from "@mui/icons-material";
 
 const CustomToolbar = ({
   date,
@@ -59,7 +59,7 @@ const CustomToolbar = ({
             },
           }}
         >
-          <ChevronLeft />
+          <ChevronLeftIcon />
         </IconButton>
         <IconButton
           onClick={goToNext}
@@ -73,7 +73,7 @@ const CustomToolbar = ({
             },
           }}
         >
-          <ChevronRight />
+          <ChevronRightIcon />
         </IconButton>
       </Box>
     </Box>

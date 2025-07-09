@@ -1,15 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LatLngTuple } from "leaflet";
 import { useList } from "@refinedev/core";
 import { useNavigate, useLocation } from "react-router";
+import { Box, Button } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 
-import Map from "./Map";
 import { useUserContext } from "#context";
+import { CreateMissionModal, Map } from "#components/find-educator";
 
 export const FindEducator = () => {
-  const { user } = useUserContext();
+  const theme = useTheme<Theme>();
+
+  const { user, userProfile } = useUserContext();
   const navigate = useNavigate();
-  const location = useLocation();
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [educatorData, setEducatorData] = useState({
+    coordinates: [],
+    skills: [],
+  });
 
   const { role } = user;
 
@@ -19,17 +28,17 @@ export const FindEducator = () => {
       {
         field: "coordinates",
         operator: "eq",
-        value: location.state?.coordinates?.join(","),
+        value: educatorData?.coordinates?.join(","),
       },
       {
         field: "skills",
         operator: "eq",
-        value: location.state?.skills?.join(","),
+        value: educatorData?.skills?.join(","),
       },
       { field: "distance", operator: "eq", value: 5 },
     ],
     queryOptions: {
-      enabled: !!location.state?.coordinates && !!location.state?.skills,
+      enabled: !!educatorData?.coordinates && !!educatorData?.skills,
     },
   });
 
@@ -39,17 +48,18 @@ export const FindEducator = () => {
     }
   }, [role, navigate]);
 
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
   const center: LatLngTuple = [
-    location.state?.coordinates[1] ?? 0,
-    location.state?.coordinates[0] ?? 0,
+    educatorData?.coordinates[1] ??
+      userProfile.officeAddressCoordinates.coordinates[1] ??
+      0,
+    educatorData?.coordinates[0] ??
+      userProfile.officeAddressCoordinates.coordinates[0] ??
+      0,
   ];
-
-  console.log(
-    "FindEducator -> location.state?.coordinates:",
-    location.state?.coordinates
-  );
-
-  console.log("FindEducator -> center:", center);
 
   type Marker = {
     position: {
@@ -75,5 +85,35 @@ export const FindEducator = () => {
     });
   }
 
-  return <Map markers={markers} center={center} />;
+  return (
+    <Box sx={{ position: "relative" }}>
+      {/* Map displaying educator locations */}
+      <Map markers={markers} center={center} />
+
+      {/* Opens create mission modal */}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => setModalOpen(true)}
+        sx={{
+          position: "absolute",
+          bottom: theme.spacing(5),
+          zIndex: 1000,
+          right: "50%",
+          textTransform: "none",
+          padding: theme.spacing(1, 2),
+          fontSize: theme.typography.body2.fontSize,
+        }}
+      >
+        Create Mission
+      </Button>
+
+      {/* Create mission modal */}
+      <CreateMissionModal
+        open={modalOpen}
+        onClose={handleModalClose}
+        setEducatorData={setEducatorData}
+      />
+    </Box>
+  );
 };

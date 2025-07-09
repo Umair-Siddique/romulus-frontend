@@ -6,27 +6,29 @@ import {
   Menu,
   MenuItem,
   Stack,
-  useTheme,
   styled,
 } from "@mui/material";
-import { Add, CalendarToday, KeyboardArrowDown } from "@mui/icons-material";
-
-import { CreateMissionModal } from "./CreateMissionModal";
-import { useUserContext } from "#context";
+import { useTheme, Theme } from "@mui/material/styles";
+import {
+  CalendarToday as CalendarTodayIcon,
+  KeyboardArrowDown as KeyboardArrowDownIcon,
+} from "@mui/icons-material";
 
 interface ToolBarProps {
   selectedStatus: string;
   setSelectedStatus: (status: string) => void;
 }
 
-export const ToolBar = ({ selectedStatus, setSelectedStatus }: ToolBarProps) => {
-  const theme = useTheme();
-  const { user } = useUserContext();
+export const ToolBar = ({
+  selectedStatus,
+  setSelectedStatus,
+}: ToolBarProps) => {
+  const theme = useTheme<Theme>();
+
   const [dateAnchor, setDateAnchor] = useState(null);
   const [branchAnchor, setBranchAnchor] = useState(null);
   const [selectedDate, setSelectedDate] = useState("Date");
   const [selectedBranch, setSelectedBranch] = useState("Branch");
-  const [modalOpen, setModalOpen] = useState(false);
 
   const statusFilters = ["All", "Ongoing", "Completed", "Cancelled"];
   const dateOptions = ["Today", "This Week", "This Month", "Custom Range"];
@@ -60,19 +62,6 @@ export const ToolBar = ({ selectedStatus, setSelectedStatus }: ToolBarProps) => 
   const handleBranchSelect = (option: any) => {
     setSelectedBranch(option);
     handleBranchClose();
-  };
-
-  const handleCreateMission = () => {
-    setModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setModalOpen(false);
-  };
-
-  const handleMissionSubmit = (missionData: any) => {
-    console.log("Mission created:", missionData);
-    // Handle mission creation logic here
   };
 
   const CustomChip = styled(Chip)(({ theme }) => ({
@@ -124,8 +113,8 @@ export const ToolBar = ({ selectedStatus, setSelectedStatus }: ToolBarProps) => 
           <Button
             variant="outlined"
             onClick={handleDateClick}
-            endIcon={<KeyboardArrowDown />}
-            startIcon={<CalendarToday sx={{ fontSize: 18 }} />}
+            endIcon={<KeyboardArrowDownIcon />}
+            startIcon={<CalendarTodayIcon sx={{ fontSize: 18 }} />}
             sx={{
               textTransform: "none",
               color: theme.palette.text.secondary,
@@ -141,7 +130,7 @@ export const ToolBar = ({ selectedStatus, setSelectedStatus }: ToolBarProps) => 
           <Button
             variant="outlined"
             onClick={handleBranchClick}
-            endIcon={<KeyboardArrowDown />}
+            endIcon={<KeyboardArrowDownIcon />}
             sx={{
               textTransform: "none",
               color: theme.palette.text.secondary,
@@ -153,22 +142,6 @@ export const ToolBar = ({ selectedStatus, setSelectedStatus }: ToolBarProps) => 
           >
             {selectedBranch}
           </Button>
-
-          {user.role === "organization" && (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleCreateMission}
-              sx={{
-                textTransform: "none",
-                padding: theme.spacing(1, 2),
-                fontSize: theme.typography.body2.fontSize,
-              }}
-            >
-              Create Mission
-              <Add sx={{ ml: 1 }} />
-            </Button>
-          )}
         </Stack>
       </Box>
 
@@ -215,15 +188,6 @@ export const ToolBar = ({ selectedStatus, setSelectedStatus }: ToolBarProps) => 
           </MenuItem>
         ))}
       </Menu>
-
-      {/* Create Mission Modal */}
-      {user.role === "organization" && (
-        <CreateMissionModal
-          open={modalOpen}
-          onClose={handleModalClose}
-          onSubmit={handleMissionSubmit}
-        />
-      )}
     </>
   );
 };

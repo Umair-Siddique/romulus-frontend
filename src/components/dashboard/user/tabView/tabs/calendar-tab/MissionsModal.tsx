@@ -8,7 +8,11 @@ import {
   Chip,
   Divider,
 } from "@mui/material";
-import { Close, Business, ArrowForward } from "@mui/icons-material";
+import {
+  Close as CloseIcon,
+  Business as BusinessIcon,
+  ArrowForward as ArrowForwardIcon,
+} from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 
 import { MissionsModalProps } from "#types";
@@ -86,7 +90,7 @@ export const MissionsModal: React.FC<MissionsModalProps> = ({
               },
             }}
           >
-            <Close />
+            <CloseIcon />
           </IconButton>
         </Box>
 
@@ -124,7 +128,9 @@ export const MissionsModal: React.FC<MissionsModalProps> = ({
                       mr: 2,
                     }}
                   >
-                    <Business sx={{ color: "text.secondary", fontSize: 20 }} />
+                    <BusinessIcon
+                      sx={{ color: "text.secondary", fontSize: 20 }}
+                    />
                   </Box>
                   <Box sx={{ flex: 1 }}>
                     <Box
@@ -168,7 +174,7 @@ export const MissionsModal: React.FC<MissionsModalProps> = ({
                 </Box>
                 <Button
                   variant="text"
-                  endIcon={<ArrowForward sx={{ fontSize: 16 }} />}
+                  endIcon={<ArrowForwardIcon sx={{ fontSize: 16 }} />}
                   sx={{
                     color: "primary.main",
                     textTransform: "none",

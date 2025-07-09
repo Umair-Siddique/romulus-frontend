@@ -1,4 +1,4 @@
-import Close from "@mui/icons-material/Close";
+import { Close as CloseIcon } from "@mui/icons-material";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -27,7 +27,7 @@ export const DrawerHeader = ({ title, onCloseClick }: Props) => {
             marginLeft: "auto",
           }}
         >
-          <Close />
+          <CloseIcon />
         </IconButton>
       </Box>
       <Divider />

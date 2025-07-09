@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router";
 import { useCustom } from "@refinedev/core";
-import CancelIcon from "@mui/icons-material/Cancel";
+import { Cancel as CancelIcon } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
 import { GridCheckCircleIcon } from "@mui/x-data-grid";
 

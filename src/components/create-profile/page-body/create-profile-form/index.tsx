@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useTheme, Theme } from "@mui/material/styles";
 import { Box, Paper } from "@mui/material";
-import { CheckCircle, Cancel } from "@mui/icons-material";
+import {
+  CheckCircle as CheckCircleIcon,
+  Cancel as CancelIcon,
+} from "@mui/icons-material";
 import { useCreate, useLogout } from "@refinedev/core";
 
 import { FormStep } from "./FormStep";
@@ -177,7 +180,7 @@ export const CreateProfileForm = ({
 
   const handleSuccessModalSubmit = () => {
     setShowSuccessModal(false);
-    logout()
+    logout();
   };
 
   const handleErrorModalClose = () => {
@@ -375,7 +378,7 @@ export const CreateProfileForm = ({
         open={showSuccessModal}
         onClose={handleSuccessModalClose}
         onSubmit={handleSuccessModalSubmit}
-        icon={<CheckCircle />}
+        icon={<CheckCircleIcon />}
         title="Submitted successfully!"
         description={`Your profile has been received and is now under review. After submission, your profile will be reviewed within 24-48 hours. You will be informed by email.`}
         showButton={true}
@@ -387,7 +390,7 @@ export const CreateProfileForm = ({
         open={showErrorModal}
         onClose={handleErrorModalClose}
         onSubmit={handleErrorModalSubmit}
-        icon={<Cancel sx={{ color: theme.palette.error.main }} />}
+        icon={<CancelIcon sx={{ color: theme.palette.error.main }} />}
         title="Submission Failed"
         description={errorMessage}
         showButton={true}

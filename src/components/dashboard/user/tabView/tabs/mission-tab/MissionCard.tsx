@@ -12,11 +12,11 @@ import {
   MenuItem,
 } from "@mui/material";
 import {
-  Business,
-  LocationOn,
-  Schedule,
-  CalendarToday,
-  MoreVert,
+  Business as BusinessIcon,
+  LocationOn as LocationOnIcon,
+  Schedule as ScheduleIcon,
+  CalendarToday as CalendarTodayIcon,
+  MoreVert as MoreVertIcon,
 } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
 
@@ -107,7 +107,7 @@ export const MissionCard = ({
               gap: theme.spacing(1.5),
             }}
           >
-            <Business
+            <BusinessIcon
               sx={{ color: theme.palette.text.secondary, fontSize: 22 }}
             />
             <Typography variant="body1" color="text.secondary">
@@ -122,7 +122,7 @@ export const MissionCard = ({
               gap: theme.spacing(1.5),
             }}
           >
-            <Business
+            <BusinessIcon
               sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
             />
             <Typography variant="body2" color="text.secondary">
@@ -137,7 +137,7 @@ export const MissionCard = ({
               gap: theme.spacing(1.5),
             }}
           >
-            <CalendarToday
+            <CalendarTodayIcon
               sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
             />
             <Typography variant="body2" color="text.secondary">
@@ -152,7 +152,7 @@ export const MissionCard = ({
               gap: theme.spacing(1.5),
             }}
           >
-            <Schedule
+            <ScheduleIcon
               sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
             />
             <Typography variant="body2" color="text.secondary">
@@ -167,7 +167,7 @@ export const MissionCard = ({
               gap: theme.spacing(1.5),
             }}
           >
-            <LocationOn
+            <LocationOnIcon
               sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
             />
             <Typography variant="body2" color="text.secondary">
@@ -215,7 +215,7 @@ export const MissionCard = ({
                   },
                 }}
               >
-                <MoreVert />
+                <MoreVertIcon />
               </IconButton>
 
               <Menu

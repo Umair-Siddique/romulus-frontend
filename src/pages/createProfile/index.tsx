@@ -17,8 +17,6 @@ export const CreateProfile = () => {
     }
   }, []);
 
-  console.log("CreateProfile -> User:", user);
-
   return (
     <Box>
       {/* Page Header */}

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
-import { CalendarToday, ViewList } from "@mui/icons-material";
+import {
+  CalendarToday as CalendarTodayIcon,
+  ViewList as ViewListIcon,
+} from "@mui/icons-material";
 
 import { CalendarTab, MissionsTab } from "./tabs";
 
@@ -17,20 +20,21 @@ export const TabsView = ({ missions }: TabsViewProps) => {
     setActiveTab(newValue);
   };
 
-  console.log("Missions Data:", missions);
-
   const missionsData = missions.map((mission) => ({
     id: mission._id,
     title: mission.title || "No Title",
-    organizationName: mission.organization?.organizationName || "No Organization",
+    organizationName:
+      mission.organization?.organizationName || "No Organization",
     branchName: mission.branch || "No Branch",
     date: mission.start || "No Date",
-    time: `${mission.start.split("T")[1].slice(0, 5)} - ${mission.end
-      .split("T")[1]
-      .slice(0, 5)}` || "No Time",
-    branchAddress: mission.organization?.branches.find(
-      (branch: any) => branch.branchName === mission.branch
-    )?.branchAddress || "No Address",
+    time:
+      `${mission.start.split("T")[1].slice(0, 5)} - ${mission.end
+        .split("T")[1]
+        .slice(0, 5)}` || "No Time",
+    branchAddress:
+      mission.organization?.branches.find(
+        (branch: any) => branch.branchName === mission.branch
+      )?.branchAddress || "No Address",
     status: mission.status || "No Status",
   }));
 
@@ -69,12 +73,12 @@ export const TabsView = ({ missions }: TabsViewProps) => {
           }}
         >
           <Tab
-            icon={<CalendarToday sx={{ fontSize: "1.25rem" }} />}
+            icon={<CalendarTodayIcon sx={{ fontSize: "1.25rem" }} />}
             label="Calendar"
             iconPosition="start"
           />
           <Tab
-            icon={<ViewList sx={{ fontSize: "1.25rem" }} />}
+            icon={<ViewListIcon sx={{ fontSize: "1.25rem" }} />}
             label="Missions"
             iconPosition="start"
           />

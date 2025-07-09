@@ -15,11 +15,12 @@ import {
   Stack,
   useTheme,
   styled,
+  Theme,
 } from "@mui/material";
 import {
   Close as CloseIcon,
   Add as AddIcon,
-  Upload,
+  Upload as UploadIcon,
 } from "@mui/icons-material";
 import { useForm } from "@refinedev/react-hook-form";
 import { useNavigate } from "react-router";
@@ -53,8 +54,10 @@ const UploadArea = styled(Box)(({ theme }) => ({
 export const CreateMissionModal = ({
   open,
   onClose,
+  setEducatorData,
 }: CreateMissionModalProps) => {
-  const theme = useTheme();
+  const theme = useTheme<Theme>();
+
   const navigate = useNavigate();
   const { userProfile } = useUserContext();
   const [newSkill, setNewSkill] = useState("");
@@ -137,9 +140,7 @@ export const CreateMissionModal = ({
         },
       });
 
-      navigate("/find-educator", {
-        state: { coordinates: branchCoordinates, skills: skillsArray },
-      });
+      setEducatorData({ coordinates: branchCoordinates, skills: skillsArray });
 
       handleClose();
     } catch (error) {
@@ -696,7 +697,7 @@ export const CreateMissionModal = ({
               <UploadArea
                 onClick={() => document.getElementById("file-upload")?.click()}
               >
-                <Upload
+                <UploadIcon
                   sx={{ fontSize: 48, color: theme.palette.grey[400], mb: 1 }}
                 />
                 <Typography variant="body2" color="text.secondary">

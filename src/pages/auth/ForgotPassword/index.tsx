@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
-import EmailIcon from "@mui/icons-material/Email";
+import { Email as EmailIcon } from "@mui/icons-material";
 import { useForgotPassword } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
 

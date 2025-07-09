@@ -11,7 +11,10 @@ import {
   FormControl,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import { Close, CloudUpload as UploadIcon } from "@mui/icons-material";
+import {
+  Close as CloseIcon,
+  CloudUpload as CloudUploadIcon,
+} from "@mui/icons-material";
 
 import { BranchModalProps } from "#types";
 
@@ -180,7 +183,7 @@ export const BranchModal = ({
               {isEditing ? "Edit Branch" : "Add a Branch"}
             </Typography>
             <IconButton onClick={onClose}>
-              <Close />
+              <CloseIcon />
             </IconButton>
           </Box>
 
@@ -334,7 +337,7 @@ export const BranchModal = ({
                   },
                 }}
               >
-                <UploadIcon sx={{ fontSize: 40, color: "#7A8B84", mb: 1 }} />
+                <CloudUploadIcon sx={{ fontSize: 40, color: "#7A8B84", mb: 1 }} />
                 <Typography variant="body2" sx={{ color: "#3B4B44", mb: 0.5 }}>
                   Upload Residence Guide
                 </Typography>

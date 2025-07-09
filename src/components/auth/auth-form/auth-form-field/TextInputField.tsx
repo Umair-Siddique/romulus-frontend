@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useTheme, Theme } from "@mui/material/styles";
-import { Info, Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  Info as InfoIcon,
+  Visibility as VisibilityIcon,
+  VisibilityOff as VisibilityOffIcon,
+} from "@mui/icons-material";
 import {
   Box,
   IconButton,
@@ -36,7 +40,7 @@ export const TextInputField = ({
               edge="end"
               aria-label="toggle password visibility"
             >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
+              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
             </IconButton>
           </InputAdornment>
         ),
@@ -76,7 +80,7 @@ export const TextInputField = ({
                   },
                 }}
               >
-                <Info fontSize="small" />
+                <InfoIcon fontSize="small" />
               </IconButton>
             </Tooltip>
           </InputAdornment>

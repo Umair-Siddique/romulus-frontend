@@ -1,5 +1,7 @@
-import CorporateFareIcon from "@mui/icons-material/CorporateFare";
-import PersonIcon from "@mui/icons-material/Person";
+import {
+  CorporateFare as CorporateFareIcon,
+  Person as PersonIcon,
+} from "@mui/icons-material";
 
 import { validationRules } from "#constants";
 

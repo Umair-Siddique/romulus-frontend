@@ -1,5 +1,5 @@
 import { useTheme, Theme } from "@mui/material/styles";
-import { KeyboardArrowDown as ArrowDownIcon } from "@mui/icons-material";
+import { KeyboardArrowDown as KeyboardArrowDownIcon } from "@mui/icons-material";
 import { FormControl, Typography, Select, MenuItem } from "@mui/material";
 
 import { SelectFieldProps } from "#types";
@@ -33,7 +33,7 @@ export const SelectField = ({
         value={value || ""}
         onChange={handleChange}
         displayEmpty
-        IconComponent={ArrowDownIcon}
+        IconComponent={KeyboardArrowDownIcon}
         sx={{
           "& .MuiOutlinedInput-notchedOutline": {
             borderColor: theme.palette.divider,

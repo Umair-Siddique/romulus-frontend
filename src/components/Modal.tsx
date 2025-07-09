@@ -6,7 +6,7 @@ import {
   Button,
   IconButton,
 } from "@mui/material";
-import { Close } from "@mui/icons-material";
+import { Close as CloseIcon } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import { ModalProps } from "#types";
@@ -50,7 +50,7 @@ export const Modal = ({
             zIndex: 1,
           }}
         >
-          <Close />
+          <CloseIcon />
         </IconButton>
 
         <Box

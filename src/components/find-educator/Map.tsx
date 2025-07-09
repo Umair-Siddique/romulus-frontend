@@ -6,7 +6,7 @@ import { MarkerProps } from "#types";
 
 const mapStyle = { height: "90vh" };
 
-const Map = ({
+export const Map = ({
   markers,
   center,
 }: {
@@ -51,5 +51,3 @@ const Map = ({
     </Box>
   );
 };
-
-export default Map;

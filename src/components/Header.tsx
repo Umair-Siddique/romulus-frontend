@@ -11,8 +11,10 @@ import Typography from "@mui/material/Typography";
 import { useLogout, useOne } from "@refinedev/core";
 import { useTheme, Theme } from "@mui/material/styles";
 import { SetStateAction, useEffect, useState } from "react";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import {
+  KeyboardArrowDown as KeyboardArrowDownIcon,
+  NotificationsOutlined as NotificationsOutlinedIcon,
+} from "@mui/icons-material";
 
 import { useUserContext } from "#context";
 

@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
-import { Description as FileIcon } from "@mui/icons-material";
+import { Description as DescriptionIcon } from "@mui/icons-material";
 
 import { FileDisplayProps } from "#types";
 
@@ -22,7 +22,7 @@ export const FileDisplay = ({ file }: FileDisplayProps) => {
         width: "100%",
       }}
     >
-      <FileIcon
+      <DescriptionIcon
         sx={{
           color: theme.palette.primary.main,
           mr: theme.spacing(1),
