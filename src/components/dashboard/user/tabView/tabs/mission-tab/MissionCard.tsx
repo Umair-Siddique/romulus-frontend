@@ -21,6 +21,7 @@ import {
 import { useTheme, Theme } from "@mui/material/styles";
 
 import { MissionCardProps } from "#types";
+import { useUserContext } from "#context";
 
 export const MissionCard = ({
   id,
@@ -32,6 +33,9 @@ export const MissionCard = ({
   branchAddress,
   status,
 }: MissionCardProps) => {
+  const { user } = useUserContext();
+  const { role } = user;
+
   const theme = useTheme<Theme>();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
@@ -197,36 +201,40 @@ export const MissionCard = ({
             View Details
           </Button>
 
-          <IconButton
-            onClick={handleMenuClick}
-            sx={{
-              border: `1px solid ${theme.palette.primary.main}`,
-              borderRadius: theme.shape.borderRadius,
-              color: theme.palette.primary.main,
-              "&:hover": {
-                borderColor: theme.palette.primary.dark,
-                backgroundColor: theme.palette.primary.light,
-              },
-            }}
-          >
-            <MoreVert />
-          </IconButton>
+          {role !== "educator" && (
+            <>
+              <IconButton
+                onClick={handleMenuClick}
+                sx={{
+                  border: `1px solid ${theme.palette.primary.main}`,
+                  borderRadius: theme.shape.borderRadius,
+                  color: theme.palette.primary.main,
+                  "&:hover": {
+                    borderColor: theme.palette.primary.dark,
+                    backgroundColor: theme.palette.primary.light,
+                  },
+                }}
+              >
+                <MoreVert />
+              </IconButton>
 
-          <Menu
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleMenuClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-          >
-            <MenuItem onClick={() => handleMenuItemClick("edit")}>
-              Edit
-            </MenuItem>
-            <MenuItem onClick={() => handleMenuItemClick("delete")}>
-              Delete
-            </MenuItem>
-          </Menu>
+              <Menu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleMenuClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem onClick={() => handleMenuItemClick("edit")}>
+                  Edit
+                </MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick("delete")}>
+                  Delete
+                </MenuItem>
+              </Menu>
+            </>
+          )}
         </Box>
       </CardContent>
     </Card>
