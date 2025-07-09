@@ -44,8 +44,10 @@ export const TabsView = ({ missions }: TabsViewProps) => {
     activeTab === 0
       ? {
           missions,
+          missionsData: [],
         }
       : {
+          missions: [],
           missionsData,
         };
 

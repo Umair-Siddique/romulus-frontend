@@ -21,6 +21,7 @@ const events = [
 export const CalendarTab = ({ missions }: CalendarTabProps) => {
   const localizer = momentLocalizer(moment);
   const [open, setOpen] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date()); // Add this state
 
   const handleMissionSelect = (event: any) => {
     // Handle the event selection logic here
@@ -33,12 +34,15 @@ export const CalendarTab = ({ missions }: CalendarTabProps) => {
       <Calendar
         selectable
         localizer={localizer}
-        defaultDate={new Date()}
+        defaultDate={currentDate}
         defaultView="month"
         views={["month"]} // lock to month view only
         events={events}
         style={{ height: "100vh" }}
         onSelectEvent={handleMissionSelect}
+        onNavigate={(date) => {
+          setCurrentDate(date); // Update current date when navigating
+        }}
         components={{
           toolbar: CustomToolbar,
         }}
