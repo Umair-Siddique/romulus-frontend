@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import { useTheme, Theme } from "@mui/material/styles";
 import { Box, Paper } from "@mui/material";
 import {
@@ -49,7 +48,6 @@ export const CreateProfileForm = ({
     },
   });
 
-  const navigate = useNavigate();
   const theme = useTheme<Theme>();
 
   useEffect(() => {
@@ -380,9 +378,13 @@ export const CreateProfileForm = ({
         onSubmit={handleSuccessModalSubmit}
         icon={<CheckCircleIcon />}
         title="Submitted successfully!"
-        description={`Your profile has been received and is now under review. After submission, your profile will be reviewed within 24-48 hours. You will be informed by email.`}
+        description={
+          role === "educator"
+            ? "Your profile has been received and is now under review. After submission, your profile will be reviewed within 24-48 hours. You will be informed by email."
+            : "Your profile has been created successfully. You can now log in to your dashboard."
+        }
         showButton={true}
-        buttonText="Login and continue to dashboard"
+        buttonText="Login and Continue"
       />
 
       {/* Error Modal */}

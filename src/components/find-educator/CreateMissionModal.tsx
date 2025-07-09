@@ -23,7 +23,6 @@ import {
   Upload as UploadIcon,
 } from "@mui/icons-material";
 import { useForm } from "@refinedev/react-hook-form";
-import { useNavigate } from "react-router";
 
 import { useUserContext } from "#context";
 import { httpClient } from "#utils";
@@ -58,7 +57,6 @@ export const CreateMissionModal = ({
 }: CreateMissionModalProps) => {
   const theme = useTheme<Theme>();
 
-  const navigate = useNavigate();
   const { userProfile } = useUserContext();
   const [newSkill, setNewSkill] = useState("");
   const [selectedDocument, setSelectedDocument] = useState<File | null>(null);
@@ -77,7 +75,6 @@ export const CreateMissionModal = ({
       branch: "",
       skills: "",
       startDate: "",
-      endDate: "",
       startTime: "",
       endTime: "",
       description: "",
@@ -123,9 +120,9 @@ export const CreateMissionModal = ({
       formData.append("branch", data.branch);
       formData.append("skills", data.skills);
       formData.append("startDate", data.startDate);
-      formData.append("endDate", data.endDate);
+      formData.append("endDate", data.startDate);
       formData.append("startTime", data.startTime);
-      formData.append("endTime", data.endTime);
+      formData.append("endTime", data.startTime);
       formData.append("description", data.description);
       formData.append("organization", organizationId || "");
 
@@ -164,7 +161,6 @@ export const CreateMissionModal = ({
     watchedValues.branch &&
     skillsArray.length > 0 &&
     watchedValues.startDate &&
-    watchedValues.endDate &&
     watchedValues.startTime &&
     watchedValues.endTime &&
     watchedValues.description;
@@ -277,6 +273,10 @@ export const CreateMissionModal = ({
                   },
                   "& .MuiInputBase-input": {
                     color: theme.palette.text.primary,
+                  },
+                  "& .MuiInputBase-input::placeholder": {
+                    color: theme.palette.text.secondary,
+                    opacity: 1,
                   },
                 }}
               >
@@ -417,10 +417,10 @@ export const CreateMissionModal = ({
                       color: theme.palette.text.primary,
                     }}
                   >
-                    Start Date *
+                    Date *
                   </Typography>
                   <TextField
-                    placeholder="Start Date"
+                    placeholder="Date"
                     type="date"
                     fullWidth
                     error={!!errors.startDate}
@@ -431,61 +431,6 @@ export const CreateMissionModal = ({
                     }
                     {...register("startDate", {
                       required: "Start date is required",
-                    })}
-                    InputLabelProps={{ shrink: true }}
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        borderRadius: theme.spacing(0.5),
-                        backgroundColor: theme.palette.background.paper,
-                        "& fieldset": {
-                          borderColor: theme.palette.divider,
-                        },
-                        "&:hover fieldset": {
-                          borderColor: theme.palette.primary.light,
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: theme.palette.primary.light,
-                          borderWidth: 2,
-                        },
-                      },
-                      "& .MuiInputBase-input": {
-                        color: theme.palette.text.primary,
-                      },
-                    }}
-                  />
-                </Box>
-                <Box sx={{ flex: 1 }}>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      mb: theme.spacing(1),
-                      fontWeight: 500,
-                      color: theme.palette.text.primary,
-                    }}
-                  >
-                    End Date *
-                  </Typography>
-                  <TextField
-                    placeholder="End Date"
-                    type="date"
-                    fullWidth
-                    error={!!errors.endDate}
-                    helperText={
-                      typeof errors.endDate?.message === "string"
-                        ? errors.endDate.message
-                        : undefined
-                    }
-                    {...register("endDate", {
-                      required: "End date is required",
-                      validate: (value) => {
-                        if (
-                          watchedValues.startDate &&
-                          value < watchedValues.startDate
-                        ) {
-                          return "End date must be after start date";
-                        }
-                        return true;
-                      },
                     })}
                     InputLabelProps={{ shrink: true }}
                     sx={{
@@ -590,10 +535,9 @@ export const CreateMissionModal = ({
                       validate: (value) => {
                         if (
                           watchedValues.startTime &&
-                          watchedValues.startDate === watchedValues.endDate &&
                           value <= watchedValues.startTime
                         ) {
-                          return "End time must be after start time on the same day";
+                          return "End time must be after start time.";
                         }
                         return true;
                       },
