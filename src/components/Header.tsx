@@ -12,6 +12,7 @@ import { useLogout, useOne } from "@refinedev/core";
 import { useTheme, Theme } from "@mui/material/styles";
 import { SetStateAction, useEffect, useState } from "react";
 import {
+  ArrowBack as ArrowBackIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
   NotificationsOutlined as NotificationsOutlinedIcon,
 } from "@mui/icons-material";
@@ -21,6 +22,7 @@ import { useUserContext } from "#context";
 export const Header = () => {
   const theme = useTheme<Theme>();
   const [pageName, setPageName] = useState<string>("");
+  const [showBackButton, setShowBackButton] = useState<boolean>(false);
 
   const { user, setUserProfile } = useUserContext();
 
@@ -47,9 +49,13 @@ export const Header = () => {
 
   useEffect(() => {
     const path = location.pathname.split("/").pop();
-    setPageName(
-      path ? path.charAt(0).toUpperCase() + path.slice(1) : "Dashboard"
-    );
+    const isObjectIdPattern = /^[a-f0-9]{24}$/i.test(path || "");
+    setShowBackButton(isObjectIdPattern);
+
+    const pathName = path
+      ? path.charAt(0).toUpperCase() + path.slice(1)
+      : "Dashboard";
+    setPageName(pathName);
   }, [location.pathname]);
 
   const handleUserMenuClick = (event: {
@@ -109,8 +115,24 @@ export const Header = () => {
             fontSize: "1.25rem",
             color: theme.palette.text.primary,
             flexGrow: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
           }}
         >
+          {/* Display back button with icon */}
+          {showBackButton && (
+            <IconButton
+              onClick={() => window.history.back()}
+              sx={{
+                color: theme.palette.text.secondary,
+                marginRight: theme.spacing(1),
+              }}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          )}
+
           {pageName === "Admin" ? "Dashboard" : pageName}
         </Box>
 
