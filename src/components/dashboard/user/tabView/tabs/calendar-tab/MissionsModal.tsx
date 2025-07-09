@@ -113,7 +113,7 @@ export const MissionsModal = ({
             <Box
               key={mission.id}
               sx={{
-                marginTop: index === 0 ? 10 : 0,
+                marginTop: index === 0 ? 70 : 0,
                 width: "95%",
                 border: `1px solid ${theme.palette.divider}`,
                 borderRadius: theme.shape.borderRadius,
