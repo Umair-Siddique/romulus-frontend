@@ -59,8 +59,7 @@ export const MissionsModal = ({
           borderRadius: theme.shape.borderRadius,
           boxShadow: 24,
           width: "800px",
-          maxHeight: "80vh",
-          overflow: "hidden",
+          height: "75vh",
           display: "flex",
           flexDirection: "column",
         }}
@@ -100,20 +99,19 @@ export const MissionsModal = ({
         {/* Content */}
         <Box
           sx={{
+            flex: 1, // ← Take up remaining vertical space
+            overflowY: "auto", // ← Enable vertical scroll
+            py: 2,
+            gap: 2,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
-            overflow: "auto",
-            width: "100%",
-            gap: 2,
           }}
         >
           {missions.map((mission, index) => (
             <Box
               key={mission.id}
               sx={{
-                marginTop: index === 0 ? 70 : 0,
                 width: "95%",
                 border: `1px solid ${theme.palette.divider}`,
                 borderRadius: theme.shape.borderRadius,
@@ -197,6 +195,8 @@ export const MissionsModal = ({
                     fontWeight: 500,
                     fontSize: "0.875rem",
                     minWidth: "auto",
+                    border: `1px solid ${theme.palette.primary.main}`,
+                    borderRadius: theme.shape.borderRadius,
                     "&:hover": {
                       backgroundColor: "primary.main",
                       color: "white",
