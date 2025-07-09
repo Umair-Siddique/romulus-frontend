@@ -326,9 +326,9 @@ export interface KpiCardProps {
 }
 
 export interface UserDashboardProps {
-  role: string;
-  title: string;
-  description: string;
+  role?: string;
+  title?: string;
+  description?: string;
 }
 
 export interface PageMetaProps {

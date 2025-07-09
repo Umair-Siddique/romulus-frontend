@@ -14,59 +14,69 @@ import { PageMeta } from "../../page-meta";
 
 import { KpiItem, UserDashboardProps } from "#types";
 
+const defaultKpis: KpiItem[] = [
+  {
+    title: "Total",
+    total: 0,
+    icon: <AssignmentIcon sx={{ color: "#1976d2", fontSize: "1.5rem" }} />,
+    iconBg: "#e3f2fd",
+  },
+  {
+    title: "Ongoing",
+    total: 0,
+    icon: <HourglassBottomIcon sx={{ color: "#ff9800", fontSize: "1.5rem" }} />,
+    iconBg: "#fff3e0",
+  },
+  {
+    title: "Pending",
+    total: 0,
+    icon: <WatchLaterIcon sx={{ color: "#ffc107", fontSize: "1.5rem" }} />,
+    iconBg: "#fff8e1",
+  },
+  {
+    title: "Completed",
+    total: 0,
+    icon: (
+      <AssignmentTurnedInIcon sx={{ color: "#4caf50", fontSize: "1.5rem" }} />
+    ),
+    iconBg: "#e8f5e9",
+  },
+  {
+    title: "Cancelled",
+    total: 0,
+    icon: <CancelIcon sx={{ color: "#f44336", fontSize: "1.5rem" }} />,
+    iconBg: "#ffebee",
+  },
+  {
+    title: "Rejected",
+    total: 0,
+    icon: <CancelIcon sx={{ color: "#f44336", fontSize: "1.5rem" }} />,
+    iconBg: "#ffebee",
+  },
+];
+
 export const UserDashboard = ({
   role,
   title,
   description,
 }: UserDashboardProps) => {
-  const [kpis, setKpis] = useState<KpiItem[]>([
-    {
-      title: "Total",
-      total: 0,
-      icon: <AssignmentIcon sx={{ color: "#1976d2", fontSize: "1.5rem" }} />,
-      iconBg: "#e3f2fd",
-    },
-    {
-      title: "Ongoing",
-      total: 0,
-      icon: (
-        <HourglassBottomIcon sx={{ color: "#ff9800", fontSize: "1.5rem" }} />
-      ),
-      iconBg: "#fff3e0",
-    },
-    {
-      title: "Pending",
-      total: 0,
-      icon: <WatchLaterIcon sx={{ color: "#ffc107", fontSize: "1.5rem" }} />,
-      iconBg: "#fff8e1",
-    },
-    {
-      title: "Completed",
-      total: 0,
-      icon: (
-        <AssignmentTurnedInIcon sx={{ color: "#4caf50", fontSize: "1.5rem" }} />
-      ),
-      iconBg: "#e8f5e9",
-    },
-    {
-      title: `${role === "organization" ? "Cancelled" : "Rejected"}`,
-      total: 0,
-      icon: <CancelIcon sx={{ color: "#f44336", fontSize: "1.5rem" }} />,
-      iconBg: "#ffebee",
-    },
-  ]);
   const { data, isLoading, isError } = useList({
     resource: "missions",
   });
 
-  const totalMissions = data?.total;
+  const [kpis, setKpis] = useState<KpiItem[]>(
+    defaultKpis.filter((kpi) => {
+      if (role === "organization") return kpi.title !== "Rejected";
+      return kpi.title !== "Cancelled";
+    })
+  );
 
   useEffect(() => {
     setKpis((prevKpis) =>
       prevKpis.map((kpi) => {
         switch (kpi.title) {
           case "Total":
-            return { ...kpi, total: totalMissions };
+            return { ...kpi, total: data?.total || 0 };
           case "Ongoing":
             return {
               ...kpi,

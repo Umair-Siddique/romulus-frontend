@@ -62,12 +62,6 @@ export const FindEducator = () => {
 
   const markers: Marker[] = [];
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  } else if (isError) {
-    return <div>Error loading data</div>;
-  }
-
   if (data) {
     data?.data.forEach((educator: any) => {
       markers.push({
