@@ -9,25 +9,52 @@ import { CalendarTabProps } from "#types";
 
 moment.locale("en-GB");
 
-const events = [
-  {
-    id: 14,
-    title: "3 Missions",
-    start: new Date(new Date().setHours(new Date().getHours() - 1)),
-    end: new Date(new Date().setHours(new Date().getHours() + 1)),
-  },
-];
-
-export const CalendarTab = ({ missions }: CalendarTabProps) => {
+export const CalendarTab = ({ calendarTabProps }: CalendarTabProps) => {
   const localizer = momentLocalizer(moment);
   const [open, setOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date()); // Add this state
+  const [selectedDateMissions, setSelectedDateMissions] = useState<any[]>([]);
+
+  const calendarMissionList = calendarTabProps.map((mission) => ({
+    id: mission.id,
+    title: mission.title,
+    organizationName: mission.organizationName,
+    branchName: mission.branchName,
+    date: mission.date,
+    status: mission.status,
+  }));
+
+  const missionsByDate = calendarMissionList.reduce((acc, mission) => {
+    const dateKey = moment(mission.date).format("YYYY-MM-DD");
+    if (!acc[dateKey]) {
+      acc[dateKey] = [];
+    }
+    acc[dateKey].push(mission);
+    return acc;
+  }, {} as Record<string, typeof calendarMissionList>);
+
+  // Transform grouped missions into calendar events
+  const events = Object.entries(missionsByDate).map(([dateKey, missions]) => {
+    const missionCount = missions.length;
+    const eventDate = moment(dateKey).toDate();
+
+    return {
+      id: dateKey,
+      title: `${missionCount} Mission${missionCount > 1 ? "s" : ""}`,
+      start: eventDate,
+      end: eventDate,
+      missions: missions,
+    };
+  });
 
   const handleMissionSelect = (event: any) => {
-    // Handle the event selection logic here
     console.log("Selected Event:", event);
+    setSelectedDateMissions(event.missions);
     setOpen(true);
   };
+
+  console.log("Calendar Mission List:", calendarMissionList);
+  console.log("Events:", events);
 
   return (
     <>
@@ -50,8 +77,12 @@ export const CalendarTab = ({ missions }: CalendarTabProps) => {
       <MissionsModal
         open={open}
         onClose={() => setOpen(false)}
-        date="May 6, 2025"
-        missions={missions}
+        date={
+          selectedDateMissions.length > 0
+            ? moment(selectedDateMissions[0].date).format("MMMM D, YYYY")
+            : ""
+        }
+        missions={selectedDateMissions}
       />
     </>
   );

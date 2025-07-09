@@ -398,12 +398,32 @@ export interface ModalProps {
   buttonText?: string;
 }
 
+export interface CalendarTabDataProps {
+  id: string;
+  title: string;
+  organizationName: string;
+  branchName: string;
+  date: string;
+  status: string;
+}
+
 export interface CalendarTabProps {
-  missions: any[];
+  calendarTabProps: CalendarTabDataProps[];
+}
+
+export interface MissionsTabsDataProps {
+  id: string;
+  title: string;
+  organizationName: string;
+  branchName: string;
+  date: string;
+  time: string;
+  branchAddress: string;
+  status: string;
 }
 
 export interface MissionsTabProps {
-  missionsData: any[];
+  missionsTabProps: MissionsTabsDataProps[];
 }
 
 interface Mission {
@@ -412,8 +432,6 @@ interface Mission {
   organizationName: string;
   branchName: string;
   date: string;
-  time: string;
-  branchAddress: string;
   status: string;
 }
 

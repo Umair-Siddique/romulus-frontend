@@ -7,6 +7,11 @@ import {
 } from "@mui/icons-material";
 
 import { CalendarTab, MissionsTab } from "./tabs";
+import {
+  CalendarTabDataProps,
+  CalendarTabProps,
+  MissionsTabsDataProps,
+} from "#types";
 
 interface TabsViewProps {
   missions: any[];
@@ -20,7 +25,17 @@ export const TabsView = ({ missions }: TabsViewProps) => {
     setActiveTab(newValue);
   };
 
-  const missionsData = missions.map((mission) => ({
+  const calendarTabProps: CalendarTabDataProps[] = missions.map((mission) => ({
+    id: mission._id,
+    title: mission.title || "No Title",
+    organizationName:
+      mission.organization?.organizationName || "No Organization",
+    branchName: mission.branch || "No Branch",
+    date: mission.start || "No Date",
+    status: mission.status || "No Status",
+  }));
+
+  const missionsTabProps: MissionsTabsDataProps[] = missions.map((mission) => ({
     id: mission._id,
     title: mission.title || "No Title",
     organizationName:
@@ -37,19 +52,6 @@ export const TabsView = ({ missions }: TabsViewProps) => {
       )?.branchAddress || "No Address",
     status: mission.status || "No Status",
   }));
-
-  const ActiveTab = activeTab === 0 ? CalendarTab : MissionsTab;
-
-  const activeTabProps =
-    activeTab === 0
-      ? {
-          missions,
-          missionsData: [],
-        }
-      : {
-          missions: [],
-          missionsData,
-        };
 
   return (
     <>
@@ -97,7 +99,11 @@ export const TabsView = ({ missions }: TabsViewProps) => {
           marginTop: 2,
         }}
       >
-        <ActiveTab {...activeTabProps} />
+        {activeTab === 0 ? (
+          <CalendarTab calendarTabProps={calendarTabProps} />
+        ) : (
+          <MissionsTab missionsTabProps={missionsTabProps} />
+        )}
       </Box>
     </>
   );

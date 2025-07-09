@@ -17,12 +17,12 @@ import { useTheme } from "@mui/material/styles";
 
 import { MissionsModalProps } from "#types";
 
-export const MissionsModal: React.FC<MissionsModalProps> = ({
+export const MissionsModal = ({
   open,
   onClose,
   date,
   missions,
-}) => {
+}: MissionsModalProps) => {
   const theme = useTheme();
 
   const getStatusColor = (status: string) => {

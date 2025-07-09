@@ -2,41 +2,43 @@ import { Box } from "@mui/material";
 import { MissionCard } from "./MissionCard";
 import { ToolBar } from "./Toolbar";
 import { useEffect, useState } from "react";
-import { MissionsTabProps } from "#types";
+import { MissionsTabProps, MissionsTabsDataProps } from "#types";
 
-export const MissionsTab = ({ missionsData }: MissionsTabProps) => {
+export const MissionsTab = ({ missionsTabProps }: MissionsTabProps) => {
   const [selectedStatus, setSelectedStatus] = useState("All");
-  const [filteredMissions, setFilteredMissions] = useState<any[]>([]);
+  const [filteredMissions, setFilteredMissions] = useState<
+    MissionsTabsDataProps[]
+  >([]);
 
   useEffect(() => {
     switch (selectedStatus) {
       case "All":
-        setFilteredMissions(missionsData);
+        setFilteredMissions(missionsTabProps);
         break;
       case "Ongoing":
         setFilteredMissions(
-          missionsData.filter((mission) => mission.status === "ongoing")
+          missionsTabProps.filter((mission) => mission.status === "ongoing")
         );
         break;
       case "Pending":
         setFilteredMissions(
-          missionsData.filter((mission) => mission.status === "pending")
+          missionsTabProps.filter((mission) => mission.status === "pending")
         );
         break;
       case "Completed":
         setFilteredMissions(
-          missionsData.filter((mission) => mission.status === "completed")
+          missionsTabProps.filter((mission) => mission.status === "completed")
         );
         break;
       case "Cancelled":
         setFilteredMissions(
-          missionsData.filter((mission) => mission.status === "cancelled")
+          missionsTabProps.filter((mission) => mission.status === "cancelled")
         );
         break;
       default:
-        setFilteredMissions(missionsData);
+        setFilteredMissions(missionsTabProps);
     }
-  }, [selectedStatus, missionsData]);
+  }, [selectedStatus, missionsTabProps]);
 
   return (
     <>
