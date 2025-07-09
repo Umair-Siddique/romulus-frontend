@@ -2,6 +2,7 @@ export * from "./auth";
 export * from "./create-profile";
 export * from "./dashboard";
 export * from "./drawer";
+export * from "./find-educator";
 export * from "./Header";
 export * from "./LogoComponent";
 export * from "./Modal";

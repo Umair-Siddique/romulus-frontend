@@ -3,6 +3,7 @@ import type { LatLngTuple } from "leaflet";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 
 import { MarkerProps } from "#types";
+import Recenter from "./Recenter";
 
 const mapStyle = { height: "90vh" };
 
@@ -13,12 +14,6 @@ export const Map = ({
   markers: MarkerProps[];
   center: LatLngTuple;
 }) => {
-  const addMarkers = () => {
-    return markers;
-  };
-
-  addMarkers();
-
   return (
     <Box>
       <MapContainer
@@ -29,6 +24,7 @@ export const Map = ({
         scrollWheelZoom={true}
         preferCanvas={true}
       >
+        <Recenter center={center} />
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           maxZoom={100}

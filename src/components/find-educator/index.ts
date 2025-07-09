@@ -1,2 +1,2 @@
 export * from "./CreateMissionModal"
-export * from "./Map"
+export * from "./map"

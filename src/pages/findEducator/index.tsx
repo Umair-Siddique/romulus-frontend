@@ -6,7 +6,7 @@ import { Box, Button } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import { useUserContext } from "#context";
-import { CreateMissionModal, Map } from "#components/find-educator";
+import { CreateMissionModal, Map } from "#components";
 
 export const FindEducator = () => {
   const theme = useTheme<Theme>();
@@ -53,12 +53,10 @@ export const FindEducator = () => {
   };
 
   const center: LatLngTuple = [
-    educatorData?.coordinates[1] ??
-      userProfile.officeAddressCoordinates.coordinates[1] ??
-      0,
-    educatorData?.coordinates[0] ??
-      userProfile.officeAddressCoordinates.coordinates[0] ??
-      0,
+    educatorData?.coordinates[1] ||
+      userProfile.officeAddressCoordinates.coordinates[1],
+    educatorData?.coordinates[0] ||
+      userProfile.officeAddressCoordinates.coordinates[0]
   ];
 
   type Marker = {
