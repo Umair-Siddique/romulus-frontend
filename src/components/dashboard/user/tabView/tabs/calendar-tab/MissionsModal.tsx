@@ -27,18 +27,21 @@ export const MissionsModal = ({
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Ongoing":
-        return { color: "#1976d2", backgroundColor: "#e3f2fd" };
-      case "New":
-        return { color: "#d32f2f", backgroundColor: "#ffebee" };
-      case "Completed":
-        return { color: "#2e7d32", backgroundColor: "#e8f5e8" };
-      case "Pending":
-        return { color: "#ed6c02", backgroundColor: "#fff4e6" };
+      case "ongoing":
+        return { color: "#ef6c00", backgroundColor: "#fff3e0" }; // dark orange
+      case "pending":
+        return { color: "#f9a825", backgroundColor: "#fff8e1" }; // amber/dark yellow
+      case "completed":
+        return { color: "#2e7d32", backgroundColor: "#e8f5e9" }; // dark green
+      case "cancelled":
+      case "rejected":
+        return { color: "#c62828", backgroundColor: "#ffebee" }; // dark red
       default:
-        return { color: "#666", backgroundColor: "#f5f5f5" };
+        return { color: "#1565c0", backgroundColor: "#e3f2fd" }; // dark blue
     }
   };
+
+  console.log("Missions Modal - missions:", missions);
 
   return (
     <Modal
@@ -52,10 +55,10 @@ export const MissionsModal = ({
     >
       <Box
         sx={{
-          backgroundColor: "background.paper",
-          borderRadius: 2,
+          backgroundColor: "background.default",
+          borderRadius: theme.shape.borderRadius,
           boxShadow: 24,
-          width: { xs: "90%", sm: "500px" },
+          width: "800px",
           maxHeight: "80vh",
           overflow: "hidden",
           display: "flex",
@@ -68,14 +71,14 @@ export const MissionsModal = ({
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            p: 3,
             borderBottom: `1px solid ${theme.palette.divider}`,
+            p: 3,
           }}
         >
           <Typography
-            variant="h6"
+            variant="h4"
             sx={{
-              fontWeight: 600,
+              fontWeight: 500,
               color: "text.primary",
             }}
           >
@@ -97,13 +100,25 @@ export const MissionsModal = ({
         {/* Content */}
         <Box
           sx={{
-            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
             overflow: "auto",
-            p: 0,
+            width: "100%",
+            gap: 2,
           }}
         >
           {missions.map((mission, index) => (
-            <Box key={mission.id}>
+            <Box
+              key={mission.id}
+              sx={{
+                marginTop: index === 0 ? 10 : 0,
+                width: "95%",
+                border: `1px solid ${theme.palette.divider}`,
+                borderRadius: theme.shape.borderRadius,
+              }}
+            >
               <Box
                 sx={{
                   display: "flex",

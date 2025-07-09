@@ -9,7 +9,6 @@ import {
 import { CalendarTab, MissionsTab } from "./tabs";
 import {
   CalendarTabDataProps,
-  CalendarTabProps,
   MissionsTabsDataProps,
 } from "#types";
 

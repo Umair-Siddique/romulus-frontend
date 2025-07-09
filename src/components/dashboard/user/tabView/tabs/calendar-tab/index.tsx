@@ -48,13 +48,9 @@ export const CalendarTab = ({ calendarTabProps }: CalendarTabProps) => {
   });
 
   const handleMissionSelect = (event: any) => {
-    console.log("Selected Event:", event);
     setSelectedDateMissions(event.missions);
     setOpen(true);
   };
-
-  console.log("Calendar Mission List:", calendarMissionList);
-  console.log("Events:", events);
 
   return (
     <>
