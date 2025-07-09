@@ -57,7 +57,7 @@ export const CalendarTab = ({ calendarTabProps }: CalendarTabProps) => {
       <Calendar
         selectable
         localizer={localizer}
-        defaultDate={currentDate}
+        date={currentDate}
         defaultView="month"
         views={["month"]} // lock to month view only
         events={events}
