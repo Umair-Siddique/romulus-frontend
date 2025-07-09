@@ -43,8 +43,6 @@ export const MissionsModal = ({
     }
   };
 
-  console.log("Missions Modal - missions:", missions);
-
   return (
     <Modal
       open={open}
