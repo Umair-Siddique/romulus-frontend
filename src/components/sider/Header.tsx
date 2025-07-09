@@ -9,14 +9,14 @@ export const Header = () => {
 
   return (
     <Box p={3}>
-      <Stack direction="row" alignItems="center" spacing={1}>
-        <LogoComponent logoImage={logoImage} width={35} />
+      <Stack direction="row" alignItems="center" justifyContent="center" spacing={1}>
+        <LogoComponent logoImage={logoImage} width={40} />
         <Typography
           variant="h6"
           sx={{
             color: theme.palette.primary.main,
             fontWeight: 600,
-            fontSize: "1.6rem",
+            fontSize: "2rem",
           }}
         >
           Romulus

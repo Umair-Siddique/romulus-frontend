@@ -76,6 +76,9 @@ export const Header = () => {
         borderBottom: `1px solid ${theme.palette.divider}`,
         boxShadow: `inset 0 2px 8px rgba(126, 148, 142, 0.08), inset 0 -2px 8px rgba(126, 148, 142, 0.08), inset 2px 0 8px rgba(126, 148, 142, 0.08), inset -2px 0 8px rgba(126, 148, 142, 0.08)`,
         borderRadius: theme.shape.borderRadius,
+        width: "98%",
+        marginLeft: "20px",
+        marginTop: theme.spacing(2),
       }}
     >
       <Toolbar
@@ -89,6 +92,7 @@ export const Header = () => {
             sm: theme.spacing(3),
           },
           height: "100%",
+          width: "100%",
         }}
       >
         <Box

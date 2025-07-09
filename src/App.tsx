@@ -74,15 +74,7 @@ const App = () => {
                     fallback={<CatchAllNavigate to="/login" />}
                   >
                     <ThemedLayoutV2 Header={Header} Sider={Sider}>
-                      <Box
-                        sx={{
-                          maxWidth: "100%",
-                          marginLeft: "auto",
-                          marginRight: "auto",
-                        }}
-                      >
-                        <Outlet />
-                      </Box>
+                      <Outlet />
                     </ThemedLayoutV2>
                   </Authenticated>
                 }

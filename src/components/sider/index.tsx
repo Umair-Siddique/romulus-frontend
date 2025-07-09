@@ -38,13 +38,16 @@ export const Sider = () => {
       variant="persistent"
       open={true}
       sx={{
-        width: 245,
+        width: 280,
         flexShrink: 0,
+        border: "none",
+        borderRadius: "0 40px 40px 0",
         [`& .MuiDrawer-paper`]: {
-          width: 240,
+          width: 280,
           boxSizing: "border-box",
-          borderRight: "1px solid #e0e0e0",
+          border: "none",
           backgroundColor: "#fafafa",
+          borderRadius: "0 40px 40px 0",
         },
       }}
     >
