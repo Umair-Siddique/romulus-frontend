@@ -403,7 +403,7 @@ export interface CalendarTabProps {
 }
 
 export interface MissionsTabProps {
-  missions: any[];
+  missionsData: any[];
 }
 
 interface Mission {

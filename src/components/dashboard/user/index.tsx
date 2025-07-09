@@ -131,7 +131,7 @@ export const UserDashboard = ({
 
       <KpiCards kpiCardsData={kpis} />
 
-      <TabsView />
+      <TabsView missions={data?.data} />
     </>
   );
 };

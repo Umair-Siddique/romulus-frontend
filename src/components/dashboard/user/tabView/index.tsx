@@ -5,7 +5,11 @@ import { CalendarToday, ViewList } from "@mui/icons-material";
 
 import { CalendarTab, MissionsTab } from "./tabs";
 
-export const TabsView = () => {
+interface TabsViewProps {
+  missions: any[];
+}
+
+export const TabsView = ({ missions }: TabsViewProps) => {
   const theme = useTheme<Theme>();
   const [activeTab, setActiveTab] = useState(0);
 
@@ -13,29 +17,33 @@ export const TabsView = () => {
     setActiveTab(newValue);
   };
 
-  const missions = [
-    {
-      id: 1,
-      title: "Science Fair Coordination",
-      organizationName: "The Learning Hub",
-      branchName: "Downton",
-      date: "12 May, 2025",
-      time: "01:00 pm to 04:00 pm",
-      branchAddress: "Aston, USA",
-      status: "Pending",
-    },
-  ];
+  console.log("Missions Data:", missions);
 
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case 0:
-        return <CalendarTab missions={missions} />;
-      case 1:
-        return <MissionsTab missions={missions} />;
-      default:
-        return <CalendarTab missions={missions} />;
-    }
-  };
+  const missionsData = missions.map((mission) => ({
+    id: mission._id,
+    title: mission.title || "No Title",
+    organizationName: mission.organization?.organizationName || "No Organization",
+    branchName: mission.branch || "No Branch",
+    date: mission.start || "No Date",
+    time: `${mission.start.split("T")[1].slice(0, 5)} - ${mission.end
+      .split("T")[1]
+      .slice(0, 5)}` || "No Time",
+    branchAddress: mission.organization?.branches.find(
+      (branch: any) => branch.branchName === mission.branch
+    )?.branchAddress || "No Address",
+    status: mission.status || "No Status",
+  }));
+
+  const ActiveTab = activeTab === 0 ? CalendarTab : MissionsTab;
+
+  const activeTabProps =
+    activeTab === 0
+      ? {
+          missions,
+        }
+      : {
+          missionsData,
+        };
 
   return (
     <>
@@ -83,7 +91,7 @@ export const TabsView = () => {
           marginTop: 2,
         }}
       >
-        {renderTabContent()}
+        <ActiveTab {...activeTabProps} />
       </Box>
     </>
   );

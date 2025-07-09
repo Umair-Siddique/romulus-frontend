@@ -5,14 +5,14 @@ export const Dashboard = () => {
   const { user } = useUserContext();
   const { role } = user;
 
-  const DashboardComponent =
+  const ActiveDashboard =
     role === "admin"
       ? AdminDashboard
       : role === "organization" || role === "educator"
       ? UserDashboard
       : () => null;
 
-  const dashboardProps =
+  const activeDashboardProps =
     role === "admin"
       ? {}
       : {
@@ -24,9 +24,9 @@ export const Dashboard = () => {
         };
 
   return (
-    <DashboardComponent
+    <ActiveDashboard
       key={role} // forces remount when role changes
-      {...dashboardProps}
+      {...activeDashboardProps}
     />
   );
 };

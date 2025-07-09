@@ -52,7 +52,8 @@ export const MissionCard = ({
   return (
     <Card
       sx={{
-        maxWidth: 400,
+        width: "48%",
+        height: "auto",
         borderRadius: theme.shape.borderRadius * 1.5,
         border: `1px solid ${theme.palette.divider}`,
         position: "relative",
@@ -80,11 +81,11 @@ export const MissionCard = ({
 
       <CardContent sx={{ pt: theme.spacing(1) }}>
         <Typography
-          variant="h6"
-          component="h2"
+          variant="h5"
+          component="h5"
           sx={{
-            fontWeight: theme.typography.fontWeightLight,
-            mb: theme.spacing(3),
+            fontWeight: theme.typography.fontWeightMedium,
+            mb: theme.spacing(1),
             pr: theme.spacing(8),
             color: theme.palette.text.primary,
             textAlign: "left",
@@ -103,9 +104,9 @@ export const MissionCard = ({
             }}
           >
             <Business
-              sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
+              sx={{ color: theme.palette.text.secondary, fontSize: 22 }}
             />
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body1" color="text.secondary">
               {organizationName}
             </Typography>
           </Box>
