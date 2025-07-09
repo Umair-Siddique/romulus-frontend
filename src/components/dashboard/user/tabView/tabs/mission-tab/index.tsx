@@ -1,8 +1,8 @@
-import { MissionsTabProps } from "#types";
 import { Box } from "@mui/material";
 import { MissionCard } from "./MissionCard";
-import { ToolBar } from "./tool-bar";
+import { ToolBar } from "./Toolbar";
 import { useEffect, useState } from "react";
+import { MissionsTabProps } from "#types";
 
 export const MissionsTab = ({ missionsData }: MissionsTabProps) => {
   const [selectedStatus, setSelectedStatus] = useState("All");
@@ -16,6 +16,11 @@ export const MissionsTab = ({ missionsData }: MissionsTabProps) => {
       case "Ongoing":
         setFilteredMissions(
           missionsData.filter((mission) => mission.status === "ongoing")
+        );
+        break;
+      case "Pending":
+        setFilteredMissions(
+          missionsData.filter((mission) => mission.status === "pending")
         );
         break;
       case "Completed":

@@ -75,8 +75,27 @@ export const MissionCard = ({
         <Chip
           label={status}
           sx={{
-            backgroundColor: theme.palette.warning.light,
-            color: theme.palette.warning.dark,
+            backgroundColor:
+              status === "ongoing"
+                ? "#fff3e0" // light orange
+                : status === "pending"
+                ? "#fff8e1" // light yellow
+                : status === "completed"
+                ? "#e8f5e9" // light green
+                : status === "cancelled" || status === "rejected"
+                ? "#ffebee" // light red
+                : "#e3f2fd", // light blue
+
+            color:
+              status === "ongoing"
+                ? "#ef6c00" // dark orange
+                : status === "pending"
+                ? "#f9a825" // amber/dark yellow
+                : status === "completed"
+                ? "#2e7d32" // dark green
+                : status === "cancelled" || status === "rejected"
+                ? "#c62828" // dark red
+                : "#1565c0", // dark blue
             fontWeight: theme.typography.fontWeightMedium,
             fontSize: theme.typography.caption.fontSize,
           }}
