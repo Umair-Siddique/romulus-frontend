@@ -73,6 +73,7 @@ export const CreateMissionModal = ({
     defaultValues: {
       title: "",
       branch: "",
+      preferredEducator: "",
       skills: "",
       startDate: "",
       startTime: "",
@@ -90,6 +91,8 @@ export const CreateMissionModal = ({
     name: branch.branchName,
     coordinates: branch.branchAddressCoordinates.coordinates,
   }));
+
+  const preferredEducators: any = [];
 
   const handleAddSkill = () => {
     if (newSkill.trim() && !skillsArray.includes(newSkill.trim())) {
@@ -118,6 +121,7 @@ export const CreateMissionModal = ({
       // Append all form fields
       formData.append("title", data.title);
       formData.append("branch", data.branch);
+      formData.append("preferredEducator", data.preferredEducator);
       formData.append("skills", data.skills);
       formData.append("startDate", data.startDate);
       formData.append("endDate", data.startDate);
@@ -309,6 +313,85 @@ export const CreateMissionModal = ({
                     {errors.branch.message}
                   </Typography>
                 )}
+              </FormControl>
+            </Box>
+
+            {/* Preferred Educator Selection */}
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  mb: theme.spacing(1),
+                  fontWeight: 500,
+                  color: theme.palette.text.primary,
+                }}
+              >
+                Preferred Educator *
+              </Typography>
+              <FormControl
+                fullWidth
+                error={!!errors.preferredEducator}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: theme.spacing(0.5),
+                    backgroundColor: theme.palette.background.paper,
+                    "& fieldset": {
+                      borderColor: theme.palette.divider,
+                    },
+                    "&:hover fieldset": {
+                      borderColor: theme.palette.primary.light,
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: theme.palette.primary.light,
+                      borderWidth: 2,
+                    },
+                  },
+                  "& .MuiInputBase-input": {
+                    color: theme.palette.text.primary,
+                  },
+                  "& .MuiInputBase-input::placeholder": {
+                    color: theme.palette.text.secondary,
+                    opacity: 1,
+                  },
+                }}
+              >
+                <Select
+                  displayEmpty
+                  {...register("preferredEducator", {
+                    required: "Preferred educator selection is required",
+                  })}
+                  renderValue={(selected) => {
+                    if (!selected) {
+                      return (
+                        <Typography color="text.disabled">
+                          Select preferred educator
+                        </Typography>
+                      );
+                    }
+                    return typeof selected === "string"
+                      ? selected
+                      : String(selected);
+                  }}
+                >
+                  {preferredEducators?.map((preferredEducator: any) => (
+                    <MenuItem
+                      key={preferredEducator.name}
+                      value={preferredEducator.name}
+                    >
+                      {preferredEducator.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {errors.preferredEducator &&
+                  typeof errors.preferredEducator.message === "string" && (
+                    <Typography
+                      variant="caption"
+                      color="error"
+                      sx={{ mt: 0.5 }}
+                    >
+                      {errors.preferredEducator.message}
+                    </Typography>
+                  )}
               </FormControl>
             </Box>
 
