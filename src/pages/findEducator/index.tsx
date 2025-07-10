@@ -10,8 +10,10 @@ import { CreateMissionModal, Map, Modal } from "#components";
 
 export const FindEducator = () => {
   const theme = useTheme<Theme>();
-  const { user, userProfile } = useUserContext();
   const navigate = useNavigate();
+
+  const { user, userProfile } = useUserContext();
+
   const [modalOpen, setModalOpen] = useState(false);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [distance, setDistance] = useState(50);
@@ -22,9 +24,9 @@ export const FindEducator = () => {
     skills: [],
   });
 
-  const { role } = user;
-
-  const { mutate: createMission, data: missionsData } = useCreate();
+  const { mutate: createMission, data: missionsData } = useCreate({
+    resource: "missions",
+  });
 
   const {
     data: educatorsData,
@@ -48,9 +50,7 @@ export const FindEducator = () => {
     ],
     queryOptions: {
       enabled: !!(
-        missionsData &&
-        findEducatorData?.coordinates.length &&
-        findEducatorData?.skills.length
+        findEducatorData?.coordinates.length && findEducatorData?.skills.length
       ),
     },
   });
@@ -72,11 +72,29 @@ export const FindEducator = () => {
     },
   });
 
+  const { role } = user;
+
   useEffect(() => {
     if (role !== "organization") {
       navigate("/dashboard", { replace: true });
     }
   }, [role, navigate]);
+
+  useEffect(() => {
+    createMission(
+      {
+        values: dataToSubmit,
+      },
+      {
+        onSuccess: () => {
+          setModalOpen(false);
+        },
+        onError: (error) => {
+          console.error("Error creating mission:", error);
+        },
+      }
+    );
+  }, [dataToSubmit]);
 
   // Effect for refetching when distance changes
   useEffect(() => {
@@ -94,20 +112,6 @@ export const FindEducator = () => {
       educatorsData?.data.map((educator: any) => educator._id) || [];
     setInvitees(educatorsIds);
   }, [educatorsData]);
-
-  useEffect(() => {
-    if (dataToSubmit) {
-      createMission({
-        resource: "missions",
-        values: dataToSubmit,
-        meta: {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        },
-      });
-    }
-  }, [dataToSubmit]);
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -269,7 +273,9 @@ export const FindEducator = () => {
         open={successModalOpen}
         onClose={handleSuccessModalClose}
         onSubmit={handleSuccessModalClose}
-        button1OnClick={() => navigate(`/missions/${missionsData?.data._id}`, { replace: true })}
+        button1OnClick={() =>
+          navigate(`/missions/${missionsData?.data._id}`, { replace: true })
+        }
         icon={<CheckCircleIcon />}
         title="Invitations Sent Successfully!"
         description={`Invitations have been sent to ${
