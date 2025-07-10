@@ -64,6 +64,9 @@ export const UserDashboard = ({
 }: UserDashboardProps) => {
   const { data, isLoading, isError } = useList({
     resource: `missions/${role}/${educatorId || organizationId}`,
+    queryOptions: {
+      enabled: !!role && (!!educatorId || !!organizationId),
+    }
   });
 
   const [kpis, setKpis] = useState<KpiItem[]>(
