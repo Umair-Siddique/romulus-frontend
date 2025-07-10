@@ -31,7 +31,6 @@ export const MissionDetails = () => {
 
   const { data } = useOne({
     resource: `missions/educator/${educatorId}/one`, // Use the extracted mission ID
-    // id: missionId, // Use the extracted mission ID
     queryOptions: {
       enabled: true, // Adjust based on your data fetching logic
     },
