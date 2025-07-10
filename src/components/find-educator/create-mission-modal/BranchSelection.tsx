@@ -6,19 +6,22 @@ import {
   MenuItem,
   useTheme,
 } from "@mui/material";
-import { UseFormRegister, FieldErrors } from "react-hook-form";
+import { UseFormRegister, FieldErrors, Control } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { FormDataProps } from "#types";
 
 interface BranchSelectionProps {
   register: UseFormRegister<FormDataProps>;
   errors: FieldErrors<FormDataProps>;
   branches: Array<{ name: string; coordinates: any }>;
+  control: Control<FormDataProps>; // Add control prop
 }
 
 export const BranchSelection = ({
   register,
   errors,
   branches,
+  control, // Add control to destructured props
 }: BranchSelectionProps) => {
   const theme = useTheme();
 
@@ -61,26 +64,32 @@ export const BranchSelection = ({
           },
         }}
       >
-        <Select
-          displayEmpty
-          {...register("branch", {
-            required: "Branch selection is required",
-          })}
-          renderValue={(selected) => {
-            if (!selected) {
-              return (
-                <Typography color="text.disabled">Select branch</Typography>
-              );
-            }
-            return typeof selected === "string" ? selected : String(selected);
-          }}
-        >
-          {branches?.map((branch: any) => (
-            <MenuItem key={branch.name} value={branch.name}>
-              {branch.name}
-            </MenuItem>
-          ))}
-        </Select>
+        <Controller
+          name="branch"
+          control={control}
+          rules={{ required: "Branch selection is required" }}
+          render={({ field }) => (
+            <Select
+              {...field}
+              displayEmpty
+              value={field.value || ""}
+              renderValue={(selected) => {
+                if (!selected) {
+                  return (
+                    <Typography color="text.disabled">Select branch</Typography>
+                  );
+                }
+                return typeof selected === "string" ? selected : String(selected);
+              }}
+            >
+              {branches?.map((branch: any) => (
+                <MenuItem key={branch.name} value={branch.name}>
+                  {branch.name}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+        />
         {errors.branch && typeof errors.branch.message === "string" && (
           <Typography variant="caption" color="error" sx={{ mt: 0.5 }}>
             {errors.branch.message}

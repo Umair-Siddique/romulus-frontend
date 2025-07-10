@@ -1,17 +1,29 @@
-import { Box, Typography, TextField, Stack, useTheme } from "@mui/material";
-import { UseFormRegister, FieldErrors, UseFormWatch } from "react-hook-form";
+import { Box, Typography, Stack, useTheme } from "@mui/material";
+import { DatePicker, TimePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import {
+  Controller,
+  UseFormRegister,
+  FieldErrors,
+  UseFormWatch,
+  Control,
+} from "react-hook-form";
 import { FormDataProps } from "#types";
+import dayjs, { Dayjs } from "dayjs";
 
 interface DateTimeSectionProps {
   register: UseFormRegister<FormDataProps>;
   errors: FieldErrors<FormDataProps>;
   watchedValues: any;
+  control: Control<FormDataProps>;
 }
 
 export const DateTimeSection = ({
   register,
   errors,
   watchedValues,
+  control,
 }: DateTimeSectionProps) => {
   const theme = useTheme();
 
@@ -36,7 +48,7 @@ export const DateTimeSection = ({
   };
 
   return (
-    <>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       {/* Date Selection */}
       <Box>
         <Stack direction="row" spacing={2}>
@@ -51,21 +63,31 @@ export const DateTimeSection = ({
             >
               Date *
             </Typography>
-            <TextField
-              placeholder="Date"
-              type="date"
-              fullWidth
-              error={!!errors.startDate}
-              helperText={
-                typeof errors.startDate?.message === "string"
-                  ? errors.startDate.message
-                  : undefined
-              }
-              {...register("startDate", {
-                required: "Start date is required",
-              })}
-              InputLabelProps={{ shrink: true }}
-              sx={textFieldStyles}
+            <Controller
+              name="startDate"
+              control={control}
+              rules={{ required: "Start date is required" }}
+              render={({ field }) => (
+                <DatePicker
+                  {...field}
+                  value={field.value ? dayjs(field.value) : null}
+                  onChange={(date: Dayjs | null) => {
+                    field.onChange(date ? date.format("YYYY-MM-DD") : "");
+                  }}
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      placeholder: "Select date",
+                      error: !!errors.startDate,
+                      helperText:
+                        typeof errors.startDate?.message === "string"
+                          ? errors.startDate.message
+                          : undefined,
+                      sx: textFieldStyles,
+                    },
+                  }}
+                />
+              )}
             />
           </Box>
         </Stack>
@@ -85,22 +107,31 @@ export const DateTimeSection = ({
             >
               Start Time *
             </Typography>
-            <TextField
-              placeholder="Start Time"
-              type="time"
-              fullWidth
-              error={!!errors.startTime}
-              helperText={
-                typeof errors.startTime?.message === "string"
-                  ? errors.startTime.message
-                  : undefined
-              }
-              {...register("startTime", {
-                required: "Start time is required",
-              })}
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ step: 300 }}
-              sx={textFieldStyles}
+            <Controller
+              name="startTime"
+              control={control}
+              rules={{ required: "Start time is required" }}
+              render={({ field }) => (
+                <TimePicker
+                  {...field}
+                  value={field.value ? dayjs(field.value, "HH:mm") : null}
+                  onChange={(time: Dayjs | null) => {
+                    field.onChange(time ? time.format("HH:mm") : "");
+                  }}
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      placeholder: "Select start time",
+                      error: !!errors.startTime,
+                      helperText:
+                        typeof errors.startTime?.message === "string"
+                          ? errors.startTime.message
+                          : undefined,
+                      sx: textFieldStyles,
+                    },
+                  }}
+                />
+              )}
             />
           </Box>
           <Box sx={{ flex: 1 }}>
@@ -114,17 +145,10 @@ export const DateTimeSection = ({
             >
               End Time *
             </Typography>
-            <TextField
-              placeholder="End Time"
-              type="time"
-              fullWidth
-              error={!!errors.endTime}
-              helperText={
-                typeof errors.endTime?.message === "string"
-                  ? errors.endTime.message
-                  : undefined
-              }
-              {...register("endTime", {
+            <Controller
+              name="endTime"
+              control={control}
+              rules={{
                 required: "End time is required",
                 validate: (value) => {
                   if (
@@ -135,14 +159,32 @@ export const DateTimeSection = ({
                   }
                   return true;
                 },
-              })}
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ step: 300 }}
-              sx={textFieldStyles}
+              }}
+              render={({ field }) => (
+                <TimePicker
+                  {...field}
+                  value={field.value ? dayjs(field.value, "HH:mm") : null}
+                  onChange={(time: Dayjs | null) => {
+                    field.onChange(time ? time.format("HH:mm") : "");
+                  }}
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      placeholder: "Select end time",
+                      error: !!errors.endTime,
+                      helperText:
+                        typeof errors.endTime?.message === "string"
+                          ? errors.endTime.message
+                          : undefined,
+                      sx: textFieldStyles,
+                    },
+                  }}
+                />
+              )}
             />
           </Box>
         </Stack>
       </Box>
-    </>
+    </LocalizationProvider>
   );
 };

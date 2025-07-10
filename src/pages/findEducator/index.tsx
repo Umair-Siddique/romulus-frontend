@@ -78,7 +78,6 @@ export const FindEducator = () => {
 
   // Effect for refetching when distance changes
   useEffect(() => {
-    // Refetch data when distance changes
     if (
       findEducatorData?.coordinates.length &&
       findEducatorData?.skills.length
@@ -91,7 +90,6 @@ export const FindEducator = () => {
   useEffect(() => {
     const educatorsIds =
       educatorsData?.data.map((educator: any) => educator._id) || [];
-
     setInvitees(educatorsIds);
   }, [educatorsData]);
 

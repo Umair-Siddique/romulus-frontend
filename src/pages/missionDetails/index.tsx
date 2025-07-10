@@ -1,4 +1,5 @@
 import { useUserContext } from "#context";
+import { getStatusColor } from "#utils/getStatusColor";
 import {
   AccessTime,
   Business,
@@ -23,11 +24,13 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 import { useOne } from "@refinedev/core";
 
 export const MissionDetails = () => {
   const { user } = useUserContext();
   const { educatorId } = user;
+  const theme = useTheme<Theme>();
 
   const { data } = useOne({
     resource: `missions/educator/${educatorId}/one`, // Use the extracted mission ID
@@ -44,7 +47,7 @@ export const MissionDetails = () => {
     branchName: "Downton",
     location: "Aston, USA",
     address: "1456 Veltri Drive, Anchorage, AK 99502",
-    status: "New",
+    status: "ongoing",
     description:
       "This session is designed to engage the educator in a dynamic spoken English activity that will involve a group of 20 enthusiastic students, specifically from grades 6 to 7. Prior to the session, a comprehensive worksheet will be distributed to ensure that all students are well-prepared and can actively participate in the discussions and exercises planned. It is essential for the educator to arrive at least 15 minutes ahead of the scheduled start time to set up the classroom environment and address any last-minute details. Additionally, the educator is expected to adhere to a semi-formal dress code, which will help create a professional yet approachable atmosphere conducive to learning.",
     document: {
@@ -65,21 +68,15 @@ export const MissionDetails = () => {
 
   const missionData = defaultMission;
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case "new":
-        return "error";
-      case "accepted":
-        return "success";
-      case "pending":
-        return "warning";
-      default:
-        return "default";
-    }
-  };
-
   return (
-    <Box sx={{ maxWidth: 1200, mx: "auto", p: 3 }}>
+    <Box
+      sx={{
+        border: `1px solid ${theme.palette.divider}`,
+        p: theme.spacing(3),
+        borderRadius: theme.shape.borderRadius,
+      }}
+      width="100%"
+    >
       {/* Header */}
       <Box
         sx={{
@@ -88,8 +85,9 @@ export const MissionDetails = () => {
           alignItems: "center",
           mb: 3,
         }}
+        width="100%"
       >
-        <Typography variant="h4" component="h1" sx={{ fontWeight: 600 }}>
+        <Typography variant="h3" component="h1" sx={{ fontWeight: 500 }}>
           Mission Overview
         </Typography>
         <Box sx={{ display: "flex", gap: 2 }}>
@@ -117,23 +115,34 @@ export const MissionDetails = () => {
         </Box>
       </Box>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={3} width="100%">
         {/* Left Column */}
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={8} width="100%">
           {/* Mission Title */}
           <Typography
             variant="h5"
             component="h2"
-            sx={{ fontWeight: 600, mb: 3 }}
+            sx={{ fontWeight: 500, mb: 2 }}
           >
             {missionData.title}
           </Typography>
 
           {/* Mission Details */}
           <Stack spacing={2} sx={{ mb: 3 }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
               <Business sx={{ color: "grey.600" }} />
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                width="105px"
+                sx={{ textAlign: "left" }}
+              >
                 Organization:
               </Typography>
               <Typography variant="body1">
@@ -143,7 +152,12 @@ export const MissionDetails = () => {
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <CalendarToday sx={{ color: "grey.600" }} />
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                width="105px"
+                sx={{ textAlign: "left" }}
+              >
                 Date:
               </Typography>
               <Typography variant="body1">{missionData.date}</Typography>
@@ -151,15 +165,31 @@ export const MissionDetails = () => {
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <AccessTime sx={{ color: "grey.600" }} />
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                width="105px"
+                sx={{ textAlign: "left" }}
+              >
                 Time:
               </Typography>
               <Typography variant="body1">{missionData.time}</Typography>
             </Box>
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
               <Business sx={{ color: "grey.600" }} />
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                width="105px"
+                sx={{ textAlign: "left" }}
+              >
                 Branch Name:
               </Typography>
               <Typography variant="body1">{missionData.branchName}</Typography>
@@ -167,7 +197,12 @@ export const MissionDetails = () => {
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <LocationOn sx={{ color: "grey.600" }} />
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                width="105px"
+                sx={{ textAlign: "left" }}
+              >
                 Location:
               </Typography>
               <Typography variant="body1">{missionData.location}</Typography>
@@ -175,7 +210,12 @@ export const MissionDetails = () => {
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <LocationOn sx={{ color: "grey.600" }} />
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                width="105px"
+                sx={{ textAlign: "left" }}
+              >
                 Address:
               </Typography>
               <Typography variant="body1">{missionData.address}</Typography>
@@ -187,9 +227,11 @@ export const MissionDetails = () => {
               </Typography>
               <Chip
                 label={missionData.status}
-                color={getStatusColor(missionData.status)}
                 size="small"
-                sx={{ fontWeight: 500 }}
+                sx={{
+                  fontWeight: 500,
+                  ...getStatusColor(missionData.status), // Use utility function to get status color
+                }}
               />
             </Box>
           </Stack>

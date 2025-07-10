@@ -55,6 +55,7 @@ export const CreateMissionModal = ({
     setValue,
     watch,
     reset,
+    control,
   } = useForm<FormDataProps>({
     mode: "onChange",
     defaultValues: {
@@ -159,6 +160,7 @@ export const CreateMissionModal = ({
               register={register}
               errors={errors}
               branches={branches}
+              control={control}
             />
 
             <PreferredEducatorSelection
@@ -181,6 +183,7 @@ export const CreateMissionModal = ({
               register={register}
               errors={errors}
               watchedValues={watchedValues}
+              control={control}
             />
 
             <DescriptionField register={register} errors={errors} />
