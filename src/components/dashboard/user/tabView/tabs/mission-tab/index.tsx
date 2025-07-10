@@ -36,7 +36,7 @@ export const MissionsTab = ({ missionsTabProps }: MissionsTabProps) => {
   }, [selectedStatus, missionsTabProps]);
 
   return (
-    <>
+    <Box sx={{ minHeight: "400px" }}>
       {/* Toolbar */}
       <ToolBar
         selectedStatus={selectedStatus}
@@ -55,6 +55,6 @@ export const MissionsTab = ({ missionsTabProps }: MissionsTabProps) => {
           <MissionCard key={index} {...mission} />
         ))}
       </Box>
-    </>
+    </Box>
   );
 };
