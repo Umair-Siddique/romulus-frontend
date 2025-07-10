@@ -4,14 +4,16 @@ import { useCreate, useCustom, useList } from "@refinedev/core";
 import { useNavigate } from "react-router";
 import { Box, Button, Slider, Typography } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
+import { CheckCircle as CheckCircleIcon } from "@mui/icons-material";
 import { useUserContext } from "#context";
-import { CreateMissionModal, Map } from "#components";
+import { CreateMissionModal, Map, Modal } from "#components";
 
 export const FindEducator = () => {
   const theme = useTheme<Theme>();
   const { user, userProfile } = useUserContext();
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [distance, setDistance] = useState(50);
   const [invitees, setInvitees] = useState<string[]>([]);
   const [dataToSubmit, setDataToSubmit] = useState<any>(null);
@@ -66,7 +68,7 @@ export const FindEducator = () => {
       },
     },
     queryOptions: {
-      enabled: false, // Disable automatic refetching
+      enabled: false,
     },
   });
 
@@ -111,8 +113,22 @@ export const FindEducator = () => {
     setModalOpen(false);
   };
 
-  const handleSendInvitations = () => {
-    sendInvitations();
+  const handleSuccessModalClose = () => {
+    setSuccessModalOpen(false);
+    setInvitees([]);
+    setFindEducatorData({ coordinates: [], skills: [] });
+    setDataToSubmit(null);
+    refetchEducators();
+    navigate("/dashboard", { replace: true });
+  };
+
+  const handleSendInvitations = async () => {
+    try {
+      await sendInvitations();
+      setSuccessModalOpen(true);
+    } catch (error) {
+      console.error("Error sending invitations:", error);
+    }
   };
 
   const handleDistanceChange = (event: Event, newValue: number | number[]) => {
@@ -246,6 +262,25 @@ export const FindEducator = () => {
         onClose={handleModalClose}
         setFindEducatorData={setFindEducatorData}
         setDataToSubmit={setDataToSubmit}
+      />
+
+      {/* Success modal for invitations sent */}
+      <Modal
+        open={successModalOpen}
+        onClose={handleSuccessModalClose}
+        onSubmit={handleSuccessModalClose}
+        button1OnClick={() => navigate(`/missions/${missionsData?.data._id}`, { replace: true })}
+        icon={<CheckCircleIcon />}
+        title="Invitations Sent Successfully!"
+        description={`Invitations have been sent to ${
+          invitees.length
+        } educator${
+          invitees.length !== 1 ? "s" : ""
+        }. You’ll be notified as soon as they respond.`}
+        showButton={true}
+        showButton1={true}
+        buttonText="Close"
+        button1Text="View Invitation Status"
       />
     </Box>
   );

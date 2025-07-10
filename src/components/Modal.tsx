@@ -15,11 +15,14 @@ export const Modal = ({
   open,
   onClose,
   onSubmit,
+  button1OnClick,
   icon,
   title,
   description,
   showButton,
+  showButton1,
   buttonText,
+  button1Text,
 }: ModalProps) => {
   const theme = useTheme<Theme>();
 
@@ -66,7 +69,7 @@ export const Modal = ({
           {/* Icon */}
           <Box
             sx={{
-              fontSize: theme.spacing(10), // 80px equivalent using theme spacing
+              fontSize: theme.spacing(8), // 64px equivalent using theme spacing
               color: theme.palette.primary.main, // Using primary color since success isn't defined in your theme
               mb: theme.spacing(3),
               display: "flex",
@@ -82,9 +85,9 @@ export const Modal = ({
 
           {/* Title */}
           <Typography
-            variant="h5"
+            variant="h3"
             sx={{
-              fontWeight: theme.typography.h5.fontWeight,
+              fontWeight: theme.typography.h2.fontWeight,
               color: theme.palette.text.primary,
               mb: theme.spacing(2),
               fontFamily: theme.typography.h5.fontFamily,
@@ -108,28 +111,82 @@ export const Modal = ({
           </Typography>
 
           {/* Action Button */}
-          {showButton && (
-            <Button
-              onClick={onSubmit}
-              variant="contained"
-              size="large"
-              sx={{
-                backgroundColor: theme.palette.primary.main,
-                color: "white",
-                px: theme.spacing(4),
-                py: theme.spacing(1.5),
-                borderRadius: theme.shape.borderRadius / 4,
-                fontWeight: theme.typography.button.fontWeight,
-                textTransform: "none",
-                fontFamily: theme.typography.button.fontFamily,
-                "&:hover": {
-                  backgroundColor: theme.palette.primary.dark,
-                },
-              }}
-            >
-              {buttonText}
-            </Button>
-          )}
+          <Box
+            sx={{
+              display: `${showButton1 ? "flex" : "block"}`,
+              justifyContent: "center",
+              alignItems: "center",
+              gap: theme.spacing(10),
+              width: "100%",
+            }}
+          >
+            {showButton && (
+              <Button
+                onClick={onSubmit}
+                variant="contained"
+                size="large"
+                sx={{
+                  backgroundColor:
+                    buttonText === "Close"
+                      ? theme.palette.primary.contrastText
+                      : theme.palette.primary.main,
+                  color:
+                    buttonText === "Close"
+                      ? theme.palette.text.primary
+                      : theme.palette.primary.contrastText,
+                  px: theme.spacing(4),
+                  py: theme.spacing(1.5),
+                  border:
+                    buttonText === "Close"
+                      ? `1px solid ${theme.palette.divider}`
+                      : "none",
+                  borderRadius: theme.shape.borderRadius,
+                  fontWeight: theme.typography.button.fontWeight,
+                  textTransform: "none",
+                  fontFamily: theme.typography.button.fontFamily,
+                  "&:hover": {
+                    color: theme.palette.primary.contrastText,
+                    backgroundColor: theme.palette.error.light,
+                  },
+                }}
+              >
+                {buttonText}
+              </Button>
+            )}
+
+            {showButton1 && (
+              <Button
+                onClick={button1OnClick}
+                variant="contained"
+                size="large"
+                sx={{
+                  backgroundColor:
+                    button1Text === "Close"
+                      ? theme.palette.primary.contrastText
+                      : theme.palette.primary.main,
+                  color:
+                    button1Text === "Close"
+                      ? theme.palette.text.primary
+                      : theme.palette.primary.contrastText,
+                  px: theme.spacing(4),
+                  py: theme.spacing(1.5),
+                  border:
+                    button1Text === "Close"
+                      ? `1px solid ${theme.palette.divider}`
+                      : "none",
+                  borderRadius: theme.shape.borderRadius,
+                  fontWeight: theme.typography.button.fontWeight,
+                  textTransform: "none",
+                  fontFamily: theme.typography.button.fontFamily,
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.dark,
+                  },
+                }}
+              >
+                {button1Text}
+              </Button>
+            )}
+          </Box>
         </Box>
       </DialogContent>
     </Dialog>

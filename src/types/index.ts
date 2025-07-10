@@ -393,11 +393,14 @@ export interface ModalProps {
   open: boolean;
   onClose: () => void;
   onSubmit?: () => void;
+  button1OnClick?: () => void;
   icon: React.ReactElement;
   title: string;
   description: string;
   showButton?: boolean;
+  showButton1: boolean;
   buttonText?: string;
+  button1Text?: string;
 }
 
 export interface CalendarTabDataProps {

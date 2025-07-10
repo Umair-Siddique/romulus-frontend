@@ -13,6 +13,7 @@ import {
   CalendarToday as CalendarTodayIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
 } from "@mui/icons-material";
+import { useUserContext } from "#context";
 
 interface ToolBarProps {
   selectedStatus: string;
@@ -24,13 +25,15 @@ export const ToolBar = ({
   setSelectedStatus,
 }: ToolBarProps) => {
   const theme = useTheme<Theme>();
+  const { user } = useUserContext();
+  const { role } = user;
 
   const [dateAnchor, setDateAnchor] = useState(null);
   const [branchAnchor, setBranchAnchor] = useState(null);
   const [selectedDate, setSelectedDate] = useState("Date");
   const [selectedBranch, setSelectedBranch] = useState("Branch");
 
-  const statusFilters = ["All", "Ongoing", "Pending", "Completed", "Cancelled"];
+  const statusFilters = ["All", "Ongoing", "Pending", "Completed", `${role === "educator" ? "Rejected" : "Cancelled"}`];
   const dateOptions = ["Today", "This Week", "This Month", "Custom Range"];
   const branchOptions = ["All Branches", "Downtown", "Uptown", "Midtown"];
 
