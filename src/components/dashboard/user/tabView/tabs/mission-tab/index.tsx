@@ -35,8 +35,6 @@ export const MissionsTab = ({ missionsTabProps }: MissionsTabProps) => {
     }
   }, [selectedStatus, missionsTabProps]);
 
-  console.log("Filtered Missions:", filteredMissions);
-
   return (
     <>
       {/* Toolbar */}
