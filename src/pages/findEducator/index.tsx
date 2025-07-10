@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { LatLngTuple } from "leaflet";
-import { useList } from "@refinedev/core";
+import { useCreate, useCustom, useList } from "@refinedev/core";
 import { useNavigate } from "react-router";
 import { Box, Button, Slider, Typography } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
@@ -13,31 +13,58 @@ export const FindEducator = () => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [distance, setDistance] = useState(50);
-  const [educatorData, setEducatorData] = useState({
+  const [invitees, setInvitees] = useState<string[]>([]);
+  const [dataToSubmit, setDataToSubmit] = useState<any>(null);
+  const [findEducatorData, setFindEducatorData] = useState({
     coordinates: [],
     skills: [],
   });
 
   const { role } = user;
 
-  const { data, isLoading, isError, refetch } = useList({
+  const { mutate: createMission, data: missionsData } = useCreate();
+
+  const {
+    data: educatorsData,
+    isLoading: isEducatorsLoading,
+    isError: isEducatorsError,
+    refetch: refetchEducators,
+  } = useList({
     resource: "educators/nearby",
     filters: [
       {
         field: "coordinates",
         operator: "eq",
-        value: educatorData?.coordinates?.join(","),
+        value: findEducatorData?.coordinates?.join(","),
       },
       {
         field: "skills",
         operator: "eq",
-        value: educatorData?.skills?.join(","),
+        value: findEducatorData?.skills?.join(","),
       },
       { field: "distance", operator: "eq", value: distance },
     ],
     queryOptions: {
-      enabled:
-        !!educatorData?.coordinates.length && !!educatorData?.skills.length,
+      enabled: !!(
+        findEducatorData?.coordinates.length && findEducatorData?.skills.length
+      ),
+    },
+  });
+
+  const { refetch: sendInvitations } = useCustom({
+    url: "missions/send-invitations",
+    method: "post",
+    config: {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      payload: {
+        missionId: missionsData?.data._id,
+        invitees,
+      },
+    },
+    queryOptions: {
+      enabled: false, // Disable automatic refetching
     },
   });
 
@@ -49,13 +76,39 @@ export const FindEducator = () => {
 
   useEffect(() => {
     // Refetch data when distance changes
-    if (educatorData?.coordinates.length && educatorData?.skills.length) {
-      refetch();
+    if (
+      findEducatorData?.coordinates.length &&
+      findEducatorData?.skills.length
+    ) {
+      refetchEducators();
     }
+
+    const educatorsIds =
+      educatorsData?.data.map((educator: any) => educator._id) || [];
+
+    setInvitees(educatorsIds);
   }, [distance]);
+
+  useEffect(() => {
+    if (dataToSubmit) {
+      createMission({
+        resource: "missions",
+        values: dataToSubmit,
+        meta: {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      });
+    }
+  }, [dataToSubmit]);
 
   const handleModalClose = () => {
     setModalOpen(false);
+  };
+
+  const handleSendInvitations = () => {
+    sendInvitations();
   };
 
   const handleDistanceChange = (event: Event, newValue: number | number[]) => {
@@ -63,10 +116,12 @@ export const FindEducator = () => {
   };
 
   const center: LatLngTuple = [
-    educatorData?.coordinates[1] ||
-      userProfile.officeAddressCoordinates.coordinates[1],
-    educatorData?.coordinates[0] ||
-      userProfile.officeAddressCoordinates.coordinates[0],
+    findEducatorData?.coordinates[1] ??
+      userProfile?.officeAddressCoordinates?.coordinates[1] ??
+      0,
+    findEducatorData?.coordinates[0] ??
+      userProfile?.officeAddressCoordinates?.coordinates[0] ??
+      0,
   ];
 
   type Marker = {
@@ -79,8 +134,8 @@ export const FindEducator = () => {
   };
 
   const markers: Marker[] = [];
-  if (data) {
-    data?.data.forEach((educator: any) => {
+  if (educatorsData) {
+    educatorsData?.data.forEach((educator: any) => {
       markers.push({
         position: {
           lng: educator.fullAddressCoordinates.coordinates[0],
@@ -145,28 +200,48 @@ export const FindEducator = () => {
       <Map markers={markers} center={center} />
 
       {/* Opens create mission modal */}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => setModalOpen(true)}
-        sx={{
-          position: "absolute",
-          bottom: theme.spacing(5),
-          zIndex: 1000,
-          right: "50%",
-          textTransform: "none",
-          padding: theme.spacing(1, 2),
-          fontSize: theme.typography.body2.fontSize,
-        }}
-      >
-        Create Mission
-      </Button>
+      {!educatorsData?.data.length ? (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setModalOpen(true)}
+          sx={{
+            position: "absolute",
+            bottom: theme.spacing(5),
+            zIndex: 1000,
+            right: "50%",
+            textTransform: "none",
+            padding: theme.spacing(1, 2),
+            fontSize: theme.typography.body2.fontSize,
+          }}
+        >
+          Create Mission
+        </Button>
+      ) : (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSendInvitations}
+          sx={{
+            position: "absolute",
+            bottom: theme.spacing(5),
+            zIndex: 1000,
+            right: "50%",
+            textTransform: "none",
+            padding: theme.spacing(1, 2),
+            fontSize: theme.typography.body2.fontSize,
+          }}
+        >
+          Send Invitations
+        </Button>
+      )}
 
       {/* Create mission modal */}
       <CreateMissionModal
         open={modalOpen}
         onClose={handleModalClose}
-        setEducatorData={setEducatorData}
+        setFindEducatorData={setFindEducatorData}
+        setDataToSubmit={setDataToSubmit}
       />
     </Box>
   );

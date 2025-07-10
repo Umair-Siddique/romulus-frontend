@@ -465,7 +465,8 @@ export interface KpiItem {
 export interface CreateMissionModalProps {
   open: boolean;
   onClose: () => void;
-  setEducatorData: (data: any) => void;
+  setFindEducatorData: (data: any) => void;
+  setDataToSubmit: (data: any) => void;
 }
 
 export interface MarkerProps {

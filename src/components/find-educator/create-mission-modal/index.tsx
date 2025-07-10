@@ -15,7 +15,6 @@ import { Close as CloseIcon } from "@mui/icons-material";
 import { useForm } from "@refinedev/react-hook-form";
 
 import { useUserContext } from "#context";
-import { httpClient } from "#utils";
 import { CreateMissionModalProps, FormDataProps } from "#types";
 
 // Import child components
@@ -40,7 +39,8 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 export const CreateMissionModal = ({
   open,
   onClose,
-  setEducatorData,
+  setFindEducatorData,
+  setDataToSubmit,
 }: CreateMissionModalProps) => {
   const theme = useTheme<Theme>();
   const { userProfile } = useUserContext();
@@ -73,7 +73,7 @@ export const CreateMissionModal = ({
   const organizationId = userProfile?._id;
   const watchedValues = watch();
 
-  const branches = userProfile?.branches.map((branch: any) => ({
+  const branches = userProfile?.branches?.map((branch: any) => ({
     name: branch.branchName,
     coordinates: branch.branchAddressCoordinates.coordinates,
   }));
@@ -102,13 +102,12 @@ export const CreateMissionModal = ({
         formData.append("technicalDocument", data.technicalDocument[0]);
       }
 
-      await httpClient.post("/missions", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      setDataToSubmit(formData);
 
-      setEducatorData({ coordinates: branchCoordinates, skills: skillsArray });
+      setFindEducatorData({
+        coordinates: branchCoordinates,
+        skills: skillsArray,
+      });
       handleClose();
     } catch (error) {
       console.error("Error creating mission:", error);

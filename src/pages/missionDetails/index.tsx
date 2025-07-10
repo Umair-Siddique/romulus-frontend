@@ -22,9 +22,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useOne } from "@refinedev/core";
-
-const missionId = location.pathname.split("/").pop();
 
 export const MissionDetails = () => {
   const defaultMission = {
