@@ -156,17 +156,13 @@ export const CreateMissionModal = ({
           <Stack spacing={3}>
             <MissionTitleField register={register} errors={errors} />
 
-            <BranchSelection
-              register={register}
-              errors={errors}
-              branches={branches}
-              control={control}
-            />
+            <DescriptionField register={register} errors={errors} />
 
-            <PreferredEducatorSelection
+            <DateTimeSection
               register={register}
               errors={errors}
-              preferredEducators={preferredEducators}
+              watchedValues={watchedValues}
+              control={control}
             />
 
             <SkillsSection
@@ -179,14 +175,18 @@ export const CreateMissionModal = ({
               setSkillsArray={setSkillsArray}
             />
 
-            <DateTimeSection
+            <BranchSelection
               register={register}
               errors={errors}
-              watchedValues={watchedValues}
+              branches={branches}
               control={control}
             />
 
-            <DescriptionField register={register} errors={errors} />
+            <PreferredEducatorSelection
+              register={register}
+              errors={errors}
+              preferredEducators={preferredEducators}
+            />
 
             <FileUploadSection
               register={register}
