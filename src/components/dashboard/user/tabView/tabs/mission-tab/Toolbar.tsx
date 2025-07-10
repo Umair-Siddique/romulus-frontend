@@ -30,7 +30,7 @@ export const ToolBar = ({
   const [selectedDate, setSelectedDate] = useState("Date");
   const [selectedBranch, setSelectedBranch] = useState("Branch");
 
-  const statusFilters = ["All", "Ongoing", "Pending", "Completed"];
+  const statusFilters = ["All", "Pending", "Ongoing", "Completed"];
   const dateOptions = ["Today", "This Week", "This Month", "Custom Range"];
   const branchOptions = ["All Branches", "Downtown", "Uptown", "Midtown"];
 
@@ -92,7 +92,7 @@ export const ToolBar = ({
                 width: "auto",
                 cursor: "pointer",
                 padding: theme.spacing(0.5),
-                color:  theme.palette.text.primary,
+                color: theme.palette.text.primary,
                 fontSize: theme.typography.body2.fontSize,
                 fontWeight: selectedStatus === status ? 500 : 400,
                 backgroundColor:

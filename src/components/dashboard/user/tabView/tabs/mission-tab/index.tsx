@@ -15,24 +15,19 @@ export const MissionsTab = ({ missionsTabProps }: MissionsTabProps) => {
       case "All":
         setFilteredMissions(missionsTabProps);
         break;
-      case "Ongoing":
-        setFilteredMissions(
-          missionsTabProps.filter((mission) => mission.status === "ongoing")
-        );
-        break;
       case "Pending":
         setFilteredMissions(
           missionsTabProps.filter((mission) => mission.status === "pending")
         );
         break;
+      case "Ongoing":
+        setFilteredMissions(
+          missionsTabProps.filter((mission) => mission.status === "ongoing")
+        );
+        break;
       case "Completed":
         setFilteredMissions(
           missionsTabProps.filter((mission) => mission.status === "completed")
-        );
-        break;
-      case "Cancelled":
-        setFilteredMissions(
-          missionsTabProps.filter((mission) => mission.status === "cancelled")
         );
         break;
       default:
