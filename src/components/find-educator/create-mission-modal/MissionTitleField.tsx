@@ -23,10 +23,10 @@ export const MissionTitleField = ({
           color: theme.palette.text.primary,
         }}
       >
-        Mission Title *
+        Title *
       </Typography>
       <TextField
-        placeholder="Enter title"
+        placeholder="Enter title for the mission"
         fullWidth
         error={!!errors.title}
         helperText={

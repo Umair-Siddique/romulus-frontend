@@ -23,10 +23,10 @@ export const DescriptionField = ({
           color: theme.palette.text.primary,
         }}
       >
-        Mission Description *
+        Description *
       </Typography>
       <TextField
-        placeholder="Write here..."
+        placeholder="Enter a detailed description of the mission"
         fullWidth
         multiline
         rows={4}

@@ -159,7 +159,6 @@ export const CreateMissionModal = ({
             <DescriptionField register={register} errors={errors} />
 
             <DateTimeSection
-              register={register}
               errors={errors}
               watchedValues={watchedValues}
               control={control}

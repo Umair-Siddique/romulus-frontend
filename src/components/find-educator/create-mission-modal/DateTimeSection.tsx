@@ -2,50 +2,22 @@ import { Box, Typography, Stack, useTheme } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import {
-  Controller,
-  UseFormRegister,
-  FieldErrors,
-  UseFormWatch,
-  Control,
-} from "react-hook-form";
+import { Controller, FieldErrors, Control } from "react-hook-form";
 import { FormDataProps } from "#types";
 import dayjs, { Dayjs } from "dayjs";
 
 interface DateTimeSectionProps {
-  register: UseFormRegister<FormDataProps>;
   errors: FieldErrors<FormDataProps>;
   watchedValues: any;
   control: Control<FormDataProps>;
 }
 
 export const DateTimeSection = ({
-  register,
   errors,
   watchedValues,
   control,
 }: DateTimeSectionProps) => {
   const theme = useTheme();
-
-  const textFieldStyles = {
-    "& .MuiOutlinedInput-root": {
-      borderRadius: theme.spacing(0.5),
-      backgroundColor: theme.palette.background.paper,
-      "& fieldset": {
-        borderColor: theme.palette.divider,
-      },
-      "&:hover fieldset": {
-        borderColor: theme.palette.primary.light,
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: theme.palette.primary.light,
-        borderWidth: 2,
-      },
-    },
-    "& .MuiInputBase-input": {
-      color: theme.palette.text.primary,
-    },
-  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -83,7 +55,6 @@ export const DateTimeSection = ({
                         typeof errors.startDate?.message === "string"
                           ? errors.startDate.message
                           : undefined,
-                      sx: textFieldStyles,
                     },
                   }}
                 />
@@ -127,7 +98,6 @@ export const DateTimeSection = ({
                         typeof errors.startTime?.message === "string"
                           ? errors.startTime.message
                           : undefined,
-                      sx: textFieldStyles,
                     },
                   }}
                 />
@@ -176,7 +146,6 @@ export const DateTimeSection = ({
                         typeof errors.endTime?.message === "string"
                           ? errors.endTime.message
                           : undefined,
-                      sx: textFieldStyles,
                     },
                   }}
                 />
