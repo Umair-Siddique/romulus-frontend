@@ -36,9 +36,7 @@ const defaultKpis: KpiItem[] = [
   {
     title: "Ongoing Missions",
     total: 0,
-    icon: (
-      <HourglassBottomIcon sx={{ color: "#ff9800", fontSize: "1.5rem" }} />
-    ),
+    icon: <HourglassBottomIcon sx={{ color: "#ff9800", fontSize: "1.5rem" }} />,
     iconBg: "#fff3e0",
   },
   {
@@ -62,8 +60,8 @@ export const UserDashboard = ({
     resource: `missions/${role}/${educatorId || organizationId}/all`,
     queryOptions: {
       enabled: !!role && (!!educatorId || !!organizationId),
-    },  
-  });  
+    },
+  });
 
   const [kpis, setKpis] = useState<KpiItem[]>(
     defaultKpis.filter((kpi) => {
@@ -76,41 +74,27 @@ export const UserDashboard = ({
     setKpis((prevKpis) =>
       prevKpis.map((kpi) => {
         switch (kpi.title) {
-          case "Total":
+          case "Total Missions":
             return { ...kpi, total: data?.total || 0 };
-          case "Ongoing":
+          case "Ongoing Missions":
             return {
               ...kpi,
               total:
                 data?.data.filter((mission) => mission.status === "ongoing")
                   .length || 0,
             };
-          case "Pending":
+          case "Pending Missions":
             return {
               ...kpi,
               total:
                 data?.data.filter((mission) => mission.status === "pending")
                   .length || 0,
             };
-          case "Completed":
+          case "Completed Missions":
             return {
               ...kpi,
               total:
                 data?.data.filter((mission) => mission.status === "completed")
-                  .length || 0,
-            };
-          case "Cancelled":
-            return {
-              ...kpi,
-              total:
-                data?.data.filter((mission) => mission.status === "cancelled")
-                  .length || 0,
-            };
-          case "Rejected":
-            return {
-              ...kpi,
-              total:
-                data?.data.filter((mission) => mission.status === "rejected")
                   .length || 0,
             };
           default:
