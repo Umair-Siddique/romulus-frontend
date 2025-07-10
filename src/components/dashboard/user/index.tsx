@@ -57,11 +57,13 @@ const defaultKpis: KpiItem[] = [
 
 export const UserDashboard = ({
   role,
+  educatorId,
+  organizationId,
   title,
   description,
 }: UserDashboardProps) => {
   const { data, isLoading, isError } = useList({
-    resource: "missions",
+    resource: `missions/${role}/${educatorId || organizationId}`,
   });
 
   const [kpis, setKpis] = useState<KpiItem[]>(

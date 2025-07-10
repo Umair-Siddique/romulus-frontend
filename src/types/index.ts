@@ -327,6 +327,8 @@ export interface KpiCardProps {
 
 export interface UserDashboardProps {
   role?: string;
+  educatorId?: string;
+  organizationId?: string;
   title?: string;
   description?: string;
 }

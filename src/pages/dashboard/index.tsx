@@ -3,7 +3,7 @@ import { AdminDashboard, UserDashboard } from "#components";
 
 export const Dashboard = () => {
   const { user } = useUserContext();
-  const { role } = user;
+  const { role, educatorId, organizationId } = user;
 
   const ActiveDashboard =
     role === "admin"
@@ -17,6 +17,8 @@ export const Dashboard = () => {
       ? {}
       : {
           role,
+          educatorId,
+          organizationId,
           title: "Manage & Monitor Missions",
           description: `Manage all your missions, ${
             role === "organization" ? "track educators, " : ""

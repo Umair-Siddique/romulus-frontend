@@ -46,7 +46,7 @@ export const TabsView = ({ missions }: TabsViewProps) => {
         .split("T")[1]
         .slice(0, 5)}` || "No Time",
     branchAddress:
-      mission.organization?.branches.find(
+      mission.organization?.branches?.find(
         (branch: any) => branch.branchName === mission.branch
       )?.branchAddress || "No Address",
     status: mission.status || "No Status",
