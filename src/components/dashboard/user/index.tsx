@@ -56,12 +56,7 @@ export const UserDashboard = ({
   title,
   description,
 }: UserDashboardProps) => {
-  const { data, isLoading, isError } = useList({
-    resource: `missions/${role}/${educatorId || organizationId}/all`,
-    queryOptions: {
-      enabled: !!role && (!!educatorId || !!organizationId),
-    },
-  });
+  const [missions, setMissions] = useState<any[]>([]);
 
   const [kpis, setKpis] = useState<KpiItem[]>(
     defaultKpis.filter((kpi) => {
@@ -69,6 +64,24 @@ export const UserDashboard = ({
       return kpi.title !== "Pending Missions";
     })
   );
+
+  const { data, isLoading, isError } = useList({
+    resource: `missions/${role}/${educatorId || organizationId}/all`,
+    queryOptions: {
+      enabled: !!role && (!!educatorId || !!organizationId),
+    },
+  });
+
+  useEffect(() => {
+    if (data?.data) {
+      if (role === "educator") {
+        setMissions(
+          data.data.filter((mission: any) => mission.status !== "pending")
+        );
+      }
+      setMissions(data.data);
+    }
+  }, [data?.data]);
 
   useEffect(() => {
     setKpis((prevKpis) =>
@@ -80,21 +93,21 @@ export const UserDashboard = ({
             return {
               ...kpi,
               total:
-                data?.data.filter((mission) => mission.status === "ongoing")
+                missions.filter((mission) => mission.status === "ongoing")
                   .length || 0,
             };
           case "Pending Missions":
             return {
               ...kpi,
               total:
-                data?.data.filter((mission) => mission.status === "pending")
+                missions.filter((mission) => mission.status === "pending")
                   .length || 0,
             };
           case "Completed Missions":
             return {
               ...kpi,
               total:
-                data?.data.filter((mission) => mission.status === "completed")
+                missions.filter((mission) => mission.status === "completed")
                   .length || 0,
             };
           default:
@@ -102,7 +115,7 @@ export const UserDashboard = ({
         }
       })
     );
-  }, [data?.data]);
+  }, [missions]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -116,7 +129,7 @@ export const UserDashboard = ({
 
       <KpiCards kpiCardsData={kpis} />
 
-      <TabsView missions={data?.data} />
+      <TabsView missions={missions} />
     </>
   );
 };
