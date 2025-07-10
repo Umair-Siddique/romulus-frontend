@@ -29,11 +29,11 @@ import { useOne } from "@refinedev/core";
 
 export const MissionDetails = () => {
   const { user } = useUserContext();
-  const { educatorId } = user;
+  const { role, educatorId, organizationId } = user;
   const theme = useTheme<Theme>();
 
   const { data } = useOne({
-    resource: `missions/educator/${educatorId}/one`, // Use the extracted mission ID
+    resource: `missions/${role}/${educatorId || organizationId}/one`, // Use the extracted mission ID
     queryOptions: {
       enabled: true, // Adjust based on your data fetching logic
     },
