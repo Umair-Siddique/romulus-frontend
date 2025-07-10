@@ -16,7 +16,7 @@ export const SkillsField = ({
 
   const handleSkillAdd = () => {
     if (skillInput.trim()) {
-      onChange([...skills, skillInput.trim()]);
+      onChange([...skills, skillInput.trim().toLowerCase()]);
       setSkillInput("");
     }
   };

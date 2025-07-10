@@ -14,7 +14,6 @@ interface SkillsSectionProps {
 }
 
 export const SkillsSection = ({
-  register,
   errors,
   setValue,
   newSkill,
@@ -26,7 +25,7 @@ export const SkillsSection = ({
 
   const handleAddSkill = () => {
     if (newSkill.trim() && !skillsArray.includes(newSkill.trim())) {
-      const updatedSkills = [...skillsArray, newSkill.trim()];
+      const updatedSkills = [...skillsArray, newSkill.trim().toLowerCase()];
       setSkillsArray(updatedSkills);
       setValue("skills", updatedSkills.join(", "), { shouldValidate: true });
       setNewSkill("");
