@@ -1,3 +1,4 @@
+import { useUserContext } from "#context";
 import {
   AccessTime,
   Business,
@@ -22,8 +23,20 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useOne } from "@refinedev/core";
 
 export const MissionDetails = () => {
+  const { user } = useUserContext();
+  const { educatorId } = user;
+
+  const { data } = useOne({
+    resource: `missions/educator/${educatorId}/one`, // Use the extracted mission ID
+    // id: missionId, // Use the extracted mission ID
+    queryOptions: {
+      enabled: true, // Adjust based on your data fetching logic
+    },
+  });
+
   const defaultMission = {
     title: "Science Fair Coordination",
     organizationName: "The Learning Hub",

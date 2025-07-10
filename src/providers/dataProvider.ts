@@ -5,7 +5,7 @@ import { requestAPI } from "#utils";
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
     try {
-      const { data } = await requestAPI("GET", `/${resource}/${id}`);
+      const { data } = await requestAPI("GET", `/${resource}${id ? `/${id}` : ""}`);
 
       if (data.data) {
         localStorage.setItem("romulus-user-profile", JSON.stringify(data.data));

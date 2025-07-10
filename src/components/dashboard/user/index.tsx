@@ -63,7 +63,7 @@ export const UserDashboard = ({
   description,
 }: UserDashboardProps) => {
   const { data, isLoading, isError } = useList({
-    resource: `missions/${role}/${educatorId || organizationId}`,
+    resource: `missions/${role}/${educatorId || organizationId}/all`,
     queryOptions: {
       enabled: !!role && (!!educatorId || !!organizationId),
     }
