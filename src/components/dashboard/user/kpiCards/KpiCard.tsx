@@ -11,7 +11,7 @@ const KpiCard = ({ title, total, icon, iconBg }: KpiCardProps) => {
         p: 3,
         flex: "1 1 auto", // Equal flex distribution
         width: "15%",
-        minHeight: 140,
+        height: 130,
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
