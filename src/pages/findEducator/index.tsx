@@ -46,7 +46,9 @@ export const FindEducator = () => {
     ],
     queryOptions: {
       enabled: !!(
-        findEducatorData?.coordinates.length && findEducatorData?.skills.length
+        missionsData &&
+        findEducatorData?.coordinates.length &&
+        findEducatorData?.skills.length
       ),
     },
   });
