@@ -48,14 +48,28 @@ export const Header = () => {
   const { mutate: logout } = useLogout();
 
   useEffect(() => {
-    const path = location.pathname.split("/").pop();
-    const isObjectIdPattern = /^[a-f0-9]{24}$/i.test(path || "");
+    const segments = location.pathname.split("/").filter(Boolean);
+    const lastSegment = segments[segments.length - 1] || "";
+    const secondLastSegment = segments[segments.length - 2] || "";
+
+    const isObjectIdPattern = /^[a-f0-9]{24}$/i.test(lastSegment);
     setShowBackButton(isObjectIdPattern);
 
-    const pathName = path
-      ? path.charAt(0).toUpperCase() + path.slice(1)
-      : "Dashboard";
-    setPageName(pathName);
+    if (isObjectIdPattern) {
+      const detailNameMap: Record<string, string> = {
+        missions: "Mission Details",
+        educators: "Educator Details",
+        organizations: "Organization Details",
+        reports: "Report Details",
+      };
+
+      const customName = detailNameMap[secondLastSegment];
+      setPageName(customName || "Details");
+    } else {
+      const fallbackName =
+        lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1);
+      setPageName(fallbackName || "Dashboard");
+    }
   }, [location.pathname]);
 
   const handleUserMenuClick = (event: {
