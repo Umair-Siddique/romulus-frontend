@@ -22,9 +22,10 @@ import { useTheme, Theme } from "@mui/material/styles";
 
 import { MissionCardProps } from "#types";
 import { useUserContext } from "#context";
+import { useNavigate } from "react-router";
 
 export const MissionCard = ({
-  id,
+  _id,
   title,
   organizationName,
   branchName,
@@ -39,6 +40,8 @@ export const MissionCard = ({
   const theme = useTheme<Theme>();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
+
+  const navigate = useNavigate();
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -202,6 +205,7 @@ export const MissionCard = ({
           <Button
             fullWidth
             variant="outlined"
+            onClick={() => navigate(`/missions/${_id}`)}
             sx={{
               borderRadius: theme.shape.borderRadius,
               textTransform: "none",

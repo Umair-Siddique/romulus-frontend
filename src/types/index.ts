@@ -401,7 +401,7 @@ export interface ModalProps {
 }
 
 export interface CalendarTabDataProps {
-  id: string;
+  _id: string;
   title: string;
   organizationName: string;
   branchName: string;
@@ -414,7 +414,7 @@ export interface CalendarTabProps {
 }
 
 export interface MissionsTabsDataProps {
-  id: string;
+  _id: string;
   title: string;
   organizationName: string;
   branchName: string;
@@ -445,7 +445,7 @@ export interface MissionsModalProps {
 }
 
 export interface MissionCardProps {
-  id: string;
+  _id: string;
   title: string;
   organizationName: string;
   branchName: string;

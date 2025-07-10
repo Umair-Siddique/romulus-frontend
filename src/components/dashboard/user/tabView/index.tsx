@@ -25,7 +25,7 @@ export const TabsView = ({ missions }: TabsViewProps) => {
   };
 
   const calendarTabProps: CalendarTabDataProps[] = missions.map((mission) => ({
-    id: mission._id,
+    _id: mission._id,
     title: mission.title || "No Title",
     organizationName:
       mission.organization?.organizationName || "No Organization",
@@ -35,7 +35,7 @@ export const TabsView = ({ missions }: TabsViewProps) => {
   }));
 
   const missionsTabProps: MissionsTabsDataProps[] = missions.map((mission) => ({
-    id: mission._id,
+    _id: mission._id,
     title: mission.title || "No Title",
     organizationName:
       mission.organization?.organizationName || "No Organization",

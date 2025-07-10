@@ -16,7 +16,7 @@ export const CalendarTab = ({ calendarTabProps }: CalendarTabProps) => {
   const [selectedDateMissions, setSelectedDateMissions] = useState<any[]>([]);
 
   const calendarMissionList = calendarTabProps.map((mission) => ({
-    id: mission.id,
+    id: mission._id,
     title: mission.title,
     organizationName: mission.organizationName,
     branchName: mission.branchName,
