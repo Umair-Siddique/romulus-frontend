@@ -14,47 +14,6 @@ import { PageMeta } from "../../page-meta";
 
 import { KpiItem, UserDashboardProps } from "#types";
 
-const defaultKpis: KpiItem[] = [
-  {
-    title: "Total",
-    total: 0,
-    icon: <AssignmentIcon sx={{ color: "#1976d2", fontSize: "1.5rem" }} />,
-    iconBg: "#e3f2fd",
-  },
-  {
-    title: "Ongoing",
-    total: 0,
-    icon: <HourglassBottomIcon sx={{ color: "#ff9800", fontSize: "1.5rem" }} />,
-    iconBg: "#fff3e0",
-  },
-  {
-    title: "Pending",
-    total: 0,
-    icon: <WatchLaterIcon sx={{ color: "#ffc107", fontSize: "1.5rem" }} />,
-    iconBg: "#fff8e1",
-  },
-  {
-    title: "Completed",
-    total: 0,
-    icon: (
-      <AssignmentTurnedInIcon sx={{ color: "#4caf50", fontSize: "1.5rem" }} />
-    ),
-    iconBg: "#e8f5e9",
-  },
-  {
-    title: "Cancelled",
-    total: 0,
-    icon: <CancelIcon sx={{ color: "#f44336", fontSize: "1.5rem" }} />,
-    iconBg: "#ffebee",
-  },
-  {
-    title: "Rejected",
-    total: 0,
-    icon: <CancelIcon sx={{ color: "#f44336", fontSize: "1.5rem" }} />,
-    iconBg: "#ffebee",
-  },
-];
-
 export const UserDashboard = ({
   role,
   educatorId,
@@ -66,8 +25,39 @@ export const UserDashboard = ({
     resource: `missions/${role}/${educatorId || organizationId}/all`,
     queryOptions: {
       enabled: !!role && (!!educatorId || !!organizationId),
-    }
+    },
   });
+
+  const defaultKpis: KpiItem[] = [
+    {
+      title: "Total Missions",
+      total: 0,
+      icon: <AssignmentIcon sx={{ color: "#1976d2", fontSize: "1.5rem" }} />,
+      iconBg: "#e3f2fd",
+    },
+    {
+      title: `Pending ${role === "organization" ? "Missions" : "Invitations"}`,
+      total: 0,
+      icon: <WatchLaterIcon sx={{ color: "#ffc107", fontSize: "1.5rem" }} />,
+      iconBg: "#fff8e1",
+    },
+    {
+      title: "Ongoing Missions",
+      total: 0,
+      icon: (
+        <HourglassBottomIcon sx={{ color: "#ff9800", fontSize: "1.5rem" }} />
+      ),
+      iconBg: "#fff3e0",
+    },
+    {
+      title: "Completed Missions",
+      total: 0,
+      icon: (
+        <AssignmentTurnedInIcon sx={{ color: "#4caf50", fontSize: "1.5rem" }} />
+      ),
+      iconBg: "#e8f5e9",
+    },
+  ];
 
   const [kpis, setKpis] = useState<KpiItem[]>(
     defaultKpis.filter((kpi) => {
