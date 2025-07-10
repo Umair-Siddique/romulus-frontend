@@ -23,7 +23,7 @@ export const DescriptionField = ({
           color: theme.palette.text.primary,
         }}
       >
-        Description *
+        Mission Description *
       </Typography>
       <TextField
         placeholder="Write here..."
