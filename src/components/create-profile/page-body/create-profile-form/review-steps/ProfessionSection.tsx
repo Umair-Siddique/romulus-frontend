@@ -58,7 +58,7 @@ export const ProfessionSection = ({ formData }: ProfessionSectionProps) => {
                 sx={{
                   color: theme.palette.text.primary,
                   mb: theme.spacing(1.5),
-                  fontWeight: 500,
+                  fontWeight: theme.typography.h3.fontWeight,
                   fontSize: "0.875rem",
                 }}
               >
@@ -75,7 +75,7 @@ export const ProfessionSection = ({ formData }: ProfessionSectionProps) => {
                 sx={{
                   color: theme.palette.text.primary,
                   mb: theme.spacing(1.5),
-                  fontWeight: 500,
+                  fontWeight: theme.typography.h3.fontWeight,
                   fontSize: "0.875rem",
                 }}
               >

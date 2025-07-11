@@ -125,7 +125,7 @@ export const Header = () => {
             sm: theme.spacing(2), // 16px equivalent
           }}
           sx={{
-            fontWeight: 600,
+            fontWeight: theme.typography.h2.fontWeight,
             fontSize: "1.25rem",
             color: theme.palette.text.primary,
             flexGrow: 1,
@@ -190,7 +190,7 @@ export const Header = () => {
               variant="subtitle2"
               sx={{
                 color: theme.palette.text.primary,
-                fontWeight: 500,
+                fontWeight: theme.typography.h3.fontWeight,
               }}
             >
               {data?.data.organizationName ||

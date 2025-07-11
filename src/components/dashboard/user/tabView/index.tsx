@@ -70,12 +70,12 @@ export const TabsView = ({
             },
             "& .MuiTab-root": {
               textTransform: "none",
-              fontWeight: 500,
+              fontWeight: theme.typography.h3.fontWeight,
               fontSize: "0.875rem",
               minHeight: 48,
               "&.Mui-selected": {
                 color: theme.palette.primary.main,
-                fontWeight: 600,
+                theme.typography.h2.fontWeight,
               },
             },
           }}

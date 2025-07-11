@@ -38,7 +38,7 @@ export const ProgressStepper = ({
               sx={{
                 "& .MuiStepLabel-label": {
                   fontSize: "0.875rem",
-                  fontWeight: 500,
+                  fontWeight: theme.typography.h3.fontWeight,
                 },
               }}
             >

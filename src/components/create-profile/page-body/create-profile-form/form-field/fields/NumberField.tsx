@@ -45,7 +45,7 @@ export const NumberField = ({
         variant="body1"
         sx={{
           mb: theme.spacing(1),
-          fontWeight: 500,
+          fontWeight: theme.typography.h3.fontWeight,
           color: theme.palette.text.primary,
         }}
       >

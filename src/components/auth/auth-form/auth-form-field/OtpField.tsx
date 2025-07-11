@@ -51,7 +51,7 @@ export const OTPField = ({
         sx={{
           mb: theme.spacing(2),
           color: theme.palette.text.primary, // Using theme text primary instead of hardcoded #333
-          fontWeight: 500,
+          fontWeight: theme.typography.h3.fontWeight,
           fontSize: "0.875rem", // 14px equivalent using rem (14/16 = 0.875)
           fontFamily: theme.typography.body2.fontFamily,
           alignSelf: "flex-start",

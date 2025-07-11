@@ -55,7 +55,7 @@ export const getFormConfig = (
           sx={{
             color: "#A1B7AF",
             textDecoration: "none",
-            fontWeight: 600,
+            theme.typography.h2.fontWeight,
             cursor: "pointer",
             border: "none",
             background: "none",

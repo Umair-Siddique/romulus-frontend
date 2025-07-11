@@ -620,14 +620,23 @@ export const MissionDetails = () => {
       </Box>
 
       {/* Document and Contact Information - Now using flexbox layout */}
-      <Box>
+      <Box
+        sx={{
+          border: `1px solid ${theme.palette.divider}`,
+          borderRadius: theme.shape.borderRadius,
+          p: theme.spacing(2),
+          mb: theme.spacing(3),
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <Typography
-          variant="h6"
-          sx={{
-            fontWeight: theme.typography.fontWeightMedium,
-            mb: theme.spacing(2),
-            color: theme.palette.text.primary,
-          }}
+         variant="h6"
+            sx={{
+              fontWeight: theme.typography.fontWeightMedium,
+              mb: theme.spacing(2),
+              color: theme.palette.text.primary,
+            }}
         >
           Mission Description
         </Typography>
@@ -640,6 +649,27 @@ export const MissionDetails = () => {
           }}
         >
           {missionData.description}
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          border: `1px solid ${theme.palette.divider}`,
+          borderRadius: theme.shape.borderRadius,
+          p: theme.spacing(2),
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: theme.typography.h2.fontWeight,
+            mb: theme.spacing(2),
+            color: theme.palette.text.primary,
+          }}
+        >
+          Your Feedback
         </Typography>
       </Box>
     </Box>

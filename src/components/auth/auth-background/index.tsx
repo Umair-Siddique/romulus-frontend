@@ -96,7 +96,7 @@ export const AuthBackground = ({ backgroundImage }: AuthBackgroundProps) => {
           variant="h6"
           sx={{
             opacity: 0.95,
-            fontWeight: 400,
+            fontWeight: theme.typography.h5.fontWeight,
             maxWidth: "85%",
             margin: "0 auto",
             fontSize: "1.125rem",

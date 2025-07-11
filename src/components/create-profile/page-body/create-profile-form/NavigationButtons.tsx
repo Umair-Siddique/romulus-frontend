@@ -23,7 +23,7 @@ export const NavigationButton = ({
         borderRadius: 2,
         textTransform: "none",
         fontSize: "1rem",
-        fontWeight: 500,
+        fontWeight: theme.typography.h3.fontWeight,
         "&:hover": {
           bgcolor: "#8da098",
         },

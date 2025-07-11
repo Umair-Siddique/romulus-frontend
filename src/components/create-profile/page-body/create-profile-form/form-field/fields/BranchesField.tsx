@@ -107,7 +107,7 @@ export const BranchesField = ({ value, onChange }: BranchesFieldProps) => {
               color: theme.palette.text.primary,
               textTransform: "none",
               fontSize: "1rem",
-              fontWeight: 500,
+              fontWeight: theme.typography.h3.fontWeight,
               "&:hover": {
                 backgroundColor: theme.palette.primary.light,
               },
@@ -299,7 +299,7 @@ export const BranchesField = ({ value, onChange }: BranchesFieldProps) => {
           py: theme.spacing(2),
           textTransform: "none",
           fontSize: "1rem",
-          fontWeight: 500,
+          fontWeight: theme.typography.h3.fontWeight,
           "&:hover": {
             backgroundColor: theme.palette.primary.light,
             borderColor: theme.palette.primary.main,

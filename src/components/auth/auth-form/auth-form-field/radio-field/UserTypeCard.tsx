@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardContent, Box, Typography } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 
 import { UserTypeCardProps } from "#types";
 
@@ -11,6 +12,8 @@ export const UserTypeCard = ({
   isSelected,
   onSelect,
 }: UserTypeCardProps) => {
+  const theme = useTheme<Theme>();
+
   return (
     <Card
       sx={{
@@ -69,7 +72,7 @@ export const UserTypeCard = ({
         <Typography
           variant="h6"
           sx={{
-            fontWeight: 600,
+            fontWight: theme.typography.h2.fontWeight,
             mb: 2,
             color: "#000",
             fontSize: "20px",

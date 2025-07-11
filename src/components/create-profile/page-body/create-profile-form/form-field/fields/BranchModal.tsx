@@ -15,6 +15,7 @@ import {
   Close as CloseIcon,
   CloudUpload as CloudUploadIcon,
 } from "@mui/icons-material";
+import { useTheme, Theme } from "@mui/material/styles";
 
 import { BranchModalProps } from "#types";
 
@@ -25,6 +26,8 @@ export const BranchModal = ({
   editBranch,
   editIndex,
 }: BranchModalProps) => {
+  const theme = useTheme<Theme>();
+
   const [branchData, setBranchData] = useState<{
     branchName: string;
     branchEmail: string;
@@ -179,7 +182,7 @@ export const BranchModal = ({
               mb: 3,
             }}
           >
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ fontWeight: theme.typography.h2.fontWeight }}>
               {isEditing ? "Edit Branch" : "Add a Branch"}
             </Typography>
             <IconButton onClick={onClose}>
@@ -189,7 +192,7 @@ export const BranchModal = ({
 
           {/* Form Fields */}
           <Box sx={{ mb: 2 }}>
-            <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
+            <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
               Branch Name
             </Typography>
             <TextField
@@ -202,7 +205,7 @@ export const BranchModal = ({
           </Box>
 
           <Box sx={{ mb: 2 }}>
-            <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
+            <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
               Branch Email
             </Typography>
             <TextField
@@ -216,7 +219,7 @@ export const BranchModal = ({
           </Box>
 
           <Box sx={{ mb: 2 }}>
-            <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
+            <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
               Branch Phone Number
             </Typography>
             <TextField
@@ -238,7 +241,7 @@ export const BranchModal = ({
             }}
           >
             <Box>
-              <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
+              <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
                 Country
               </Typography>
               <FormControl fullWidth>
@@ -263,7 +266,7 @@ export const BranchModal = ({
             </Box>
 
             <Box>
-              <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
+              <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
                 City
               </Typography>
               <FormControl fullWidth>
@@ -287,7 +290,7 @@ export const BranchModal = ({
           </Box>
 
           <Box sx={{ mb: 3 }}>
-            <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
+            <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
               Full Address
             </Typography>
             <TextField
@@ -301,7 +304,7 @@ export const BranchModal = ({
 
           {/* File Upload */}
           <Box sx={{ mb: 3 }}>
-            <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
+            <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
               Upload Residence Guide
             </Typography>
 

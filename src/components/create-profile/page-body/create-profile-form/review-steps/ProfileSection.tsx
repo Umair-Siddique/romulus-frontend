@@ -28,7 +28,7 @@ export const ProfileSection = ({ formData, role }: ProfileSectionProps) => {
             <Typography
               variant="body1"
               sx={{
-                fontWeight: 600,
+                theme.typography.h2.fontWeight,
                 color: theme.palette.text.primary,
                 fontSize: "1rem",
               }}
@@ -63,7 +63,7 @@ export const ProfileSection = ({ formData, role }: ProfileSectionProps) => {
               sx={{
                 color: theme.palette.text.primary,
                 mb: theme.spacing(1),
-                fontWeight: 500,
+                fontWeight: theme.typography.h3.fontWeight,
                 fontSize: "0.875rem",
               }}
             >
@@ -107,7 +107,7 @@ export const ProfileSection = ({ formData, role }: ProfileSectionProps) => {
             <Typography
               variant="body1"
               sx={{
-                fontWeight: 600,
+                theme.typography.h2.fontWeight,
                 color: theme.palette.text.primary,
                 fontSize: "1rem",
               }}

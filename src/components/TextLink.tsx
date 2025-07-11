@@ -12,7 +12,7 @@ export const TextLink = ({ to, label }: TextLinkProps) => {
       style={{
         color: theme.palette.primary.main,
         textDecoration: "none",
-        fontWeight: 600,
+        fontWeight: theme.typography.h2.fontWeight,
         cursor: "pointer",
         border: "none",
         background: "none",

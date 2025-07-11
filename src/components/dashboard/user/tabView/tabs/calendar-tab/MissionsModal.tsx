@@ -61,7 +61,7 @@ export const MissionsModal = ({
           <Typography
             variant="h4"
             sx={{
-              fontWeight: 500,
+              fontWeight: theme.typography.h3.fontWeight,
               color: "text.primary",
             }}
           >
@@ -141,7 +141,7 @@ export const MissionsModal = ({
                       <Typography
                         variant="subtitle1"
                         sx={{
-                          fontWeight: 600,
+                          fontWeight: theme.typography.h2.fontWeight,
                           color: "text.primary",
                         }}
                       >
@@ -153,7 +153,7 @@ export const MissionsModal = ({
                         sx={{
                           fontSize: "0.75rem",
                           height: 20,
-                          fontWeight: 500,
+                          fontWeight: theme.typography.h3.fontWeight,
                           ...getStatusColor(mission.status),
                         }}
                       />
@@ -176,7 +176,7 @@ export const MissionsModal = ({
                   sx={{
                     color: "primary.main",
                     textTransform: "none",
-                    fontWeight: 500,
+                    fontWeight: theme.typography.h3.fontWeight,
                     fontSize: "0.875rem",
                     minWidth: "auto",
                     border: `1px solid ${theme.palette.primary.main}`,

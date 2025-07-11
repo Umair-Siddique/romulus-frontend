@@ -33,7 +33,7 @@ export const CheckboxField = ({
             variant="body2"
             sx={{
               color: theme.palette.text.primary, // Using theme text primary instead of hardcoded #333
-              fontWeight: 500,
+              fontWeight: theme.typography.h4.fontWeight,
               fontSize: "0.875rem", // 14px equivalent using rem (14/16 = 0.875)
               fontFamily: theme.typography.body2.fontFamily,
             }}
