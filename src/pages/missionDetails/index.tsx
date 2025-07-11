@@ -77,7 +77,6 @@ export const MissionDetails = () => {
         border: `1px solid ${theme.palette.divider}`,
         borderRadius: theme.shape.borderRadius,
         backgroundColor: theme.palette.background.default,
-        boxShadow: theme.shadows[1],
         width: "100%",
       }}
     >
