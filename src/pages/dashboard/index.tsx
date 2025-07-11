@@ -17,7 +17,6 @@ export const Dashboard = () => {
       ? {}
       : {
           role,
-          educatorId,
           organizationId,
           title: "Manage & Monitor Missions",
           description: `Manage all your missions, ${

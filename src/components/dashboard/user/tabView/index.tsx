@@ -7,16 +7,17 @@ import {
 } from "@mui/icons-material";
 
 import { CalendarTab, MissionsTab } from "./tabs";
-import {
-  CalendarTabDataProps,
-  MissionsTabsDataProps,
-} from "#types";
+import { CalendarTabDataProps, MissionsTabsDataProps } from "#types";
 
 interface TabsViewProps {
-  missions: any[];
+  calendarTabMissions: any[];
+  missionsTabMissions: any[];
 }
 
-export const TabsView = ({ missions }: TabsViewProps) => {
+export const TabsView = ({
+  calendarTabMissions,
+  missionsTabMissions,
+}: TabsViewProps) => {
   const theme = useTheme<Theme>();
   const [activeTab, setActiveTab] = useState(0);
 
@@ -24,33 +25,37 @@ export const TabsView = ({ missions }: TabsViewProps) => {
     setActiveTab(newValue);
   };
 
-  const calendarTabProps: CalendarTabDataProps[] = missions.map((mission) => ({
-    _id: mission._id,
-    title: mission.title || "No Title",
-    organizationName:
-      mission.organization?.organizationName || "No Organization",
-    branchName: mission.branch || "No Branch",
-    date: mission.start || "No Date",
-    status: mission.status || "No Status",
-  }));
+  const calendarTabProps: CalendarTabDataProps[] = calendarTabMissions?.map(
+    (mission) => ({
+      _id: mission._id,
+      title: mission.title || "No Title",
+      organizationName:
+        mission.organization?.organizationName || "No Organization",
+      branchName: mission.branch || "No Branch",
+      date: mission.start || "No Date",
+      status: mission.status || "No Status",
+    })
+  );
 
-  const missionsTabProps: MissionsTabsDataProps[] = missions.map((mission) => ({
-    _id: mission._id,
-    title: mission.title || "No Title",
-    organizationName:
-      mission.organization?.organizationName || "No Organization",
-    branchName: mission.branch || "No Branch",
-    date: mission.start || "No Date",
-    time:
-      `${mission.start.split("T")[1].slice(0, 5)} - ${mission.end
-        .split("T")[1]
-        .slice(0, 5)}` || "No Time",
-    branchAddress:
-      mission.organization?.branches?.find(
-        (branch: any) => branch.branchName === mission.branch
-      )?.branchAddress || "No Address",
-    status: mission.status || "No Status",
-  }));
+  const missionsTabProps: MissionsTabsDataProps[] = missionsTabMissions?.map(
+    (mission) => ({
+      _id: mission._id,
+      title: mission.title || "No Title",
+      organizationName:
+        mission.organization?.organizationName || "No Organization",
+      branchName: mission.branch || "No Branch",
+      date: mission.start || "No Date",
+      time:
+        `${mission.start.split("T")[1].slice(0, 5)} - ${mission.end
+          .split("T")[1]
+          .slice(0, 5)}` || "No Time",
+      branchAddress:
+        mission.organization?.branches?.find(
+          (branch: any) => branch.branchName === mission.branch
+        )?.branchAddress || "No Address",
+      status: mission.status || "No Status",
+    })
+  );
 
   return (
     <>

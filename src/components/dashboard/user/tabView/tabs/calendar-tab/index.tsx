@@ -15,7 +15,7 @@ export const CalendarTab = ({ calendarTabProps }: CalendarTabProps) => {
   const [currentDate, setCurrentDate] = useState(new Date()); // Add this state
   const [selectedDateMissions, setSelectedDateMissions] = useState<any[]>([]);
 
-  const calendarMissionList = calendarTabProps.map((mission) => ({
+  const calendarMissionList = calendarTabProps?.map((mission) => ({
     id: mission._id,
     title: mission.title,
     organizationName: mission.organizationName,
@@ -24,7 +24,7 @@ export const CalendarTab = ({ calendarTabProps }: CalendarTabProps) => {
     status: mission.status,
   }));
 
-  const missionsByDate = calendarMissionList.reduce((acc, mission) => {
+  const missionsByDate = calendarMissionList?.reduce((acc, mission) => {
     const dateKey = moment(mission.date).format("YYYY-MM-DD");
     if (!acc[dateKey]) {
       acc[dateKey] = [];
@@ -34,18 +34,20 @@ export const CalendarTab = ({ calendarTabProps }: CalendarTabProps) => {
   }, {} as Record<string, typeof calendarMissionList>);
 
   // Transform grouped missions into calendar events
-  const events = Object.entries(missionsByDate).map(([dateKey, missions]) => {
-    const missionCount = missions.length;
-    const eventDate = moment(dateKey).toDate();
+  const events =
+    missionsByDate &&
+    Object.entries(missionsByDate).map(([dateKey, missions]) => {
+      const missionCount = missions.length;
+      const eventDate = moment(dateKey).toDate();
 
-    return {
-      id: dateKey,
-      title: `${missionCount} Mission${missionCount > 1 ? "s" : ""}`,
-      start: eventDate,
-      end: eventDate,
-      missions: missions,
-    };
-  });
+      return {
+        id: dateKey,
+        title: `${missionCount} Mission${missionCount > 1 ? "s" : ""}`,
+        start: eventDate,
+        end: eventDate,
+        missions: missions,
+      };
+    });
 
   const handleMissionSelect = (event: any) => {
     setSelectedDateMissions(event.missions);

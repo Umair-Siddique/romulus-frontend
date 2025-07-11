@@ -13,6 +13,7 @@ import { KpiCards } from "./kpiCards";
 import { PageMeta } from "../../page-meta";
 
 import { KpiItem, UserDashboardProps } from "#types";
+import { useUserContext } from "#context";
 
 const defaultKpis: KpiItem[] = [
   {
@@ -51,63 +52,88 @@ const defaultKpis: KpiItem[] = [
 
 export const UserDashboard = ({
   role,
-  educatorId,
   organizationId,
   title,
   description,
 }: UserDashboardProps) => {
+  const { userProfile } = useUserContext();
+
   const [missions, setMissions] = useState<any[]>([]);
+  const [educatorMissions, setEducatorMissions] = useState({
+    invitedFor: userProfile?.missionsInvitedFor,
+    hiredFor: userProfile?.missionsHiredFor,
+  });
 
   const [kpis, setKpis] = useState<KpiItem[]>(
-    defaultKpis.filter((kpi) => {
+    defaultKpis?.filter((kpi) => {
       if (role === "organization") return kpi.title !== "Pending Invitations";
       return kpi.title !== "Pending Missions";
     })
   );
 
-  const { data, isLoading, isError } = useList({
-    resource: `missions/${role}/${educatorId || organizationId}/all`,
+  const {
+    data: organizationMissions,
+    isLoading,
+    isError,
+  } = useList({
+    resource: `missions/organization/${organizationId}/all`,
     queryOptions: {
-      enabled: !!role && (!!educatorId || !!organizationId),
+      enabled: role === "organization",
     },
   });
 
   useEffect(() => {
-    if (data?.data) {
-      if (role === "educator") {
-        setMissions(
-          data.data.filter((mission: any) => mission.status !== "pending")
-        );
-      }
-      setMissions(data.data);
+    setEducatorMissions((prev) => ({
+      ...prev,
+      invitedFor: userProfile?.missionsInvitedFor,
+      hiredFor: userProfile?.missionsHiredFor,
+    }));
+  }, [
+    userProfile?.missionsInvitedFor?.length,
+    userProfile?.missionsHiredFor?.length,
+  ]);
+
+  useEffect(() => {
+    if (role === "educator") {
+      setMissions(educatorMissions?.hiredFor);
+    } else if (role === "organization" && organizationMissions?.data) {
+      setMissions(organizationMissions.data);
     }
-  }, [data?.data]);
+  }, [organizationMissions?.data]);
 
   useEffect(() => {
     setKpis((prevKpis) =>
       prevKpis.map((kpi) => {
         switch (kpi.title) {
           case "Total Missions":
-            return { ...kpi, total: data?.total || 0 };
+            return { ...kpi, total: organizationMissions?.total || 0 };
           case "Ongoing Missions":
             return {
               ...kpi,
               total:
-                missions.filter((mission) => mission.status === "ongoing")
+                missions?.filter((mission) => mission.status === "ongoing")
                   .length || 0,
+            };
+          case "Pending Invitations":
+            return {
+              ...kpi,
+              total:
+                educatorMissions.invitedFor?.filter(
+                  (mission: any) => mission.invitationStatus === "pending"
+                ).length || 0,
             };
           case "Pending Missions":
             return {
               ...kpi,
               total:
-                missions.filter((mission) => mission.status === "pending")
+                missions?.filter((mission) => mission.status === "pending")
                   .length || 0,
             };
           case "Completed Missions":
             return {
               ...kpi,
               total:
-                missions.filter((mission) => mission.status === "completed")
+                missions?.filter((mission) => mission.status === "completed")
                   .length || 0,
             };
           default:
@@ -115,13 +141,22 @@ export const UserDashboard = ({
         }
       })
     );
-  }, [missions]);
+  }, [missions, educatorMissions?.invitedFor?.length]);
 
-  if (isLoading) {
+  if (role === "organization" && isLoading) {
     return <div>Loading...</div>;
   } else if (isError) {
     return <div>Error loading data</div>;
   }
+
+  const tabViewProps = {
+    calendarTabMissions:
+      role === "educator"
+        ? educatorMissions?.invitedFor?.map((elem: any) => elem.mission)
+        : missions,
+    missionsTabMissions:
+      role === "educator" ? educatorMissions?.hiredFor : missions,
+  };
 
   return (
     <>
@@ -129,7 +164,7 @@ export const UserDashboard = ({
 
       <KpiCards kpiCardsData={kpis} />
 
-      <TabsView missions={missions} />
+      <TabsView {...tabViewProps} />
     </>
   );
 };

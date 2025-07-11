@@ -145,7 +145,7 @@ export const MissionsModal = ({
                           color: "text.primary",
                         }}
                       >
-                        {mission.title}
+                        {mission.branchName}
                       </Typography>
                       <Chip
                         label={mission.status}
