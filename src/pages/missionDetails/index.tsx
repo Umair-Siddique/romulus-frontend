@@ -41,24 +41,36 @@ export const MissionDetails = () => {
     },
   });
 
-  const defaultMission = {
-    title: "Science Fair Coordination",
-    organizationName: "The Learning Hub",
-    date: "12 May, 2025",
-    time: "01:00 pm to 04:00 pm",
-    branchName: "Downtown",
-    location: "Aston, USA",
-    address: "1456 Veltri Drive, Anchorage, AK 99502",
-    status: "ongoing",
-    description:
-      "This session is designed to engage the educator in a dynamic spoken English activity that will involve a group of 20 enthusiastic students, specifically from grades 6 to 7. Prior to the session, a comprehensive worksheet will be distributed to ensure that all students are well-prepared and can actively participate in the discussions and exercises planned. It is essential for the educator to arrive at least 15 minutes ahead of the scheduled start time to set up the classroom environment and address any last-minute details. Additionally, the educator is expected to adhere to a semi-formal dress code, which will help create a professional yet approachable atmosphere conducive to learning.",
+  const mission = data?.data || {};
+
+  console.log("Mission Details Data:", mission);
+
+  const missionData = {
+    title: mission?.title || "Mission Title Unavailable",
+    organizationName:
+      mission?.organization?.organizationName || "Organization Unavailable",
+    date: mission?.start?.split("T")[0] || "Date Unavailable",
+    time:
+      `${mission?.start?.split("T")[1]?.split(".")[0]} to ${
+        mission?.end?.split("T")[1]?.split(".")[0]
+      }` || "Time Unavailable",
+    branchName: mission?.branch || "Branch Name Unavailable",
+    location: `${mission?.organization?.city || "City Unavailable"}, ${mission?.organization?.country || "Country Unavailable"}`,
+    address:
+      mission?.organization?.branches.find(
+        (branch: any) => branch.branchName === mission?.branch
+      ).branchAddress || "Address Unavailable",
+    status: mission?.status || "Status Unavailable",
+    description: mission?.description || "Description Unavailable",
     document: {
-      name: "Residence_guideline.pdf",
-      url: "#",
+      name: mission?.technicalDocument
+        ? "Residence Guidelines"
+        : "Residence Guidelines Unavailable",
+      url: mission?.technicalDocument || "#",
     },
     contact: {
-      phone: "(917) 339-6416",
-      email: "dennis416@gmail.com",
+      phone: mission?.organization?.phone || "Phone Unavailable",
+      email: mission?.organization?.email || "Email Unavailable",
     },
     educator: {
       name: "John Clark",
@@ -67,8 +79,6 @@ export const MissionDetails = () => {
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
     },
   };
-
-  const missionData = defaultMission;
 
   return (
     <Box
