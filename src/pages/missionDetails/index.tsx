@@ -43,8 +43,6 @@ export const MissionDetails = () => {
 
   const mission = data?.data || {};
 
-  console.log("Mission Details Data:", mission);
-
   const missionData = {
     title: mission?.title || "Mission Title Unavailable",
     organizationName:
@@ -55,7 +53,9 @@ export const MissionDetails = () => {
         mission?.end?.split("T")[1]?.split(".")[0]
       }` || "Time Unavailable",
     branchName: mission?.branch || "Branch Name Unavailable",
-    location: `${mission?.organization?.city || "City Unavailable"}, ${mission?.organization?.country || "Country Unavailable"}`,
+    location: `${mission?.organization?.city || "City Unavailable"}, ${
+      mission?.organization?.country || "Country Unavailable"
+    }`,
     address:
       mission?.organization?.branches.find(
         (branch: any) => branch.branchName === mission?.branch
@@ -516,6 +516,14 @@ export const MissionDetails = () => {
               <Button
                 variant="contained"
                 startIcon={<Download />}
+                onClick={() => {
+                  const link = document.createElement("a");
+                  link.href = missionData.document.url;
+                  link.download = missionData.document.name || "document";
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
                 sx={{
                   borderRadius: theme.shape.borderRadius,
                   color: theme.palette.common.black,

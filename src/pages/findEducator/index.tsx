@@ -2,11 +2,23 @@ import { useEffect, useState } from "react";
 import { LatLngTuple } from "leaflet";
 import { useCreate, useCustom, useList } from "@refinedev/core";
 import { useNavigate } from "react-router";
-import { Box, Button, Slider, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
-import { CheckCircle as CheckCircleIcon } from "@mui/icons-material";
+import {
+  CheckCircle as CheckCircleIcon,
+  MyLocation as MyLocationIcon,
+  ExpandMore as ExpandMoreIcon,
+} from "@mui/icons-material";
 import { useUserContext } from "#context";
 import { CreateMissionModal, Map, Modal } from "#components";
+import { RadiusSlider } from "#components/find-educator/RadiusSlider";
 
 export const FindEducator = () => {
   const theme = useTheme<Theme>();
@@ -23,6 +35,10 @@ export const FindEducator = () => {
     coordinates: [],
     skills: [],
   });
+
+  // Dropdown menu state
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const dropdownOpen = Boolean(anchorEl);
 
   const { mutate: createMission, data: missionsData } = useCreate({
     resource: "missions",
@@ -139,6 +155,15 @@ export const FindEducator = () => {
     setDistance(newValue as number);
   };
 
+  // Dropdown handlers
+  const handleDropdownClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleDropdownClose = () => {
+    setAnchorEl(null);
+  };
+
   const center: LatLngTuple = [
     findEducatorData?.coordinates[1] ??
       userProfile?.officeAddressCoordinates?.coordinates[1] ??
@@ -171,93 +196,100 @@ export const FindEducator = () => {
     });
   }
 
+  const isMissionCreationPhase = !educatorsData?.data.length;
+
   return (
     <Box sx={{ position: "relative" }}>
-      {/* Distance slider positioned at top right */}
+      {/* Radius dropdown positioned at top right */}
       <Box
         sx={{
           position: "absolute",
           top: theme.spacing(2),
           right: theme.spacing(2),
           zIndex: 1000,
-          backgroundColor: theme.palette.background.paper,
-          borderRadius: 2,
-          padding: theme.spacing(1, 2),
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          minWidth: 300,
         }}
       >
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ mb: 1, fontSize: "0.875rem", textAlign: "right" }}
-        >
-          {distance === 50
-            ? `Default Radius: ${distance} km`
-            : `Radius: ${distance} km`}
-        </Typography>
-        <Slider
-          value={distance}
-          onChange={handleDistanceChange}
-          min={10}
-          max={100}
-          step={10}
-          marks
-          valueLabelDisplay="auto"
+        <Button
+          variant="outlined"
+          onClick={handleDropdownClick}
+          endIcon={<ExpandMoreIcon />}
+          startIcon={<MyLocationIcon />}
           sx={{
-            color: theme.palette.primary.main,
-            "& .MuiSlider-thumb": {
-              width: 20,
-              height: 20,
-            },
-            "& .MuiSlider-track": {
-              height: 4,
-            },
-            "& .MuiSlider-rail": {
-              height: 4,
+            backgroundColor: "white",
+            textTransform: "none",
+            minWidth: 120,
+            boxShadow: theme.shadows[2],
+            color: theme.palette.text.secondary,
+          }}
+        >
+          Radius
+        </Button>
+        <Menu
+          anchorEl={anchorEl}
+          open={dropdownOpen}
+          onClose={handleDropdownClose}
+          PaperProps={{
+            sx: {
+              mt: 1,
+              ml: -5,
+              width: 300,
+              height: 85,
+              borderRadius: theme.shape.borderRadius,
             },
           }}
-        />
+        >
+          <MenuItem disableRipple>
+            <RadiusSlider
+              distance={distance}
+              handleDistanceChange={handleDistanceChange}
+            />
+          </MenuItem>
+        </Menu>
       </Box>
 
       {/* Map displaying educator locations */}
       <Map markers={markers} center={center} />
 
-      {/* Opens create mission modal */}
-      {!educatorsData?.data.length ? (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setModalOpen(true)}
-          sx={{
-            position: "absolute",
-            bottom: theme.spacing(5),
-            zIndex: 1000,
-            right: "50%",
-            textTransform: "none",
-            padding: theme.spacing(1, 2),
-            fontSize: theme.typography.body2.fontSize,
-          }}
-        >
-          Create Mission
-        </Button>
+      {isMissionCreationPhase ? (
+        <>
+          {/* Button to create mission */}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setModalOpen(true)}
+            sx={{
+              position: "absolute",
+              bottom: theme.spacing(5),
+              zIndex: 1000,
+              right: "50%",
+              textTransform: "none",
+              padding: theme.spacing(1, 2),
+              fontSize: theme.typography.body2.fontSize,
+            }}
+          >
+            Create Mission
+          </Button>
+        </>
       ) : (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSendInvitations}
-          sx={{
-            position: "absolute",
-            bottom: theme.spacing(5),
-            zIndex: 1000,
-            right: "50%",
-            textTransform: "none",
-            padding: theme.spacing(1, 2),
-            fontSize: theme.typography.body2.fontSize,
-          }}
-        >
-          Send Invitations
-        </Button>
+        <>
+          {/* Button to send invitations */}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSendInvitations}
+            sx={{
+              position: "absolute",
+              bottom: theme.spacing(5),
+              zIndex: 1000,
+              right: "50%",
+              textTransform: "none",
+              padding: theme.spacing(1, 2),
+              fontSize: theme.typography.body2.fontSize,
+            }}
+          >
+            Send Invitations
+          </Button>
+        </>
       )}
 
       {/* Create mission modal */}
@@ -282,7 +314,7 @@ export const FindEducator = () => {
           invitees.length
         } educator${
           invitees.length !== 1 ? "s" : ""
-        }. You’ll be notified as soon as they respond.`}
+        }. You'll be notified as soon as they respond.`}
         showButton={true}
         showButton1={true}
         buttonText="Close"

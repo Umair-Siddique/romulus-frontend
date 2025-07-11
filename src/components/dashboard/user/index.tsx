@@ -119,7 +119,7 @@ export const UserDashboard = ({
               ...kpi,
               total:
                 educatorMissions.invitedFor?.filter(
-                  (mission: any) => mission.invitationStatus === "pending"
+                  (mission: any) => mission?.mission && mission.invitationStatus === "pending"
                 ).length || 0,
             };
           case "Pending Missions":

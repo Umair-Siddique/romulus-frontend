@@ -27,13 +27,13 @@ export const TabsView = ({
 
   const calendarTabProps: CalendarTabDataProps[] = calendarTabMissions?.map(
     (mission) => ({
-      _id: mission._id,
-      title: mission.title || "No Title",
+      _id: mission?._id,
+      title: mission?.title || "No Title",
       organizationName:
-        mission.organization?.organizationName || "No Organization",
-      branchName: mission.branch || "No Branch",
-      date: mission.start || "No Date",
-      status: mission.status || "No Status",
+        mission?.organization?.organizationName || "No Organization",
+      branchName: mission?.branch || "No Branch",
+      date: mission?.start || "No Date",
+      status: mission?.status || "No Status",
     })
   );
 
