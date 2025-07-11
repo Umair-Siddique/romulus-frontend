@@ -113,7 +113,7 @@ export const MissionDetails = () => {
             variant="outlined"
             color="error"
             sx={{
-              borderRadius: theme.shape.borderRadius * 1.5,
+              borderRadius: theme.shape.borderRadius,
               px: theme.spacing(3),
               py: theme.spacing(1),
               fontWeight: theme.typography.fontWeightMedium,
@@ -128,7 +128,7 @@ export const MissionDetails = () => {
           <Button
             variant="contained"
             sx={{
-              borderRadius: theme.shape.borderRadius * 1.5,
+              borderRadius: theme.shape.borderRadius,
               px: theme.spacing(3),
               py: theme.spacing(1),
               fontWeight: theme.typography.fontWeightMedium,
@@ -154,7 +154,7 @@ export const MissionDetails = () => {
           mb: theme.spacing(2),
         }}
       >
-        {/* Mission Details Section */}
+        {/* Mission Details */}
         <Box>
           <Typography
             variant="h5"
@@ -344,8 +344,17 @@ export const MissionDetails = () => {
           </Stack>
         </Box>
 
-        {/* Action Buttons and Educator Card Section */}
-        <Box>
+        {/* Preferred Educator Card */}
+        <Box
+          sx={{
+            width: "300px",
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <Typography
             variant="h5"
             component="h2"
@@ -362,13 +371,14 @@ export const MissionDetails = () => {
           <Card
             sx={{
               boxShadow: theme.shadows[2],
-              borderRadius: theme.shape.borderRadius * 1.5,
+              borderRadius: theme.shape.borderRadius,
+              width: "210px",
+              height: "210px",
             }}
           >
             <CardContent
               sx={{
                 textAlign: "center",
-                p: theme.spacing(3),
                 backgroundColor: theme.palette.background.default,
               }}
             >
@@ -378,7 +388,7 @@ export const MissionDetails = () => {
                   width: 100,
                   height: 100,
                   mx: "auto",
-                  mb: theme.spacing(2),
+                  mb: theme.spacing(1),
                   border: `4px solid ${theme.palette.grey[200]}`,
                   boxShadow: theme.shadows[2],
                 }}
@@ -390,7 +400,7 @@ export const MissionDetails = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   gap: theme.spacing(1),
-                  mb: theme.spacing(2),
+                  mb: theme.spacing(1),
                 }}
               >
                 <Typography
@@ -427,7 +437,7 @@ export const MissionDetails = () => {
               <Button
                 variant="outlined"
                 sx={{
-                  borderRadius: theme.shape.borderRadius * 1.5,
+                  borderRadius: theme.shape.borderRadius,
                   borderColor: theme.palette.primary.main,
                   color: theme.palette.primary.main,
                   fontWeight: theme.typography.fontWeightMedium,
@@ -494,12 +504,17 @@ export const MissionDetails = () => {
                 </Typography>
               </Box>
               <Button
-                variant="outlined"
+                variant="contained"
                 startIcon={<Download />}
                 sx={{
-                  borderRadius: theme.shape.borderRadius * 1.5,
+                  borderRadius: theme.shape.borderRadius,
+                  color: theme.palette.common.black,
+                  backgroundColor: theme.palette.background.default,
                   fontWeight: theme.typography.fontWeightMedium,
                   textTransform: "none",
+                  "&:hover": {
+                    backgroundColor: theme.palette.grey[100],
+                  },
                 }}
               >
                 Download
@@ -590,12 +605,13 @@ export const MissionDetails = () => {
             variant="contained"
             startIcon={<Message />}
             sx={{
-              borderRadius: theme.shape.borderRadius * 1.5,
-              backgroundColor: theme.palette.grey[800],
+              borderRadius: theme.shape.borderRadius,
+              color: theme.palette.common.black,
+              backgroundColor: theme.palette.background.default,
               fontWeight: theme.typography.fontWeightMedium,
               textTransform: "none",
               "&:hover": {
-                backgroundColor: theme.palette.grey[900],
+                backgroundColor: theme.palette.grey[100],
               },
             }}
           >
