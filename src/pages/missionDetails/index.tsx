@@ -19,6 +19,7 @@ import {
   CardContent,
   Chip,
   Paper,
+  Rating,
   Stack,
   Typography,
 } from "@mui/material";
@@ -631,12 +632,12 @@ export const MissionDetails = () => {
         }}
       >
         <Typography
-         variant="h6"
-            sx={{
-              fontWeight: theme.typography.fontWeightMedium,
-              mb: theme.spacing(2),
-              color: theme.palette.text.primary,
-            }}
+          variant="h6"
+          sx={{
+            fontWeight: theme.typography.fontWeightMedium,
+            mb: theme.spacing(2),
+            color: theme.palette.text.primary,
+          }}
         >
           Mission Description
         </Typography>
@@ -652,6 +653,7 @@ export const MissionDetails = () => {
         </Typography>
       </Box>
 
+      {/* Educator Rating */}
       <Box
         sx={{
           border: `1px solid ${theme.palette.divider}`,
@@ -670,6 +672,18 @@ export const MissionDetails = () => {
           }}
         >
           Your Feedback
+        </Typography>
+        <Rating value={4} sx={{ mb: theme.spacing(1) }} readOnly />
+        <Typography
+          variant="body1"
+          sx={{
+            lineHeight: theme.typography.body1.lineHeight,
+            color: theme.palette.text.secondary,
+            fontSize: theme.typography.body1.fontSize,
+          }}
+        >
+          “Great experience. Students were attentive, and the coordinator was
+          helpful.”
         </Typography>
       </Box>
     </Box>
