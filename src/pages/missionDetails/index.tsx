@@ -1,4 +1,3 @@
-import { useUserContext } from "#context";
 import { getStatusColor } from "#utils/getStatusColor";
 import {
   AccessTime,
@@ -19,7 +18,6 @@ import {
   Card,
   CardContent,
   Chip,
-  Grid,
   Paper,
   Stack,
   Typography,
@@ -27,15 +25,18 @@ import {
 import { useTheme, Theme } from "@mui/material/styles";
 import { useOne } from "@refinedev/core";
 
+import { useUserContext } from "#context";
+
 export const MissionDetails = () => {
-  const { user } = useUserContext();
-  const { role, educatorId, organizationId } = user;
   const theme = useTheme<Theme>();
 
+  const { user } = useUserContext();
+  const { role, educatorId, organizationId } = user;
+
   const { data } = useOne({
-    resource: `missions/${role}/${educatorId || organizationId}/one`, // Use the extracted mission ID
+    resource: `missions/${role}/${educatorId || organizationId}/one`,
     queryOptions: {
-      enabled: true, // Adjust based on your data fetching logic
+      enabled: true,
     },
   });
 
@@ -44,7 +45,7 @@ export const MissionDetails = () => {
     organizationName: "The Learning Hub",
     date: "12 May, 2025",
     time: "01:00 pm to 04:00 pm",
-    branchName: "Downton",
+    branchName: "Downtown",
     location: "Aston, USA",
     address: "1456 Veltri Drive, Anchorage, AK 99502",
     status: "ongoing",
@@ -71,42 +72,70 @@ export const MissionDetails = () => {
   return (
     <Box
       sx={{
-        border: `1px solid ${theme.palette.divider}`,
         p: theme.spacing(3),
+        mb: theme.spacing(3),
+        border: `1px solid ${theme.palette.divider}`,
         borderRadius: theme.shape.borderRadius,
+        backgroundColor: theme.palette.background.default,
+        boxShadow: theme.shadows[1],
+        width: "100%",
       }}
-      width="100%"
     >
-      {/* Header */}
+      {/* Mission Overview Text and Mission Acceptance Buttons */}
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          flexDirection: "row",
           alignItems: "center",
-          mb: 3,
+          justifyContent: "space-between",
+          mb: theme.spacing(2),
         }}
-        width="100%"
       >
-        <Typography variant="h3" component="h1" sx={{ fontWeight: 500 }}>
+        <Typography
+          variant="h3"
+          component="h1"
+          sx={{
+            fontWeight: theme.typography.fontWeightMedium,
+            color: theme.palette.text.primary,
+            mb: theme.spacing(3),
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           Mission Overview
         </Typography>
-        <Box sx={{ display: "flex", gap: 2 }}>
+
+        {/* Action Buttons */}
+        <Box
+          sx={{ display: "flex", alignItems: "center", gap: theme.spacing(2) }}
+        >
           <Button
             variant="outlined"
             color="error"
-            sx={{ borderRadius: 3, px: 3, py: 1 }}
+            sx={{
+              borderRadius: theme.shape.borderRadius * 1.5,
+              px: theme.spacing(3),
+              py: theme.spacing(1),
+              fontWeight: theme.typography.fontWeightMedium,
+              textTransform: "none",
+              "&:hover": {
+                backgroundColor: theme.palette.error.main + "0a",
+              },
+            }}
           >
             Reject Mission
           </Button>
           <Button
             variant="contained"
             sx={{
-              borderRadius: 3,
-              px: 3,
-              py: 1,
-              backgroundColor: "#29B6F6",
+              borderRadius: theme.shape.borderRadius * 1.5,
+              px: theme.spacing(3),
+              py: theme.spacing(1),
+              fontWeight: theme.typography.fontWeightMedium,
+              textTransform: "none",
+              backgroundColor: theme.palette.primary.main,
               "&:hover": {
-                backgroundColor: "#0288D1",
+                backgroundColor: theme.palette.primary.dark,
               },
             }}
           >
@@ -115,229 +144,243 @@ export const MissionDetails = () => {
         </Box>
       </Box>
 
-      <Grid container spacing={3} width="100%">
-        {/* Left Column */}
-        <Grid item xs={12} md={8} width="100%">
-          {/* Mission Title */}
+      {/* Mission Information and Preferred Educator */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          mb: theme.spacing(2),
+        }}
+      >
+        {/* Mission Details Section */}
+        <Box>
           <Typography
             variant="h5"
             component="h2"
-            sx={{ fontWeight: 500, mb: 2 }}
+            sx={{
+              fontWeight: theme.typography.fontWeightMedium,
+              color: theme.palette.text.primary,
+              mb: theme.spacing(2),
+            }}
           >
             {missionData.title}
           </Typography>
 
-          {/* Mission Details */}
-          <Stack spacing={2} sx={{ mb: 3 }}>
+          <Stack spacing={theme.spacing(1.5)}>
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: 2,
+                gap: theme.spacing(2),
               }}
             >
-              <Business sx={{ color: "grey.600" }} />
+              <Business sx={{ color: theme.palette.grey[600], fontSize: 20 }} />
               <Typography
                 variant="body2"
                 color="text.secondary"
-                width="105px"
-                sx={{ textAlign: "left" }}
+                sx={{
+                  width: "105px",
+                  fontWeight: theme.typography.fontWeightMedium,
+                }}
               >
                 Organization:
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" color="text.primary">
                 {missionData.organizationName}
               </Typography>
             </Box>
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <CalendarToday sx={{ color: "grey.600" }} />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: theme.spacing(2),
+              }}
+            >
+              <CalendarToday
+                sx={{ color: theme.palette.grey[600], fontSize: 20 }}
+              />
               <Typography
                 variant="body2"
                 color="text.secondary"
-                width="105px"
-                sx={{ textAlign: "left" }}
+                sx={{
+                  width: "105px",
+                  fontWeight: theme.typography.fontWeightMedium,
+                }}
               >
                 Date:
               </Typography>
-              <Typography variant="body1">{missionData.date}</Typography>
-            </Box>
-
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <AccessTime sx={{ color: "grey.600" }} />
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                width="105px"
-                sx={{ textAlign: "left" }}
-              >
-                Time:
+              <Typography variant="body1" color="text.primary">
+                {missionData.date}
               </Typography>
-              <Typography variant="body1">{missionData.time}</Typography>
             </Box>
 
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: 2,
+                gap: theme.spacing(2),
               }}
             >
-              <Business sx={{ color: "grey.600" }} />
+              <AccessTime
+                sx={{ color: theme.palette.grey[600], fontSize: 20 }}
+              />
               <Typography
                 variant="body2"
                 color="text.secondary"
-                width="105px"
-                sx={{ textAlign: "left" }}
+                sx={{
+                  width: "105px",
+                  fontWeight: theme.typography.fontWeightMedium,
+                }}
+              >
+                Time:
+              </Typography>
+              <Typography variant="body1" color="text.primary">
+                {missionData.time}
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: theme.spacing(2),
+              }}
+            >
+              <Business sx={{ color: theme.palette.grey[600], fontSize: 20 }} />
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  width: "105px",
+                  fontWeight: theme.typography.fontWeightMedium,
+                }}
               >
                 Branch Name:
               </Typography>
-              <Typography variant="body1">{missionData.branchName}</Typography>
+              <Typography variant="body1" color="text.primary">
+                {missionData.branchName}
+              </Typography>
             </Box>
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <LocationOn sx={{ color: "grey.600" }} />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: theme.spacing(2),
+              }}
+            >
+              <LocationOn
+                sx={{ color: theme.palette.grey[600], fontSize: 20 }}
+              />
               <Typography
                 variant="body2"
                 color="text.secondary"
-                width="105px"
-                sx={{ textAlign: "left" }}
+                sx={{
+                  width: "105px",
+                  fontWeight: theme.typography.fontWeightMedium,
+                }}
               >
                 Location:
               </Typography>
-              <Typography variant="body1">{missionData.location}</Typography>
+              <Typography variant="body1" color="text.primary">
+                {missionData.location}
+              </Typography>
             </Box>
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <LocationOn sx={{ color: "grey.600" }} />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: theme.spacing(2),
+              }}
+            >
+              <LocationOn
+                sx={{ color: theme.palette.grey[600], fontSize: 20 }}
+              />
               <Typography
                 variant="body2"
                 color="text.secondary"
-                width="105px"
-                sx={{ textAlign: "left" }}
+                sx={{
+                  width: "105px",
+                  fontWeight: theme.typography.fontWeightMedium,
+                }}
               >
                 Address:
               </Typography>
-              <Typography variant="body1">{missionData.address}</Typography>
+              <Typography variant="body1" color="text.primary">
+                {missionData.address}
+              </Typography>
             </Box>
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <Typography variant="body2" color="text.secondary">
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: theme.spacing(2),
+              }}
+            >
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  width: "105px",
+                  fontWeight: theme.typography.fontWeightMedium,
+                }}
+              >
                 Status:
               </Typography>
               <Chip
                 label={missionData.status}
                 size="small"
                 sx={{
-                  fontWeight: 500,
-                  ...getStatusColor(missionData.status), // Use utility function to get status color
+                  fontWeight: theme.typography.fontWeightMedium,
+                  ...getStatusColor(missionData.status),
                 }}
               />
             </Box>
           </Stack>
+        </Box>
 
-          {/* Document */}
-          {missionData.document && (
-            <Paper sx={{ p: 2, mb: 3, bgcolor: "grey.50" }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  <Description sx={{ color: "primary.main" }} />
-                  <Typography variant="body1">
-                    {missionData.document.name}
-                  </Typography>
-                </Box>
-                <Button
-                  variant="outlined"
-                  startIcon={<Download />}
-                  sx={{ borderRadius: 2 }}
-                >
-                  Download
-                </Button>
-              </Box>
-            </Paper>
-          )}
+        {/* Action Buttons and Educator Card Section */}
+        <Box>
+          <Typography
+            variant="h5"
+            component="h2"
+            sx={{
+              fontWeight: theme.typography.fontWeightMedium,
+              color: theme.palette.text.primary,
+              mb: theme.spacing(2),
+            }}
+          >
+            Preferred Educator
+          </Typography>
 
-          {/* Organization Contact */}
-          <Card sx={{ mb: 3 }}>
-            <CardContent>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-                Organization Contact
-              </Typography>
-              <Stack spacing={2}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  <Phone sx={{ color: "grey.600" }} />
-                  <Typography variant="body2" color="text.secondary">
-                    Phone:
-                  </Typography>
-                  <Typography variant="body1">
-                    {missionData.contact.phone}
-                  </Typography>
-                </Box>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  <Email sx={{ color: "grey.600" }} />
-                  <Typography variant="body2" color="text.secondary">
-                    Email:
-                  </Typography>
-                  <Typography variant="body1">
-                    {missionData.contact.email}
-                  </Typography>
-                </Box>
-              </Stack>
-              <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-                <Button
-                  variant="contained"
-                  startIcon={<Message />}
-                  sx={{
-                    borderRadius: 2,
-                    backgroundColor: "#424242",
-                    "&:hover": {
-                      backgroundColor: "#212121",
-                    },
-                  }}
-                >
-                  Send Message
-                </Button>
-              </Box>
-            </CardContent>
-          </Card>
-
-          {/* Mission Description */}
-          <Box>
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-              Mission Description
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{ lineHeight: 1.6, color: "text.secondary" }}
+          {/* Educator Card */}
+          <Card
+            sx={{
+              boxShadow: theme.shadows[2],
+              borderRadius: theme.shape.borderRadius * 1.5,
+            }}
+          >
+            <CardContent
+              sx={{
+                textAlign: "center",
+                p: theme.spacing(3),
+                backgroundColor: theme.palette.background.default,
+              }}
             >
-              {missionData.description}
-            </Typography>
-          </Box>
-        </Grid>
-
-        {/* Right Column - Preferred Educator */}
-        <Grid item xs={12} md={4}>
-          <Card sx={{ position: "sticky", top: 20 }}>
-            <CardContent sx={{ textAlign: "center" }}>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-                Preferred Educator
-              </Typography>
-
               <Avatar
                 src={missionData.educator.avatar}
                 sx={{
                   width: 100,
                   height: 100,
                   mx: "auto",
-                  mb: 2,
-                  border: 4,
-                  borderColor: "grey.200",
+                  mb: theme.spacing(2),
+                  border: `4px solid ${theme.palette.grey[200]}`,
+                  boxShadow: theme.shadows[2],
                 }}
               />
 
@@ -346,30 +389,53 @@ export const MissionDetails = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 1,
-                  mb: 2,
+                  gap: theme.spacing(1),
+                  mb: theme.spacing(2),
                 }}
               >
-                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: theme.typography.fontWeightMedium,
+                    color: theme.palette.text.primary,
+                  }}
+                >
                   {missionData.educator.name}
                 </Typography>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                  <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: theme.spacing(0.5),
+                  }}
+                >
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontWeight: theme.typography.fontWeightMedium,
+                      color: theme.palette.text.primary,
+                    }}
+                  >
                     {missionData.educator.rating}
                   </Typography>
-                  <Star sx={{ color: "#FFD700", fontSize: 20 }} />
+                  <Star
+                    sx={{ color: theme.palette.warning.main, fontSize: 20 }}
+                  />
                 </Box>
               </Box>
 
               <Button
                 variant="outlined"
                 sx={{
-                  borderRadius: 2,
-                  borderColor: "#29B6F6",
-                  color: "#29B6F6",
+                  borderRadius: theme.shape.borderRadius * 1.5,
+                  borderColor: theme.palette.primary.main,
+                  color: theme.palette.primary.main,
+                  fontWeight: theme.typography.fontWeightMedium,
+                  textTransform: "none",
+                  px: theme.spacing(3),
                   "&:hover": {
-                    borderColor: "#0288D1",
-                    backgroundColor: "rgba(41, 182, 246, 0.04)",
+                    borderColor: theme.palette.primary.dark,
+                    backgroundColor: theme.palette.primary.main + "0a",
                   },
                 }}
               >
@@ -377,8 +443,190 @@ export const MissionDetails = () => {
               </Button>
             </CardContent>
           </Card>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
+
+      {/* Document Download Row */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          mb: theme.spacing(2),
+        }}
+      >
+        {missionData.document && (
+          <Paper
+            sx={{
+              p: theme.spacing(2),
+              backgroundColor: theme.palette.grey[50],
+              border: `1px solid ${theme.palette.grey[200]}`,
+              borderRadius: theme.shape.borderRadius,
+              width: "100%",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: theme.spacing(2),
+                flexWrap: "wrap",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: theme.spacing(2),
+                }}
+              >
+                <Description sx={{ color: theme.palette.primary.main }} />
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontWeight: theme.typography.fontWeightMedium,
+                    color: theme.palette.text.primary,
+                  }}
+                >
+                  {missionData.document.name}
+                </Typography>
+              </Box>
+              <Button
+                variant="outlined"
+                startIcon={<Download />}
+                sx={{
+                  borderRadius: theme.shape.borderRadius * 1.5,
+                  fontWeight: theme.typography.fontWeightMedium,
+                  textTransform: "none",
+                }}
+              >
+                Download
+              </Button>
+            </Box>
+          </Paper>
+        )}
+      </Box>
+
+      {/* Contact Information Card */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          mb: theme.spacing(2),
+          backgroundColor: theme.palette.background.paper,
+          p: theme.spacing(3),
+          borderRadius: theme.shape.borderRadius,
+          boxShadow: theme.shadows[1],
+        }}
+      >
+        <Stack spacing={theme.spacing(2)}>
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: theme.typography.fontWeightMedium,
+              mb: theme.spacing(2),
+              color: theme.palette.text.primary,
+            }}
+          >
+            Organization Contact
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: theme.spacing(2),
+            }}
+          >
+            <Phone sx={{ color: theme.palette.grey[600], fontSize: 20 }} />
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                minWidth: "60px",
+                fontWeight: theme.typography.fontWeightMedium,
+              }}
+            >
+              Phone:
+            </Typography>
+            <Typography variant="body1" color="text.primary">
+              {missionData.contact.phone}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: theme.spacing(2),
+            }}
+          >
+            <Email sx={{ color: theme.palette.grey[600], fontSize: 20 }} />
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                minWidth: "60px",
+                fontWeight: theme.typography.fontWeightMedium,
+              }}
+            >
+              Email:
+            </Typography>
+            <Typography variant="body1" color="text.primary">
+              {missionData.contact.email}
+            </Typography>
+          </Box>
+        </Stack>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            mt: theme.spacing(2),
+          }}
+        >
+          <Button
+            variant="contained"
+            startIcon={<Message />}
+            sx={{
+              borderRadius: theme.shape.borderRadius * 1.5,
+              backgroundColor: theme.palette.grey[800],
+              fontWeight: theme.typography.fontWeightMedium,
+              textTransform: "none",
+              "&:hover": {
+                backgroundColor: theme.palette.grey[900],
+              },
+            }}
+          >
+            Send Message
+          </Button>
+        </Box>
+      </Box>
+
+      {/* Document and Contact Information - Now using flexbox layout */}
+      <Box>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: theme.typography.fontWeightMedium,
+            mb: theme.spacing(2),
+            color: theme.palette.text.primary,
+          }}
+        >
+          Mission Description
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            lineHeight: theme.typography.body1.lineHeight,
+            color: theme.palette.text.secondary,
+            fontSize: theme.typography.body1.fontSize,
+          }}
+        >
+          {missionData.description}
+        </Typography>
+      </Box>
     </Box>
   );
 };
