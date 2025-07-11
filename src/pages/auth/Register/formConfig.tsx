@@ -1,11 +1,13 @@
-import { Typography } from "@mui/material";
+import { Theme, Typography, useTheme } from "@mui/material";
 
 import { TextLink } from "#components";
 
-export const getFormConfig = (
+export const GetFormConfig = (
   formStep: number,
   requestOtpAgain: () => void
 ) => {
+  const theme = useTheme<Theme>();
+  
   if (formStep === 1) {
     return {
       title: "Select Your User Type",
@@ -55,7 +57,7 @@ export const getFormConfig = (
           sx={{
             color: "#A1B7AF",
             textDecoration: "none",
-            theme.typography.h2.fontWeight,
+            fontWeight: theme.typography.h2.fontWeight,
             cursor: "pointer",
             border: "none",
             background: "none",

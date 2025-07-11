@@ -398,7 +398,7 @@ export interface ModalProps {
   title: string;
   description: string;
   showButton?: boolean;
-  showButton1: boolean;
+  showButton1?: boolean;
   buttonText?: string;
   button1Text?: string;
 }

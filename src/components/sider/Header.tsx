@@ -15,7 +15,7 @@ export const Header = () => {
           variant="h6"
           sx={{
             color: theme.palette.primary.main,
-            theme.typography.h2.fontWeight,
+            fontWeight: theme.typography.h2.fontWeight,
             fontSize: "2rem",
           }}
         >

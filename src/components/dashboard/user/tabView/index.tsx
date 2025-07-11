@@ -75,7 +75,7 @@ export const TabsView = ({
               minHeight: 48,
               "&.Mui-selected": {
                 color: theme.palette.primary.main,
-                theme.typography.h2.fontWeight,
+                fontWeight: theme.typography.h2.fontWeight,
               },
             },
           }}

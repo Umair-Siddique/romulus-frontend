@@ -66,7 +66,7 @@ const CustomToolbar = ({
       <Typography
         variant="h6"
         sx={{
-          theme.typography.h2.fontWeight,
+          fontWeight: theme.typography.h2.fontWeight,
           color: "text.primary",
           fontFamily: "Montserrat, sans-serif",
           fontSize: "2rem",

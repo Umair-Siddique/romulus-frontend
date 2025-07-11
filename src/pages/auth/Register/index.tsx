@@ -4,7 +4,7 @@ import { useForm } from "@refinedev/react-hook-form";
 import { useCustom, useRegister } from "@refinedev/core";
 
 import AuthBg from "/images/auth-bg.jpg";
-import { getFormConfig } from "./formConfig";
+import { GetFormConfig } from "./formConfig";
 import { getFormFields } from "./formFields";
 import { getModalConfig } from "./modalConfig";
 import { Modal, AuthBackground, AuthForm } from "#components";
@@ -75,7 +75,7 @@ export const RegisterPage = () => {
     await sendOtp();
   };
 
-  const formConfig = getFormConfig(formStep, requestOtpAgain);
+  const formConfig = GetFormConfig(formStep, requestOtpAgain);
   const modalConfig = getModalConfig(
     form,
     setFormStep,

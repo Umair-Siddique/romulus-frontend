@@ -34,7 +34,10 @@ export const TrainingProgressCard = () => {
       <CardContent sx={{ p: 2 }}>
         <Stack spacing={1.2}>
           {/* Title */}
-          <Typography variant="subtitle1" sx={{ theme.typography.h2.fontWeight }}>
+          <Typography
+            variant="subtitle1"
+            sx={{ fontWeight: theme.typography.h2.fontWeight }}
+          >
             Training Progress
           </Typography>
 
@@ -87,7 +90,7 @@ export const TrainingProgressCard = () => {
               backgroundColor: "white",
               color: theme.palette.primary.main,
               borderRadius: "999px",
-              theme.typography.h2.fontWeight,
+              fontWeight: theme.typography.h2.fontWeight,
               fontSize: "0.75rem",
               textTransform: "none",
               py: 1,
