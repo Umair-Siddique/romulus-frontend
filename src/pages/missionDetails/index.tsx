@@ -31,8 +31,10 @@ import { useUserContext } from "#context";
 export const MissionDetails = () => {
   const theme = useTheme<Theme>();
 
-  const { user } = useUserContext();
+  const { user, userProfile } = useUserContext();
+
   const { role, educatorId, organizationId } = user;
+  const { missionsInvitedFor } = userProfile;
 
   const missionId = window.location.pathname.split("/").pop();
   const roleId = educatorId || organizationId;
@@ -45,6 +47,9 @@ export const MissionDetails = () => {
   });
 
   const mission = data?.data || {};
+  const invitationStatus = missionsInvitedFor?.find(
+    (elem: any) => elem?.mission?._id === missionId
+  )?.invitationStatus;
 
   const missionData = {
     title: mission?.title || "Mission Title Unavailable",
@@ -121,42 +126,48 @@ export const MissionDetails = () => {
         </Typography>
 
         {/* Action Buttons */}
-        <Box
-          sx={{ display: "flex", alignItems: "center", gap: theme.spacing(2) }}
-        >
-          <Button
-            variant="outlined"
-            color="error"
+        {invitationStatus === "pending" && (
+          <Box
             sx={{
-              borderRadius: theme.shape.borderRadius,
-              px: theme.spacing(3),
-              py: theme.spacing(1),
-              fontWeight: theme.typography.fontWeightMedium,
-              textTransform: "none",
-              "&:hover": {
-                backgroundColor: theme.palette.error.main + "0a",
-              },
+              display: "flex",
+              alignItems: "center",
+              gap: theme.spacing(2),
             }}
           >
-            Reject Mission
-          </Button>
-          <Button
-            variant="contained"
-            sx={{
-              borderRadius: theme.shape.borderRadius,
-              px: theme.spacing(3),
-              py: theme.spacing(1),
-              fontWeight: theme.typography.fontWeightMedium,
-              textTransform: "none",
-              backgroundColor: theme.palette.primary.main,
-              "&:hover": {
-                backgroundColor: theme.palette.primary.dark,
-              },
-            }}
-          >
-            Accept Mission
-          </Button>
-        </Box>
+            <Button
+              variant="outlined"
+              color="error"
+              sx={{
+                borderRadius: theme.shape.borderRadius,
+                px: theme.spacing(3),
+                py: theme.spacing(1),
+                fontWeight: theme.typography.fontWeightMedium,
+                textTransform: "none",
+                "&:hover": {
+                  backgroundColor: theme.palette.error.main + "0a",
+                },
+              }}
+            >
+              Reject Mission
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                borderRadius: theme.shape.borderRadius,
+                px: theme.spacing(3),
+                py: theme.spacing(1),
+                fontWeight: theme.typography.fontWeightMedium,
+                textTransform: "none",
+                backgroundColor: theme.palette.primary.main,
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.dark,
+                },
+              }}
+            >
+              Accept Mission
+            </Button>
+          </Box>
+        )}
       </Box>
 
       {/* Mission Information and Preferred Educator */}
