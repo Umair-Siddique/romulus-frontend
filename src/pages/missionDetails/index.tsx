@@ -57,9 +57,9 @@ export const MissionDetails = () => {
       mission?.organization?.country || "Country Unavailable"
     }`,
     address:
-      mission?.organization?.branches.find(
+      mission?.organization?.branches?.find(
         (branch: any) => branch.branchName === mission?.branch
-      ).branchAddress || "Address Unavailable",
+      )?.branchAddress || "Address Unavailable",
     status: mission?.status || "Status Unavailable",
     description: mission?.description || "Description Unavailable",
     document: {
