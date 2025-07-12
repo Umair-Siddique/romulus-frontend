@@ -85,7 +85,8 @@ export const MissionDetails = () => {
       phone: mission?.organization?.phone || "Phone Unavailable",
       email: mission?.organization?.email || "Email Unavailable",
     },
-    preferredEducator,
+    preferredEducator: !!preferredEducator || null,
+    educatorFeedback: !!mission?.educatorFeedback.length || null,
     educator: {
       name: "John Clark",
       rating: 4.6,
@@ -687,38 +688,40 @@ export const MissionDetails = () => {
       </Box>
 
       {/* Educator Rating */}
-      <Box
-        sx={{
-          border: `1px solid ${theme.palette.divider}`,
-          borderRadius: theme.shape.borderRadius,
-          p: theme.spacing(2),
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Typography
-          variant="h6"
+      {missionData.educatorFeedback && (
+        <Box
           sx={{
-            fontWeight: theme.typography.h2.fontWeight,
-            mb: theme.spacing(2),
-            color: theme.palette.text.primary,
+            border: `1px solid ${theme.palette.divider}`,
+            borderRadius: theme.shape.borderRadius,
+            p: theme.spacing(2),
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          Your Feedback
-        </Typography>
-        <Rating value={4} sx={{ mb: theme.spacing(1) }} readOnly />
-        <Typography
-          variant="body1"
-          sx={{
-            lineHeight: theme.typography.body1.lineHeight,
-            color: theme.palette.text.secondary,
-            fontSize: theme.typography.body1.fontSize,
-          }}
-        >
-          “Great experience. Students were attentive, and the coordinator was
-          helpful.”
-        </Typography>
-      </Box>
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: theme.typography.h2.fontWeight,
+              mb: theme.spacing(2),
+              color: theme.palette.text.primary,
+            }}
+          >
+            Your Feedback
+          </Typography>
+          <Rating value={4} sx={{ mb: theme.spacing(1) }} readOnly />
+          <Typography
+            variant="body1"
+            sx={{
+              lineHeight: theme.typography.body1.lineHeight,
+              color: theme.palette.text.secondary,
+              fontSize: theme.typography.body1.fontSize,
+            }}
+          >
+            “Great experience. Students were attentive, and the coordinator was
+            helpful.”
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 };
