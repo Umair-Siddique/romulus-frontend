@@ -1,7 +1,6 @@
 import {
   Assignment as AssignmentIcon,
   AssignmentTurnedIn as AssignmentTurnedInIcon,
-  Cancel as CancelIcon,
   HourglassBottom as HourglassBottomIcon,
   WatchLater as WatchLaterIcon,
 } from "@mui/icons-material";
@@ -76,7 +75,7 @@ export const UserDashboard = ({
     isLoading,
     isError,
   } = useList({
-    resource: `missions/organization/${organizationId}/all`,
+    resource: `missions/organization/${organizationId}`,
     queryOptions: {
       enabled: role === "organization",
     },
@@ -119,7 +118,8 @@ export const UserDashboard = ({
               ...kpi,
               total:
                 educatorMissions.invitedFor?.filter(
-                  (mission: any) => mission?.mission && mission.invitationStatus === "pending"
+                  (mission: any) =>
+                    mission?.mission && mission.invitationStatus === "pending"
                 ).length || 0,
             };
           case "Pending Missions":
