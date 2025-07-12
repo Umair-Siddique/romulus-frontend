@@ -27,14 +27,10 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { useOne } from "@refinedev/core";
 
 import { useUserContext } from "#context";
-import { useEffect, useState } from "react";
 
 export const MissionDetails = () => {
   const theme = useTheme<Theme>();
 
-  const [preferredEducator, setPreferredEducator] = useState<string | null>(
-    null
-  );
   const { user } = useUserContext();
   const { role, educatorId, organizationId } = user;
 
@@ -49,12 +45,6 @@ export const MissionDetails = () => {
   });
 
   const mission = data?.data || {};
-
-  useEffect(() => {
-    if (mission?.preferredEducator) {
-      setPreferredEducator(mission.preferredEducator);
-    }
-  }, [mission]);
 
   const missionData = {
     title: mission?.title || "Mission Title Unavailable",
@@ -85,8 +75,8 @@ export const MissionDetails = () => {
       phone: mission?.organization?.phone || "Phone Unavailable",
       email: mission?.organization?.email || "Email Unavailable",
     },
-    preferredEducator: !!preferredEducator || null,
-    educatorFeedback: !!mission?.educatorFeedback.length || null,
+    preferredEducator: !!mission?.preferredEducator || null,
+    educatorFeedback: !!mission?.educatorFeedback?.length || null,
     educator: {
       name: "John Clark",
       rating: 4.6,
@@ -370,7 +360,7 @@ export const MissionDetails = () => {
         </Box>
 
         {/* Preferred Educator Card */}
-        {!!preferredEducator && (
+        {!!missionData.preferredEducator && (
           <Box
             sx={{
               width: "300px",
