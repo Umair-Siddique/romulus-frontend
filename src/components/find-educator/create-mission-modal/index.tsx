@@ -132,8 +132,6 @@ export const CreateMissionModal = ({
     const files = event.target.files;
     if (files && files.length > 0) {
       setSelectedDocument(files[0]);
-      // Remove setValue call since we're not using form control for files
-      console.log("File selected:", files[0]);
     }
   };
 

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import {
   Box,
   Button,
+  CircularProgress,
   IconButton,
   Menu,
   MenuItem,
@@ -40,7 +41,11 @@ export const FindEducator = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const dropdownOpen = Boolean(anchorEl);
 
-  const { mutate: createMission, data: missionsData } = useCreate({
+  const {
+    mutate: createMission,
+    data: missionsData,
+    isLoading: isMissionLoading,
+  } = useCreate({
     resource: "missions",
   });
 
@@ -188,7 +193,7 @@ export const FindEducator = () => {
   };
 
   const markers: Marker[] = [];
-  if (educatorsData && !isEducatorsLoading) {
+  if (!isMissionLoading) {
     educatorsData?.data.forEach((educator: any) => {
       markers.push({
         position: {
@@ -203,7 +208,9 @@ export const FindEducator = () => {
 
   const isMissionCreationPhase = !educatorsData?.data.length;
 
-  return (
+  return isMissionLoading ? (
+    <CircularProgress />
+  ) : (
     <Box sx={{ position: "relative" }}>
       {/* Radius dropdown positioned at top right */}
       <Box
