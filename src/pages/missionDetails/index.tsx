@@ -27,10 +27,14 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { useOne } from "@refinedev/core";
 
 import { useUserContext } from "#context";
+import { useEffect, useState } from "react";
 
 export const MissionDetails = () => {
   const theme = useTheme<Theme>();
 
+  const [preferredEducator, setPreferredEducator] = useState<string | null>(
+    null
+  );
   const { user } = useUserContext();
   const { role, educatorId, organizationId } = user;
 
@@ -45,6 +49,12 @@ export const MissionDetails = () => {
   });
 
   const mission = data?.data || {};
+
+  useEffect(() => {
+    if (mission?.preferredEducator) {
+      setPreferredEducator(mission.preferredEducator);
+    }
+  }, [mission]);
 
   const missionData = {
     title: mission?.title || "Mission Title Unavailable",
@@ -75,6 +85,7 @@ export const MissionDetails = () => {
       phone: mission?.organization?.phone || "Phone Unavailable",
       email: mission?.organization?.email || "Email Unavailable",
     },
+    preferredEducator,
     educator: {
       name: "John Clark",
       rating: 4.6,
@@ -358,115 +369,117 @@ export const MissionDetails = () => {
         </Box>
 
         {/* Preferred Educator Card */}
-        <Box
-          sx={{
-            width: "300px",
-            textAlign: "center",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Typography
-            variant="h5"
-            component="h2"
+        {!!preferredEducator && (
+          <Box
             sx={{
-              fontWeight: theme.typography.fontWeightMedium,
-              color: theme.palette.text.primary,
-              mb: theme.spacing(2),
+              width: "300px",
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            Preferred Educator
-          </Typography>
-
-          {/* Educator Card */}
-          <Card
-            sx={{
-              boxShadow: theme.shadows[2],
-              borderRadius: theme.shape.borderRadius,
-              width: "210px",
-              height: "210px",
-            }}
-          >
-            <CardContent
+            <Typography
+              variant="h5"
+              component="h2"
               sx={{
-                textAlign: "center",
-                backgroundColor: theme.palette.background.default,
+                fontWeight: theme.typography.fontWeightMedium,
+                color: theme.palette.text.primary,
+                mb: theme.spacing(2),
               }}
             >
-              <Avatar
-                src={missionData.educator.avatar}
-                sx={{
-                  width: 100,
-                  height: 100,
-                  mx: "auto",
-                  mb: theme.spacing(1),
-                  border: `4px solid ${theme.palette.grey[200]}`,
-                  boxShadow: theme.shadows[2],
-                }}
-              />
+              Preferred Educator
+            </Typography>
 
-              <Box
+            {/* Educator Card */}
+            <Card
+              sx={{
+                boxShadow: theme.shadows[2],
+                borderRadius: theme.shape.borderRadius,
+                width: "210px",
+                height: "210px",
+              }}
+            >
+              <CardContent
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: theme.spacing(1),
-                  mb: theme.spacing(1),
+                  textAlign: "center",
+                  backgroundColor: theme.palette.background.default,
                 }}
               >
-                <Typography
-                  variant="h6"
+                <Avatar
+                  src={missionData.educator.avatar}
                   sx={{
-                    fontWeight: theme.typography.fontWeightMedium,
-                    color: theme.palette.text.primary,
+                    width: 100,
+                    height: 100,
+                    mx: "auto",
+                    mb: theme.spacing(1),
+                    border: `4px solid ${theme.palette.grey[200]}`,
+                    boxShadow: theme.shadows[2],
                   }}
-                >
-                  {missionData.educator.name}
-                </Typography>
+                />
+
                 <Box
                   sx={{
                     display: "flex",
                     alignItems: "center",
-                    gap: theme.spacing(0.5),
+                    justifyContent: "center",
+                    gap: theme.spacing(1),
+                    mb: theme.spacing(1),
                   }}
                 >
                   <Typography
-                    variant="body1"
+                    variant="h6"
                     sx={{
                       fontWeight: theme.typography.fontWeightMedium,
                       color: theme.palette.text.primary,
                     }}
                   >
-                    {missionData.educator.rating}
+                    {missionData.educator.name}
                   </Typography>
-                  <Star
-                    sx={{ color: theme.palette.warning.main, fontSize: 20 }}
-                  />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: theme.spacing(0.5),
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontWeight: theme.typography.fontWeightMedium,
+                        color: theme.palette.text.primary,
+                      }}
+                    >
+                      {missionData.educator.rating}
+                    </Typography>
+                    <Star
+                      sx={{ color: theme.palette.warning.main, fontSize: 20 }}
+                    />
+                  </Box>
                 </Box>
-              </Box>
 
-              <Button
-                variant="outlined"
-                sx={{
-                  borderRadius: theme.shape.borderRadius,
-                  borderColor: theme.palette.primary.main,
-                  color: theme.palette.primary.main,
-                  fontWeight: theme.typography.fontWeightMedium,
-                  textTransform: "none",
-                  px: theme.spacing(3),
-                  "&:hover": {
-                    borderColor: theme.palette.primary.dark,
-                    backgroundColor: theme.palette.primary.main + "0a",
-                  },
-                }}
-              >
-                View Details
-              </Button>
-            </CardContent>
-          </Card>
-        </Box>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    borderRadius: theme.shape.borderRadius,
+                    borderColor: theme.palette.primary.main,
+                    color: theme.palette.primary.main,
+                    fontWeight: theme.typography.fontWeightMedium,
+                    textTransform: "none",
+                    px: theme.spacing(3),
+                    "&:hover": {
+                      borderColor: theme.palette.primary.dark,
+                      backgroundColor: theme.palette.primary.main + "0a",
+                    },
+                  }}
+                >
+                  View Details
+                </Button>
+              </CardContent>
+            </Card>
+          </Box>
+        )}
       </Box>
 
       {/* Document Download Row */}
