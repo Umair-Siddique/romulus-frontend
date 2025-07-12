@@ -34,8 +34,11 @@ export const MissionDetails = () => {
   const { user } = useUserContext();
   const { role, educatorId, organizationId } = user;
 
+  const missionId = window.location.pathname.split("/").pop();
+  const roleId = educatorId || organizationId;
+
   const { data } = useOne({
-    resource: `missions/${role}/${educatorId || organizationId}/one`,
+    resource: `missions/${missionId}/${role}/${roleId}`,
     queryOptions: {
       enabled: true,
     },
@@ -517,12 +520,11 @@ export const MissionDetails = () => {
                 variant="contained"
                 startIcon={<Download />}
                 onClick={() => {
-                  const link = document.createElement("a");
-                  link.href = missionData.document.url;
-                  link.download = missionData.document.name || "document";
-                  document.body.appendChild(link);
-                  link.click();
-                  document.body.removeChild(link);
+                  window.open(
+                    missionData.document.url,
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
                 }}
                 sx={{
                   borderRadius: theme.shape.borderRadius,
