@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 
 import { NavigationButtonProps } from "#types";
+import { useTheme, Theme } from "@mui/material/styles";
 
 export const NavigationButton = ({
   handleNavigation,
@@ -10,6 +11,8 @@ export const NavigationButton = ({
   textColor,
   label,
 }: NavigationButtonProps) => {
+  const theme = useTheme<Theme>();
+
   return (
     <Button
       variant="contained"
