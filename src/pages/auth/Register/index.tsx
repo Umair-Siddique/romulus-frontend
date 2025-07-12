@@ -122,6 +122,7 @@ export const RegisterPage = () => {
           description={modalConfig.description}
           buttonText={modalConfig.buttonText}
           showButton={!!modalConfig.buttonText}
+          hasAdditionalElements={false}
         />
       )}
     </Box>

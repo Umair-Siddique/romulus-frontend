@@ -23,6 +23,8 @@ export const Modal = ({
   showButton1,
   buttonText,
   button1Text,
+  additionalElements,
+  hasAdditionalElements = false,
 }: ModalProps) => {
   const theme = useTheme<Theme>();
 
@@ -109,6 +111,13 @@ export const Modal = ({
           >
             {description}
           </Typography>
+
+          {/* Additional Elements */}
+          {hasAdditionalElements && (
+            <Box sx={{ mb: theme.spacing(4) }}>
+              {additionalElements}
+            </Box>
+          )}
 
           {/* Action Button */}
           <Box

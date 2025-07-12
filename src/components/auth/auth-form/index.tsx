@@ -225,6 +225,7 @@ export const AuthForm = ({
         description={modalConfig.description}
         buttonText={modalConfig.buttonText}
         showButton={modalConfig.showButton}
+        hasAdditionalElements={false}
       />
     </Box>
   );

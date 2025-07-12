@@ -385,6 +385,7 @@ export const CreateProfileForm = ({
         }
         showButton={true}
         buttonText="Login and Continue"
+        hasAdditionalElements={false}
       />
 
       {/* Error Modal */}
@@ -397,6 +398,7 @@ export const CreateProfileForm = ({
         description={errorMessage}
         showButton={true}
         buttonText="Try Again"
+        hasAdditionalElements={false}
       />
     </>
   );

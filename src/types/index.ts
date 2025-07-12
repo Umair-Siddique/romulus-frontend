@@ -401,6 +401,8 @@ export interface ModalProps {
   showButton1?: boolean;
   buttonText?: string;
   button1Text?: string;
+  additionalElements?: React.ReactNode;
+  hasAdditionalElements?: boolean;
 }
 
 export interface CalendarTabDataProps {
