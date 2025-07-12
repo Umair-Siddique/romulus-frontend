@@ -45,8 +45,8 @@ export const CreateMissionModal = ({
   const theme = useTheme<Theme>();
   const { userProfile } = useUserContext();
   const [newSkill, setNewSkill] = useState("");
-  const [selectedDocument, setSelectedDocument] = useState<File | null>(null);
   const [skillsArray, setSkillsArray] = useState<string[]>([]);
+  const [selectedDocument, setSelectedDocument] = useState<File | null>(null);
 
   const {
     register,
@@ -88,23 +88,24 @@ export const CreateMissionModal = ({
         (branch: any) => branch.name === data.branch
       )?.coordinates;
 
+      // Append all form fields
       formData.append("title", data.title);
       formData.append("branch", data.branch);
-      formData.append("preferredEducator", data.preferredEducator);
       formData.append("skills", data.skills);
       formData.append("startDate", data.startDate);
       formData.append("endDate", data.startDate);
       formData.append("startTime", data.startTime);
-      formData.append("endTime", data.startTime);
+      formData.append("endTime", data.endTime);
       formData.append("description", data.description);
       formData.append("organization", organizationId || "");
 
-      if (data.technicalDocument && data.technicalDocument.length > 0) {
-        formData.append("technicalDocument", data.technicalDocument[0]);
+      // FIXED: Use selectedDocument state instead of form data
+      if (selectedDocument) {
+        formData.append("technicalDocument", selectedDocument);
       }
 
       setDataToSubmit(formData);
-
+      
       setFindEducatorData({
         coordinates: branchCoordinates,
         skills: skillsArray,
@@ -115,14 +116,7 @@ export const CreateMissionModal = ({
     }
   };
 
-  const handleClose = () => {
-    onClose();
-    reset();
-    setSelectedDocument(null);
-    setNewSkill("");
-    setSkillsArray([]);
-  };
-
+  // Updated form validation logic
   const isFormValid =
     isValid &&
     watchedValues.title &&
@@ -132,6 +126,23 @@ export const CreateMissionModal = ({
     watchedValues.startTime &&
     watchedValues.endTime &&
     watchedValues.description;
+
+  // Updated handleFileUpload function
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      setSelectedDocument(files[0]);
+      // Remove setValue call since we're not using form control for files
+      console.log("File selected:", files[0]);
+    }
+  };
+
+  const handleClose = () => {
+    onClose();
+    reset();
+    setNewSkill("");
+    setSkillsArray([]);
+  };
 
   return (
     <StyledDialog open={open} onClose={handleClose} fullWidth>
@@ -188,8 +199,9 @@ export const CreateMissionModal = ({
             />
 
             <FileUploadSection
-              register={register}
               selectedDocument={selectedDocument}
+              handleFileUpload={handleFileUpload}
+              register={register}
             />
 
             <Button

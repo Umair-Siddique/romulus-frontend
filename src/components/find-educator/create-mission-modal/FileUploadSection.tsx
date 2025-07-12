@@ -1,11 +1,10 @@
 import { Box, Typography, useTheme, styled } from "@mui/material";
 import { Upload as UploadIcon } from "@mui/icons-material";
-import { UseFormRegister } from "react-hook-form";
-import { FormDataProps } from "#types";
 
 interface FileUploadSectionProps {
-  register: UseFormRegister<FormDataProps>;
   selectedDocument: File | null;
+  handleFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  register: any; // Remove this since we won't use it
 }
 
 const UploadArea = styled(Box)(({ theme }) => ({
@@ -21,8 +20,8 @@ const UploadArea = styled(Box)(({ theme }) => ({
 }));
 
 export const FileUploadSection = ({
-  register,
   selectedDocument,
+  handleFileUpload,
 }: FileUploadSectionProps) => {
   const theme = useTheme();
 
@@ -32,7 +31,7 @@ export const FileUploadSection = ({
         variant="body2"
         sx={{
           mb: theme.spacing(1),
-          fontWeight: theme.typography.h3.fontWeight,
+          fontWeight: 500,
           color: theme.palette.text.primary,
         }}
       >
@@ -60,8 +59,9 @@ export const FileUploadSection = ({
         id="file-upload"
         type="file"
         accept=".jpg,.jpeg,.png,.pdf"
+        onChange={handleFileUpload}
         style={{ display: "none" }}
-        {...register("technicalDocument")}
+        // Remove the register call - this was causing the conflict
       />
     </Box>
   );

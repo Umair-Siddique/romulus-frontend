@@ -100,6 +100,11 @@ export const FindEducator = () => {
     createMission(
       {
         values: dataToSubmit,
+        meta: {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
       },
       {
         onSuccess: () => {
@@ -183,7 +188,7 @@ export const FindEducator = () => {
   };
 
   const markers: Marker[] = [];
-  if (educatorsData) {
+  if (educatorsData && !isEducatorsLoading) {
     educatorsData?.data.forEach((educator: any) => {
       markers.push({
         position: {
