@@ -2,14 +2,7 @@ import { useEffect, useState } from "react";
 import { LatLngTuple } from "leaflet";
 import { useCreate, useCustom, useList } from "@refinedev/core";
 import { useNavigate } from "react-router";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@mui/material";
+import { Box, Button, CircularProgress, Menu, MenuItem } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 import {
   CheckCircle as CheckCircleIcon,
@@ -17,14 +10,15 @@ import {
   ExpandMore as ExpandMoreIcon,
   Info as InfoIcon,
   HelpOutline as HelpOutlineIcon,
-  Phone as PhoneIcon,
-  Email as EmailIcon,
-  ContentCopy as CopyIcon,
-  Check as CheckIcon,
 } from "@mui/icons-material";
 import { useUserContext } from "#context";
-import { CreateMissionModal, Map, Modal } from "#components";
-import { RadiusSlider } from "#components/find-educator/RadiusSlider";
+import {
+  ContactAdmin,
+  CreateMissionModal,
+  Map,
+  Modal,
+  RadiusSlider,
+} from "#components";
 
 export const FindEducator = () => {
   const theme = useTheme<Theme>();
@@ -32,8 +26,6 @@ export const FindEducator = () => {
 
   const { user, userProfile } = useUserContext();
 
-  const [copiedPhone, setCopiedPhone] = useState(false);
-  const [copiedEmail, setCopiedEmail] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [noEducatorsModalOpen, setNoEducatorsModalOpen] = useState(false);
@@ -255,18 +247,6 @@ export const FindEducator = () => {
 
   const isMissionCreationPhase = !educatorsData?.data.length;
 
-  const handleCopyPhone = () => {
-    navigator.clipboard.writeText("+1 (234) 567-890");
-    setCopiedPhone(true);
-    setTimeout(() => setCopiedPhone(false), 2000);
-  };
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText("support@romulus.com");
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2000);
-  };
-
   return (
     <Box sx={{ position: "relative" }}>
       {/* Radius dropdown positioned at top right */}
@@ -443,92 +423,7 @@ export const FindEducator = () => {
         showButton={true}
         showButton1={false}
         buttonText="Close"
-        additionalElements={
-          <Box
-            sx={{
-              width: "500px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              justifyContent: "center",
-              backgroundColor: theme.palette.primary.light,
-              borderRadius: theme.shape.borderRadius,
-            }}
-          >
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                padding: theme.spacing(1),
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <PhoneIcon sx={{ fontSize: 16, mr: 1 }} />
-                <Typography>+1 (234) 567-890</Typography>
-              </Box>
-              <Box
-                sx={{
-                  ml: "auto",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  transition: "all 0.3s ease",
-                  transform: copiedPhone ? "scale(1.1)" : "scale(1)",
-                  color: copiedPhone ? theme.palette.success.main : "inherit",
-                }}
-                onClick={handleCopyPhone}
-              >
-                {copiedPhone ? (
-                  <CheckIcon sx={{ fontSize: 20 }} />
-                ) : (
-                  <CopyIcon sx={{ fontSize: 20 }} />
-                )}
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                padding: theme.spacing(1),
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <EmailIcon sx={{ fontSize: 16, mr: 1 }} />
-                <Typography>support@romulus.com</Typography>
-              </Box>
-              <Box
-                sx={{
-                  ml: "auto",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  transition: "all 0.3s ease",
-                  transform: copiedEmail ? "scale(1.1)" : "scale(1)",
-                  color: copiedEmail ? theme.palette.success.main : "inherit",
-                }}
-                onClick={handleCopyEmail}
-              >
-                {copiedEmail ? (
-                  <CheckIcon sx={{ fontSize: 20 }} />
-                ) : (
-                  <CopyIcon sx={{ fontSize: 20 }} />
-                )}
-              </Box>
-            </Box>
-          </Box>
-        }
+        additionalElements={<ContactAdmin />}
         hasAdditionalElements={true}
       />
     </Box>
