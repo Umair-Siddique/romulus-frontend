@@ -16,6 +16,8 @@ import {
   CheckCircle as CheckCircleIcon,
   MyLocation as MyLocationIcon,
   ExpandMore as ExpandMoreIcon,
+  Info as InfoIcon,
+  HelpOutline as HelpOutlineIcon,
 } from "@mui/icons-material";
 import { useUserContext } from "#context";
 import { CreateMissionModal, Map, Modal } from "#components";
@@ -29,6 +31,8 @@ export const FindEducator = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [noEducatorsModalOpen, setNoEducatorsModalOpen] = useState(false);
+  const [contactAdminModalOpen, setContactAdminModalOpen] = useState(false);
   const [distance, setDistance] = useState(50);
   const [invitees, setInvitees] = useState<string[]>([]);
   const [dataToSubmit, setDataToSubmit] = useState<any>(null);
@@ -45,8 +49,11 @@ export const FindEducator = () => {
     mutate: createMission,
     data: missionsData,
     isLoading: isMissionLoading,
+    isError: isMissionError,
   } = useCreate({
     resource: "missions",
+    successNotification: false,
+    errorNotification: false,
   });
 
   const {
@@ -139,6 +146,19 @@ export const FindEducator = () => {
     setInvitees(educatorsIds);
   }, [educatorsData]);
 
+  // Effect to show no educators modal when data is loaded and empty
+  useEffect(() => {
+    if (
+      !isEducatorsLoading &&
+      !isEducatorsError &&
+      educatorsData?.data?.length === 0 &&
+      findEducatorData?.coordinates.length &&
+      findEducatorData?.skills.length
+    ) {
+      setNoEducatorsModalOpen(true);
+    }
+  }, [isEducatorsLoading, isEducatorsError, educatorsData, findEducatorData]);
+
   const handleModalClose = () => {
     setModalOpen(false);
   };
@@ -148,8 +168,30 @@ export const FindEducator = () => {
     setInvitees([]);
     setFindEducatorData({ coordinates: [], skills: [] });
     setDataToSubmit(null);
-    refetchEducators();
     navigate("/dashboard", { replace: true });
+  };
+
+  const handleNoEducatorsModalClose = () => {
+    setNoEducatorsModalOpen(false);
+    setInvitees([]);
+    setFindEducatorData({ coordinates: [], skills: [] });
+    setDataToSubmit(null);
+  };
+
+  const handleContactAdminModalClose = () => {
+    setContactAdminModalOpen(false);
+    setInvitees([]);
+    setFindEducatorData({ coordinates: [], skills: [] });
+    setDataToSubmit(null);
+  };
+
+  const handleExpandRadius = () => {
+    setNoEducatorsModalOpen(false);
+  };
+
+  const handleContactAdmin = () => {
+    setNoEducatorsModalOpen(false);
+    setContactAdminModalOpen(true);
   };
 
   const handleSendInvitations = async () => {
@@ -207,10 +249,9 @@ export const FindEducator = () => {
   }
 
   const isMissionCreationPhase = !educatorsData?.data.length;
+  console.log("educatorsData?.data.length:", educatorsData?.data.length);
 
-  return isMissionLoading ? (
-    <CircularProgress />
-  ) : (
+  return (
     <Box sx={{ position: "relative" }}>
       {/* Radius dropdown positioned at top right */}
       <Box
@@ -304,6 +345,31 @@ export const FindEducator = () => {
         </>
       )}
 
+      {/* Loading overlay */}
+      {isMissionLoading && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+          }}
+        >
+          <CircularProgress
+            size={60}
+            sx={{
+              color: "white",
+            }}
+          />
+        </Box>
+      )}
+
       {/* Create mission modal */}
       <CreateMissionModal
         open={modalOpen}
@@ -331,6 +397,34 @@ export const FindEducator = () => {
         showButton1={true}
         buttonText="Close"
         button1Text="View Invitation Status"
+      />
+
+      {/* No educators found modal */}
+      <Modal
+        open={noEducatorsModalOpen}
+        onClose={handleNoEducatorsModalClose}
+        onSubmit={handleContactAdmin}
+        button1OnClick={handleExpandRadius}
+        icon={<InfoIcon sx={{ color: "#FFA726" }} />}
+        title="No Educators Found Nearby"
+        description="No educators are available in your current search radius. You can try expanding the radius to reach more educators or contact our admin team for assistance."
+        showButton={true}
+        showButton1={true}
+        buttonText="Contact Admin"
+        button1Text="Expand Radius"
+      />
+
+      {/* Contact admin modal */}
+      <Modal
+        open={contactAdminModalOpen}
+        onClose={handleSuccessModalClose}
+        onSubmit={handleContactAdminModalClose}
+        icon={<HelpOutlineIcon sx={{ color: "#2196F3" }} />}
+        title="Need Help Finding Educators"
+        description="Contact admin team directly for assistance with your mission, educator availability, or technical questions."
+        showButton={true}
+        showButton1={false}
+        buttonText="Close"
       />
     </Box>
   );
