@@ -1,38 +1,22 @@
+// Main container component
 import { getStatusColor } from "#utils/getStatusColor";
-import {
-  AccessTime,
-  Business,
-  CalendarToday,
-  Description,
-  Download,
-  Email,
-  LocationOn,
-  Message,
-  Phone,
-  Star,
-} from "@mui/icons-material";
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Chip,
-  Paper,
-  Rating,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 import { useOne } from "@refinedev/core";
 
 import { useUserContext } from "#context";
+import {
+  MissionHeader,
+  MissionInfoSection,
+  DocumentDownloadSection,
+  ContactInformationCard,
+  MissionDescriptionCard,
+  EducatorFeedbackCard,
+} from "#components";
 
 export const MissionDetails = () => {
   const theme = useTheme<Theme>();
-
   const { user, userProfile } = useUserContext();
-
   const { role, educatorId, organizationId } = user;
   const { missionsInvitedFor } = userProfile || {};
 
@@ -52,74 +36,44 @@ export const MissionDetails = () => {
     (elem: any) => elem?.mission?._id === missionId
   )?.invitationStatus;
 
-  const missionTitle = mission?.title || "Mission Title Unavailable";
-
-  const organizationName =
-    mission?.organization?.organizationName || "Organization Unavailable";
-
-  const missionDate = mission?.start?.split("T")[0] || "Date Unavailable";
-
-  const missionTime =
-    `${mission?.start?.split("T")[1]?.split(".")[0]} to ${
-      mission?.end?.split("T")[1]?.split(".")[0]
-    }` || "Time Unavailable";
-
-  const branchName = mission?.branch || "Branch Name Unavailable";
-
-  const missionLocation = `${
-    mission?.organization?.city || "City Unavailable"
-  }, ${mission?.organization?.country || "Country Unavailable"}`;
-
-  const branchAddress =
-    mission?.organization?.branches?.find(
-      (branch: any) => branch.branchName === mission?.branch
-    )?.branchAddress || "Address Unavailable";
-
-  const missionStatus = mission?.status || "Status Unavailable";
-
-  const missionDescription = mission?.description || "Description Unavailable";
-
-  const hasResidenceGuidelines =
-    Object.keys(mission?.technicalDocument || {}).length > 0;
-
-  const residenceGuidelines = {
-    name: "Residence Guidelines",
-    url: mission?.technicalDocument,
-  };
-
-  const organizationContact = {
-    phone: mission?.organization?.phone || "Phone Unavailable",
-    email: mission?.organization?.email || "Email Unavailable",
-  };
-
-  const hasEducatorFeedback = !!mission?.educatorFeedback?.length || null;
-
-  const hasPreferredEducator = !!mission?.preferredEducator || null;
-
-  const preferredEducator = {
-    name: "John Clark",
-    rating: 4.6,
-    avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-  };
-
   const missionData = {
-    missionTitle,
+    missionTitle: mission?.title || "Mission Title Unavailable",
     invitationStatus,
-    organizationName,
-    missionDate,
-    missionTime,
-    branchName,
-    missionLocation,
-    branchAddress,
-    missionStatus,
-    missionDescription,
-    hasResidenceGuidelines,
-    residenceGuidelines,
-    organizationContact,
-    hasEducatorFeedback,
-    hasPreferredEducator,
-    preferredEducator,
+    organizationName:
+      mission?.organization?.organizationName || "Organization Unavailable",
+    missionDate: mission?.start?.split("T")[0] || "Date Unavailable",
+    missionTime:
+      `${mission?.start?.split("T")[1]?.split(".")[0]} to ${
+        mission?.end?.split("T")[1]?.split(".")[0]
+      }` || "Time Unavailable",
+    branchName: mission?.branch || "Branch Name Unavailable",
+    missionLocation: `${mission?.organization?.city || "City Unavailable"}, ${
+      mission?.organization?.country || "Country Unavailable"
+    }`,
+    branchAddress:
+      mission?.organization?.branches?.find(
+        (branch: any) => branch.branchName === mission?.branch
+      )?.branchAddress || "Address Unavailable",
+    missionStatus: mission?.status || "Status Unavailable",
+    missionDescription: mission?.description || "Description Unavailable",
+    hasResidenceGuidelines:
+      Object.keys(mission?.technicalDocument || {}).length > 0,
+    residenceGuidelines: {
+      name: "Residence Guidelines",
+      url: mission?.technicalDocument,
+    },
+    organizationContact: {
+      phone: mission?.organization?.phone || "Phone Unavailable",
+      email: mission?.organization?.email || "Email Unavailable",
+    },
+    hasEducatorFeedback: !!mission?.educatorFeedback?.length,
+    hasPreferredEducator: !!mission?.preferredEducator,
+    preferredEducator: {
+      name: "John Clark",
+      rating: 4.6,
+      avatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    },
   };
 
   return (
@@ -133,668 +87,26 @@ export const MissionDetails = () => {
         width: "100%",
       }}
     >
-      {/* Mission Overview Text and Mission Acceptance Buttons */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          mb: theme.spacing(2),
-        }}
-      >
-        <Typography
-          variant="h3"
-          component="h1"
-          sx={{
-            fontWeight: theme.typography.fontWeightMedium,
-            color: theme.palette.text.primary,
-            mb: theme.spacing(3),
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          Mission Overview
-        </Typography>
+      <MissionHeader role={role} missionData={missionData} />
 
-        {/* Action Buttons */}
-        {role === "educator"
-          ? missionData.invitationStatus === "pending" &&
-            missionData.missionStatus !== "completed" && (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: theme.spacing(2),
-                }}
-              >
-                <Button
-                  variant="outlined"
-                  color="error"
-                  sx={{
-                    borderRadius: theme.shape.borderRadius,
-                    px: theme.spacing(3),
-                    py: theme.spacing(1),
-                    fontWeight: theme.typography.fontWeightMedium,
-                    textTransform: "none",
-                    "&:hover": {
-                      backgroundColor: theme.palette.error.main + "0a",
-                    },
-                  }}
-                >
-                  Reject Mission
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{
-                    borderRadius: theme.shape.borderRadius,
-                    px: theme.spacing(3),
-                    py: theme.spacing(1),
-                    fontWeight: theme.typography.fontWeightMedium,
-                    textTransform: "none",
-                    backgroundColor: theme.palette.primary.main,
-                    "&:hover": {
-                      backgroundColor: theme.palette.primary.dark,
-                    },
-                  }}
-                >
-                  Accept Mission
-                </Button>
-              </Box>
-            )
-          : role === "organization"
-          ? missionData.missionStatus !== "completed" && (
-              <Button
-                variant="contained"
-                sx={{
-                  borderRadius: theme.shape.borderRadius,
-                  px: theme.spacing(3),
-                  py: theme.spacing(1),
-                  fontWeight: theme.typography.fontWeightMedium,
-                  textTransform: "none",
-                  backgroundColor: theme.palette.primary.main,
-                  "&:hover": {
-                    backgroundColor: theme.palette.primary.dark,
-                  },
-                }}
-              >
-                Mark as Completed
-              </Button>
-            )
-          : missionData.invitationStatus !== "pending" &&
-            missionData.missionStatus !== "completed" && (
-              <Button
-                variant="contained"
-                sx={{
-                  borderRadius: theme.shape.borderRadius,
-                  px: theme.spacing(3),
-                  py: theme.spacing(1),
-                  fontWeight: theme.typography.fontWeightMedium,
-                  textTransform: "none",
-                  backgroundColor: theme.palette.primary.main,
-                  "&:hover": {
-                    backgroundColor: theme.palette.primary.dark,
-                  },
-                }}
-              >
-                Assign Educator
-              </Button>
-            )}
-      </Box>
+      <MissionInfoSection
+        missionData={missionData}
+        getStatusColor={getStatusColor}
+      />
 
-      {/* Mission Information and Preferred Educator */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          mb: theme.spacing(2),
-        }}
-      >
-        {/* Mission Details */}
-        <Box>
-          <Typography
-            variant="h5"
-            component="h2"
-            sx={{
-              fontWeight: theme.typography.fontWeightMedium,
-              color: theme.palette.text.primary,
-              mb: theme.spacing(2),
-            }}
-          >
-            {missionData.missionTitle}
-          </Typography>
-
-          <Stack spacing={theme.spacing(1.5)}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: theme.spacing(2),
-              }}
-            >
-              <Business sx={{ color: theme.palette.grey[600], fontSize: 20 }} />
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  width: "105px",
-                  fontWeight: theme.typography.fontWeightMedium,
-                }}
-              >
-                Organization:
-              </Typography>
-              <Typography variant="body1" color="text.primary">
-                {missionData.organizationName}
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: theme.spacing(2),
-              }}
-            >
-              <CalendarToday
-                sx={{ color: theme.palette.grey[600], fontSize: 20 }}
-              />
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  width: "105px",
-                  fontWeight: theme.typography.fontWeightMedium,
-                }}
-              >
-                Date:
-              </Typography>
-              <Typography variant="body1" color="text.primary">
-                {missionData.missionDate}
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: theme.spacing(2),
-              }}
-            >
-              <AccessTime
-                sx={{ color: theme.palette.grey[600], fontSize: 20 }}
-              />
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  width: "105px",
-                  fontWeight: theme.typography.fontWeightMedium,
-                }}
-              >
-                Time:
-              </Typography>
-              <Typography variant="body1" color="text.primary">
-                {missionData.missionTime}
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: theme.spacing(2),
-              }}
-            >
-              <Business sx={{ color: theme.palette.grey[600], fontSize: 20 }} />
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  width: "105px",
-                  fontWeight: theme.typography.fontWeightMedium,
-                }}
-              >
-                Branch Name:
-              </Typography>
-              <Typography variant="body1" color="text.primary">
-                {missionData.branchName}
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: theme.spacing(2),
-              }}
-            >
-              <LocationOn
-                sx={{ color: theme.palette.grey[600], fontSize: 20 }}
-              />
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  width: "105px",
-                  fontWeight: theme.typography.fontWeightMedium,
-                }}
-              >
-                Location:
-              </Typography>
-              <Typography variant="body1" color="text.primary">
-                {missionData.missionLocation}
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: theme.spacing(2),
-              }}
-            >
-              <LocationOn
-                sx={{ color: theme.palette.grey[600], fontSize: 20 }}
-              />
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  width: "105px",
-                  fontWeight: theme.typography.fontWeightMedium,
-                }}
-              >
-                Address:
-              </Typography>
-              <Typography variant="body1" color="text.primary">
-                {missionData.branchAddress}
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: theme.spacing(2),
-              }}
-            >
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  width: "105px",
-                  fontWeight: theme.typography.fontWeightMedium,
-                }}
-              >
-                Status:
-              </Typography>
-              <Chip
-                label={missionData.missionStatus}
-                size="small"
-                sx={{
-                  fontWeight: theme.typography.fontWeightMedium,
-                  ...getStatusColor(missionData.missionStatus),
-                }}
-              />
-            </Box>
-          </Stack>
-        </Box>
-
-        {/* Preferred Educator Card */}
-        {hasPreferredEducator && (
-          <Box
-            sx={{
-              width: "300px",
-              textAlign: "center",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography
-              variant="h5"
-              component="h2"
-              sx={{
-                fontWeight: theme.typography.fontWeightMedium,
-                color: theme.palette.text.primary,
-                mb: theme.spacing(2),
-              }}
-            >
-              Preferred Educator
-            </Typography>
-
-            {/* Educator Card */}
-            <Card
-              sx={{
-                boxShadow: theme.shadows[2],
-                borderRadius: theme.shape.borderRadius,
-                width: "210px",
-                height: "210px",
-              }}
-            >
-              <CardContent
-                sx={{
-                  textAlign: "center",
-                  backgroundColor: theme.palette.background.default,
-                }}
-              >
-                <Avatar
-                  src={missionData.preferredEducator.avatar}
-                  sx={{
-                    width: 100,
-                    height: 100,
-                    mx: "auto",
-                    mb: theme.spacing(1),
-                    border: `4px solid ${theme.palette.grey[200]}`,
-                    boxShadow: theme.shadows[2],
-                  }}
-                />
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: theme.spacing(1),
-                    mb: theme.spacing(1),
-                  }}
-                >
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontWeight: theme.typography.fontWeightMedium,
-                      color: theme.palette.text.primary,
-                    }}
-                  >
-                    {missionData.preferredEducator.name}
-                  </Typography>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: theme.spacing(0.5),
-                    }}
-                  >
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontWeight: theme.typography.fontWeightMedium,
-                        color: theme.palette.text.primary,
-                      }}
-                    >
-                      {missionData.preferredEducator.rating}
-                    </Typography>
-                    <Star
-                      sx={{ color: theme.palette.warning.main, fontSize: 20 }}
-                    />
-                  </Box>
-                </Box>
-
-                <Button
-                  variant="outlined"
-                  sx={{
-                    borderRadius: theme.shape.borderRadius,
-                    borderColor: theme.palette.primary.main,
-                    color: theme.palette.primary.main,
-                    fontWeight: theme.typography.fontWeightMedium,
-                    textTransform: "none",
-                    px: theme.spacing(3),
-                    "&:hover": {
-                      borderColor: theme.palette.primary.dark,
-                      backgroundColor: theme.palette.primary.main + "0a",
-                    },
-                  }}
-                >
-                  View Details
-                </Button>
-              </CardContent>
-            </Card>
-          </Box>
-        )}
-      </Box>
-
-      {/* Document Download Row */}
-      {hasResidenceGuidelines && (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            mb: theme.spacing(2),
-          }}
-        >
-          <Paper
-            sx={{
-              p: theme.spacing(2),
-              backgroundColor: theme.palette.grey[50],
-              border: `1px solid ${theme.palette.grey[200]}`,
-              borderRadius: theme.shape.borderRadius,
-              width: "100%",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: theme.spacing(2),
-                flexWrap: "wrap",
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: theme.spacing(2),
-                }}
-              >
-                <Description sx={{ color: theme.palette.primary.main }} />
-                <Typography
-                  variant="body1"
-                  sx={{
-                    fontWeight: theme.typography.fontWeightMedium,
-                    color: theme.palette.text.primary,
-                  }}
-                >
-                  {missionData.residenceGuidelines.name}
-                </Typography>
-              </Box>
-              <Button
-                variant="contained"
-                startIcon={<Download />}
-                onClick={() => {
-                  window.open(
-                    missionData.residenceGuidelines.url,
-                    "_blank",
-                    "noopener,noreferrer"
-                  );
-                }}
-                sx={{
-                  borderRadius: theme.shape.borderRadius,
-                  color: theme.palette.common.black,
-                  backgroundColor: theme.palette.background.default,
-                  fontWeight: theme.typography.fontWeightMedium,
-                  textTransform: "none",
-                  "&:hover": {
-                    backgroundColor: theme.palette.grey[100],
-                  },
-                }}
-              >
-                Download
-              </Button>
-            </Box>
-          </Paper>
-        </Box>
+      {missionData.hasResidenceGuidelines && (
+        <DocumentDownloadSection
+          residenceGuidelines={missionData.residenceGuidelines}
+        />
       )}
 
-      {/* Contact Information Card */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          mb: theme.spacing(2),
-          backgroundColor: theme.palette.background.paper,
-          p: theme.spacing(3),
-          borderRadius: theme.shape.borderRadius,
-          boxShadow: theme.shadows[1],
-        }}
-      >
-        <Stack spacing={theme.spacing(2)}>
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: theme.typography.fontWeightMedium,
-              mb: theme.spacing(2),
-              color: theme.palette.text.primary,
-            }}
-          >
-            Organization Contact
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: theme.spacing(2),
-            }}
-          >
-            <Phone sx={{ color: theme.palette.grey[600], fontSize: 20 }} />
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{
-                minWidth: "60px",
-                fontWeight: theme.typography.fontWeightMedium,
-              }}
-            >
-              Phone:
-            </Typography>
-            <Typography variant="body1" color="text.primary">
-              {missionData.organizationContact.phone}
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: theme.spacing(2),
-            }}
-          >
-            <Email sx={{ color: theme.palette.grey[600], fontSize: 20 }} />
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{
-                minWidth: "60px",
-                fontWeight: theme.typography.fontWeightMedium,
-              }}
-            >
-              Email:
-            </Typography>
-            <Typography variant="body1" color="text.primary">
-              {missionData.organizationContact.email}
-            </Typography>
-          </Box>
-        </Stack>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            mt: theme.spacing(2),
-          }}
-        >
-          <Button
-            variant="contained"
-            startIcon={<Message />}
-            sx={{
-              borderRadius: theme.shape.borderRadius,
-              color: theme.palette.common.black,
-              backgroundColor: theme.palette.background.default,
-              fontWeight: theme.typography.fontWeightMedium,
-              textTransform: "none",
-              "&:hover": {
-                backgroundColor: theme.palette.grey[100],
-              },
-            }}
-          >
-            Send Message
-          </Button>
-        </Box>
-      </Box>
+      <ContactInformationCard
+        organizationContact={missionData.organizationContact}
+      />
 
-      {/* Document and Contact Information - Now using flexbox layout */}
-      <Box
-        sx={{
-          border: `1px solid ${theme.palette.divider}`,
-          borderRadius: theme.shape.borderRadius,
-          p: theme.spacing(2),
-          mb: theme.spacing(3),
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: theme.typography.fontWeightMedium,
-            mb: theme.spacing(2),
-            color: theme.palette.text.primary,
-          }}
-        >
-          Mission Description
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{
-            lineHeight: theme.typography.body1.lineHeight,
-            color: theme.palette.text.secondary,
-            fontSize: theme.typography.body1.fontSize,
-          }}
-        >
-          {missionData.missionDescription}
-        </Typography>
-      </Box>
+      <MissionDescriptionCard description={missionData.missionDescription} />
 
-      {/* Educator Rating */}
-      {missionData.hasEducatorFeedback && (
-        <Box
-          sx={{
-            border: `1px solid ${theme.palette.divider}`,
-            borderRadius: theme.shape.borderRadius,
-            p: theme.spacing(2),
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: theme.typography.h2.fontWeight,
-              mb: theme.spacing(2),
-              color: theme.palette.text.primary,
-            }}
-          >
-            Your Feedback
-          </Typography>
-          <Rating value={4} sx={{ mb: theme.spacing(1) }} readOnly />
-          <Typography
-            variant="body1"
-            sx={{
-              lineHeight: theme.typography.body1.lineHeight,
-              color: theme.palette.text.secondary,
-              fontSize: theme.typography.body1.fontSize,
-            }}
-          >
-            “Great experience. Students were attentive, and the coordinator was
-            helpful.”
-          </Typography>
-        </Box>
-      )}
+      {missionData.hasEducatorFeedback && <EducatorFeedbackCard />}
     </Box>
   );
 };

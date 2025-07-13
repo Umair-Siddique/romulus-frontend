@@ -6,6 +6,7 @@ export * from "./find-educator";
 export * from "./Header";
 export * from "./LogoComponent";
 export * from "./Modal";
+export * from "./missionDetails";
 export * from "./page-meta";
 export * from "./sider";
 export * from "./TextLink";
