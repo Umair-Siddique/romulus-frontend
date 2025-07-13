@@ -116,7 +116,7 @@ export const MissionDetails = memo(
               variant="body2"
               color="text.secondary"
               sx={{
-                width: "105px",
+                width: "140px",
                 fontWeight: theme.typography.fontWeightMedium,
               }}
             >
