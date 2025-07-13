@@ -7,8 +7,8 @@ import {
 import { useList } from "@refinedev/core";
 import { useEffect, useState } from "react";
 
-import { TabsView } from "./tabView";
-import { KpiCards } from "./kpiCards";
+import { TabsView } from "./tab-view";
+import { KpiCards } from "./kpi-cards";
 import { PageMeta } from "../../page-meta";
 
 import { KpiItem, UserDashboardProps } from "#types";
