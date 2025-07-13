@@ -9,53 +9,49 @@ import {
 import { CalendarTab, MissionsTab } from "./tabs";
 import { CalendarTabDataProps, MissionsTabsDataProps } from "#types";
 
-interface TabsViewProps {
-  calendarTabMissions: any[];
-  missionsTabMissions: any[];
-}
-
 export const TabsView = ({
   calendarTabMissions,
   missionsTabMissions,
-}: TabsViewProps) => {
+}: {
+  calendarTabMissions: CalendarTabDataProps[];
+  missionsTabMissions: MissionsTabsDataProps;
+}) => {
   const theme = useTheme<Theme>();
   const [activeTab, setActiveTab] = useState(0);
+
+  const { refetchMissions } = missionsTabMissions;
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
-  const calendarTabProps: CalendarTabDataProps[] = calendarTabMissions?.map(
-    (mission) => ({
-      _id: mission?._id,
-      title: mission?.title || "No Title",
-      organizationName:
-        mission?.organization?.organizationName || "No Organization",
-      branchName: mission?.branch || "No Branch",
-      date: mission?.start || "No Date",
-      status: mission?.status || "No Status",
-    })
-  );
+  const calendarTabProps = calendarTabMissions?.map((mission) => ({
+    _id: mission?._id,
+    title: mission?.title || "No Title",
+    organizationName:
+      mission?.organization?.organizationName || "No Organization",
+    branchName: mission?.branch || "No Branch",
+    date: mission?.start || "No Date",
+    status: mission?.status || "No Status",
+  }));
 
-  const missionsTabProps: MissionsTabsDataProps[] = missionsTabMissions?.map(
-    (mission) => ({
-      _id: mission._id,
-      title: mission.title || "No Title",
-      organizationName:
-        mission.organization?.organizationName || "No Organization",
-      branchName: mission.branch || "No Branch",
-      date: mission.start || "No Date",
-      time:
-        `${mission.start.split("T")[1].slice(0, 5)} - ${mission.end
-          .split("T")[1]
-          .slice(0, 5)}` || "No Time",
-      branchAddress:
-        mission.organization?.branches?.find(
-          (branch: any) => branch.branchName === mission.branch
-        )?.branchAddress || "No Address",
-      status: mission.status || "No Status",
-    })
-  );
+  const missionsTabProps = missionsTabMissions?.missions?.map((mission) => ({
+    _id: mission._id,
+    title: mission.title || "No Title",
+    organizationName:
+      mission.organization?.organizationName || "No Organization",
+    branchName: mission.branch || "No Branch",
+    date: mission.start || "No Date",
+    time:
+      `${mission.start.split("T")[1].slice(0, 5)} - ${mission.end
+        .split("T")[1]
+        .slice(0, 5)}` || "No Time",
+    branchAddress:
+      mission.organization?.branches?.find(
+        (branch: any) => branch.branchName === mission.branch
+      )?.branchAddress || "No Address",
+    status: mission.status || "No Status",
+  }));
 
   return (
     <>
@@ -104,9 +100,9 @@ export const TabsView = ({
         }}
       >
         {activeTab === 0 ? (
-          <CalendarTab calendarTabProps={calendarTabProps} />
+          <CalendarTab calendarTabProps={calendarTabProps as any} />
         ) : (
-          <MissionsTab missionsTabProps={missionsTabProps} />
+          <MissionsTab missionsTabProps={{ missions: missionsTabProps as any, refetchMissions }} />
         )}
       </Box>
     </>

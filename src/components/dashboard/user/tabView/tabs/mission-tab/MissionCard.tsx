@@ -24,6 +24,7 @@ import { MissionCardProps } from "#types";
 import { useUserContext } from "#context";
 import { useNavigate } from "react-router";
 import { getStatusColor } from "#utils/getStatusColor";
+import { useDelete } from "@refinedev/core";
 
 export const MissionCard = ({
   _id,
@@ -34,7 +35,10 @@ export const MissionCard = ({
   time,
   branchAddress,
   status,
+  refetch,
 }: MissionCardProps) => {
+  const { mutate: deleteMission } = useDelete();
+
   const { user } = useUserContext();
   const { role } = user;
 
@@ -52,9 +56,23 @@ export const MissionCard = ({
     setAnchorEl(null);
   };
 
-  const handleMenuItemClick = (action: string) => {
-    console.log(`Selected action: ${action}`);
-    handleMenuClose();
+  const handleDeleteMision = () => {
+    deleteMission(
+      {
+        resource: "missions",
+        id: _id,
+        successNotification: {
+          message: "Mission deleted successfully",
+          type: "success",
+        },
+      },
+      {
+        onSuccess: () => {
+          handleMenuClose();
+          refetch();
+        },
+      }
+    );
   };
 
   return (
@@ -230,12 +248,7 @@ export const MissionCard = ({
                   "aria-labelledby": "basic-button",
                 }}
               >
-                <MenuItem onClick={() => handleMenuItemClick("edit")}>
-                  Edit
-                </MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick("delete")}>
-                  Delete
-                </MenuItem>
+                <MenuItem onClick={handleDeleteMision}>Delete</MenuItem>
               </Menu>
             </>
           )}

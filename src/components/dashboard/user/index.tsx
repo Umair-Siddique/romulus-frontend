@@ -72,8 +72,9 @@ export const UserDashboard = ({
 
   const {
     data: organizationMissions,
-    isLoading,
+    isLoading: isLoadingOrganizationMissions,
     isError,
+    refetch: refetchOrganizationMissions,
   } = useList({
     resource: `missions/organization/${organizationId}`,
     queryOptions: {
@@ -143,7 +144,7 @@ export const UserDashboard = ({
     );
   }, [missions, educatorMissions?.invitedFor?.length]);
 
-  if (role === "organization" && isLoading) {
+  if (role === "organization" && isLoadingOrganizationMissions) {
     return <div>Loading...</div>;
   } else if (isError) {
     return <div>Error loading data</div>;
@@ -154,8 +155,10 @@ export const UserDashboard = ({
       role === "educator"
         ? educatorMissions?.invitedFor?.map((elem: any) => elem.mission)
         : missions,
-    missionsTabMissions:
-      role === "educator" ? educatorMissions?.hiredFor : missions,
+    missionsTabMissions: {
+      missions: role === "educator" ? educatorMissions?.hiredFor : missions,
+      refetchMissions: refetchOrganizationMissions,
+    },
   };
 
   return (
@@ -164,7 +167,7 @@ export const UserDashboard = ({
 
       <KpiCards kpiCardsData={kpis} />
 
-      <TabsView {...tabViewProps} />
+      <TabsView {...tabViewProps as any} />
     </>
   );
 };

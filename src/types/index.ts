@@ -405,12 +405,17 @@ export interface ModalProps {
   hasAdditionalElements?: boolean;
 }
 
+export interface Organization {
+  organizationName: string;
+  branches: Branch[];
+}
+
 export interface CalendarTabDataProps {
   _id: string;
   title: string;
-  organizationName: string;
-  branchName: string;
-  date: string;
+  organization: Organization;
+  branch: string;
+  start: string;
   status: string;
 }
 
@@ -418,19 +423,24 @@ export interface CalendarTabProps {
   calendarTabProps: CalendarTabDataProps[];
 }
 
-export interface MissionsTabsDataProps {
+interface Mission {
   _id: string;
   title: string;
-  organizationName: string;
-  branchName: string;
-  date: string;
-  time: string;
-  branchAddress: string;
+  organization: Organization;
+  branch: string;
+  start: string;
+  end: string;
   status: string;
+}
+export interface MissionsTabsDataProps {
+  missions: Mission[];
+  status: string;
+  refetchMissions: () => void;
 }
 
 export interface MissionsTabProps {
-  missionsTabProps: MissionsTabsDataProps[];
+  missions: MissionsTabsDataProps[];
+  refetchMissions: () => void;
 }
 
 interface Mission {
@@ -458,6 +468,7 @@ export interface MissionCardProps {
   time: string;
   branchAddress: string;
   status: string;
+  refetch: () => void;
 }
 
 export interface KpiItem {

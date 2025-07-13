@@ -4,7 +4,9 @@ import { ToolBar } from "./Toolbar";
 import { useEffect, useState } from "react";
 import { MissionsTabProps, MissionsTabsDataProps } from "#types";
 
-export const MissionsTab = ({ missionsTabProps }: MissionsTabProps) => {
+export const MissionsTab = ({ missionsTabProps }: { missionsTabProps: MissionsTabProps }) => {
+  const { missions, refetchMissions } = missionsTabProps;
+
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [filteredMissions, setFilteredMissions] = useState<
     MissionsTabsDataProps[]
@@ -13,27 +15,27 @@ export const MissionsTab = ({ missionsTabProps }: MissionsTabProps) => {
   useEffect(() => {
     switch (selectedStatus) {
       case "All":
-        setFilteredMissions(missionsTabProps);
+        setFilteredMissions(missions);
         break;
       case "Pending":
         setFilteredMissions(
-          missionsTabProps.filter((mission) => mission.status === "pending")
+          missions.filter((mission) => mission.status === "pending")
         );
         break;
       case "Ongoing":
         setFilteredMissions(
-          missionsTabProps.filter((mission) => mission.status === "ongoing")
+          missions.filter((mission) => mission.status === "ongoing")
         );
         break;
       case "Completed":
         setFilteredMissions(
-          missionsTabProps.filter((mission) => mission.status === "completed")
+          missions.filter((mission) => mission.status === "completed")
         );
         break;
       default:
-        setFilteredMissions(missionsTabProps);
+        setFilteredMissions(missions);
     }
-  }, [selectedStatus, missionsTabProps]);
+  }, [selectedStatus, missions]);
 
   return (
     <Box sx={{ minHeight: "400px" }}>
@@ -51,8 +53,8 @@ export const MissionsTab = ({ missionsTabProps }: MissionsTabProps) => {
         }}
       >
         {/* Mission Cards */}
-        {filteredMissions?.map((mission, index) => (
-          <MissionCard key={index} {...mission} />
+        {filteredMissions?.map((mission: any, index) => (
+          <MissionCard key={index} {...mission} refetch={refetchMissions} />
         ))}
       </Box>
     </Box>
