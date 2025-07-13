@@ -40,57 +40,73 @@ export const MissionDetails = () => {
 
   const missionData = {
     id: missionId || "Mission ID Unavailable",
+
     educatorId: educatorId || "Educator ID Unavailable",
+
     missionTitle: mission?.title || "Mission Title Unavailable",
+
     invitationStatus,
+
     organizationName:
       mission?.organization?.organizationName || "Organization Unavailable",
+
     missionDate: mission?.start?.split("T")[0] || "Date Unavailable",
+
     missionTime:
       `${mission?.start?.split("T")[1]?.split(".")[0]} to ${
         mission?.end?.split("T")[1]?.split(".")[0]
       }` || "Time Unavailable",
+
     branchName: mission?.branch || "Branch Name Unavailable",
+
     missionLocation: `${mission?.organization?.city || "City Unavailable"}, ${
       mission?.organization?.country || "Country Unavailable"
     }`,
+
     branchAddress:
       mission?.organization?.branches?.find(
         (branch: any) => branch.branchName === mission?.branch
       )?.branchAddress || "Address Unavailable",
+
     missionStatus: mission?.status || "Status Unavailable",
+
     missionDescription: mission?.description || "Description Unavailable",
+
     hasResidenceGuidelines:
       Object.keys(mission?.technicalDocument || {}).length > 0,
+
     residenceGuidelines: {
       name: "Residence Guidelines",
       url: mission?.technicalDocument,
     },
+
     organizationContact: {
       phone: mission?.organization?.phone || "Phone Unavailable",
       email: mission?.organization?.email || "Email Unavailable",
     },
+
     hasEducatorsFeedbacks: !!mission?.educatorsFeedbacks?.length,
+
     hasPreferredEducator: !!mission?.preferredEducator,
+
     preferredEducator: {
-      name: "John Clark",
-      rating: 4.6,
+      name: mission?.preferredEducator?.name || "John Clark",
+      rating: mission?.preferredEducator?.rating || 4.6,
       avatar:
+        mission?.preferredEducator?.avatar ||
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
     },
-  };
 
+    invitedEducators: mission?.invitedEducators || [],
+
+    hiredEducators: mission?.hiredEducators || [],
+  };
   const tabsNavigation = [
     { title: "Invited Educators" },
     { title: "Hired Educators" },
-    { title: "Rejected Educators" },
   ];
 
-  const tabsContent = [
-    <EducatorsTable />,
-    <EducatorsTable />,
-    <EducatorsTable />,
-  ];
+  const tabsContent = [<EducatorsTable />, <EducatorsTable />];
 
   return (
     <Box
