@@ -13,7 +13,7 @@ import {
   MissionDescriptionCard,
   EducatorFeedbackCard,
   TabView,
-  EducatorsTable,
+  EducatorTable,
 } from "#components";
 
 export const MissionDetails = () => {
@@ -133,7 +133,7 @@ export const MissionDetails = () => {
     { title: "Hired Educators" },
   ];
 
-  const tabsContent = [<EducatorsTable />, <EducatorsTable />];
+  const tabsContent = [<EducatorTable />, <EducatorTable />];
 
   return (
     <Box
