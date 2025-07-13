@@ -87,26 +87,40 @@ export const MissionDetails = () => {
         width: "100%",
       }}
     >
-      <MissionHeader role={role} missionData={missionData} />
+      <Box sx={{ mb: theme.spacing(2) }}>
+        <MissionHeader role={role} missionData={missionData} />
+      </Box>
 
-      <MissionInfoSection
-        missionData={missionData}
-        getStatusColor={getStatusColor}
-      />
+      <Box sx={{ mb: theme.spacing(2) }}>
+        <MissionInfoSection
+          missionData={missionData}
+          getStatusColor={getStatusColor}
+        />
+      </Box>
 
       {missionData.hasResidenceGuidelines && (
-        <DocumentDownloadSection
-          residenceGuidelines={missionData.residenceGuidelines}
-        />
+        <Box sx={{ mb: theme.spacing(2) }}>
+          <DocumentDownloadSection
+            residenceGuidelines={missionData.residenceGuidelines}
+          />
+        </Box>
       )}
 
-      <ContactInformationCard
-        organizationContact={missionData.organizationContact}
-      />
+      <Box sx={{ mb: theme.spacing(2) }}>
+        <ContactInformationCard
+          organizationContact={missionData.organizationContact}
+        />
+      </Box>
 
-      <MissionDescriptionCard description={missionData.missionDescription} />
+      <Box sx={{ mb: missionData.hasEducatorFeedback ? theme.spacing(2) : 0 }}>
+        <MissionDescriptionCard description={missionData.missionDescription} />
+      </Box>
 
-      {missionData.hasEducatorFeedback && <EducatorFeedbackCard />}
+      {missionData.hasEducatorFeedback && (
+        <Box>
+          <EducatorFeedbackCard />
+        </Box>
+      )}
     </Box>
   );
 };

@@ -112,7 +112,6 @@ export const MissionHeader = memo(
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          mb: theme.spacing(2),
         }}
       >
         <Typography

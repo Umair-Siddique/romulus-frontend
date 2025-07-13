@@ -11,7 +11,6 @@ export const MissionDescriptionCard = memo(({ description }: { description: stri
         border: `1px solid ${theme.palette.divider}`,
         borderRadius: theme.shape.borderRadius,
         p: theme.spacing(2),
-        mb: theme.spacing(3),
         display: "flex",
         flexDirection: "column",
       }}

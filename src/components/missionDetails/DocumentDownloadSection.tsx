@@ -22,7 +22,6 @@ export const DocumentDownloadSection = memo(
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          mb: theme.spacing(2),
         }}
       >
         <Paper
