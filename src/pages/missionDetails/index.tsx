@@ -34,7 +34,7 @@ export const MissionDetails = () => {
   const { user, userProfile } = useUserContext();
 
   const { role, educatorId, organizationId } = user;
-  const { missionsInvitedFor } = userProfile;
+  const { missionsInvitedFor } = userProfile || {};
 
   const missionId = window.location.pathname.split("/").pop();
   const roleId = educatorId || organizationId;
@@ -47,47 +47,64 @@ export const MissionDetails = () => {
   });
 
   const mission = data?.data || {};
+
   const invitationStatus = missionsInvitedFor?.find(
     (elem: any) => elem?.mission?._id === missionId
   )?.invitationStatus;
+  const missionTitle = mission?.title || "Mission Title Unavailable";
+  const organizationName =
+    mission?.organization?.organizationName || "Organization Unavailable";
+  const missionDate = mission?.start?.split("T")[0] || "Date Unavailable";
+  const missionTime =
+    `${mission?.start?.split("T")[1]?.split(".")[0]} to ${
+      mission?.end?.split("T")[1]?.split(".")[0]
+    }` || "Time Unavailable";
+  const branchName = mission?.branch || "Branch Name Unavailable";
+  const missionLocation = `${
+    mission?.organization?.city || "City Unavailable"
+  }, ${mission?.organization?.country || "Country Unavailable"}`;
+  const branchAddress =
+    mission?.organization?.branches?.find(
+      (branch: any) => branch.branchName === mission?.branch
+    )?.branchAddress || "Address Unavailable";
+  const missionStatus = mission?.status || "Status Unavailable";
+  const missionDescription = mission?.description || "Description Unavailable";
+  const hasResidenceGuidelines =
+    Object.keys(mission?.technicalDocument || {}).length > 0;
+  const residenceGuidelines = {
+    name: "Residence Guidelines",
+    url: mission?.technicalDocument,
+  };
+  const organizationContact = {
+    phone: mission?.organization?.phone || "Phone Unavailable",
+    email: mission?.organization?.email || "Email Unavailable",
+  };
+  const hasEducatorFeedback = !!mission?.educatorFeedback?.length || null;
+  const hasPreferredEducator = !!mission?.preferredEducator || null;
+  const preferredEducator = {
+    name: "John Clark",
+    rating: 4.6,
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+  };
 
   const missionData = {
-    title: mission?.title || "Mission Title Unavailable",
-    organizationName:
-      mission?.organization?.organizationName || "Organization Unavailable",
-    date: mission?.start?.split("T")[0] || "Date Unavailable",
-    time:
-      `${mission?.start?.split("T")[1]?.split(".")[0]} to ${
-        mission?.end?.split("T")[1]?.split(".")[0]
-      }` || "Time Unavailable",
-    branchName: mission?.branch || "Branch Name Unavailable",
-    location: `${mission?.organization?.city || "City Unavailable"}, ${
-      mission?.organization?.country || "Country Unavailable"
-    }`,
-    address:
-      mission?.organization?.branches?.find(
-        (branch: any) => branch.branchName === mission?.branch
-      )?.branchAddress || "Address Unavailable",
-    status: mission?.status || "Status Unavailable",
-    description: mission?.description || "Description Unavailable",
-    document: {
-      name: mission?.technicalDocument
-        ? "Residence Guidelines"
-        : "Residence Guidelines Unavailable",
-      url: mission?.technicalDocument || "#",
-    },
-    contact: {
-      phone: mission?.organization?.phone || "Phone Unavailable",
-      email: mission?.organization?.email || "Email Unavailable",
-    },
-    preferredEducator: !!mission?.preferredEducator || null,
-    educatorFeedback: !!mission?.educatorFeedback?.length || null,
-    educator: {
-      name: "John Clark",
-      rating: 4.6,
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    },
+    missionTitle,
+    invitationStatus,
+    organizationName,
+    missionDate,
+    missionTime,
+    branchName,
+    missionLocation,
+    branchAddress,
+    missionStatus,
+    missionDescription,
+    hasResidenceGuidelines,
+    residenceGuidelines,
+    organizationContact,
+    hasEducatorFeedback,
+    hasPreferredEducator,
+    preferredEducator,
   };
 
   return (
@@ -126,7 +143,7 @@ export const MissionDetails = () => {
         </Typography>
 
         {/* Action Buttons */}
-        {invitationStatus === "pending" && (
+        {missionData.invitationStatus === "pending" && (
           <Box
             sx={{
               display: "flex",
@@ -191,7 +208,7 @@ export const MissionDetails = () => {
               mb: theme.spacing(2),
             }}
           >
-            {missionData.title}
+            {missionData.missionTitle}
           </Typography>
 
           <Stack spacing={theme.spacing(1.5)}>
@@ -239,7 +256,7 @@ export const MissionDetails = () => {
                 Date:
               </Typography>
               <Typography variant="body1" color="text.primary">
-                {missionData.date}
+                {missionData.missionDate}
               </Typography>
             </Box>
 
@@ -264,7 +281,7 @@ export const MissionDetails = () => {
                 Time:
               </Typography>
               <Typography variant="body1" color="text.primary">
-                {missionData.time}
+                {missionData.missionTime}
               </Typography>
             </Box>
 
@@ -312,7 +329,7 @@ export const MissionDetails = () => {
                 Location:
               </Typography>
               <Typography variant="body1" color="text.primary">
-                {missionData.location}
+                {missionData.missionLocation}
               </Typography>
             </Box>
 
@@ -337,7 +354,7 @@ export const MissionDetails = () => {
                 Address:
               </Typography>
               <Typography variant="body1" color="text.primary">
-                {missionData.address}
+                {missionData.branchAddress}
               </Typography>
             </Box>
 
@@ -359,11 +376,11 @@ export const MissionDetails = () => {
                 Status:
               </Typography>
               <Chip
-                label={missionData.status}
+                label={missionData.missionStatus}
                 size="small"
                 sx={{
                   fontWeight: theme.typography.fontWeightMedium,
-                  ...getStatusColor(missionData.status),
+                  ...getStatusColor(missionData.missionStatus),
                 }}
               />
             </Box>
@@ -371,7 +388,7 @@ export const MissionDetails = () => {
         </Box>
 
         {/* Preferred Educator Card */}
-        {!!missionData.preferredEducator && (
+        {hasPreferredEducator && (
           <Box
             sx={{
               width: "300px",
@@ -410,7 +427,7 @@ export const MissionDetails = () => {
                 }}
               >
                 <Avatar
-                  src={missionData.educator.avatar}
+                  src={missionData.preferredEducator.avatar}
                   sx={{
                     width: 100,
                     height: 100,
@@ -437,7 +454,7 @@ export const MissionDetails = () => {
                       color: theme.palette.text.primary,
                     }}
                   >
-                    {missionData.educator.name}
+                    {missionData.preferredEducator.name}
                   </Typography>
                   <Box
                     sx={{
@@ -453,7 +470,7 @@ export const MissionDetails = () => {
                         color: theme.palette.text.primary,
                       }}
                     >
-                      {missionData.educator.rating}
+                      {missionData.preferredEducator.rating}
                     </Typography>
                     <Star
                       sx={{ color: theme.palette.warning.main, fontSize: 20 }}
@@ -485,16 +502,16 @@ export const MissionDetails = () => {
       </Box>
 
       {/* Document Download Row */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          mb: theme.spacing(2),
-        }}
-      >
-        {missionData.document && (
+      {hasResidenceGuidelines && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: theme.spacing(2),
+          }}
+        >
           <Paper
             sx={{
               p: theme.spacing(2),
@@ -528,7 +545,7 @@ export const MissionDetails = () => {
                     color: theme.palette.text.primary,
                   }}
                 >
-                  {missionData.document.name}
+                  {missionData.residenceGuidelines.name}
                 </Typography>
               </Box>
               <Button
@@ -536,7 +553,7 @@ export const MissionDetails = () => {
                 startIcon={<Download />}
                 onClick={() => {
                   window.open(
-                    missionData.document.url,
+                    missionData.residenceGuidelines.url,
                     "_blank",
                     "noopener,noreferrer"
                   );
@@ -556,8 +573,8 @@ export const MissionDetails = () => {
               </Button>
             </Box>
           </Paper>
-        )}
-      </Box>
+        </Box>
+      )}
 
       {/* Contact Information Card */}
       <Box
@@ -603,7 +620,7 @@ export const MissionDetails = () => {
               Phone:
             </Typography>
             <Typography variant="body1" color="text.primary">
-              {missionData.contact.phone}
+              {missionData.organizationContact.phone}
             </Typography>
           </Box>
           <Box
@@ -625,7 +642,7 @@ export const MissionDetails = () => {
               Email:
             </Typography>
             <Typography variant="body1" color="text.primary">
-              {missionData.contact.email}
+              {missionData.organizationContact.email}
             </Typography>
           </Box>
         </Stack>
@@ -684,12 +701,12 @@ export const MissionDetails = () => {
             fontSize: theme.typography.body1.fontSize,
           }}
         >
-          {missionData.description}
+          {missionData.missionDescription}
         </Typography>
       </Box>
 
       {/* Educator Rating */}
-      {missionData.educatorFeedback && (
+      {missionData.hasEducatorFeedback && (
         <Box
           sx={{
             border: `1px solid ${theme.palette.divider}`,
