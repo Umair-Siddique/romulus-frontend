@@ -51,36 +51,51 @@ export const MissionDetails = () => {
   const invitationStatus = missionsInvitedFor?.find(
     (elem: any) => elem?.mission?._id === missionId
   )?.invitationStatus;
+
   const missionTitle = mission?.title || "Mission Title Unavailable";
+
   const organizationName =
     mission?.organization?.organizationName || "Organization Unavailable";
+
   const missionDate = mission?.start?.split("T")[0] || "Date Unavailable";
+
   const missionTime =
     `${mission?.start?.split("T")[1]?.split(".")[0]} to ${
       mission?.end?.split("T")[1]?.split(".")[0]
     }` || "Time Unavailable";
+
   const branchName = mission?.branch || "Branch Name Unavailable";
+
   const missionLocation = `${
     mission?.organization?.city || "City Unavailable"
   }, ${mission?.organization?.country || "Country Unavailable"}`;
+
   const branchAddress =
     mission?.organization?.branches?.find(
       (branch: any) => branch.branchName === mission?.branch
     )?.branchAddress || "Address Unavailable";
+
   const missionStatus = mission?.status || "Status Unavailable";
+
   const missionDescription = mission?.description || "Description Unavailable";
+
   const hasResidenceGuidelines =
     Object.keys(mission?.technicalDocument || {}).length > 0;
+
   const residenceGuidelines = {
     name: "Residence Guidelines",
     url: mission?.technicalDocument,
   };
+
   const organizationContact = {
     phone: mission?.organization?.phone || "Phone Unavailable",
     email: mission?.organization?.email || "Email Unavailable",
   };
+
   const hasEducatorFeedback = !!mission?.educatorFeedback?.length || null;
+
   const hasPreferredEducator = !!mission?.preferredEducator || null;
+
   const preferredEducator = {
     name: "John Clark",
     rating: 4.6,
@@ -143,48 +158,88 @@ export const MissionDetails = () => {
         </Typography>
 
         {/* Action Buttons */}
-        {missionData.invitationStatus === "pending" && (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: theme.spacing(2),
-            }}
-          >
-            <Button
-              variant="outlined"
-              color="error"
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                px: theme.spacing(3),
-                py: theme.spacing(1),
-                fontWeight: theme.typography.fontWeightMedium,
-                textTransform: "none",
-                "&:hover": {
-                  backgroundColor: theme.palette.error.main + "0a",
-                },
-              }}
-            >
-              Reject Mission
-            </Button>
-            <Button
-              variant="contained"
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                px: theme.spacing(3),
-                py: theme.spacing(1),
-                fontWeight: theme.typography.fontWeightMedium,
-                textTransform: "none",
-                backgroundColor: theme.palette.primary.main,
-                "&:hover": {
-                  backgroundColor: theme.palette.primary.dark,
-                },
-              }}
-            >
-              Accept Mission
-            </Button>
-          </Box>
-        )}
+        {role === "educator"
+          ? missionData.invitationStatus === "pending" &&
+            missionData.missionStatus !== "completed" && (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: theme.spacing(2),
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  color="error"
+                  sx={{
+                    borderRadius: theme.shape.borderRadius,
+                    px: theme.spacing(3),
+                    py: theme.spacing(1),
+                    fontWeight: theme.typography.fontWeightMedium,
+                    textTransform: "none",
+                    "&:hover": {
+                      backgroundColor: theme.palette.error.main + "0a",
+                    },
+                  }}
+                >
+                  Reject Mission
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    borderRadius: theme.shape.borderRadius,
+                    px: theme.spacing(3),
+                    py: theme.spacing(1),
+                    fontWeight: theme.typography.fontWeightMedium,
+                    textTransform: "none",
+                    backgroundColor: theme.palette.primary.main,
+                    "&:hover": {
+                      backgroundColor: theme.palette.primary.dark,
+                    },
+                  }}
+                >
+                  Accept Mission
+                </Button>
+              </Box>
+            )
+          : role === "organization"
+          ? missionData.missionStatus !== "completed" && (
+              <Button
+                variant="contained"
+                sx={{
+                  borderRadius: theme.shape.borderRadius,
+                  px: theme.spacing(3),
+                  py: theme.spacing(1),
+                  fontWeight: theme.typography.fontWeightMedium,
+                  textTransform: "none",
+                  backgroundColor: theme.palette.primary.main,
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.dark,
+                  },
+                }}
+              >
+                Mark as Completed
+              </Button>
+            )
+          : missionData.invitationStatus !== "pending" &&
+            missionData.missionStatus !== "completed" && (
+              <Button
+                variant="contained"
+                sx={{
+                  borderRadius: theme.shape.borderRadius,
+                  px: theme.spacing(3),
+                  py: theme.spacing(1),
+                  fontWeight: theme.typography.fontWeightMedium,
+                  textTransform: "none",
+                  backgroundColor: theme.palette.primary.main,
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.dark,
+                  },
+                }}
+              >
+                Assign Educator
+              </Button>
+            )}
       </Box>
 
       {/* Mission Information and Preferred Educator */}
