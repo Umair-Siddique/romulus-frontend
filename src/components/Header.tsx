@@ -3,7 +3,7 @@ import Menu from "@mui/material/Menu";
 import Stack from "@mui/material/Stack";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import Toolbar from "@mui/material/Toolbar";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
@@ -25,6 +25,7 @@ export const Header = () => {
   const [showBackButton, setShowBackButton] = useState<boolean>(false);
 
   const { user, setUserProfile } = useUserContext();
+  const navigate = useNavigate();
 
   const { educatorId, organizationId, role } = user;
 
@@ -137,7 +138,7 @@ export const Header = () => {
           {/* Display back button with icon */}
           {showBackButton && (
             <IconButton
-              onClick={() => window.history.back()}
+              onClick={() => navigate(-1)}
               sx={{
                 color: theme.palette.text.secondary,
                 marginRight: theme.spacing(1),
