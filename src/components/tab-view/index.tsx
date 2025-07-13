@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 
-export const TabView = () => {
+export const TabView = ({
+  tabsNavigation,
+  tabsContent,
+}: {
+  tabsNavigation: { title: string }[];
+  tabsContent: React.ReactNode[];
+}) => {
   const theme = useTheme<Theme>();
   const [activeTab, setActiveTab] = useState(0);
 
@@ -12,6 +18,7 @@ export const TabView = () => {
 
   return (
     <>
+      {/* Tab Navigation */}
       <Box sx={{ mt: 4, borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={activeTab}
@@ -33,9 +40,9 @@ export const TabView = () => {
             },
           }}
         >
-          <Tab label="Invited Educators" />
-          <Tab label="Hired Educators" />
-          <Tab label="Rejected Educators" />
+          {tabsNavigation.map((tab, index) => (
+            <Tab key={index} label={tab.title} />
+          ))}
         </Tabs>
       </Box>
 
@@ -49,13 +56,7 @@ export const TabView = () => {
           marginTop: 2,
         }}
       >
-        {activeTab === 0 ? (
-          <h1>Tab 1</h1>
-        ) : activeTab === 1 ? (
-          <h1>Tab 2</h1>
-        ) : (
-          <h1>Tab 3</h1>
-        )}
+        {tabsContent[activeTab]}
       </Box>
     </>
   );

@@ -13,6 +13,7 @@ import {
   MissionDescriptionCard,
   EducatorFeedbackCard,
   TabView,
+  EducatorsTable,
 } from "#components";
 
 export const MissionDetails = () => {
@@ -79,6 +80,18 @@ export const MissionDetails = () => {
     },
   };
 
+  const tabsNavigation = [
+    { title: "Invited Educators" },
+    { title: "Hired Educators" },
+    { title: "Rejected Educators" },
+  ];
+
+  const tabsContent = [
+    <EducatorsTable />,
+    <EducatorsTable />,
+    <EducatorsTable />,
+  ];
+
   return (
     <Box
       sx={{
@@ -131,9 +144,9 @@ export const MissionDetails = () => {
         </Box>
       )}
 
-     {role === "organization" && (
-      <TabView />
-     )} 
+      {role === "organization" && (
+        <TabView tabsNavigation={tabsNavigation} tabsContent={tabsContent} />
+      )}
     </Box>
   );
 };

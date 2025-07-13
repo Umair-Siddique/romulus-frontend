@@ -6,3 +6,4 @@ export * from "./MissionDescriptionCard";
 export * from "./EducatorFeedbackCard";
 export * from "./PreferredEducatorCard";
 export * from "./MissionDetails";
+export * from "./EducatorsTable";
