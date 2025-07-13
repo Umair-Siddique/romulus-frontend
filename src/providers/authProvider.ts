@@ -141,12 +141,14 @@ export const authProvider: AuthProvider = {
 
   check: async () => {
     const accessToken = localStorage.getItem("romulus-access-token");
+
     if (!accessToken) {
       return { authenticated: false, redirectTo: "/login" };
     }
 
     const decoded = jwtDecode(accessToken);
     const currentTime = Math.floor(Date.now() / 1000);
+
     if (decoded.exp && decoded.exp < currentTime) {
       localStorage.removeItem("romulus-access-token");
       localStorage.removeItem("romulus-user-profile");
@@ -166,6 +168,7 @@ export const authProvider: AuthProvider = {
   getIdentity: async () => {
     const userString = localStorage.getItem("romulus-user-profile");
     const user = userString ? JSON.parse(userString) : null;
+
     if (!user) {
       return null;
     }

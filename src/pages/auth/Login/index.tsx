@@ -36,6 +36,7 @@ export const LoginPage = () => {
     login(data, {
       onSuccess: (response: any) => {
         const { data: loginData } = response;
+
         setUser(loginData);
         setLoginPhase("complete");
       },
