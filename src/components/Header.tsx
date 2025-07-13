@@ -102,8 +102,8 @@ export const Header = () => {
         borderBottom: `1px solid ${theme.palette.divider}`,
         boxShadow: `inset 0 2px 8px rgba(126, 148, 142, 0.08), inset 0 -2px 8px rgba(126, 148, 142, 0.08), inset 2px 0 8px rgba(126, 148, 142, 0.08), inset -2px 0 8px rgba(126, 148, 142, 0.08)`,
         borderRadius: theme.shape.borderRadius,
-        width: "96%",
-        marginLeft: "20px",
+        width: "97%",
+        marginLeft: "18px",
         marginTop: theme.spacing(2),
       }}
     >

@@ -16,7 +16,7 @@ import { useTheme } from "@mui/material/styles";
 
 import { MissionsModalProps } from "#types";
 import { useNavigate } from "react-router";
-import { getStatusColor } from "#utils/getStatusColor";
+import { getStatusColor } from "#utils";
 
 export const MissionsModal = ({
   open,

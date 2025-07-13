@@ -14,7 +14,9 @@ import {
 } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import { RemoveRedEye as EyeIcon } from "@mui/icons-material";
-import { getStatusColor } from "#utils/getStatusColor";
+import { useNavigate } from "react-router";
+import { formatDate, getStatusColor } from "#utils";
+import { useMany } from "@refinedev/core";
 
 interface Column {
   id: "educator" | "responseTime" | "status" | "actions";
@@ -58,82 +60,43 @@ interface Data {
   status: string;
 }
 
-const data: Data[] = [
-  {
-    id: 1,
-    name: "Emily Johnson",
-    avatar: "/api/placeholder/40/40",
-    responseTime: "May 8, 2025 - 10:15 AM",
-    status: "Accepted",
-  },
-  {
-    id: 2,
-    name: "James Smith",
-    avatar: "/api/placeholder/40/40",
-    responseTime: "—",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    name: "Sophia Brown",
-    avatar: "/api/placeholder/40/40",
-    responseTime: "May 8, 2025 - 9:45 AM",
-    status: "Rejected",
-  },
-  {
-    id: 4,
-    name: "Liam Davis",
-    avatar: "/api/placeholder/40/40",
-    responseTime: "—",
-    status: "Pending",
-  },
-  {
-    id: 5,
-    name: "Olivia Wilson",
-    avatar: "/api/placeholder/40/40",
-    responseTime: "May 8, 2025 - 9:45 AM",
-    status: "Rejected",
-  },
-  {
-    id: 6,
-    name: "Noah Taylor",
-    avatar: "/api/placeholder/40/40",
-    responseTime: "—",
-    status: "Pending",
-  },
-  {
-    id: 7,
-    name: "Ava Martinez",
-    avatar: "/api/placeholder/40/40",
-    responseTime: "May 8, 2025 - 9:45 AM",
-    status: "Accepted",
-  },
-  {
-    id: 8,
-    name: "Mason Anderson",
-    avatar: "/api/placeholder/40/40",
-    responseTime: "—",
-    status: "Pending",
-  },
-  {
-    id: 9,
-    name: "Isabella Thomas",
-    avatar: "/api/placeholder/40/40",
-    responseTime: "May 8, 2025 - 9:45 AM",
-    status: "Rejected",
-  },
-  {
-    id: 10,
-    name: "Ethan Jackson",
-    avatar: "/api/placeholder/40/40",
-    responseTime: "—",
-    status: "Pending",
-  },
-
-];
-
-export const EducatorTable = () => {
+export const EducatorTable = ({
+  educators,
+  missionId,
+}: {
+  educators: string[];
+  missionId: string;
+}) => {
   const theme = useTheme<Theme>();
+  const navigate = useNavigate();
+
+  // Use useMany instead of multiple useOne calls
+  const { data: educatorsData } = useMany({
+    resource: "educators",
+    ids: educators,
+    queryOptions: {
+      enabled: educators.length > 0,
+    },
+  });
+
+  const data: Data[] =
+    educatorsData?.data?.map((educator: any) => ({
+      id: educator?._id,
+      name:
+        `${educator?.firstName} ${educator?.lastName}` || "Unknown Educator",
+      avatar: educator?.avatar || "/api/placeholder/40/40",
+      responseTime: educator?.responseTime
+        ? formatDate(educator?.responseTime)
+        : "—",
+      status:
+        educator?.missionsInvitedFor?.find(
+          (mission: any) => mission?.mission?._id === missionId
+        )?.invitationStatus || "Status Unavailable",
+    })) || [];
+
+  const handleViewEducator = (educatorId: number) => {
+    navigate(`/educators/${educatorId}`);
+  };
 
   return (
     <Box
@@ -257,6 +220,7 @@ export const EducatorTable = () => {
                 <TableCell align="right" sx={{ padding: theme.spacing(2) }}>
                   <IconButton
                     size="small"
+                    onClick={() => handleViewEducator(educator.id)}
                     sx={{
                       color: theme.palette.text.secondary,
                       "&:hover": {

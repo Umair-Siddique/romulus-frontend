@@ -23,7 +23,7 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { MissionCardProps } from "#types";
 import { useUserContext } from "#context";
 import { useNavigate } from "react-router";
-import { getStatusColor } from "#utils/getStatusColor";
+import { getStatusColor } from "#utils";
 import { useDelete } from "@refinedev/core";
 
 export const MissionCard = ({

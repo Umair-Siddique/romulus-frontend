@@ -1,9 +1,9 @@
 // Main container component
-import { getStatusColor } from "#utils/getStatusColor";
 import { Box } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 import { useOne } from "@refinedev/core";
 
+import { getStatusColor } from "#utils";
 import { useUserContext } from "#context";
 import {
   MissionHeader,
@@ -128,12 +128,22 @@ export const MissionDetails = () => {
 
     hiredEducators: mission?.hiredEducators || [],
   };
+
   const tabsNavigation = [
     { title: "Invited Educators" },
     { title: "Hired Educators" },
   ];
 
-  const tabsContent = [<EducatorTable />, <EducatorTable />];
+  const tabsContent = [
+    <EducatorTable
+      educators={missionData.invitedEducators}
+      missionId={missionData.id}
+    />,
+    <EducatorTable
+      educators={missionData.hiredEducators}
+      missionId={missionData.id}
+    />,
+  ];
 
   return (
     <Box
