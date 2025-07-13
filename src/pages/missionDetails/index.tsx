@@ -161,7 +161,7 @@ export const MissionDetails = () => {
         />
       </Box>
 
-      {missionData.hasResidenceGuidelines && (
+      {missionData.hasResidenceGuidelines && role !== "organization" && (
         <Box sx={{ mb: theme.spacing(2) }}>
           <DocumentDownloadSection
             residenceGuidelines={missionData.residenceGuidelines}
@@ -169,11 +169,13 @@ export const MissionDetails = () => {
         </Box>
       )}
 
-      <Box sx={{ mb: theme.spacing(2) }}>
-        <ContactInformationCard
-          organizationContact={missionData.organizationContact}
-        />
-      </Box>
+      {role !== "organization" && (
+        <Box sx={{ mb: theme.spacing(2) }}>
+          <ContactInformationCard
+            organizationContact={missionData.organizationContact}
+          />
+        </Box>
+      )}
 
       <Box
         sx={{ mb: missionData.hasEducatorsFeedbacks ? theme.spacing(2) : 0 }}
