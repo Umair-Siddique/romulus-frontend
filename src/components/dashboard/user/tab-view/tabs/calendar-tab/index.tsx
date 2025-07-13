@@ -5,17 +5,15 @@ import moment from "moment";
 import CustomToolbar from "./CustomToolbar";
 import { MissionsModal } from "./MissionsModal";
 
-import { CalendarTabProps } from "#types";
-
 moment.locale("en-GB");
 
-export const CalendarTab = ({ calendarTabProps }: CalendarTabProps) => {
+export const CalendarTab = ({ calendarTabProps }: any) => {
   const localizer = momentLocalizer(moment);
   const [open, setOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date()); // Add this state
   const [selectedDateMissions, setSelectedDateMissions] = useState<any[]>([]);
 
-  const calendarMissionList = calendarTabProps?.map((mission) => ({
+  const calendarMissionList = calendarTabProps?.map((mission: any) => ({
     id: mission._id,
     title: mission.title,
     organizationName: mission.organizationName,
@@ -24,7 +22,7 @@ export const CalendarTab = ({ calendarTabProps }: CalendarTabProps) => {
     status: mission.status,
   }));
 
-  const missionsByDate = calendarMissionList?.reduce((acc, mission) => {
+  const missionsByDate = calendarMissionList?.reduce((acc: any, mission: any) => {
     const dateKey = moment(mission.date).format("YYYY-MM-DD");
     if (!acc[dateKey]) {
       acc[dateKey] = [];
@@ -36,7 +34,7 @@ export const CalendarTab = ({ calendarTabProps }: CalendarTabProps) => {
   // Transform grouped missions into calendar events
   const events =
     missionsByDate &&
-    Object.entries(missionsByDate).map(([dateKey, missions]) => {
+    Object.entries(missionsByDate).map(([dateKey, missions]: any) => {
       const missionCount = missions.length;
       const eventDate = moment(dateKey).toDate();
 

@@ -7,14 +7,13 @@ import {
 } from "@mui/icons-material";
 
 import { CalendarTab, MissionsTab } from "./tabs";
-import { CalendarTabDataProps, MissionsTabsDataProps } from "#types";
 
 export const TabsView = ({
   calendarTabMissions,
   missionsTabMissions,
 }: {
-  calendarTabMissions: CalendarTabDataProps[];
-  missionsTabMissions: MissionsTabsDataProps;
+  calendarTabMissions: any,
+  missionsTabMissions: any,
 }) => {
   const theme = useTheme<Theme>();
   const [activeTab, setActiveTab] = useState(0);
@@ -25,7 +24,7 @@ export const TabsView = ({
     setActiveTab(newValue);
   };
 
-  const calendarTabProps = calendarTabMissions?.map((mission) => ({
+  const calendarTabProps = calendarTabMissions?.map((mission: any) => ({
     _id: mission?._id,
     title: mission?.title || "No Title",
     organizationName:
@@ -35,7 +34,7 @@ export const TabsView = ({
     status: mission?.status || "No Status",
   }));
 
-  const missionsTabProps = missionsTabMissions?.missions?.map((mission) => ({
+  const missionsTabProps = missionsTabMissions?.missions?.map((mission: any) => ({
     _id: mission._id,
     title: mission.title || "No Title",
     organizationName:
