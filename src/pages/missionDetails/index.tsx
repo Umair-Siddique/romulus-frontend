@@ -12,6 +12,7 @@ import {
   ContactInformationCard,
   MissionDescriptionCard,
   EducatorFeedbackCard,
+  TabView,
 } from "#components";
 
 export const MissionDetails = () => {
@@ -129,6 +130,10 @@ export const MissionDetails = () => {
           <EducatorFeedbackCard />
         </Box>
       )}
+
+     {role === "organization" && (
+      <TabView />
+     )} 
     </Box>
   );
 };

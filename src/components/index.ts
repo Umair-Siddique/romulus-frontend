@@ -9,4 +9,5 @@ export * from "./Modal";
 export * from "./missionDetails";
 export * from "./page-meta";
 export * from "./sider";
+export * from "./tab-view";
 export * from "./TextLink";
