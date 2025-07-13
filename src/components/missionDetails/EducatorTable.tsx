@@ -141,7 +141,10 @@ export const EducatorTable = ({
             </TableHead>
             <TableBody>
               <TableRow>
-                <TableCell colSpan={4} sx={{ textAlign: 'center', padding: theme.spacing(3) }}>
+                <TableCell
+                  colSpan={4}
+                  sx={{ textAlign: "center", padding: theme.spacing(3) }}
+                >
                   <Typography variant="body2" color="text.secondary">
                     No educators found
                   </Typography>
@@ -154,18 +157,41 @@ export const EducatorTable = ({
     );
   }
 
-  const data: Data[] = educatorsData?.data?.map((educator: any) => ({
-    id: educator?._id,
-    name: `${educator?.firstName} ${educator?.lastName}` || "Unknown Educator",
-    avatar: educator?.avatar || "/api/placeholder/40/40",
-    responseTime: educator?.responseTime
-      ? formatDate(educator?.responseTime)
-      : "—",
-    status:
-      educator?.missionsInvitedFor?.find(
-        (mission: any) => mission?.mission?._id === missionId
-      )?.invitationStatus || "Status Unavailable",
-  })).filter(educator => educator.id) || []; // Filter out educators without valid IDs
+  // Handle loading state
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          backgroundColor: theme.palette.background.default,
+          borderRadius: theme.shape.borderRadius,
+          padding: theme.spacing(3),
+          textAlign: "center",
+        }}
+      >
+        <Typography variant="body2" color="text.secondary">
+          Loading educators...
+        </Typography>
+      </Box>
+    );
+  }
+
+  const data: Data[] =
+    educatorsData?.data
+      ?.map((educator: any) => ({
+        id: educator?._id,
+        name:
+          `${educator?.firstName} ${educator?.lastName}` || "Unknown Educator",
+        avatar: educator?.avatar || "/api/placeholder/40/40",
+        responseTime: educator?.responseTime
+          ? formatDate(educator?.responseTime)
+          : "—",
+        status:
+          educator?.missionsInvitedFor?.find(
+            (mission: any) => mission?.mission?._id === missionId
+          )?.invitationStatus || "Status Unavailable",
+      }))
+      .filter((educator) => educator.id) || []; // Filter out educators without valid IDs
 
   const handleViewEducator = (educatorId: number) => {
     navigate(`/educators/${educatorId}`);
