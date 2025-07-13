@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Table,
   TableBody,
@@ -12,7 +11,6 @@ import {
   Paper,
   Typography,
   Box,
-  ThemeProvider,
 } from "@mui/material";
 import { Theme, useTheme } from "@mui/material/styles";
 import { RemoveRedEye as EyeIcon } from "@mui/icons-material";
@@ -22,7 +20,6 @@ interface Column {
   id: "educator" | "responseTime" | "status" | "actions";
   label: string;
   minWidth?: number;
-  align?: "right";
   format?: (value: any) => string;
 }
 
@@ -37,21 +34,18 @@ const columns: Column[] = [
     id: "responseTime",
     label: "Response Time",
     minWidth: 130,
-    align: "right",
     format: (value) => value,
   },
   {
     id: "status",
     label: "Status",
     minWidth: 100,
-    align: "right",
     format: (value) => value,
   },
   {
     id: "actions",
     label: "Actions",
     minWidth: 100,
-    align: "right",
     format: (value) => value,
   },
 ];
@@ -114,66 +108,171 @@ const data: Data[] = [
     responseTime: "May 8, 2025 - 9:45 AM",
     status: "Accepted",
   },
+  {
+    id: 8,
+    name: "Mason Anderson",
+    avatar: "/api/placeholder/40/40",
+    responseTime: "—",
+    status: "Pending",
+  },
+  {
+    id: 9,
+    name: "Isabella Thomas",
+    avatar: "/api/placeholder/40/40",
+    responseTime: "May 8, 2025 - 9:45 AM",
+    status: "Rejected",
+  },
+  {
+    id: 10,
+    name: "Ethan Jackson",
+    avatar: "/api/placeholder/40/40",
+    responseTime: "—",
+    status: "Pending",
+  },
+
 ];
 
 export const EducatorTable = () => {
   const theme = useTheme<Theme>();
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ width: "100%", backgroundColor: "#fff" }}>
-        <TableContainer component={Paper} elevation={0}>
-          <Table sx={{ minWidth: 650 }}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Educator</TableCell>
-                <TableCell>Response Time</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell align="right">Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((educator) => (
-                <TableRow key={educator.id} hover>
-                  <TableCell>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                      <Avatar
-                        src={educator.avatar}
-                        sx={{ width: 40, height: 40 }}
-                      >
-                        {educator.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </Avatar>
-                      <Typography variant="body1" fontWeight={500}>
-                        {educator.name}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="body2" color="text.secondary">
-                      {educator.responseTime}
+    <Box
+      sx={{
+        width: "100%",
+        backgroundColor: theme.palette.background.default,
+        borderRadius: theme.shape.borderRadius,
+        overflow: "hidden",
+      }}
+    >
+      <TableContainer component={Paper} elevation={0}>
+        <Table sx={{ width: "100%" }}>
+          <TableHead>
+            <TableRow
+              sx={{
+                backgroundColor: theme.palette.grey[50],
+                borderBottom: `1px solid ${theme.palette.divider}`,
+              }}
+            >
+              <TableCell
+                sx={{
+                  fontWeight: theme.typography.fontWeightBold,
+                  color: theme.palette.text.primary,
+                  padding: theme.spacing(2),
+                  borderBottom: `1px solid ${theme.palette.divider}`,
+                }}
+              >
+                Educator
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontWeight: theme.typography.fontWeightBold,
+                  color: theme.palette.text.primary,
+                  padding: theme.spacing(2),
+                }}
+              >
+                Response Time
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontWeight: theme.typography.fontWeightBold,
+                  color: theme.palette.text.primary,
+                  padding: theme.spacing(2),
+                }}
+              >
+                Status
+              </TableCell>
+              <TableCell
+                align="right"
+                sx={{
+                  fontWeight: theme.typography.fontWeightBold,
+                  color: theme.palette.text.primary,
+                  padding: theme.spacing(2),
+                }}
+              >
+                Actions
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map((educator) => (
+              <TableRow
+                key={educator.id}
+                hover
+                sx={{
+                  backgroundColor: theme.palette.background.default,
+                  borderBottom: `1px solid ${theme.palette.divider}`,
+                }}
+              >
+                <TableCell sx={{ padding: theme.spacing(2) }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: theme.spacing(2),
+                    }}
+                  >
+                    <Avatar
+                      src={educator.avatar}
+                      sx={{
+                        width: 40,
+                        height: 40,
+                        backgroundColor: theme.palette.primary.main,
+                        color: theme.palette.primary.contrastText,
+                      }}
+                    >
+                      {educator.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </Avatar>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontWeight: theme.typography.fontWeightMedium,
+                        color: theme.palette.text.primary,
+                      }}
+                    >
+                      {educator.name}
                     </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Chip
-                      label={educator.status}
-                      size="small"
-                      sx={{ ...getStatusColor(educator.status) }}
-                    />
-                  </TableCell>
-                  <TableCell align="right">
-                    <IconButton size="small" sx={{ color: "text.secondary" }}>
-                      <EyeIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
-    </ThemeProvider>
+                  </Box>
+                </TableCell>
+                <TableCell sx={{ padding: theme.spacing(2) }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: theme.palette.text.secondary }}
+                  >
+                    {educator.responseTime}
+                  </Typography>
+                </TableCell>
+                <TableCell sx={{ padding: theme.spacing(2) }}>
+                  <Chip
+                    label={educator.status}
+                    size="small"
+                    sx={{
+                      ...getStatusColor(educator.status),
+                      fontWeight: theme.typography.fontWeightMedium,
+                    }}
+                  />
+                </TableCell>
+                <TableCell align="right" sx={{ padding: theme.spacing(2) }}>
+                  <IconButton
+                    size="small"
+                    sx={{
+                      color: theme.palette.text.secondary,
+                      "&:hover": {
+                        backgroundColor: theme.palette.action.hover,
+                        color: theme.palette.primary.main,
+                      },
+                    }}
+                  >
+                    <EyeIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 };
