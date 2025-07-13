@@ -49,7 +49,6 @@ export const TabView = ({
       {/* Tab Content */}
       <Box
         sx={{
-          p: 3,
           textAlign: "center",
           border: `1px solid ${theme.palette.primary.light}`,
           borderRadius: theme.shape.borderRadius,
