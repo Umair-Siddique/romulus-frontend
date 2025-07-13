@@ -66,7 +66,7 @@ export const MissionDetails = () => {
       phone: mission?.organization?.phone || "Phone Unavailable",
       email: mission?.organization?.email || "Email Unavailable",
     },
-    hasEducatorFeedback: !!mission?.educatorFeedback?.length,
+    hasEducatorsFeedbacks: !!mission?.educatorsFeedbacks?.length,
     hasPreferredEducator: !!mission?.preferredEducator,
     preferredEducator: {
       name: "John Clark",
@@ -112,11 +112,11 @@ export const MissionDetails = () => {
         />
       </Box>
 
-      <Box sx={{ mb: missionData.hasEducatorFeedback ? theme.spacing(2) : 0 }}>
+      <Box sx={{ mb: missionData.hasEducatorsFeedbacks ? theme.spacing(2) : 0 }}>
         <MissionDescriptionCard description={missionData.missionDescription} />
       </Box>
 
-      {missionData.hasEducatorFeedback && (
+      {missionData.hasEducatorsFeedbacks && (
         <Box>
           <EducatorFeedbackCard />
         </Box>
