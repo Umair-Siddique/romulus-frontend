@@ -16,7 +16,7 @@ import {
 
 export const MissionDetails = () => {
   const theme = useTheme<Theme>();
-  const { user, userProfile } = useUserContext();
+  const { user, userProfile, refetchUserProfile } = useUserContext();
   const { role, educatorId, organizationId } = user;
   const { missionsInvitedFor } = userProfile || {};
 
@@ -37,6 +37,8 @@ export const MissionDetails = () => {
   )?.invitationStatus;
 
   const missionData = {
+    id: missionId || "Mission ID Unavailable",
+    educatorId: educatorId || "Educator ID Unavailable",
     missionTitle: mission?.title || "Mission Title Unavailable",
     invitationStatus,
     organizationName:
@@ -88,7 +90,11 @@ export const MissionDetails = () => {
       }}
     >
       <Box sx={{ mb: theme.spacing(2) }}>
-        <MissionHeader role={role} missionData={missionData} />
+        <MissionHeader
+          role={role}
+          missionData={missionData}
+          refetch={refetchUserProfile ?? (() => {})}
+        />
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
@@ -112,7 +118,9 @@ export const MissionDetails = () => {
         />
       </Box>
 
-      <Box sx={{ mb: missionData.hasEducatorsFeedbacks ? theme.spacing(2) : 0 }}>
+      <Box
+        sx={{ mb: missionData.hasEducatorsFeedbacks ? theme.spacing(2) : 0 }}
+      >
         <MissionDescriptionCard description={missionData.missionDescription} />
       </Box>
 

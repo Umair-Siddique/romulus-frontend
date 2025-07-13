@@ -1,10 +1,50 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { memo } from "react";
+import { useCustom } from "@refinedev/core";
+import { memo, useEffect, useState } from "react";
 
 export const MissionHeader = memo(
-  ({ role, missionData }: { role: string; missionData: any }) => {
+  ({
+    role,
+    missionData,
+    refetch,
+  }: {
+    role: string;
+    missionData: any;
+    refetch: () => void;
+  }) => {
     const theme = useTheme();
+
+    const [response, setResponse] = useState<"accepted" | "declined" | "">("");
+
+    const { refetch: respondInvitation } = useCustom({
+      method: "post",
+      url: "/missions/respond-invitation",
+      config: {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        payload: {
+          missionId: missionData.id,
+          educatorId: missionData.educatorId,
+          response: response,
+        },
+      },
+      queryOptions: {
+        enabled: false,
+      },
+    });
+
+    useEffect(() => {
+      if (response) {
+        refetch();
+      }
+    }, [response, refetch]);
+
+    const handleInvitationResponse = (response: "accepted" | "declined") => {
+      setResponse(response);
+      respondInvitation();
+    };
 
     const renderActionButtons = () => {
       if (role === "educator") {
@@ -21,6 +61,7 @@ export const MissionHeader = memo(
               <Button
                 variant="outlined"
                 color="error"
+                onClick={() => handleInvitationResponse("declined")}
                 sx={{
                   borderRadius: theme.shape.borderRadius,
                   px: theme.spacing(3),
@@ -32,10 +73,12 @@ export const MissionHeader = memo(
                   },
                 }}
               >
-                Reject Mission
+                Decline Mission
               </Button>
               <Button
                 variant="contained"
+                color="primary"
+                onClick={() => handleInvitationResponse("accepted")}
                 sx={{
                   borderRadius: theme.shape.borderRadius,
                   px: theme.spacing(3),

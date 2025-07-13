@@ -21,6 +21,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     return storedProfile ? JSON.parse(storedProfile) : null;
   });
 
+  const [refetchUserProfile, setRefetchUserProfile] = useState();
+
   useEffect(() => {
     if (user !== null) {
       localStorage.setItem("romulus-user", JSON.stringify(user));
@@ -38,6 +40,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setUser,
         userProfile,
         setUserProfile,
+        refetchUserProfile,
+        setRefetchUserProfile,
       }}
     >
       {children}

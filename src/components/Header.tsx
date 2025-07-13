@@ -24,12 +24,12 @@ export const Header = () => {
   const [pageName, setPageName] = useState<string>("");
   const [showBackButton, setShowBackButton] = useState<boolean>(false);
 
-  const { user, setUserProfile } = useUserContext();
+  const { user, setUserProfile, setRefetchUserProfile } = useUserContext();
   const navigate = useNavigate();
 
   const { educatorId, organizationId, role } = user;
 
-  const { data } = useOne({
+  const { data: userProfile, refetch: refetchUserProfile } = useOne({
     resource: role === "educator" ? "educators" : "organizations",
     id: educatorId || organizationId,
     queryOptions: {
@@ -38,10 +38,13 @@ export const Header = () => {
   });
 
   useEffect(() => {
-    if (data?.data) {
-      setUserProfile(data.data);
+    if (userProfile) {
+      setUserProfile(userProfile.data);
+      if (refetchUserProfile && setRefetchUserProfile) {
+        setRefetchUserProfile(() => refetchUserProfile);
+      }
     }
-  }, [data, setUserProfile]);
+  }, [userProfile, setUserProfile]);
 
   const location = useLocation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -180,7 +183,7 @@ export const Header = () => {
             onClick={handleUserMenuClick}
           >
             <Avatar
-              src={data?.data.avatar}
+              src={userProfile?.data.avatar}
               alt="avatar"
               sx={{
                 width: theme.spacing(5),
@@ -194,9 +197,11 @@ export const Header = () => {
                 fontWeight: theme.typography.h3.fontWeight,
               }}
             >
-              {data?.data.organizationName ||
-                (data?.data.firstName &&
-                  data?.data.firstName + " " + data?.data.lastName) ||
+              {userProfile?.data.organizationName ||
+                (userProfile?.data.firstName &&
+                  userProfile?.data.firstName +
+                    " " +
+                    userProfile?.data.lastName) ||
                 "Admin"}
             </Typography>
             <KeyboardArrowDownIcon

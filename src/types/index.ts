@@ -1,10 +1,12 @@
-import { ReactElement } from "react";
+import { Dispatch, ReactElement, SetStateAction } from "react";
 
 export interface UserContextType {
   user: any;
   setUser: (user: any) => void;
   userProfile: any;
   setUserProfile: (profile: any) => void;
+  refetchUserProfile?: () => void | undefined;
+  setRefetchUserProfile?: Dispatch<SetStateAction<any>>;
 }
 
 export interface AuthBackgroundProps {
