@@ -119,9 +119,6 @@ export const FindEducator = () => {
         onSuccess: () => {
           setModalOpen(false);
         },
-        onError: (error) => {
-          console.log("Error creating mission:", error);
-        },
       }
     );
   }, [dataToSubmit]);
