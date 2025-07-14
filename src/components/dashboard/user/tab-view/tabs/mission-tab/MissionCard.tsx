@@ -71,6 +71,10 @@ export const MissionCard = ({
           handleMenuClose();
           refetch();
         },
+        onError: (error) => {
+          console.log("Error deleting mission:", error);
+          handleMenuClose();
+        },
       }
     );
   };

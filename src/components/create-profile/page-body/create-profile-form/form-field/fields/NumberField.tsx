@@ -17,7 +17,12 @@ export const NumberField = ({
   const theme = useTheme<Theme>();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
+    const newValue = event.target.value;
+
+    // Allow only up to 16 characters
+    if (newValue.length <= 16) {
+      onChange(newValue);
+    }
   };
 
   const getFieldSpecificProps = () => {
@@ -57,6 +62,10 @@ export const NumberField = ({
         value={value || ""}
         onChange={handleChange}
         placeholder={fieldProps.placeholder}
+        inputProps={{
+          inputMode: "numeric",
+          pattern: "[0-9]*",
+        }}
         InputProps={{
           ...(fieldProps.startAdornment && {
             startAdornment: (

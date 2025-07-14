@@ -35,13 +35,18 @@ export const LoginPage = () => {
 
     login(data, {
       onSuccess: (response: any) => {
+        if (response.error) {
+          console.log(response.error);
+          return;
+        }
+
         const { data: loginData } = response;
 
         setUser(loginData);
         setLoginPhase("complete");
       },
       onError: (error) => {
-        console.error("Login failed:", error);
+        console.log("Login failed:", error);
         setLoginPhase("idle");
       },
     });

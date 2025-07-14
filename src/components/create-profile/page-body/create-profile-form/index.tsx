@@ -34,11 +34,18 @@ export const CreateProfileForm = ({
     resource: role === "educator" ? "educators" : "organizations",
     mutationOptions: {
       onSuccess: (response: any) => {
+        if (response.error) {
+          setErrorMessage(response.error.message);
+          setShowErrorModal(true);
+          setIsSubmitting(false);
+          return;
+        }
+
         setShowSuccessModal(true);
         setIsSubmitting(false);
       },
       onError: (error) => {
-        console.error("Submission failed:", error.message);
+        console.log("Submission failed:", error.message);
         setErrorMessage(
           "An unexpected error occurred. Please try again later."
         );

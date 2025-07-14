@@ -94,19 +94,6 @@ export const BranchModal = ({
     handleChange("residenceGuidelines", file);
   };
 
-  const inputStyles = {
-    "& .MuiOutlinedInput-root": {
-      borderRadius: "8px",
-      backgroundColor: "#F8FAF9",
-      "& fieldset": { borderWidth: 0 },
-      "&:hover fieldset": { borderWidth: 0 },
-      "&.Mui-focused fieldset": {
-        borderWidth: "2px",
-        borderColor: "#A1B7AF",
-      },
-    },
-  };
-
   const branchCityOptions = [
     "Paris",
     "Marseille",
@@ -171,7 +158,13 @@ export const BranchModal = ({
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogContent sx={{ p: 0 }}>
+      <DialogContent
+        sx={{
+          p: 0,
+          bgcolor: theme.palette.background.default,
+          borderRadius: theme.shape.borderRadius,
+        }}
+      >
         <Box sx={{ p: 3 }}>
           {/* Header */}
           <Box
@@ -182,7 +175,10 @@ export const BranchModal = ({
               mb: 3,
             }}
           >
-            <Typography variant="h6" sx={{ fontWeight: theme.typography.h2.fontWeight }}>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: theme.typography.h2.fontWeight }}
+            >
               {isEditing ? "Edit Branch" : "Add a Branch"}
             </Typography>
             <IconButton onClick={onClose}>
@@ -192,7 +188,10 @@ export const BranchModal = ({
 
           {/* Form Fields */}
           <Box sx={{ mb: 2 }}>
-            <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
+            <Typography
+              variant="body2"
+              sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
+            >
               Branch Name
             </Typography>
             <TextField
@@ -200,12 +199,23 @@ export const BranchModal = ({
               placeholder="e.g., Berlin Support Center"
               value={branchData.branchName}
               onChange={(e) => handleChange("branchName", e.target.value)}
-              sx={inputStyles}
+              sx={{
+                borderRadius: theme.shape.borderRadius,
+                backgroundColor: theme.palette.background.paper,
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: theme.palette.divider,
+                  },
+                },
+              }}
             />
           </Box>
 
           <Box sx={{ mb: 2 }}>
-            <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
+            <Typography
+              variant="body2"
+              sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
+            >
               Branch Email
             </Typography>
             <TextField
@@ -214,12 +224,23 @@ export const BranchModal = ({
               placeholder="e.g., example@gmail.com"
               value={branchData.branchEmail}
               onChange={(e) => handleChange("branchEmail", e.target.value)}
-              sx={inputStyles}
+              sx={{
+                borderRadius: theme.shape.borderRadius,
+                backgroundColor: theme.palette.background.paper,
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: theme.palette.divider,
+                  },
+                },
+              }}
             />
           </Box>
 
           <Box sx={{ mb: 2 }}>
-            <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
+            <Typography
+              variant="body2"
+              sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
+            >
               Branch Phone Number
             </Typography>
             <TextField
@@ -228,7 +249,15 @@ export const BranchModal = ({
               placeholder="e.g., +971 4 332 8788"
               value={branchData.branchPhone}
               onChange={(e) => handleChange("branchPhone", e.target.value)}
-              sx={inputStyles}
+              sx={{
+                borderRadius: theme.shape.borderRadius,
+                backgroundColor: theme.palette.background.paper,
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: theme.palette.divider,
+                  },
+                },
+              }}
             />
           </Box>
 
@@ -241,7 +270,10 @@ export const BranchModal = ({
             }}
           >
             <Box>
-              <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
+              <Typography
+                variant="body2"
+                sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
+              >
                 Country
               </Typography>
               <FormControl fullWidth>
@@ -251,7 +283,15 @@ export const BranchModal = ({
                     handleChange("branchCountry", e.target.value)
                   }
                   displayEmpty
-                  sx={inputStyles}
+                  sx={{
+                    borderRadius: theme.shape.borderRadius,
+                    backgroundColor: theme.palette.background.paper,
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: theme.palette.divider,
+                      },
+                    },
+                  }}
                 >
                   <MenuItem value="" disabled>
                     Select a country
@@ -266,7 +306,10 @@ export const BranchModal = ({
             </Box>
 
             <Box>
-              <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
+              <Typography
+                variant="body2"
+                sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
+              >
                 City
               </Typography>
               <FormControl fullWidth>
@@ -274,7 +317,15 @@ export const BranchModal = ({
                   value={branchData.branchCity}
                   onChange={(e) => handleChange("branchCity", e.target.value)}
                   displayEmpty
-                  sx={inputStyles}
+                  sx={{
+                    borderRadius: theme.shape.borderRadius,
+                    backgroundColor: theme.palette.background.paper,
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: theme.palette.divider,
+                      },
+                    },
+                  }}
                 >
                   <MenuItem value="" disabled>
                     Select a city
@@ -290,7 +341,10 @@ export const BranchModal = ({
           </Box>
 
           <Box sx={{ mb: 3 }}>
-            <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
+            <Typography
+              variant="body2"
+              sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
+            >
               Full Address
             </Typography>
             <TextField
@@ -298,13 +352,24 @@ export const BranchModal = ({
               placeholder="e.g., Alexanderplatz 4, 10178 Berlin"
               value={branchData.branchAddress}
               onChange={(e) => handleChange("branchAddress", e.target.value)}
-              sx={inputStyles}
+              sx={{
+                borderRadius: theme.shape.borderRadius,
+                backgroundColor: theme.palette.background.paper,
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: theme.palette.divider,
+                  },
+                },
+              }}
             />
           </Box>
 
           {/* File Upload */}
           <Box sx={{ mb: 3 }}>
-            <Typography variant="body2" sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}>
+            <Typography
+              variant="body2"
+              sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
+            >
               Upload Residence Guide
             </Typography>
 
@@ -340,7 +405,9 @@ export const BranchModal = ({
                   },
                 }}
               >
-                <CloudUploadIcon sx={{ fontSize: 40, color: "#7A8B84", mb: 1 }} />
+                <CloudUploadIcon
+                  sx={{ fontSize: 40, color: "#7A8B84", mb: 1 }}
+                />
                 <Typography variant="body2" sx={{ color: "#3B4B44", mb: 0.5 }}>
                   Upload Residence Guide
                 </Typography>

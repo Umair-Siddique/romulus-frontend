@@ -120,7 +120,7 @@ export const FindEducator = () => {
           setModalOpen(false);
         },
         onError: (error) => {
-          console.error("Error creating mission:", error);
+          console.log("Error creating mission:", error);
         },
       }
     );
@@ -196,7 +196,7 @@ export const FindEducator = () => {
       await sendInvitations();
       setSuccessModalOpen(true);
     } catch (error) {
-      console.error("Error sending invitations:", error);
+      console.log("Error sending invitations:", error);
     }
   };
 

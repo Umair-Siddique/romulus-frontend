@@ -27,13 +27,22 @@ export const ForgotPasswordPage = () => {
   const onSubmit = (data: ForgotPasswordVariables) => {
     forgotPassword(data, {
       onSuccess: (response) => {
+        if (response.error) {
+          form.setError("email", {
+            type: "manual",
+            message: response.error.message,
+          });
+
+          return;
+        }
+
         form.reset();
         if (!!response.success) {
           setShowModal(true);
         }
       },
       onError: (error) => {
-        console.error("Error sending reset link:", error);
+        console.log("Error sending reset link:", error);
       },
     });
   };

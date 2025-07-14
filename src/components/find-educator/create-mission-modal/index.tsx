@@ -112,7 +112,7 @@ export const CreateMissionModal = ({
       });
       handleClose();
     } catch (error) {
-      console.error("Error creating mission:", error);
+      console.log("Error creating mission:", error);
     }
   };
 

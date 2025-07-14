@@ -35,12 +35,14 @@ export const UpdatePasswordPage = () => {
     updatePassword(submitData, {
       onSuccess: (response) => {
         form.reset();
-        if (!!response.success) {
+        if (response.error) {
           setShowModal(true);
+          console.log(response.error);
+          return;
         }
       },
       onError: (error) => {
-        console.error("Error updating password:", error);
+        console.log("Error updating password:", error);
       },
     });
   };

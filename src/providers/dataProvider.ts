@@ -21,7 +21,7 @@ export const dataProvider: DataProvider = {
         error: {
           name: "Data Fetch Error",
           message: `Failed to fetch ${resource} with ID ${id}: ${
-            error?.message ?? ""
+            error?.response?.data?.message ?? ""
           }`,
         },
       };
@@ -51,7 +51,7 @@ export const dataProvider: DataProvider = {
         total: 0,
         error: {
           name: "Data Fetch Error",
-          message: `Failed to fetch ${resource}: ${error?.message ?? ""}`,
+          message: `Failed to fetch ${resource}: ${error?.response?.data?.message ?? ""}`,
         },
       };
     }
@@ -83,7 +83,7 @@ export const dataProvider: DataProvider = {
         data: {} as any,
         error: {
           name: "Data Creation Error",
-          message: `Failed to create ${resource}: ${error?.message ?? ""}`,
+          message: `Failed to create ${resource}: ${error?.response?.data?.message ?? ""}`,
         },
       };
     }
@@ -114,7 +114,7 @@ export const dataProvider: DataProvider = {
         error: {
           name: "Data Update Error",
           message: `Failed to update ${resource} with ID ${id}: ${
-            error?.message ?? ""
+            error?.response?.data?.message ?? ""
           }`,
         },
       };
@@ -134,7 +134,7 @@ export const dataProvider: DataProvider = {
         error: {
           name: "Data Deletion Error",
           message: `Failed to delete ${resource} with ID ${id}: ${
-            error?.message ?? ""
+            error?.response?.data?.message ?? ""
           }`,
         },
       };
@@ -169,7 +169,7 @@ export const dataProvider: DataProvider = {
         error: {
           name: "Custom Request Error",
           message: `Failed to perform custom request to ${url}: ${
-            error?.message ?? ""
+            error?.response?.data?.message ?? ""
           }`,
         },
       };

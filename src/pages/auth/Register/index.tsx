@@ -58,6 +58,13 @@ export const RegisterPage = () => {
       },
       {
         onSuccess: (response) => {
+          if (response.error) {
+            console.log(response.error);
+            form.reset();
+            setPhoneNumber(data.phone || "");
+            setShowModal(true);
+            return;
+          }
           if (!!response.success) {
             form.reset();
             setPhoneNumber(data.phone || "");
@@ -65,7 +72,7 @@ export const RegisterPage = () => {
           }
         },
         onError: (error) => {
-          console.error("Error during registration:", error);
+          console.log("Error during registration:", error);
         },
       }
     );
