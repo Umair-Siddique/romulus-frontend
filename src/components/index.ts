@@ -6,6 +6,7 @@ export * from "./educator-details";
 export * from "./find-educator";
 export * from "./mission-details";
 export * from "./page-meta";
+export * from "./profile";
 export * from "./sider";
 export * from "./tab-view";
 export * from "./Header";

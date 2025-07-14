@@ -5,10 +5,10 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { useUserContext } from "#context";
 import { Box } from "@mui/material";
 import {
-  EducatorHeader,
-  EducatorInformation,
   MissionsList,
   ProfessionalDetails,
+  ProfileCard,
+  ProfileHeader,
   Reviews,
 } from "#components";
 
@@ -38,11 +38,11 @@ export const EducatorDetails = () => {
       }}
     >
       <Box sx={{ mb: theme.spacing(2) }}>
-        <EducatorHeader role={role} />
+        <ProfileHeader role={role} />
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
-        <EducatorInformation />
+        <ProfileCard />
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
