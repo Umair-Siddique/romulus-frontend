@@ -2,7 +2,7 @@ import { Box, Rating, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { memo } from "react";
 
-export const EducatorFeedbackCard = memo(() => {
+export const Reviews = memo(({ title }: { title: string }) => {
   const theme = useTheme();
 
   return (
@@ -23,7 +23,7 @@ export const EducatorFeedbackCard = memo(() => {
           color: theme.palette.text.primary,
         }}
       >
-        Your Feedback
+        {title}
       </Typography>
       <Rating value={4} sx={{ mb: theme.spacing(1) }} readOnly />
       <Typography
@@ -41,4 +41,4 @@ export const EducatorFeedbackCard = memo(() => {
   );
 });
 
-EducatorFeedbackCard.displayName = "EducatorFeedbackCard";
+Reviews.displayName = "Reviews";

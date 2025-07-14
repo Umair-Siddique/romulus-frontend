@@ -11,9 +11,9 @@ import {
   DocumentDownloadSection,
   ContactInformationCard,
   MissionDescriptionCard,
-  EducatorFeedbackCard,
   TabView,
   EducatorTable,
+  Reviews,
 } from "#components";
 
 export const MissionDetails = () => {
@@ -197,7 +197,7 @@ export const MissionDetails = () => {
 
       {missionData.hasEducatorsFeedbacks && (
         <Box>
-          <EducatorFeedbackCard />
+          <Reviews title="Your Feedback" />
         </Box>
       )}
 
