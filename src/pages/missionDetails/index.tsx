@@ -15,6 +15,7 @@ import {
   EducatorTable,
   Reviews,
 } from "#components";
+import { useParams } from "react-router";
 
 export const MissionDetails = () => {
   const theme = useTheme<Theme>();
@@ -22,7 +23,7 @@ export const MissionDetails = () => {
   const { role, educatorId, organizationId } = user;
   const { missionsInvitedFor } = userProfile || {};
 
-  const missionId = window.location.pathname.split("/").pop();
+  const { id: missionId } = useParams();
   const roleId = educatorId || organizationId;
 
   const { data, refetch: refetchMission } = useOne({
