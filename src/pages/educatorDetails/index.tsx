@@ -5,10 +5,10 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { useUserContext } from "#context";
 import { Box } from "@mui/material";
 import {
-  MissionsList,
-  ProfessionalDetails,
-  ProfileCard,
   ProfileHeader,
+  ProfileCard,
+  ProfessionalDetails,
+  MissionsList,
   Reviews,
 } from "#components";
 
