@@ -38,7 +38,7 @@ export const EducatorDetails = () => {
       }}
     >
       <Box sx={{ mb: theme.spacing(2) }}>
-        <EducatorHeader />
+        <EducatorHeader role={role} />
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>

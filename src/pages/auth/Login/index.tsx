@@ -36,7 +36,7 @@ export const LoginPage = () => {
     login(data, {
       onSuccess: (response: any) => {
         if (response.error) {
-          console.log(response.error);
+          setLoginPhase("complete");
           return;
         }
 
@@ -46,8 +46,9 @@ export const LoginPage = () => {
         setLoginPhase("complete");
       },
       onError: (error) => {
+        setLoginPhase("complete");
         console.log("Login failed:", error);
-        setLoginPhase("idle");
+        return;
       },
     });
   };

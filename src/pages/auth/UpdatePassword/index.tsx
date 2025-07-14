@@ -37,7 +37,7 @@ export const UpdatePasswordPage = () => {
         form.reset();
         if (response.error) {
           setShowModal(true);
-          console.log(response.error);
+
           return;
         }
       },

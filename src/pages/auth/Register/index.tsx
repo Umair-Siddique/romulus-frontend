@@ -59,7 +59,6 @@ export const RegisterPage = () => {
       {
         onSuccess: (response) => {
           if (response.error) {
-            console.log(response.error);
             form.reset();
             setPhoneNumber(data.phone || "");
             setShowModal(true);

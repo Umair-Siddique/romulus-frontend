@@ -74,35 +74,64 @@ export const MissionHeader = memo(
     const renderActionButtons = () => {
       switch (role) {
         case "educator":
-          return shouldShowEducatorActions ? (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: theme.spacing(2),
-              }}
-            >
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={() => handleInvitationResponse("declined")}
+          return (
+            shouldShowEducatorActions && (
+              <Box
                 sx={{
-                  borderRadius: theme.shape.borderRadius,
-                  px: theme.spacing(3),
-                  py: theme.spacing(1),
-                  fontWeight: theme.typography.fontWeightMedium,
-                  textTransform: "none",
-                  "&:hover": {
-                    backgroundColor: theme.palette.error.main + "0a",
-                  },
+                  display: "flex",
+                  alignItems: "center",
+                  gap: theme.spacing(2),
                 }}
               >
-                Decline Mission
-              </Button>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => handleInvitationResponse("declined")}
+                  sx={{
+                    borderRadius: theme.shape.borderRadius,
+                    px: theme.spacing(3),
+                    py: theme.spacing(1),
+                    fontWeight: theme.typography.fontWeightMedium,
+                    textTransform: "none",
+                    "&:hover": {
+                      backgroundColor: theme.palette.error.main + "0a",
+                    },
+                  }}
+                >
+                  Decline Mission
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleInvitationResponse("accepted")}
+                  sx={{
+                    borderRadius: theme.shape.borderRadius,
+                    px: theme.spacing(3),
+                    py: theme.spacing(1),
+                    fontWeight: theme.typography.fontWeightMedium,
+                    textTransform: "none",
+                    backgroundColor: theme.palette.primary.main,
+                    "&:hover": {
+                      backgroundColor: theme.palette.primary.dark,
+                    },
+                  }}
+                >
+                  Accept Mission
+                </Button>
+              </Box>
+            )
+          );
+        case "organization":
+          return (
+            shouldShowOrganizationActions && (
               <Button
                 variant="contained"
-                color="primary"
-                onClick={() => handleInvitationResponse("accepted")}
+                onClick={() => {
+                  updateMission({
+                    id: missionData.id,
+                    values: { status: "completed" },
+                  });
+                }}
                 sx={{
                   borderRadius: theme.shape.borderRadius,
                   px: theme.spacing(3),
@@ -115,54 +144,31 @@ export const MissionHeader = memo(
                   },
                 }}
               >
-                Accept Mission
+                Mark as Completed
               </Button>
-            </Box>
-          ) : null;
-        case "organization":
-          return shouldShowOrganizationActions ? (
-            <Button
-              variant="contained"
-              onClick={() => {
-                updateMission({
-                  id: missionData.id,
-                  values: { status: "completed" },
-                });
-              }}
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                px: theme.spacing(3),
-                py: theme.spacing(1),
-                fontWeight: theme.typography.fontWeightMedium,
-                textTransform: "none",
-                backgroundColor: theme.palette.primary.main,
-                "&:hover": {
-                  backgroundColor: theme.palette.primary.dark,
-                },
-              }}
-            >
-              Mark as Completed
-            </Button>
-          ) : null;
+            )
+          );
         case "admin":
-          return shouldShowAdminActions ? (
-            <Button
-              variant="contained"
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                px: theme.spacing(3),
-                py: theme.spacing(1),
-                fontWeight: theme.typography.fontWeightMedium,
-                textTransform: "none",
-                backgroundColor: theme.palette.primary.main,
-                "&:hover": {
-                  backgroundColor: theme.palette.primary.dark,
-                },
-              }}
-            >
-              Assign Educator
-            </Button>
-          ) : null;
+          return (
+            shouldShowAdminActions && (
+              <Button
+                variant="contained"
+                sx={{
+                  borderRadius: theme.shape.borderRadius,
+                  px: theme.spacing(3),
+                  py: theme.spacing(1),
+                  fontWeight: theme.typography.fontWeightMedium,
+                  textTransform: "none",
+                  backgroundColor: theme.palette.primary.main,
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.dark,
+                  },
+                }}
+              >
+                Assign Educator
+              </Button>
+            )
+          );
       }
     };
 
