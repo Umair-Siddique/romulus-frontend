@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useCustom } from "@refinedev/core";
-import { memo, useEffect, useState } from "react";
+import { memo, useState } from "react";
 
 export const MissionHeader = memo(
   ({
@@ -28,18 +28,18 @@ export const MissionHeader = memo(
           missionId: missionData.id,
           educatorId: missionData.educatorId,
           response: response,
+          responseTime: new Date().toISOString(),
         },
       },
       queryOptions: {
         enabled: response !== "",
       },
-    });
-
-    useEffect(() => {
-      if (response) {
+      successNotification: () => {
         refetch();
-      }
-    }, [response, refetch]);
+        setResponse("");
+        return undefined;
+      },
+    });
 
     const handleInvitationResponse = (response: "accepted" | "declined") => {
       setResponse(response);

@@ -15,7 +15,7 @@ import {
 import { Theme, useTheme } from "@mui/material/styles";
 import { RemoveRedEye as EyeIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import { formatDate, getStatusColor } from "#utils";
+import { formatDate, formatTime, getStatusColor } from "#utils";
 import { useMany } from "@refinedev/core";
 
 interface Column {
@@ -183,9 +183,16 @@ export const EducatorTable = ({
         name:
           `${educator?.firstName} ${educator?.lastName}` || "Unknown Educator",
         avatar: educator?.avatar || "/api/placeholder/40/40",
-        responseTime: educator?.responseTime
-          ? formatDate(educator?.responseTime)
-          : "—",
+        responseTime:
+          `${formatDate(
+            educator?.missionsInvitedFor?.find(
+              (mission: any) => mission?.mission?._id === missionId
+            )?.responseTime.split("T")[0]
+          )} - ${formatTime(
+            educator?.missionsInvitedFor?.find(
+              (mission: any) => mission?.mission?._id === missionId
+            )?.responseTime.split("T")[1].split(".")[0]
+          )}` || "—",
         status:
           educator?.missionsInvitedFor?.find(
             (mission: any) => mission?.mission?._id === missionId
