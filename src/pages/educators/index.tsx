@@ -2,9 +2,14 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import { useUserContext } from "#context";
+import { Theme, useTheme } from "@mui/material";
 
 export const Educators = () => {
+  const theme = useTheme<Theme>();
+
   const { user } = useUserContext();
+
+  const role = user?.role;
 
   const navigate = useNavigate();
 
@@ -13,8 +18,6 @@ export const Educators = () => {
       navigate("/dashboard", { replace: true });
     }
   }, [user, navigate]);
-
-  const { role } = user;
 
   return <div>Educators</div>;
 };

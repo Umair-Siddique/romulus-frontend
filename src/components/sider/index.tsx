@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Drawer, Box } from "@mui/material";
+import { Drawer, Box, useTheme, Theme } from "@mui/material";
 
 import { Header } from "./Header";
 import { LogoutButton } from "./LogoutButton";
@@ -9,11 +9,13 @@ import { getNavigationItems } from "./navigationData";
 import { TrainingProgressCard } from "./TrainingProgressCard";
 
 export const Sider = () => {
+  const theme = useTheme<Theme>();
+
   const { user } = useUserContext();
 
-  const [items, setItems] = useState(() => getNavigationItems(role));
+  const role = user?.role;
 
-  const { role } = user;
+  const [items, setItems] = useState(() => getNavigationItems(role));
 
   useEffect(() => {
     setItems((prevItems) =>
@@ -41,13 +43,13 @@ export const Sider = () => {
         width: 280,
         flexShrink: 0,
         border: "none",
-        borderRadius: "0 40px 40px 0",
+        borderRadius: theme.shape.borderRadius,
         [`& .MuiDrawer-paper`]: {
           width: 280,
           boxSizing: "border-box",
           border: "none",
-          backgroundColor: "#fafafa",
-          borderRadius: "0 40px 40px 0",
+          backgroundColor: theme.palette.grey[50],
+          borderRadius: theme.shape.borderRadius
         },
       }}
     >

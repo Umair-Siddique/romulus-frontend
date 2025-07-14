@@ -14,7 +14,10 @@ import {
 
 export const EducatorDetails = () => {
   const theme = useTheme<Theme>();
+
   const { user } = useUserContext();
+
+  const role = user?.role;
 
   const navigate = useNavigate();
 
@@ -23,8 +26,6 @@ export const EducatorDetails = () => {
       navigate("/dashboard", { replace: true });
     }
   }, [user, navigate]);
-
-  const { role } = user;
 
   return (
     <Box

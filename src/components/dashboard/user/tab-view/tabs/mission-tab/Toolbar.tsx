@@ -27,7 +27,8 @@ export const ToolBar = ({
   const theme = useTheme<Theme>();
 
   const { user } = useUserContext();
-  const { role } = user;
+  
+  const role = user?.role;
 
   const [dateAnchor, setDateAnchor] = useState(null);
   const [branchAnchor, setBranchAnchor] = useState(null);

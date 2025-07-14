@@ -37,12 +37,14 @@ export const MissionCard = ({
   status,
   refetch,
 }: MissionCardProps) => {
+  const theme = useTheme<Theme>();
+  
+  const { user } = useUserContext();
+
+  const role = user?.role;
+
   const { mutate: deleteMission } = useDelete();
 
-  const { user } = useUserContext();
-  const { role } = user;
-
-  const theme = useTheme<Theme>();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 

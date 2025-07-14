@@ -97,7 +97,7 @@ export const FindEducator = () => {
     },
   });
 
-  const { role } = user;
+  const role = user?.role;
 
   useEffect(() => {
     if (role !== "organization") {
