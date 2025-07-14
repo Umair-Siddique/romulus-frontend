@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { useCustom } from "@refinedev/core";
+import { useCustom, useUpdate } from "@refinedev/core";
 import { memo, useState } from "react";
 
 export const MissionHeader = memo(
@@ -8,10 +8,14 @@ export const MissionHeader = memo(
     role,
     missionData,
     refetch,
+    refetchMission,
+    showMarkAsCompletedButton,
   }: {
     role: string;
     missionData: any;
     refetch: () => void;
+    refetchMission: () => void;
+    showMarkAsCompletedButton: boolean;
   }) => {
     const theme = useTheme();
 
@@ -41,16 +45,36 @@ export const MissionHeader = memo(
       },
     });
 
+    const { mutate: updateMission } = useUpdate({
+      resource: "missions",
+      mutationMode: "optimistic",
+      mutationOptions: {
+        onSuccess: () => {
+          refetchMission();
+        },
+      },
+    });
+
     const handleInvitationResponse = (response: "accepted" | "declined") => {
       setResponse(response);
       respondInvitation();
     };
 
+    const shouldShowEducatorActions =
+      missionData.invitationStatus === "pending" &&
+      missionData.missionStatus !== "completed";
+
+    const shouldShowOrganizationActions =
+      showMarkAsCompletedButton && missionData.missionStatus !== "completed";
+
+    const shouldShowAdminActions =
+      missionData.invitationStatus !== "pending" &&
+      missionData.missionStatus !== "completed";
+
     const renderActionButtons = () => {
-      if (role === "educator") {
-        return (
-          missionData.invitationStatus === "pending" &&
-          missionData.missionStatus !== "completed" && (
+      switch (role) {
+        case "educator":
+          return shouldShowEducatorActions ? (
             <Box
               sx={{
                 display: "flex",
@@ -94,15 +118,17 @@ export const MissionHeader = memo(
                 Accept Mission
               </Button>
             </Box>
-          )
-        );
-      }
-
-      if (role === "organization") {
-        return (
-          missionData.missionStatus !== "completed" && (
+          ) : null;
+        case "organization":
+          return shouldShowOrganizationActions ? (
             <Button
               variant="contained"
+              onClick={() => {
+                updateMission({
+                  id: missionData.id,
+                  values: { status: "completed" },
+                });
+              }}
               sx={{
                 borderRadius: theme.shape.borderRadius,
                 px: theme.spacing(3),
@@ -117,14 +143,9 @@ export const MissionHeader = memo(
             >
               Mark as Completed
             </Button>
-          )
-        );
-      }
-
-      if (role === "admin") {
-        return (
-          missionData.invitationStatus !== "pending" &&
-          missionData.missionStatus !== "completed" && (
+          ) : null;
+        case "admin":
+          return shouldShowAdminActions ? (
             <Button
               variant="contained"
               sx={{
@@ -141,11 +162,8 @@ export const MissionHeader = memo(
             >
               Assign Educator
             </Button>
-          )
-        );
+          ) : null;
       }
-
-      return null;
     };
 
     return (

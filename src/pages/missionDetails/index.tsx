@@ -25,7 +25,7 @@ export const MissionDetails = () => {
   const missionId = window.location.pathname.split("/").pop();
   const roleId = educatorId || organizationId;
 
-  const { data } = useOne({
+  const { data, refetch: refetchMission } = useOne({
     resource: `missions/${missionId}/${role}/${roleId}`,
     queryOptions: {
       enabled: true,
@@ -161,6 +161,8 @@ export const MissionDetails = () => {
           role={role}
           missionData={missionData}
           refetch={refetchUserProfile ?? (() => {})}
+          refetchMission={refetchMission}
+          showMarkAsCompletedButton={!!missionData.hiredEducators.length}
         />
       </Box>
 
