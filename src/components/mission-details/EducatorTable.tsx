@@ -25,33 +25,6 @@ interface Column {
   format?: (value: any) => string;
 }
 
-const columns: Column[] = [
-  {
-    id: "educator",
-    label: "Educator",
-    minWidth: 170,
-    format: (value) => value,
-  },
-  {
-    id: "responseTime",
-    label: "Response Time",
-    minWidth: 130,
-    format: (value) => value,
-  },
-  {
-    id: "status",
-    label: "Status",
-    minWidth: 100,
-    format: (value) => value,
-  },
-  {
-    id: "actions",
-    label: "Actions",
-    minWidth: 100,
-    format: (value) => value,
-  },
-];
-
 interface Data {
   id: number;
   name: string;
@@ -59,6 +32,76 @@ interface Data {
   responseTime: string;
   status: string;
 }
+
+// Fixed column widths
+const COLUMN_WIDTHS = {
+  educator: 150,
+  responseTime: 200,
+  status: 150,
+  actions: 150,
+};
+
+// Common table header component
+const TableHeader = ({ theme }: { theme: Theme }) => (
+  <TableHead>
+    <TableRow
+      sx={{
+        backgroundColor: theme.palette.grey[50],
+        borderBottom: `1px solid ${theme.palette.divider}`,
+      }}
+    >
+      <TableCell
+        align="center"
+        sx={{
+          fontWeight: theme.typography.fontWeightBold,
+          color: theme.palette.text.primary,
+          padding: theme.spacing(2),
+          borderBottom: `1px solid ${theme.palette.divider}`,
+          width: COLUMN_WIDTHS.educator,
+          minWidth: COLUMN_WIDTHS.educator,
+        }}
+      >
+        Educator
+      </TableCell>
+      <TableCell
+        align="center"
+        sx={{
+          fontWeight: theme.typography.fontWeightBold,
+          color: theme.palette.text.primary,
+          padding: theme.spacing(2),
+          width: COLUMN_WIDTHS.responseTime,
+          minWidth: COLUMN_WIDTHS.responseTime,
+        }}
+      >
+        Response Time
+      </TableCell>
+      <TableCell
+        align="center"
+        sx={{
+          fontWeight: theme.typography.fontWeightBold,
+          color: theme.palette.text.primary,
+          padding: theme.spacing(2),
+          width: COLUMN_WIDTHS.status,
+          minWidth: COLUMN_WIDTHS.status,
+        }}
+      >
+        Status
+      </TableCell>
+      <TableCell
+        align="center"
+        sx={{
+          fontWeight: theme.typography.fontWeightBold,
+          color: theme.palette.text.primary,
+          padding: theme.spacing(2),
+          width: COLUMN_WIDTHS.actions,
+          minWidth: COLUMN_WIDTHS.actions,
+        }}
+      >
+        Actions
+      </TableCell>
+    </TableRow>
+  </TableHead>
+);
 
 export const EducatorTable = ({
   educators,
@@ -91,59 +134,22 @@ export const EducatorTable = ({
         }}
       >
         <TableContainer component={Paper} elevation={0}>
-          <Table sx={{ width: "100%" }}>
-            <TableHead>
+          <Table sx={{ width: "100%", tableLayout: "fixed" }}>
+            <TableHeader theme={theme} />
+            <TableBody>
               <TableRow
                 sx={{
-                  backgroundColor: theme.palette.grey[50],
+                  backgroundColor: theme.palette.background.default,
                   borderBottom: `1px solid ${theme.palette.divider}`,
                 }}
               >
                 <TableCell
-                  sx={{
-                    fontWeight: theme.typography.fontWeightBold,
-                    color: theme.palette.text.primary,
-                    padding: theme.spacing(2),
-                    borderBottom: `1px solid ${theme.palette.divider}`,
-                  }}
-                >
-                  Educator
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: theme.typography.fontWeightBold,
-                    color: theme.palette.text.primary,
-                    padding: theme.spacing(2),
-                  }}
-                >
-                  Response Time
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: theme.typography.fontWeightBold,
-                    color: theme.palette.text.primary,
-                    padding: theme.spacing(2),
-                  }}
-                >
-                  Status
-                </TableCell>
-                <TableCell
-                  align="right"
-                  sx={{
-                    fontWeight: theme.typography.fontWeightBold,
-                    color: theme.palette.text.primary,
-                    padding: theme.spacing(2),
-                  }}
-                >
-                  Actions
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell
                   colSpan={4}
-                  sx={{ textAlign: "center", padding: theme.spacing(3) }}
+                  sx={{
+                    textAlign: "center",
+                    padding: theme.spacing(3),
+                    width: "100%",
+                  }}
                 >
                   <Typography variant="body2" color="text.secondary">
                     No educators found
@@ -165,13 +171,35 @@ export const EducatorTable = ({
           width: "100%",
           backgroundColor: theme.palette.background.default,
           borderRadius: theme.shape.borderRadius,
-          padding: theme.spacing(3),
-          textAlign: "center",
+          overflow: "hidden",
         }}
       >
-        <Typography variant="body2" color="text.secondary">
-          Loading educators...
-        </Typography>
+        <TableContainer component={Paper} elevation={0}>
+          <Table sx={{ width: "100%", tableLayout: "fixed" }}>
+            <TableHeader theme={theme} />
+            <TableBody>
+              <TableRow
+                sx={{
+                  backgroundColor: theme.palette.background.default,
+                  borderBottom: `1px solid ${theme.palette.divider}`,
+                }}
+              >
+                <TableCell
+                  colSpan={4}
+                  sx={{
+                    textAlign: "center",
+                    padding: theme.spacing(3),
+                    width: "100%",
+                  }}
+                >
+                  <Typography variant="body2" color="text.secondary">
+                    Loading educators...
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Box>
     );
   }
@@ -183,16 +211,20 @@ export const EducatorTable = ({
         name:
           `${educator?.firstName} ${educator?.lastName}` || "Unknown Educator",
         avatar: educator?.avatar || "/api/placeholder/40/40",
-        responseTime:
-          `${formatDate(
-            educator?.missionsInvitedFor?.find(
-              (mission: any) => mission?.mission?._id === missionId
-            )?.responseTime.split("T")[0]
-          )} - ${formatTime(
-            educator?.missionsInvitedFor?.find(
-              (mission: any) => mission?.mission?._id === missionId
-            )?.responseTime.split("T")[1].split(".")[0]
-          )}` || "—",
+        responseTime: educator?.missionsInvitedFor?.find(
+          (mission: any) => mission?.mission?._id === missionId
+        )?.responseTime
+          ? `${formatDate(
+              educator?.missionsInvitedFor
+                ?.find((mission: any) => mission?.mission?._id === missionId)
+                ?.responseTime?.split("T")[0]
+            )} - ${formatTime(
+              educator?.missionsInvitedFor
+                ?.find((mission: any) => mission?.mission?._id === missionId)
+                ?.responseTime?.split("T")[1]
+                .split(".")[0]
+            )}`
+          : "—",
         status:
           educator?.missionsInvitedFor?.find(
             (mission: any) => mission?.mission?._id === missionId
@@ -214,54 +246,8 @@ export const EducatorTable = ({
       }}
     >
       <TableContainer component={Paper} elevation={0}>
-        <Table sx={{ width: "100%" }}>
-          <TableHead>
-            <TableRow
-              sx={{
-                backgroundColor: theme.palette.grey[50],
-                borderBottom: `1px solid ${theme.palette.divider}`,
-              }}
-            >
-              <TableCell
-                sx={{
-                  fontWeight: theme.typography.fontWeightBold,
-                  color: theme.palette.text.primary,
-                  padding: theme.spacing(2),
-                  borderBottom: `1px solid ${theme.palette.divider}`,
-                }}
-              >
-                Educator
-              </TableCell>
-              <TableCell
-                sx={{
-                  fontWeight: theme.typography.fontWeightBold,
-                  color: theme.palette.text.primary,
-                  padding: theme.spacing(2),
-                }}
-              >
-                Response Time
-              </TableCell>
-              <TableCell
-                sx={{
-                  fontWeight: theme.typography.fontWeightBold,
-                  color: theme.palette.text.primary,
-                  padding: theme.spacing(2),
-                }}
-              >
-                Status
-              </TableCell>
-              <TableCell
-                align="right"
-                sx={{
-                  fontWeight: theme.typography.fontWeightBold,
-                  color: theme.palette.text.primary,
-                  padding: theme.spacing(2),
-                }}
-              >
-                Actions
-              </TableCell>
-            </TableRow>
-          </TableHead>
+        <Table sx={{ width: "100%", tableLayout: "fixed" }}>
+          <TableHeader theme={theme} />
           <TableBody>
             {data.map((educator) => (
               <TableRow
@@ -272,11 +258,19 @@ export const EducatorTable = ({
                   borderBottom: `1px solid ${theme.palette.divider}`,
                 }}
               >
-                <TableCell sx={{ padding: theme.spacing(2) }}>
+                <TableCell
+                  align="center"
+                  sx={{
+                    padding: theme.spacing(2),
+                    width: COLUMN_WIDTHS.educator,
+                    minWidth: COLUMN_WIDTHS.educator,
+                  }}
+                >
                   <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
+                      justifyContent: "center",
                       gap: theme.spacing(2),
                     }}
                   >
@@ -305,7 +299,14 @@ export const EducatorTable = ({
                     </Typography>
                   </Box>
                 </TableCell>
-                <TableCell sx={{ padding: theme.spacing(2) }}>
+                <TableCell
+                  align="center"
+                  sx={{
+                    padding: theme.spacing(2),
+                    width: COLUMN_WIDTHS.responseTime,
+                    minWidth: COLUMN_WIDTHS.responseTime,
+                  }}
+                >
                   <Typography
                     variant="body2"
                     sx={{ color: theme.palette.text.secondary }}
@@ -313,7 +314,14 @@ export const EducatorTable = ({
                     {educator.responseTime}
                   </Typography>
                 </TableCell>
-                <TableCell sx={{ padding: theme.spacing(2) }}>
+                <TableCell
+                  align="center"
+                  sx={{
+                    padding: theme.spacing(2),
+                    width: COLUMN_WIDTHS.status,
+                    minWidth: COLUMN_WIDTHS.status,
+                  }}
+                >
                   <Chip
                     label={educator.status}
                     size="small"
@@ -323,7 +331,14 @@ export const EducatorTable = ({
                     }}
                   />
                 </TableCell>
-                <TableCell align="right" sx={{ padding: theme.spacing(2) }}>
+                <TableCell
+                  align="center"
+                  sx={{
+                    padding: theme.spacing(2),
+                    width: COLUMN_WIDTHS.actions,
+                    minWidth: COLUMN_WIDTHS.actions,
+                  }}
+                >
                   <IconButton
                     size="small"
                     onClick={() => handleViewEducator(educator.id)}
