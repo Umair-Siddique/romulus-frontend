@@ -5,8 +5,6 @@ import { useUserContext } from "#context";
 export const Branches = () => {
   const { user } = useUserContext();
 
-  const { role } = user;
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,6 +12,8 @@ export const Branches = () => {
       navigate("/dashboard", { replace: true });
     }
   }, [user, navigate]);
+
+  const { role } = user;
 
   return <div>Branches</div>;
 };

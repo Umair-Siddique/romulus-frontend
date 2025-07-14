@@ -6,15 +6,15 @@ import { useUserContext } from "#context";
 export const Training = () => {
   const { user } = useUserContext();
 
-  const { role } = user;
-
   const navigate = useNavigate();
 
   useEffect(() => {
     if (role !== "educator") {
       navigate("/dashboard", { replace: true });
     }
-  }, [role, navigate]);
+  }, [user, navigate]);
+
+  const { role } = user;
 
   return <div>Training</div>;
 };

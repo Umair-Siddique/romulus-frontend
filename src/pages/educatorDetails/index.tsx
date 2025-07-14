@@ -16,15 +16,15 @@ export const EducatorDetails = () => {
   const theme = useTheme<Theme>();
   const { user } = useUserContext();
 
-  const { role } = user;
-
   const navigate = useNavigate();
 
   useEffect(() => {
     if (role === "educator") {
       navigate("/dashboard", { replace: true });
     }
-  }, [role, navigate]);
+  }, [user, navigate]);
+
+  const { role } = user;
 
   return (
     <Box

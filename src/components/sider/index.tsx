@@ -11,9 +11,9 @@ import { TrainingProgressCard } from "./TrainingProgressCard";
 export const Sider = () => {
   const { user } = useUserContext();
 
-  const { role } = user;
-
   const [items, setItems] = useState(() => getNavigationItems(role));
+
+  const { role } = user;
 
   useEffect(() => {
     setItems((prevItems) =>
