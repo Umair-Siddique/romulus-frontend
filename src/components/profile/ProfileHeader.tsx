@@ -128,7 +128,6 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
           sx={{
             fontWeight: theme.typography.fontWeightMedium,
             color: theme.palette.text.secondary,
-            mb: theme.spacing(3),
             display: "flex",
             alignItems: "center",
           }}

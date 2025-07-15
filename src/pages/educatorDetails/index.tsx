@@ -44,11 +44,15 @@ export const EducatorDetails = () => {
       }}
     >
       <Box sx={{ mb: theme.spacing(2) }}>
-        <ProfileHeader role={role} missionId={missionId} educatorId={educatorId!} />
+        <ProfileHeader
+          role={role}
+          missionId={missionId}
+          educatorId={educatorId!}
+        />
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
-        <ProfileCard />
+        <ProfileCard missionId={missionId} educatorId={educatorId!} />
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
