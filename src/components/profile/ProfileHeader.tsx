@@ -8,10 +8,11 @@ interface ProfileHeaderProps {
   role: string;
   educatorId: string;
   missionId: string;
+  educatorData?: any; // Adjust type as necessary
 }
 
 export const ProfileHeader = memo<ProfileHeaderProps>(
-  ({ role, educatorId, missionId }) => {
+  ({ role, educatorId, missionId, educatorData }) => {
     const theme = useTheme();
     const userContext = useUserContext();
     const organizationId = userContext?.user?.organizationId;
@@ -21,13 +22,6 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
       resource: `missions/${missionId}/${role}/${organizationId}`,
       queryOptions: {
         enabled: !!missionId,
-      },
-    });
-
-    const { data: educatorData } = useOne({
-      resource: `educators/${educatorId}`,
-      queryOptions: {
-        enabled: !!educatorId,
       },
     });
 
@@ -41,7 +35,7 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
       },
     });
 
-    const invitationStatus = educatorData?.data?.missionsInvitedFor?.find(
+    const invitationStatus = educatorData?.missionsInvitedFor?.find(
       (elem: any) => elem.mission._id === missionId
     )?.invitationStatus;
 

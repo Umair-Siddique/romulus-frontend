@@ -4,53 +4,46 @@ import { Avatar, Typography, Box, Chip, useTheme } from "@mui/material";
 import { useOne } from "@refinedev/core";
 
 export const ProfileCard = ({
-  missionId,
   educatorId,
+  educatorData,
 }: {
-  missionId: string;
   educatorId: string;
+  educatorData?: any;
 }) => {
   const theme = useTheme();
 
   const userContext = useUserContext();
   const role = userContext?.user?.role;
 
-  const { data: educatorData } = useOne({
-    resource: `educators/${educatorId}`,
-    queryOptions: {
-      enabled: !!educatorId,
-    },
-  });
-
   const userInfo = {
     name:
-      `${educatorData?.data.firstName} ${educatorData?.data.lastName}` ||
+      `${educatorData?.firstName} ${educatorData?.lastName}` ||
       "Name Unavailable",
-    phone: educatorData?.data.user.phone || "Phone Unavailable",
-    email: educatorData?.data.user.email || "Email Unavailable",
-    gender: educatorData?.data.gender || "Not Specified",
+    phone: educatorData?.user.phone || "Phone Unavailable",
+    email: educatorData?.user.email || "Email Unavailable",
+    gender: educatorData?.gender || "Not Specified",
     dob:
-      formatDate(educatorData?.data.dateOfBirth.split("T")[0]) ||
+      formatDate(educatorData?.dateOfBirth.split("T")[0]) ||
       "Date of Birth Unavailable",
     location:
-      `${educatorData?.data.city} ${educatorData?.data.country}` ||
+      `${educatorData?.city} ${educatorData?.country}` ||
       "Location Unavailable",
-    status: educatorData?.data.status || "Status Unavailable",
-    avatar: educatorData?.data.avatar || "Avatar Unavailable",
+    status: educatorData?.status || "Status Unavailable",
+    avatar: educatorData?.avatar || "Avatar Unavailable",
   };
 
   const missions = {
-    total: educatorData?.data.missionsHiredFor.length || 0,
+    total: educatorData?.missionsHiredFor.length || 0,
     pending:
-      educatorData?.data.missionsHiredFor.filter(
+      educatorData?.missionsHiredFor.filter(
         (mission: any) => mission.status === "pending"
       ).length || 0,
     ongoing:
-      educatorData?.data.missionsHiredFor.filter(
+      educatorData?.missionsHiredFor.filter(
         (mission: any) => mission.status === "ongoing"
       ).length || 0,
     completed:
-      educatorData?.data.missionsHiredFor.filter(
+      educatorData?.missionsHiredFor.filter(
         (mission: any) => mission.status === "completed"
       ).length || 0,
   };

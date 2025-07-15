@@ -7,10 +7,12 @@ import { Box } from "@mui/material";
 import {
   ProfileHeader,
   ProfileCard,
+  UserBio,
   ProfessionalDetails,
   MissionsList,
   Reviews,
 } from "#components";
+import { useOne } from "@refinedev/core";
 
 export const EducatorDetails = () => {
   const theme = useTheme<Theme>();
@@ -32,6 +34,13 @@ export const EducatorDetails = () => {
     }
   }, [user, navigate]);
 
+  const { data: educatorData } = useOne({
+    resource: `educators/${educatorId}`,
+    queryOptions: {
+      enabled: !!educatorId,
+    },
+  });
+
   return (
     <Box
       sx={{
@@ -48,11 +57,19 @@ export const EducatorDetails = () => {
           role={role}
           missionId={missionId}
           educatorId={educatorId!}
+          educatorData={educatorData?.data}
         />
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
-        <ProfileCard missionId={missionId} educatorId={educatorId!} />
+        <ProfileCard
+          educatorId={educatorId!}
+          educatorData={educatorData?.data}
+        />
+      </Box>
+
+      <Box sx={{ mb: theme.spacing(2) }}>
+        <UserBio educatorData={educatorData?.data} />
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
