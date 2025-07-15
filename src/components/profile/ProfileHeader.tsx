@@ -1,129 +1,145 @@
+import { useUserContext } from "#context";
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { memo } from "react";
+import { useOne, useUpdate } from "@refinedev/core";
+import { memo, useMemo, useCallback } from "react";
 
-export const ProfileHeader = memo(({ role }: { role: string }) => {
-  const theme = useTheme();
+interface ProfileHeaderProps {
+  role: string;
+  educatorId: string;
+  missionId: string;
+}
 
-  const renderActionButtons = () => {
-    switch (role) {
-      case "organization":
+export const ProfileHeader = memo<ProfileHeaderProps>(
+  ({ role, educatorId, missionId }) => {
+    const theme = useTheme();
+    const userContext = useUserContext();
+    const organizationId = userContext?.user?.organizationId;
+
+    const { data: missionData } = useOne({
+      resource: `missions/${missionId}/${role}/${organizationId}`,
+      queryOptions: {
+        enabled: !!missionId,
+      },
+    });
+
+    const { mutate: updateMission } = useUpdate({
+      resource: "missions",
+      mutationMode: "optimistic",
+    });
+
+    // Memoize educator status check
+    const isPendingEducator = useMemo(() => {
+      if (!missionData?.data) return false;
+      
+      const { hiredEducators = [], rejectedEducators = [] } = missionData.data;
+      return hiredEducators.includes(educatorId) || rejectedEducators.includes(educatorId);
+    }, [missionData?.data, educatorId]);
+
+    // Memoize button styles
+    const buttonStyles = useMemo(() => ({
+      base: {
+        borderRadius: theme.shape.borderRadius,
+        px: theme.spacing(3),
+        py: theme.spacing(1),
+        fontWeight: theme.typography.fontWeightMedium,
+        textTransform: "none" as const,
+      },
+      primary: {
+        backgroundColor: theme.palette.primary.main,
+        "&:hover": {
+          backgroundColor: theme.palette.primary.dark,
+        },
+      },
+      error: {
+        "&:hover": {
+          backgroundColor: theme.palette.error.main + "0a",
+        },
+      },
+    }), [theme]);
+
+    const handleHireStatusChange = useCallback((status: "hired" | "rejected") => {
+      updateMission({
+        id: missionId,
+        values: { hireStatus: status, educatorId },
+      });
+    }, [updateMission, missionId, educatorId]);
+
+    const renderActionButtons = useCallback(() => {
+      if (role === "organization" && !isPendingEducator) {
         return (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: theme.spacing(2),
-            }}
-          >
+          <Box sx={{ display: "flex", alignItems: "center", gap: theme.spacing(2) }}>
             <Button
               variant="outlined"
               color="error"
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                px: theme.spacing(3),
-                py: theme.spacing(1),
-                fontWeight: theme.typography.fontWeightMedium,
-                textTransform: "none",
-                "&:hover": {
-                  backgroundColor: theme.palette.error.main + "0a",
-                },
-              }}
+              onClick={() => handleHireStatusChange("rejected")}
+              sx={{ ...buttonStyles.base, ...buttonStyles.error }}
             >
               Reject Educator
             </Button>
             <Button
               variant="contained"
               color="primary"
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                px: theme.spacing(3),
-                py: theme.spacing(1),
-                fontWeight: theme.typography.fontWeightMedium,
-                textTransform: "none",
-                backgroundColor: theme.palette.primary.main,
-                "&:hover": {
-                  backgroundColor: theme.palette.primary.dark,
-                },
-              }}
+              onClick={() => handleHireStatusChange("hired")}
+              sx={{ ...buttonStyles.base, ...buttonStyles.primary }}
             >
               Hire Educator
             </Button>
           </Box>
         );
-      case "admin":
+      }
+
+      if (role === "admin") {
         return (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: theme.spacing(2),
-            }}
-          >
+          <Box sx={{ display: "flex", alignItems: "center", gap: theme.spacing(2) }}>
             <Button
               variant="contained"
               color="primary"
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                px: theme.spacing(3),
-                py: theme.spacing(1),
-                fontWeight: theme.typography.fontWeightMedium,
-                textTransform: "none",
-                backgroundColor: theme.palette.primary.main,
-                "&:hover": {
-                  backgroundColor: theme.palette.primary.dark,
-                },
-              }}
+              sx={{ ...buttonStyles.base, ...buttonStyles.primary }}
             >
               Edit Info
             </Button>
             <Button
               variant="outlined"
               color="error"
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                px: theme.spacing(3),
-                py: theme.spacing(1),
-                fontWeight: theme.typography.fontWeightMedium,
-                textTransform: "none",
-                "&:hover": {
-                  backgroundColor: theme.palette.error.main + "0a",
-                },
-              }}
+              sx={{ ...buttonStyles.base, ...buttonStyles.error }}
             >
               Inactive
             </Button>
           </Box>
         );
-    }
-  };
+      }
 
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      <Typography
-        variant="h6"
-        component="h6"
+      return null;
+    }, [role, isPendingEducator, theme, buttonStyles, handleHireStatusChange]);
+
+    return (
+      <Box
         sx={{
-          fontWeight: theme.typography.fontWeightMedium,
-          color: theme.palette.text.secondary,
-          mb: theme.spacing(3),
           display: "flex",
+          flexDirection: "row",
           alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        Personal Info
-      </Typography>
+        <Typography
+          variant="h6"
+          component="h6"
+          sx={{
+            fontWeight: theme.typography.fontWeightMedium,
+            color: theme.palette.text.secondary,
+            mb: theme.spacing(3),
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          Personal Info
+        </Typography>
 
-      {renderActionButtons()}
-    </Box>
-  );
-});
+        {renderActionButtons()}
+      </Box>
+    );
+  }
+);
 
 ProfileHeader.displayName = "ProfileHeader";

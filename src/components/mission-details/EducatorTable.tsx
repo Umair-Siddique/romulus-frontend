@@ -18,13 +18,6 @@ import { useNavigate } from "react-router";
 import { formatDate, formatTime, getStatusColor } from "#utils";
 import { useMany } from "@refinedev/core";
 
-interface Column {
-  id: "educator" | "responseTime" | "status" | "actions";
-  label: string;
-  minWidth?: number;
-  format?: (value: any) => string;
-}
-
 interface Data {
   id: number;
   name: string;
@@ -233,7 +226,9 @@ export const EducatorTable = ({
       .filter((educator) => educator.id) || []; // Filter out educators without valid IDs
 
   const handleViewEducator = (educatorId: number) => {
-    navigate(`/educators/${educatorId}`);
+    navigate(`/educators/${educatorId}`, {
+      state: { missionId },
+    });
   };
 
   return (

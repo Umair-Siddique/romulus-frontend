@@ -161,6 +161,8 @@ export const UserDashboard = ({
     },
   };
 
+  console.log("educatorMissions", educatorMissions);
+
   return (
     <>
       <PageMeta title={title} description={description} />

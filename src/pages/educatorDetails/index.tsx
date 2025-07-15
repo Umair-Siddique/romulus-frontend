@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import { useUserContext } from "#context";
@@ -21,6 +21,11 @@ export const EducatorDetails = () => {
 
   const navigate = useNavigate();
 
+  const { id: educatorId } = useParams();
+
+  const location = useLocation();
+  const missionId = location.state?.missionId;
+
   useEffect(() => {
     if (role === "educator") {
       navigate("/dashboard", { replace: true });
@@ -39,7 +44,7 @@ export const EducatorDetails = () => {
       }}
     >
       <Box sx={{ mb: theme.spacing(2) }}>
-        <ProfileHeader role={role} />
+        <ProfileHeader role={role} missionId={missionId} educatorId={educatorId!} />
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
