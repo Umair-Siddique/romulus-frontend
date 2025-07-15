@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import { useUserContext } from "#context";
-import { Box } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import {
   ProfileHeader,
   ProfileCard,
@@ -72,9 +72,13 @@ export const EducatorDetails = () => {
         <UserBio educatorData={educatorData?.data} />
       </Box>
 
+      <Divider sx={{ mb: theme.spacing(2) }} />
+
       <Box sx={{ mb: theme.spacing(2) }}>
         <ProfessionalDetails />
       </Box>
+
+      <Divider sx={{ mb: theme.spacing(2) }} />
 
       <Box sx={{ mb: theme.spacing(2) }}>
         <MissionsList />
