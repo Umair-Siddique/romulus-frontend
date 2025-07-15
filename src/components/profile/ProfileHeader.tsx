@@ -15,6 +15,7 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
     const theme = useTheme();
     const userContext = useUserContext();
     const organizationId = userContext?.user?.organizationId;
+    const refetchUserProfile = userContext?.refetchUserProfile;
 
     const { data: missionData } = useOne({
       resource: `missions/${missionId}/${role}/${organizationId}`,
@@ -23,52 +24,87 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
       },
     });
 
+    const { data: educatorData } = useOne({
+      resource: `educators/${educatorId}`,
+      queryOptions: {
+        enabled: !!educatorId,
+      },
+    });
+
     const { mutate: updateMission } = useUpdate({
       resource: "missions",
       mutationMode: "optimistic",
+      mutationOptions: {
+        onSuccess: () => {
+          refetchUserProfile && refetchUserProfile();
+        },
+      },
     });
+
+    const invitationStatus = educatorData?.data?.missionsInvitedFor?.find(
+      (elem: any) => elem.mission._id === missionId
+    )?.invitationStatus;
 
     // Memoize educator status check
     const isPendingEducator = useMemo(() => {
       if (!missionData?.data) return false;
-      
+
       const { hiredEducators = [], rejectedEducators = [] } = missionData.data;
-      return hiredEducators.includes(educatorId) || rejectedEducators.includes(educatorId);
+      return (
+        hiredEducators.includes(educatorId) ||
+        rejectedEducators.includes(educatorId)
+      );
     }, [missionData?.data, educatorId]);
 
     // Memoize button styles
-    const buttonStyles = useMemo(() => ({
-      base: {
-        borderRadius: theme.shape.borderRadius,
-        px: theme.spacing(3),
-        py: theme.spacing(1),
-        fontWeight: theme.typography.fontWeightMedium,
-        textTransform: "none" as const,
-      },
-      primary: {
-        backgroundColor: theme.palette.primary.main,
-        "&:hover": {
-          backgroundColor: theme.palette.primary.dark,
+    const buttonStyles = useMemo(
+      () => ({
+        base: {
+          borderRadius: theme.shape.borderRadius,
+          px: theme.spacing(3),
+          py: theme.spacing(1),
+          fontWeight: theme.typography.fontWeightMedium,
+          textTransform: "none" as const,
         },
-      },
-      error: {
-        "&:hover": {
-          backgroundColor: theme.palette.error.main + "0a",
+        primary: {
+          backgroundColor: theme.palette.primary.main,
+          "&:hover": {
+            backgroundColor: theme.palette.primary.dark,
+          },
         },
-      },
-    }), [theme]);
+        error: {
+          "&:hover": {
+            backgroundColor: theme.palette.error.main + "0a",
+          },
+        },
+      }),
+      [theme]
+    );
 
-    const handleHireStatusChange = useCallback((status: "hired" | "rejected") => {
-      updateMission({
-        id: missionId,
-        values: { hireStatus: status, educatorId },
-      });
-    }, [updateMission, missionId, educatorId]);
+    const handleHireStatusChange = useCallback(
+      (status: "hired" | "rejected") => {
+        updateMission({
+          id: missionId,
+          values: { hireStatus: status, educatorId },
+        });
+      },
+      [updateMission, missionId, educatorId]
+    );
 
     const renderActionButtons = useCallback(() => {
-      if (role === "organization" && !isPendingEducator) {
+      if (
+        role === "organization" &&
+        invitationStatus === "accepted" &&
+        !isPendingEducator
+      ) {
         return (
-          <Box sx={{ display: "flex", alignItems: "center", gap: theme.spacing(2) }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: theme.spacing(2),
+            }}
+          >
             <Button
               variant="outlined"
               color="error"
@@ -91,7 +127,13 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
 
       if (role === "admin") {
         return (
-          <Box sx={{ display: "flex", alignItems: "center", gap: theme.spacing(2) }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: theme.spacing(2),
+            }}
+          >
             <Button
               variant="contained"
               color="primary"
@@ -127,9 +169,10 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
           component="h6"
           sx={{
             fontWeight: theme.typography.fontWeightMedium,
-            color: theme.palette.text.secondary,
+            color: theme.palette.grey[400],
             display: "flex",
             alignItems: "center",
+            fontSize: theme.typography.h5.fontSize,
           }}
         >
           Personal Info

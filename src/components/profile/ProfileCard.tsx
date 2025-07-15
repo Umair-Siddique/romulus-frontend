@@ -1,4 +1,5 @@
-import { Avatar, Typography, Box, Chip, Grid, useTheme } from "@mui/material";
+import { formatDate, getStatusColor } from "#utils";
+import { Avatar, Typography, Box, Chip, useTheme } from "@mui/material";
 import { useOne } from "@refinedev/core";
 
 export const ProfileCard = ({
@@ -24,7 +25,7 @@ export const ProfileCard = ({
     phone: educatorData?.data.user.phone || "Phone Unavailable",
     email: educatorData?.data.user.email || "Email Unavailable",
     gender: educatorData?.data.gender || "Not Specified",
-    dob: educatorData?.data.dateOfBirth || "Date of Birth Unavailable",
+    dob: formatDate(educatorData?.data.dateOfBirth.split("T")[0]) || "Date of Birth Unavailable",
     location:
       `${educatorData?.data.city} ${educatorData?.data.country}` ||
       "Location Unavailable",
@@ -48,6 +49,14 @@ export const ProfileCard = ({
       ).length || 0,
   };
 
+  const userInfoItems = [
+    { label: "Phone:", value: userInfo.phone },
+    { label: "Email:", value: userInfo.email },
+    { label: "Gender:", value: userInfo.gender },
+    { label: "DOB:", value: userInfo.dob },
+    { label: "Location:", value: userInfo.location },
+  ];
+
   const missionItems = [
     { label: "Total:", value: missions.total },
     { label: "Pending:", value: missions.pending },
@@ -56,7 +65,14 @@ export const ProfileCard = ({
   ];
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        gap: 10,
+        width: "100%",
+      }}
+    >
       {/* Profile Avatar Section */}
       <Box
         sx={{
@@ -87,12 +103,12 @@ export const ProfileCard = ({
       {/* User Information Section */}
       <Box
         sx={{
-          flex: "1 1 auto",
-          minWidth: { xs: "100%", sm: "50%", md: "58.333%" },
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <Typography
-          variant="h5"
+          variant="h4"
           component="h2"
           gutterBottom
           sx={{
@@ -105,76 +121,30 @@ export const ProfileCard = ({
         </Typography>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ minWidth: 80, fontWeight: 500 }}
-            >
-              Phone:
-            </Typography>
-            <Typography variant="body2" color="text.primary">
-              {userInfo.phone}
-            </Typography>
-          </Box>
+          {userInfoItems.map((item, index) => (
+            <Box key={index} sx={{ display: "flex", alignItems: "center" }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ width: 150 }}
+              >
+                {item.label}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.primary"
+                sx={{ fontWeight: theme.typography.h3.fontWeight }}
+              >
+                {item.value}
+              </Typography>
+            </Box>
+          ))}
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography
               variant="body2"
               color="text.secondary"
-              sx={{ minWidth: 80, fontWeight: 500 }}
-            >
-              Email:
-            </Typography>
-            <Typography variant="body2" color="text.primary">
-              {userInfo.email}
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ minWidth: 80, fontWeight: 500 }}
-            >
-              Gender:
-            </Typography>
-            <Typography variant="body2" color="text.primary">
-              {userInfo.gender}
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ minWidth: 80, fontWeight: 500 }}
-            >
-              DOB:
-            </Typography>
-            <Typography variant="body2" color="text.primary">
-              {userInfo.dob}
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ minWidth: 80, fontWeight: 500 }}
-            >
-              Location:
-            </Typography>
-            <Typography variant="body2" color="text.primary">
-              {userInfo.location}
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ minWidth: 80, fontWeight: 500 }}
+              sx={{ width: 150 }}
             >
               Status:
             </Typography>
@@ -182,10 +152,7 @@ export const ProfileCard = ({
               label={userInfo.status}
               size="small"
               sx={{
-                backgroundColor: theme.palette.warning.light,
-                color: theme.palette.warning.contrastText,
-                fontWeight: 500,
-                fontSize: "0.75rem",
+                ...getStatusColor(userInfo.status),
               }}
             />
           </Box>
@@ -195,13 +162,13 @@ export const ProfileCard = ({
       {/* Missions Section */}
       <Box
         sx={{
-          flex: "0 0 auto",
-          width: { xs: "100%", sm: "25%", md: "25%" },
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <Typography
-          variant="h6"
-          component="h3"
+          variant="h4"
+          component="h2"
           gutterBottom
           sx={{
             fontWeight: 600,
@@ -225,18 +192,14 @@ export const ProfileCard = ({
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{ fontWeight: 500 }}
+                sx={{ width: 150 }}
               >
                 {item.label}
               </Typography>
               <Typography
                 variant="body2"
                 color="text.primary"
-                sx={{
-                  fontWeight: 600,
-                  minWidth: 24,
-                  textAlign: "right",
-                }}
+                sx={{ fontWeight: theme.typography.h3.fontWeight }}
               >
                 {item.value.toString().padStart(2, "0")}
               </Typography>
