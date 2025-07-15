@@ -5,7 +5,7 @@ import {
   WatchLater as WatchLaterIcon,
 } from "@mui/icons-material";
 import { useList } from "@refinedev/core";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
 import { TabsView } from "./tab-view";
 import { KpiCards } from "./kpi-cards";
@@ -57,19 +57,6 @@ export const UserDashboard = ({
 }: UserDashboardProps) => {
   const { userProfile } = useUserContext();
 
-  const [missions, setMissions] = useState<any[]>([]);
-  const [educatorMissions, setEducatorMissions] = useState({
-    invitedFor: userProfile?.missionsInvitedFor,
-    hiredFor: userProfile?.missionsHiredFor,
-  });
-
-  const [kpis, setKpis] = useState<KpiItem[]>(
-    defaultKpis?.filter((kpi) => {
-      if (role === "organization") return kpi.title !== "Pending Invitations";
-      return kpi.title !== "Pending Missions";
-    })
-  );
-
   const {
     data: organizationMissions,
     isLoading: isLoadingOrganizationMissions,
@@ -82,67 +69,91 @@ export const UserDashboard = ({
     },
   });
 
-  useEffect(() => {
-    setEducatorMissions((prev) => ({
-      ...prev,
-      invitedFor: userProfile?.missionsInvitedFor,
-      hiredFor: userProfile?.missionsHiredFor,
-    }));
-  }, [
-    userProfile?.missionsInvitedFor?.length,
-    userProfile?.missionsHiredFor?.length,
-  ]);
-
-  useEffect(() => {
+  // Memoize missions based on role
+  const missions = useMemo(() => {
     if (role === "educator") {
-      setMissions(educatorMissions?.hiredFor);
-    } else if (role === "organization" && organizationMissions?.data) {
-      setMissions(organizationMissions.data);
+      return userProfile?.missionsHiredFor || [];
     }
-  }, [organizationMissions?.data]);
+    return organizationMissions?.data || [];
+  }, [role, userProfile?.missionsHiredFor, organizationMissions?.data]);
 
-  useEffect(() => {
-    setKpis((prevKpis) =>
-      prevKpis.map((kpi) => {
-        switch (kpi.title) {
-          case "Total Missions":
-            return { ...kpi, total: organizationMissions?.total || 0 };
-          case "Ongoing Missions":
-            return {
-              ...kpi,
-              total:
-                missions?.filter((mission) => mission.status === "ongoing")
-                  .length || 0,
-            };
-          case "Pending Invitations":
-            return {
-              ...kpi,
-              total:
-                educatorMissions.invitedFor?.filter(
-                  (mission: any) =>
-                    mission?.mission && mission.invitationStatus === "pending"
-                ).length || 0,
-            };
-          case "Pending Missions":
-            return {
-              ...kpi,
-              total:
-                missions?.filter((mission) => mission.status === "pending")
-                  .length || 0,
-            };
-          case "Completed Missions":
-            return {
-              ...kpi,
-              total:
-                missions?.filter((mission) => mission.status === "completed")
-                  .length || 0,
-            };
-          default:
-            return kpi;
-        }
-      })
-    );
-  }, [missions, educatorMissions?.invitedFor?.length]);
+  // Memoize mission counts for better performance
+  const missionCounts = useMemo(() => {
+    const pending = missions.filter(
+      (mission: any) => mission.status === "pending"
+    ).length;
+    const ongoing = missions.filter(
+      (mission: any) => mission.status === "ongoing"
+    ).length;
+    const completed = missions.filter(
+      (mission: any) => mission.status === "completed"
+    ).length;
+
+    const pendingInvitations =
+      role === "educator"
+        ? userProfile?.missionsInvitedFor?.filter(
+            (mission: any) =>
+              mission?.mission && mission.invitationStatus === "pending"
+          ).length || 0
+        : 0;
+
+    return { pending, ongoing, completed, pendingInvitations };
+  }, [missions, role, userProfile?.missionsInvitedFor]);
+
+  const educatorMissions = useMemo(() => {
+    return userProfile?.missionsHiredFor;
+  }, [userProfile?.missionsHiredFor]);
+
+  // Memoize KPIs with filtered items and calculated totals
+  const kpis = useMemo(() => {
+    const filteredKpis = defaultKpis.filter((kpi) => {
+      if (role === "organization") return kpi.title !== "Pending Invitations";
+      return kpi.title !== "Pending Missions";
+    });
+
+    return filteredKpis.map((kpi) => {
+      switch (kpi.title) {
+        case "Total Missions":
+          return { ...kpi, total: role === "organization" ? organizationMissions?.total : educatorMissions?.length };
+        case "Ongoing Missions":
+          return { ...kpi, total: missionCounts.ongoing };
+        case "Pending Invitations":
+          return { ...kpi, total: missionCounts.pendingInvitations };
+        case "Pending Missions":
+          return { ...kpi, total: missionCounts.pending };
+        case "Completed Missions":
+          return { ...kpi, total: missionCounts.completed };
+        default:
+          return kpi;
+      }
+    });
+  }, [role, organizationMissions?.total, missionCounts]);
+
+  // Memoize tab missions
+  const calendarTabMissions = useMemo(() => {
+    if (role === "educator") {
+      return (
+        userProfile?.missionsInvitedFor?.map((elem: any) => elem.mission) || []
+      );
+    }
+    return missions;
+  }, [role, userProfile?.missionsInvitedFor, missions]);
+
+  const missionsTabMissions = useMemo(() => {
+    return role === "educator" ? userProfile?.missionsHiredFor || [] : missions;
+  }, [role, userProfile?.missionsHiredFor, missions]);
+
+  // Memoize tab view props
+  const tabViewProps = useMemo(
+    () => ({
+      calendarTabMissions,
+      missionsTabMissions: {
+        missions: missionsTabMissions,
+        refetchMissions: refetchOrganizationMissions,
+      },
+    }),
+    [calendarTabMissions, missionsTabMissions, refetchOrganizationMissions]
+  );
 
   if (role === "organization" && isLoadingOrganizationMissions) {
     return <div>Loading...</div>;
@@ -150,26 +161,11 @@ export const UserDashboard = ({
     return <div>Error loading data</div>;
   }
 
-  const tabViewProps = {
-    calendarTabMissions:
-      role === "educator"
-        ? educatorMissions?.invitedFor?.map((elem: any) => elem.mission)
-        : missions,
-    missionsTabMissions: {
-      missions: role === "educator" ? educatorMissions?.hiredFor : missions,
-      refetchMissions: refetchOrganizationMissions,
-    },
-  };
-
-  console.log("educatorMissions", educatorMissions);
-
   return (
     <>
       <PageMeta title={title} description={description} />
-
       <KpiCards kpiCardsData={kpis} />
-
-      <TabsView {...tabViewProps as any} />
+      <TabsView {...tabViewProps} />
     </>
   );
 };
