@@ -1,3 +1,4 @@
+import { useUserContext } from "#context";
 import { formatDate, getStatusColor } from "#utils";
 import { Avatar, Typography, Box, Chip, useTheme } from "@mui/material";
 import { useOne } from "@refinedev/core";
@@ -10,6 +11,9 @@ export const ProfileCard = ({
   educatorId: string;
 }) => {
   const theme = useTheme();
+
+  const userContext = useUserContext();
+  const role = userContext?.user?.role;
 
   const { data: educatorData } = useOne({
     resource: `educators/${educatorId}`,
@@ -25,7 +29,9 @@ export const ProfileCard = ({
     phone: educatorData?.data.user.phone || "Phone Unavailable",
     email: educatorData?.data.user.email || "Email Unavailable",
     gender: educatorData?.data.gender || "Not Specified",
-    dob: formatDate(educatorData?.data.dateOfBirth.split("T")[0]) || "Date of Birth Unavailable",
+    dob:
+      formatDate(educatorData?.data.dateOfBirth.split("T")[0]) ||
+      "Date of Birth Unavailable",
     location:
       `${educatorData?.data.city} ${educatorData?.data.country}` ||
       "Location Unavailable",
@@ -160,53 +166,55 @@ export const ProfileCard = ({
       </Box>
 
       {/* Missions Section */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Typography
-          variant="h4"
-          component="h2"
-          gutterBottom
+      {role === "admin" && (
+        <Box
           sx={{
-            fontWeight: 600,
-            color: theme.palette.text.primary,
-            mb: 2,
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          Missions
-        </Typography>
+          <Typography
+            variant="h4"
+            component="h2"
+            gutterBottom
+            sx={{
+              fontWeight: 600,
+              color: theme.palette.text.primary,
+              mb: 2,
+            }}
+          >
+            Missions
+          </Typography>
 
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          {missionItems.map((item, index) => (
-            <Box
-              key={index}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ width: 150 }}
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+            {missionItems.map((item, index) => (
+              <Box
+                key={index}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
               >
-                {item.label}
-              </Typography>
-              <Typography
-                variant="body2"
-                color="text.primary"
-                sx={{ fontWeight: theme.typography.h3.fontWeight }}
-              >
-                {item.value.toString().padStart(2, "0")}
-              </Typography>
-            </Box>
-          ))}
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ width: 150 }}
+                >
+                  {item.label}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="text.primary"
+                  sx={{ fontWeight: theme.typography.h3.fontWeight }}
+                >
+                  {item.value.toString().padStart(2, "0")}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 };
