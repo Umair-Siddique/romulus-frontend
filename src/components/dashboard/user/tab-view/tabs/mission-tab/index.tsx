@@ -4,13 +4,27 @@ import { ToolBar } from "./Toolbar";
 import { useEffect, useState } from "react";
 import { MissionsTabProps, MissionsTabsDataProps } from "#types";
 
-export const MissionsTab = ({ missionsTabProps }: { missionsTabProps: MissionsTabProps }) => {
+export const MissionsTab = ({
+  missionsTabProps,
+}: {
+  missionsTabProps: MissionsTabProps;
+}) => {
   const { missions, refetchMissions } = missionsTabProps;
 
   const [selectedStatus, setSelectedStatus] = useState("All");
+  const [selectedBranch, setSelectedBranch] = useState("Branches");
+  const [availableBranches, setAvailableBranches] = useState<string[]>([]);
   const [filteredMissions, setFilteredMissions] = useState<
     MissionsTabsDataProps[]
   >([]);
+
+  useEffect(() => {
+    // Extract unique branches from missions
+    const branches = Array.from(
+      new Set(missions.map((mission: any) => mission.branchName || "No Branch"))
+    );
+    setAvailableBranches(["All Branches", ...branches]);
+  }, [missions]);
 
   useEffect(() => {
     switch (selectedStatus) {
@@ -37,12 +51,28 @@ export const MissionsTab = ({ missionsTabProps }: { missionsTabProps: MissionsTa
     }
   }, [selectedStatus, missions]);
 
+  useEffect(() => {
+    if (
+      selectedBranch === "All Branches" ||
+      selectedBranch === "Branches"
+    ) {
+      setFilteredMissions(missions);
+    } else {
+      setFilteredMissions(
+        missions.filter((mission: any) => mission.branchName === selectedBranch)
+      );
+    }
+  }, [selectedBranch, missions]);
+
   return (
     <Box sx={{ minHeight: "400px" }}>
       {/* Toolbar */}
       <ToolBar
         selectedStatus={selectedStatus}
         setSelectedStatus={setSelectedStatus}
+        selectedBranch={selectedBranch}
+        setSelectedBranch={setSelectedBranch}
+        availableBranches={availableBranches}
       />
 
       <Box

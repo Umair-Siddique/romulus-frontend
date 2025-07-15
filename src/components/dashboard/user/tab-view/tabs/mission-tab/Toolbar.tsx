@@ -18,11 +18,17 @@ import { useUserContext } from "#context";
 interface ToolBarProps {
   selectedStatus: string;
   setSelectedStatus: (status: string) => void;
+  selectedBranch: string;
+  setSelectedBranch: (branch: string) => void;
+  availableBranches: string[];
 }
 
 export const ToolBar = ({
   selectedStatus,
   setSelectedStatus,
+  selectedBranch,
+  setSelectedBranch,
+  availableBranches
 }: ToolBarProps) => {
   const theme = useTheme<Theme>();
 
@@ -33,10 +39,9 @@ export const ToolBar = ({
   const [dateAnchor, setDateAnchor] = useState(null);
   const [branchAnchor, setBranchAnchor] = useState(null);
   const [selectedDate, setSelectedDate] = useState("Date");
-  const [selectedBranch, setSelectedBranch] = useState("Branch");
 
   const dateOptions = ["Today", "This Week", "This Month", "Custom Range"];
-  const branchOptions = ["All Branches", "Downtown", "Uptown", "Midtown"];
+  const branchOptions = availableBranches.length > 0 ? availableBranches : ["No Branch"];
   const statusFilters =
     role === "organization"
       ? ["All", "Pending", "Ongoing", "Completed"]
