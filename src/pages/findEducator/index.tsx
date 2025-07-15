@@ -37,6 +37,7 @@ export const FindEducator = () => {
     coordinates: [],
     skills: [],
   });
+  const [missionCreated, setMissionCreated] = useState(false); // NEW: Track if mission was created successfully
 
   // Dropdown menu state
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -75,7 +76,9 @@ export const FindEducator = () => {
     ],
     queryOptions: {
       enabled: !!(
-        findEducatorData?.coordinates.length && findEducatorData?.skills.length
+        findEducatorData?.coordinates.length && 
+        findEducatorData?.skills.length &&
+        missionCreated // NEW: Only enable if mission was created successfully
       ),
     },
   });
@@ -105,40 +108,56 @@ export const FindEducator = () => {
     }
   }, [role, navigate]);
 
+  // FIXED: Updated effect to handle mission creation with proper error handling
   useEffect(() => {
-    createMission(
-      {
-        values: dataToSubmit,
-        meta: {
-          headers: {
-            "Content-Type": "multipart/form-data",
+    if (dataToSubmit) {
+      createMission(
+        {
+          values: dataToSubmit,
+          meta: {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           },
         },
-      },
-      {
-        onSuccess: () => {
-          setModalOpen(false);
-        },
-      }
-    );
-  }, [dataToSubmit]);
+        {
+          onSuccess: () => {
+            setModalOpen(false);
+            setMissionCreated(true); // NEW: Set mission as created successfully
+            setDataToSubmit(null); // Clear dataToSubmit after successful creation
+          },
+          onError: (error) => {
+            console.error("Mission creation failed:", error);
+            setMissionCreated(false); // NEW: Ensure mission is not marked as created
+            // Reset states on error
+            setDataToSubmit(null); // Clear dataToSubmit to prevent infinite loop
+            setFindEducatorData({ coordinates: [], skills: [] });
+            // Optionally show error modal or notification here
+          },
+        }
+      );
+    }
+  }, [dataToSubmit]); // REMOVED createMission from dependencies
 
   // Effect for refetching when distance changes
   useEffect(() => {
     if (
       findEducatorData?.coordinates.length &&
-      findEducatorData?.skills.length
+      findEducatorData?.skills.length &&
+      missionCreated // NEW: Only refetch if mission was created successfully
     ) {
       refetchEducators();
     }
-  }, [distance, findEducatorData?.coordinates, findEducatorData?.skills]);
+  }, [distance, findEducatorData?.coordinates, findEducatorData?.skills, missionCreated]);
 
   // Effect for updating invitees when educatorsData changes
   useEffect(() => {
-    const educatorsIds =
-      educatorsData?.data.map((educator: any) => educator._id) || [];
-    setInvitees(educatorsIds);
-  }, [educatorsData]);
+    if (missionCreated) { // NEW: Only update invitees if mission was created successfully
+      const educatorsIds =
+        educatorsData?.data.map((educator: any) => educator._id) || [];
+      setInvitees(educatorsIds);
+    }
+  }, [educatorsData, missionCreated]);
 
   // Effect to show no educators modal when data is loaded and empty
   useEffect(() => {
@@ -147,11 +166,12 @@ export const FindEducator = () => {
       !isEducatorsError &&
       educatorsData?.data?.length === 0 &&
       findEducatorData?.coordinates.length &&
-      findEducatorData?.skills.length
+      findEducatorData?.skills.length &&
+      missionCreated // NEW: Only show modal if mission was created successfully
     ) {
       setNoEducatorsModalOpen(true);
     }
-  }, [isEducatorsLoading, isEducatorsError, educatorsData, findEducatorData]);
+  }, [isEducatorsLoading, isEducatorsError, educatorsData, findEducatorData, missionCreated]);
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -162,6 +182,7 @@ export const FindEducator = () => {
     setInvitees([]);
     setFindEducatorData({ coordinates: [], skills: [] });
     setDataToSubmit(null);
+    setMissionCreated(false); // NEW: Reset mission creation state
     navigate("/dashboard", { replace: true });
   };
 
@@ -170,6 +191,7 @@ export const FindEducator = () => {
     setInvitees([]);
     setFindEducatorData({ coordinates: [], skills: [] });
     setDataToSubmit(null);
+    setMissionCreated(false); // NEW: Reset mission creation state
   };
 
   const handleContactAdminModalClose = () => {
@@ -177,6 +199,7 @@ export const FindEducator = () => {
     setInvitees([]);
     setFindEducatorData({ coordinates: [], skills: [] });
     setDataToSubmit(null);
+    setMissionCreated(false); // NEW: Reset mission creation state
   };
 
   const handleExpandRadius = () => {
@@ -229,7 +252,7 @@ export const FindEducator = () => {
   };
 
   const markers: Marker[] = [];
-  if (!isMissionLoading) {
+  if (!isMissionLoading && missionCreated) { // NEW: Only show markers if mission was created successfully
     educatorsData?.data.forEach((educator: any) => {
       markers.push({
         position: {
@@ -242,56 +265,59 @@ export const FindEducator = () => {
     });
   }
 
-  const isMissionCreationPhase = !educatorsData?.data.length;
+  // FIXED: Updated condition to check if mission was created successfully
+  const isMissionCreationPhase = !missionCreated || !educatorsData?.data.length;
 
   return (
     <Box sx={{ position: "relative" }}>
-      {/* Radius dropdown positioned at top right */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: theme.spacing(2),
-          right: theme.spacing(2),
-          zIndex: 1000,
-        }}
-      >
-        <Button
-          variant="outlined"
-          onClick={handleDropdownClick}
-          endIcon={<ExpandMoreIcon />}
-          startIcon={<MyLocationIcon />}
+      {/* Radius dropdown positioned at top right - only show if mission was created */}
+      {missionCreated && (
+        <Box
           sx={{
-            backgroundColor: "white",
-            textTransform: "none",
-            minWidth: 120,
-            boxShadow: theme.shadows[2],
-            color: theme.palette.text.secondary,
+            position: "absolute",
+            top: theme.spacing(2),
+            right: theme.spacing(2),
+            zIndex: 1000,
           }}
         >
-          Radius
-        </Button>
-        <Menu
-          anchorEl={anchorEl}
-          open={dropdownOpen}
-          onClose={handleDropdownClose}
-          PaperProps={{
-            sx: {
-              mt: 1,
-              ml: -5,
-              width: 300,
-              height: 85,
-              borderRadius: theme.shape.borderRadius,
-            },
-          }}
-        >
-          <MenuItem disableRipple>
-            <RadiusSlider
-              distance={distance}
-              handleDistanceChange={handleDistanceChange}
-            />
-          </MenuItem>
-        </Menu>
-      </Box>
+          <Button
+            variant="outlined"
+            onClick={handleDropdownClick}
+            endIcon={<ExpandMoreIcon />}
+            startIcon={<MyLocationIcon />}
+            sx={{
+              backgroundColor: "white",
+              textTransform: "none",
+              minWidth: 120,
+              boxShadow: theme.shadows[2],
+              color: theme.palette.text.secondary,
+            }}
+          >
+            Radius
+          </Button>
+          <Menu
+            anchorEl={anchorEl}
+            open={dropdownOpen}
+            onClose={handleDropdownClose}
+            PaperProps={{
+              sx: {
+                mt: 1,
+                ml: -5,
+                width: 300,
+                height: 85,
+                borderRadius: theme.shape.borderRadius,
+              },
+            }}
+          >
+            <MenuItem disableRipple>
+              <RadiusSlider
+                distance={distance}
+                handleDistanceChange={handleDistanceChange}
+              />
+            </MenuItem>
+          </Menu>
+        </Box>
+      )}
 
       {/* Map displaying educator locations */}
       <Map markers={markers} center={center} />
