@@ -19,6 +19,7 @@ import {
   Edit as EditIcon,
   Download as DownloadIcon,
   Description as DescriptionIcon,
+  SaveAlt as SaveAltIcon,
 } from "@mui/icons-material";
 
 export const ProfessionalDetails = () => {
@@ -42,15 +43,15 @@ export const ProfessionalDetails = () => {
     ],
   };
 
-  const handleDownload = (filename) => {
+  const handleDownload = (filename: any) => {
     console.log(`Downloading ${filename}`);
   };
 
-  const handleEdit = (section) => {
+  const handleEdit = (section: any) => {
     console.log(`Editing ${section}`);
   };
 
-  const CardHeader = ({ title, onEdit }) => (
+  const CardHeader = ({ title, onEdit }: any) => (
     <Box
       sx={{
         display: "flex",
@@ -62,9 +63,9 @@ export const ProfessionalDetails = () => {
         variant="h6"
         component="h3"
         sx={{
-          color: "text.secondary",
-          fontWeight: 500,
-          fontSize: "1rem",
+          color: theme.palette.text.secondary,
+          fontWeight: theme.typography.fontWeightMedium,
+          fontSize: theme.typography.pxToRem(16),
         }}
       >
         {title}
@@ -73,12 +74,12 @@ export const ProfessionalDetails = () => {
         startIcon={<EditIcon />}
         onClick={onEdit}
         sx={{
-          color: "text.secondary",
+          color: theme.palette.text.secondary,
           textTransform: "none",
-          fontSize: "0.875rem",
-          fontWeight: 400,
+          fontSize: theme.typography.pxToRem(14),
+          fontWeight: theme.typography.fontWeightRegular,
           "&:hover": {
-            backgroundColor: "grey.50",
+            backgroundColor: theme.palette.grey[50],
           },
         }}
       >
@@ -103,10 +104,10 @@ export const ProfessionalDetails = () => {
           width: "100%",
           border: `1px solid ${theme.palette.divider}`,
           borderRadius: theme.shape.borderRadius,
-          backgroundColor: "background.default",
+          backgroundColor: theme.palette.background.default,
         }}
       >
-        <CardContent sx={{ p: 3 }}>
+        <CardContent sx={{ p: theme.spacing(3) }}>
           <CardHeader
             title="Profession & Skills"
             onEdit={() => handleEdit("profession")}
@@ -116,9 +117,9 @@ export const ProfessionalDetails = () => {
             variant="h4"
             component="h2"
             sx={{
-              fontWeight: 600,
-              mb: 1,
-              fontSize: "1.5rem",
+              fontWeight: theme.typography.fontWeightMedium,
+              mb: theme.spacing(1),
+              fontSize: theme.typography.pxToRem(24),
             }}
           >
             {professionData.title}
@@ -127,10 +128,10 @@ export const ProfessionalDetails = () => {
           <Typography
             variant="h5"
             sx={{
-              color: "primary.main",
-              fontWeight: 500,
-              mb: 3,
-              fontSize: "1.25rem",
+              color: theme.palette.primary.main,
+              fontWeight: theme.typography.fontWeightMedium,
+              mb: theme.spacing(3),
+              fontSize: theme.typography.pxToRem(20),
             }}
           >
             {professionData.hourlyRate}
@@ -139,15 +140,22 @@ export const ProfessionalDetails = () => {
           <Typography
             variant="body2"
             sx={{
-              color: "text.secondary",
-              fontWeight: 500,
-              mb: 1.5,
+              color: theme.palette.text.secondary,
+              fontWeight: theme.typography.fontWeightMedium,
+              mb: theme.spacing(1.5),
             }}
           >
             Skills
           </Typography>
 
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 3 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: theme.spacing(1),
+              mb: theme.spacing(3),
+            }}
+          >
             {professionData.skills.map((skill, index) => (
               <Chip
                 key={index}
@@ -155,9 +163,9 @@ export const ProfessionalDetails = () => {
                 variant="outlined"
                 size="small"
                 sx={{
-                  backgroundColor: "grey.50",
-                  borderColor: "grey.300",
-                  fontSize: "0.8125rem",
+                  backgroundColor: theme.palette.grey[50],
+                  borderColor: theme.palette.grey[300],
+                  fontSize: theme.typography.pxToRem(13),
                 }}
               />
             ))}
@@ -166,9 +174,9 @@ export const ProfessionalDetails = () => {
           <Typography
             variant="body2"
             sx={{
-              color: "text.secondary",
-              fontWeight: 500,
-              mb: 1.5,
+              color: theme.palette.text.secondary,
+              fontWeight: theme.typography.fontWeightMedium,
+              mb: theme.spacing(1.5),
             }}
           >
             Education
@@ -177,8 +185,8 @@ export const ProfessionalDetails = () => {
           <Typography
             variant="body1"
             sx={{
-              fontWeight: 500,
-              mb: 2,
+              fontWeight: theme.typography.fontWeightMedium,
+              mb: theme.spacing(2),
             }}
           >
             {professionData.education}
@@ -191,24 +199,25 @@ export const ProfessionalDetails = () => {
                 disablePadding
                 sx={{
                   borderBottom:
-                    index < professionData.certificates.length - 1 ? 1 : 0,
-                  borderColor: "divider",
-                  py: 1,
+                    index < professionData.certificates.length - 1
+                      ? `1px solid ${theme.palette.divider}`
+                      : 0,
+                  py: theme.spacing(1),
                 }}
               >
-                <ListItemIcon sx={{ minWidth: 36 }}>
+                <ListItemIcon sx={{ minWidth: theme.spacing(4.5) }}>
                   <DescriptionIcon
                     sx={{
-                      color: "primary.main",
-                      fontSize: "1.25rem",
+                      color: theme.palette.primary.main,
+                      fontSize: theme.typography.pxToRem(20),
                     }}
                   />
                 </ListItemIcon>
                 <ListItemText
                   primary={cert.name}
                   primaryTypographyProps={{
-                    fontSize: "0.875rem",
-                    color: "text.primary",
+                    fontSize: theme.typography.pxToRem(14),
+                    color: theme.palette.text.primary,
                   }}
                 />
                 <ListItemSecondaryAction>
@@ -216,13 +225,13 @@ export const ProfessionalDetails = () => {
                     edge="end"
                     onClick={() => handleDownload(cert.name)}
                     sx={{
-                      color: "text.secondary",
+                      color: theme.palette.text.secondary,
                       "&:hover": {
-                        backgroundColor: "grey.50",
+                        backgroundColor: theme.palette.grey[50],
                       },
                     }}
                   >
-                    <DownloadIcon fontSize="small" />
+                    <SaveAltIcon fontSize="small" />
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
@@ -237,10 +246,10 @@ export const ProfessionalDetails = () => {
           width: "100%",
           border: `1px solid ${theme.palette.divider}`,
           borderRadius: theme.shape.borderRadius,
-          backgroundColor: "background.default",
+          backgroundColor: theme.palette.background.default,
         }}
       >
-        <CardContent sx={{ p: 3 }}>
+        <CardContent sx={{ p: theme.spacing(3) }}>
           <CardHeader
             title="Document Identity"
             onEdit={() => handleEdit("documents")}
@@ -250,7 +259,8 @@ export const ProfessionalDetails = () => {
             sx={{
               display: "flex",
               flexDirection: "row",
-              gap: 2,
+              flexWrap: "wrap",
+              gap: theme.spacing(10),
             }}
           >
             {documentData.documents.map((doc, index) => (
@@ -258,28 +268,44 @@ export const ProfessionalDetails = () => {
                 key={index}
                 variant="outlined"
                 sx={{
-                  p: 3,
+                  p: theme.spacing(3),
                   textAlign: "center",
-                  backgroundColor: "grey.50",
-                  border: "2px dashed",
-                  borderColor: "grey.300",
-                  borderRadius: 1,
+                  backgroundColor: theme.palette.background.default,
+                  border: `1px solid ${theme.palette.grey[300]}`,
+                  borderRadius: theme.shape.borderRadius,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  height: theme.spacing(30),
+                  width: theme.spacing(30),
                 }}
               >
-                <DescriptionIcon
+                <Box
                   sx={{
-                    fontSize: "3rem",
-                    color: "primary.main",
-                    mb: 1.5,
+                    border: `1px solid ${theme.palette.primary.main}`,
+                    borderRadius: theme.shape.borderRadius,
+                    width: theme.spacing(8),
+                    height: theme.spacing(8),
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
-                />
+                >
+                  <DescriptionIcon
+                    sx={{
+                      fontSize: theme.typography.pxToRem(48),
+                      color: theme.palette.primary.main,
+                    }}
+                  />
+                </Box>
 
                 <Typography
                   variant="body2"
                   sx={{
-                    fontWeight: 500,
-                    mb: 2,
-                    color: "text.primary",
+                    fontWeight: theme.typography.fontWeightMedium,
+                    mb: theme.spacing(2),
+                    color: theme.palette.text.primary,
                   }}
                 >
                   {doc.name}
@@ -287,16 +313,16 @@ export const ProfessionalDetails = () => {
 
                 <Button
                   variant="outlined"
-                  startIcon={<DownloadIcon />}
+                  startIcon={<SaveAltIcon />}
                   onClick={() => handleDownload(doc.name)}
                   sx={{
                     textTransform: "none",
-                    fontWeight: 500,
-                    borderColor: "grey.300",
-                    color: "text.primary",
+                    fontWeight: theme.typography.fontWeightMedium,
+                    borderColor: theme.palette.grey[300],
+                    color: theme.palette.text.primary,
                     "&:hover": {
-                      backgroundColor: "grey.100",
-                      borderColor: "primary.main",
+                      backgroundColor: theme.palette.grey[100],
+                      borderColor: theme.palette.primary.main,
                     },
                   }}
                 >
