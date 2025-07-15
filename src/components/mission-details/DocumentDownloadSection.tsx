@@ -1,3 +1,4 @@
+import { handleDownload } from "#utils";
 import { Description, Download } from "@mui/icons-material";
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -10,11 +11,6 @@ export const DocumentDownloadSection = memo(
     residenceGuidelines: { name: string; url: string };
   }) => {
     const theme = useTheme();
-
-    const handleDownload = () => {
-      window.open(residenceGuidelines.url, "_blank", "noopener,noreferrer");
-    };
-
     return (
       <Box
         sx={{
@@ -63,7 +59,7 @@ export const DocumentDownloadSection = memo(
             <Button
               variant="contained"
               startIcon={<Download />}
-              onClick={handleDownload}
+              onClick={() => handleDownload(residenceGuidelines.url)}
               sx={{
                 borderRadius: theme.shape.borderRadius,
                 color: theme.palette.common.black,

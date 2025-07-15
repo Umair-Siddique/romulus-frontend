@@ -75,7 +75,7 @@ export const EducatorDetails = () => {
       <Divider sx={{ mb: theme.spacing(2) }} />
 
       <Box sx={{ mb: theme.spacing(2) }}>
-        <ProfessionalDetails />
+        <ProfessionalDetails educatorData={educatorData?.data} />
       </Box>
 
       <Divider sx={{ mb: theme.spacing(2) }} />

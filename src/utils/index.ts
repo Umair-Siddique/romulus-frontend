@@ -74,4 +74,8 @@ const formatDate = (dateISO: string) => {
   return formattedDate;
 };
 
-export { requestAPI, getStatusColor, formatTime, formatDate };
+const handleDownload = (url: string) => {
+  window.open(url, "_blank", "noopener,noreferrer");
+};
+
+export { requestAPI, getStatusColor, formatTime, formatDate, handleDownload };
