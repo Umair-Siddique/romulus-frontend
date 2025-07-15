@@ -23,7 +23,7 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { MissionCardProps } from "#types";
 import { useUserContext } from "#context";
 import { useNavigate } from "react-router";
-import { getStatusColor } from "#utils";
+import { formatDate, formatTime, getStatusColor } from "#utils";
 import { useDelete } from "@refinedev/core";
 
 export const MissionCard = ({
@@ -168,7 +168,7 @@ export const MissionCard = ({
               sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
             />
             <Typography variant="body2" color="text.secondary">
-              {date}
+              {formatDate(date)}
             </Typography>
           </Box>
 
@@ -183,7 +183,7 @@ export const MissionCard = ({
               sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
             />
             <Typography variant="body2" color="text.secondary">
-              {time}
+              {formatTime(time.split("-")[0].trim())} to {formatTime(time.split("-")[1].trim())}
             </Typography>
           </Box>
 
