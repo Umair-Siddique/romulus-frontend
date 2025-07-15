@@ -20,6 +20,8 @@ interface ToolBarProps {
   setSelectedStatus: (status: string) => void;
   selectedBranch: string;
   setSelectedBranch: (branch: string) => void;
+  selectedDate: string;
+  setSelectedDate: (date: string) => void;
   availableBranches: string[];
 }
 
@@ -28,6 +30,8 @@ export const ToolBar = ({
   setSelectedStatus,
   selectedBranch,
   setSelectedBranch,
+  selectedDate,
+  setSelectedDate,
   availableBranches
 }: ToolBarProps) => {
   const theme = useTheme<Theme>();
@@ -38,9 +42,8 @@ export const ToolBar = ({
 
   const [dateAnchor, setDateAnchor] = useState(null);
   const [branchAnchor, setBranchAnchor] = useState(null);
-  const [selectedDate, setSelectedDate] = useState("Date");
 
-  const dateOptions = ["Today", "This Week", "This Month", "Custom Range"];
+  const dateOptions = ["Today", "This Week", "This Month", "All Time"];
   const branchOptions = availableBranches.length > 0 ? availableBranches : ["No Branch"];
   const statusFilters =
     role === "organization"
