@@ -1,7 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useCustom, useUpdate } from "@refinedev/core";
-import { memo, useState } from "react";
+import { memo, useState, useCallback } from "react";
+import { CheckCircle } from "@mui/icons-material";
+
+import { Modal } from "../Modal";
 
 export const MissionHeader = memo(
   ({
@@ -20,6 +23,7 @@ export const MissionHeader = memo(
     const theme = useTheme();
 
     const [response, setResponse] = useState<"accepted" | "declined" | "">("");
+    const [modalOpen, setModalOpen] = useState(false);
 
     const { refetch: respondInvitation } = useCustom({
       method: "post",
@@ -51,6 +55,7 @@ export const MissionHeader = memo(
       mutationOptions: {
         onSuccess: () => {
           refetchMission();
+          setModalOpen(false);
         },
       },
     });
@@ -59,6 +64,21 @@ export const MissionHeader = memo(
       setResponse(response);
       respondInvitation();
     };
+
+    const openCompletionModal = useCallback(() => {
+      setModalOpen(true);
+    }, []);
+
+    const handleModalClose = useCallback(() => {
+      setModalOpen(false);
+    }, []);
+
+    const handleMarkAsCompleted = useCallback(() => {
+      updateMission({
+        id: missionData.id,
+        values: { status: "completed" },
+      });
+    }, [updateMission, missionData.id]);
 
     const shouldShowEducatorActions =
       missionData.invitationStatus === "pending" &&
@@ -126,12 +146,7 @@ export const MissionHeader = memo(
             shouldShowOrganizationActions && (
               <Button
                 variant="contained"
-                onClick={() => {
-                  updateMission({
-                    id: missionData.id,
-                    values: { status: "completed" },
-                  });
-                }}
+                onClick={openCompletionModal}
                 sx={{
                   borderRadius: theme.shape.borderRadius,
                   px: theme.spacing(3),
@@ -173,30 +188,46 @@ export const MissionHeader = memo(
     };
 
     return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography
-          variant="h3"
-          component="h1"
+      <>
+        <Box
           sx={{
-            fontWeight: theme.typography.fontWeightMedium,
-            color: theme.palette.text.primary,
-            mb: theme.spacing(3),
             display: "flex",
+            flexDirection: "row",
             alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          Mission Overview
-        </Typography>
+          <Typography
+            variant="h3"
+            component="h1"
+            sx={{
+              fontWeight: theme.typography.fontWeightMedium,
+              color: theme.palette.text.primary,
+              mb: theme.spacing(3),
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            Mission Overview
+          </Typography>
 
-        {renderActionButtons()}
-      </Box>
+          {renderActionButtons()}
+        </Box>
+
+        <Modal
+          open={modalOpen}
+          onClose={handleModalClose}
+          onSubmit={handleModalClose}
+          button1OnClick={handleMarkAsCompleted}
+          icon={<CheckCircle />}
+          title="Confirm Mission Completion"
+          description="Are you sure you want to mark this mission as completed?"
+          showButton={true}
+          showButton1={true}
+          buttonText="Close"
+          button1Text="Complete Mission"
+        />
+      </>
     );
   }
 );

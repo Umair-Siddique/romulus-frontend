@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
+import Markdown from "react-markdown";
 
 import { ModalProps } from "#types";
 
@@ -109,14 +110,12 @@ export const Modal = ({
               fontFamily: theme.typography.body1.fontFamily,
             }}
           >
-            {description}
+            <Markdown>{description}</Markdown>
           </Typography>
 
           {/* Additional Elements */}
           {hasAdditionalElements && (
-            <Box sx={{ mb: theme.spacing(4) }}>
-              {additionalElements}
-            </Box>
+            <Box sx={{ mb: theme.spacing(4) }}>{additionalElements}</Box>
           )}
 
           {/* Action Button */}
@@ -135,6 +134,7 @@ export const Modal = ({
                 variant="contained"
                 size="large"
                 sx={{
+                  width: "50%",
                   backgroundColor:
                     buttonText === "Close"
                       ? theme.palette.primary.contrastText
@@ -153,7 +153,6 @@ export const Modal = ({
                   fontWeight: theme.typography.button.fontWeight,
                   textTransform: "none",
                   fontFamily: theme.typography.button.fontFamily,
-                  
                 }}
               >
                 {buttonText}
@@ -166,6 +165,7 @@ export const Modal = ({
                 variant="contained"
                 size="large"
                 sx={{
+                  width: "50%",
                   backgroundColor:
                     button1Text === "Close"
                       ? theme.palette.primary.contrastText

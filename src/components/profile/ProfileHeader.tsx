@@ -2,7 +2,11 @@ import { useUserContext } from "#context";
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useOne, useUpdate } from "@refinedev/core";
-import { memo, useMemo, useCallback } from "react";
+import { memo, useMemo, useCallback, useState } from "react";
+import { CheckCircle, Cancel, PersonOff } from "@mui/icons-material";
+
+import { Modal } from "../Modal";
+import { formatDate, formatTime } from "#utils";
 
 interface ProfileHeaderProps {
   role: string;
@@ -18,7 +22,13 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
     const organizationId = userContext?.user?.organizationId;
     const refetchUserProfile = userContext?.refetchUserProfile;
 
-    const { data: missionData } = useOne({
+    // Modal state
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalAction, setModalAction] = useState<
+      "hired" | "rejected" | "inactive" | null
+    >(null);
+
+    const { data: missionData, refetch: refetchMissionData } = useOne({
       resource: `missions/${missionId}/${role}/${organizationId}`,
       queryOptions: {
         enabled: !!missionId,
@@ -31,6 +41,9 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
       mutationOptions: {
         onSuccess: () => {
           refetchUserProfile && refetchUserProfile();
+          refetchMissionData();
+          setModalOpen(false);
+          setModalAction(null);
         },
       },
     });
@@ -85,6 +98,80 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
       [updateMission, missionId, educatorId]
     );
 
+    const handleInactiveAction = useCallback(() => {
+      // Add your inactive logic here
+      console.log("Making educator inactive");
+      setModalOpen(false);
+      setModalAction(null);
+    }, []);
+
+    const openModal = useCallback(
+      (action: "hired" | "rejected" | "inactive") => {
+        setModalAction(action);
+        setModalOpen(true);
+      },
+      []
+    );
+
+    const handleModalSubmit = useCallback(() => {
+      if (modalAction === "hired" || modalAction === "rejected") {
+        handleHireStatusChange(modalAction);
+      } else if (modalAction === "inactive") {
+        handleInactiveAction();
+      }
+    }, [modalAction, handleHireStatusChange, handleInactiveAction]);
+
+    const handleModalClose = useCallback(() => {
+      setModalOpen(false);
+      setModalAction(null);
+    }, []);
+
+    const date = new Date();
+
+    const now = {
+      time: formatTime(date.toISOString().split("T")[1].split(".")[0]),
+      date: formatDate(date.toISOString()),
+    };
+
+    const getModalContent = useMemo(() => {
+      switch (modalAction) {
+        case "hired":
+          return {
+            icon: <CheckCircle />,
+            title: "Hire Educator",
+            description: `You're about to officailly hire **${educatorData?.firstName} ${educatorData?.lastName}** for the mission **"${missionData?.data?.title}"** on **${now.date}** at **${now.time}**. Once confirmed, this educator will be notified and the mission status will be updated.`,
+            buttonText: "Hire",
+          };
+        case "rejected":
+          return {
+            icon: <Cancel />,
+            title: "Reject Educator",
+            description:
+              "Are you sure you want to reject this educator? This action cannot be undone.",
+            buttonText: "Reject",
+          };
+        case "inactive":
+          return {
+            icon: <PersonOff />,
+            title: "Make Inactive",
+            description:
+              "Are you sure you want to make this educator inactive? This will restrict their access.",
+            buttonText: "Make Inactive",
+          };
+        default:
+          return {
+            icon: <CheckCircle />,
+            title: "",
+            description: "",
+            buttonText: "Confirm",
+          };
+      }
+    }, [modalAction]);
+
+    console.log("role:", role);
+    console.log("invitationStatus:", invitationStatus);
+    console.log("isPendingEducator:", isPendingEducator);
+
     const renderActionButtons = useCallback(() => {
       if (
         role === "organization" &&
@@ -102,7 +189,7 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
             <Button
               variant="outlined"
               color="error"
-              onClick={() => handleHireStatusChange("rejected")}
+              onClick={() => openModal("rejected")}
               sx={{ ...buttonStyles.base, ...buttonStyles.error }}
             >
               Reject Educator
@@ -110,7 +197,7 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
             <Button
               variant="contained"
               color="primary"
-              onClick={() => handleHireStatusChange("hired")}
+              onClick={() => openModal("hired")}
               sx={{ ...buttonStyles.base, ...buttonStyles.primary }}
             >
               Hire Educator
@@ -138,6 +225,7 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
             <Button
               variant="outlined"
               color="error"
+              onClick={() => openModal("inactive")}
               sx={{ ...buttonStyles.base, ...buttonStyles.error }}
             >
               Inactive
@@ -147,33 +235,49 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
       }
 
       return null;
-    }, [role, isPendingEducator, theme, buttonStyles, handleHireStatusChange]);
+    }, [role, isPendingEducator, theme, buttonStyles, openModal]);
 
     return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography
-          variant="h6"
-          component="h6"
+      <>
+        <Box
           sx={{
-            fontWeight: theme.typography.fontWeightMedium,
-            color: theme.palette.grey[400],
             display: "flex",
+            flexDirection: "row",
             alignItems: "center",
-            fontSize: theme.typography.h5.fontSize,
+            justifyContent: "space-between",
           }}
         >
-          Personal Info
-        </Typography>
+          <Typography
+            variant="h6"
+            component="h6"
+            sx={{
+              fontWeight: theme.typography.fontWeightMedium,
+              color: theme.palette.grey[400],
+              display: "flex",
+              alignItems: "center",
+              fontSize: theme.typography.h5.fontSize,
+            }}
+          >
+            Personal Info
+          </Typography>
 
-        {renderActionButtons()}
-      </Box>
+          {renderActionButtons()}
+        </Box>
+
+        <Modal
+          open={modalOpen}
+          onClose={handleModalClose}
+          onSubmit={handleModalClose}
+          button1OnClick={handleModalSubmit}
+          icon={getModalContent.icon}
+          title={getModalContent.title}
+          description={getModalContent.description}
+          showButton={true}
+          showButton1={true}
+          buttonText="Close"
+          button1Text={getModalContent.buttonText}
+        />
+      </>
     );
   }
 );
