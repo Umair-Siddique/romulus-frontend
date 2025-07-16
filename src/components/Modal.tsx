@@ -153,10 +153,7 @@ export const Modal = ({
                   fontWeight: theme.typography.button.fontWeight,
                   textTransform: "none",
                   fontFamily: theme.typography.button.fontFamily,
-                  "&:hover": {
-                    color: theme.palette.primary.contrastText,
-                    backgroundColor: theme.palette.primary.dark,
-                  },
+                  
                 }}
               >
                 {buttonText}
