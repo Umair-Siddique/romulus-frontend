@@ -83,21 +83,23 @@ export const ProfessionalDetails = ({
       >
         {title}
       </Typography>
-      <Button
-        startIcon={<EditIcon />}
-        onClick={onEdit}
-        sx={{
-          color: theme.palette.text.secondary,
-          textTransform: "none",
-          fontSize: theme.typography.pxToRem(14),
-          fontWeight: theme.typography.fontWeightRegular,
-          "&:hover": {
-            backgroundColor: theme.palette.grey[50],
-          },
-        }}
-      >
-        Edit
-      </Button>
+      {role === "admin" && (
+        <Button
+          startIcon={<EditIcon />}
+          onClick={onEdit}
+          sx={{
+            color: theme.palette.text.secondary,
+            textTransform: "none",
+            fontSize: theme.typography.pxToRem(14),
+            fontWeight: theme.typography.fontWeightRegular,
+            "&:hover": {
+              backgroundColor: theme.palette.grey[50],
+            },
+          }}
+        >
+          Edit
+        </Button>
+      )}
     </Box>
   );
 

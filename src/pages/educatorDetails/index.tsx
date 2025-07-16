@@ -41,6 +41,9 @@ export const EducatorDetails = () => {
     },
   });
 
+  const hasOrganizationsFeedbacks =
+    educatorData?.data?.organizationsFeedbacks?.length > 0;
+
   return (
     <Box
       sx={{
@@ -80,13 +83,17 @@ export const EducatorDetails = () => {
 
       <Divider sx={{ mb: theme.spacing(2) }} />
 
-      <Box sx={{ mb: theme.spacing(2) }}>
-        <MissionsList />
-      </Box>
+      {role === "admin" && (
+        <Box sx={{ mb: theme.spacing(2) }}>
+          <MissionsList />
+        </Box>
+      )}
 
-      <Box sx={{ mb: theme.spacing(2) }}>
-        <Reviews title="Reviews" />
-      </Box>
+      {hasOrganizationsFeedbacks && (
+        <Box sx={{ mb: theme.spacing(2) }}>
+          <Reviews title="Reviews" />
+        </Box>
+      )}
     </Box>
   );
 };
