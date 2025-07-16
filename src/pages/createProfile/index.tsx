@@ -1,21 +1,11 @@
 import { Box } from "@mui/material";
 
 import { PageHeader, PageBody } from "../../components/create-profile";
-import { useEffect, useState } from "react";
+import { useUserContext } from "#context";
 
 export const CreateProfile = () => {
-  const [user, setUser] = useState<any | null>(null);
-
-  useEffect(() => {
-    // Check if user is already set in context
-    const storedUser = localStorage.getItem("romulus-user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    } else {
-      // If not, reset user to null
-      setUser(null);
-    }
-  }, []);
+  const userContext = useUserContext();
+  const user = userContext?.user;
 
   return (
     <Box>

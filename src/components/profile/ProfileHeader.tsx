@@ -36,7 +36,7 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
     });
 
     const invitationStatus = educatorData?.missionsInvitedFor?.find(
-      (elem: any) => elem.mission._id === missionId
+      (elem: any) => elem?.mission?._id === missionId
     )?.invitationStatus;
 
     // Memoize educator status check

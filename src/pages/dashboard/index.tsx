@@ -3,14 +3,9 @@ import { AdminDashboard, UserDashboard } from "#components";
 
 export const Dashboard = () => {
   const { user } = useUserContext();
-  const { role, educatorId, organizationId } = user;
+  const { role, organizationId } = user;
 
-  const ActiveDashboard =
-    role === "admin"
-      ? AdminDashboard
-      : role === "organization" || role === "educator"
-      ? UserDashboard
-      : () => null;
+  const ActiveDashboard = role === "admin" ? AdminDashboard : UserDashboard;
 
   const activeDashboardProps =
     role === "admin"

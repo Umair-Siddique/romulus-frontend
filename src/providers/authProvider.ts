@@ -13,12 +13,11 @@ export const authProvider: AuthProvider = {
       localStorage.setItem("romulus-access-token", accessToken);
       localStorage.setItem("romulus-user", JSON.stringify(userData));
 
-      const hasProfile = educatorId || organizationId;
-      const redirectTo = hasProfile ? "/" : "/create-profile";
+      const hasProfile = !!educatorId || !!organizationId;
 
       return {
         success: true,
-        redirectTo,
+        redirectTo: hasProfile ? "/" : "/create-profile",
         data: userData,
       };
     } catch (error: any) {
