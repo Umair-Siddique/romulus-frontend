@@ -91,7 +91,7 @@ export const EducatorDetails = () => {
 
       {hasOrganizationsFeedbacks && (
         <Box sx={{ mb: theme.spacing(2) }}>
-          <Reviews title="Reviews" />
+          <Reviews />
         </Box>
       )}
     </Box>

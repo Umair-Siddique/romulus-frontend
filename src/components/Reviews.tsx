@@ -4,7 +4,7 @@ import { memo } from "react";
 
 import { getElapsedTime } from "#utils";
 
-export const Reviews = memo(({ feedback }: { feedback: any }) => {
+export const Reviews = memo(({ feedback }: { feedback?: any }) => {
   const theme = useTheme();
 
   return (
