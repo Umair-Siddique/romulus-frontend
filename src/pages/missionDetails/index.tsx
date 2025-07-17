@@ -207,7 +207,6 @@ export const MissionDetails = () => {
       </Box>
 
       {missionData.hasEducatorsFeedbacks &&
-        !!missionData.educatorFeedbacks.length &&
         missionData.educatorFeedbacks.map((feedback: any, index: number) => (
           <Box key={index}>
             <Reviews feedback={feedback} />
