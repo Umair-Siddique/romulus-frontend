@@ -1,10 +1,10 @@
 // Main container component
 import { Box } from "@mui/material";
-import { useTheme, Theme } from "@mui/material/styles";
+import { useParams } from "react-router";
 import { useOne } from "@refinedev/core";
-
-import { getStatusColor } from "#utils";
 import { useUserContext } from "#context";
+import { useTheme, Theme } from "@mui/material/styles";
+
 import {
   MissionHeader,
   MissionInfoSection,
@@ -15,7 +15,7 @@ import {
   EducatorTable,
   Reviews,
 } from "#components";
-import { useParams } from "react-router";
+import { getStatusColor } from "#utils";
 
 export const MissionDetails = () => {
   const theme = useTheme<Theme>();
