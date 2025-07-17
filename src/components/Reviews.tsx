@@ -2,7 +2,9 @@ import { Box, Rating, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { memo } from "react";
 
-export const Reviews = memo(({ title }: { title: string }) => {
+import { getElapsedTime } from "#utils";
+
+export const Reviews = memo(({ feedback }: { feedback: any }) => {
   const theme = useTheme();
 
   return (
@@ -23,9 +25,9 @@ export const Reviews = memo(({ title }: { title: string }) => {
           color: theme.palette.text.primary,
         }}
       >
-        {title}
+        {feedback.name} <span>{getElapsedTime(feedback.time)}</span>
       </Typography>
-      <Rating value={4} sx={{ mb: theme.spacing(1) }} readOnly />
+      <Rating value={feedback.rating} sx={{ mb: theme.spacing(1) }} readOnly />
       <Typography
         variant="body1"
         sx={{
@@ -34,8 +36,7 @@ export const Reviews = memo(({ title }: { title: string }) => {
           fontSize: theme.typography.body1.fontSize,
         }}
       >
-        "Great experience. Students were attentive, and the coordinator was
-        helpful."
+        "{feedback.comment}"
       </Typography>
     </Box>
   );

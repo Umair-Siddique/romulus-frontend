@@ -115,6 +115,16 @@ export const MissionDetails = () => {
 
     hasEducatorsFeedbacks: !!mission?.educatorsFeedbacks?.length,
 
+    educatorFeedbacks: mission?.educatorsFeedbacks || [
+      {
+        name: "John Doe",
+        rating: 4.5,
+        comment:
+          "Great experience. Students were attentive, and the coordinator was helpful.",
+        givenAt: "2023-10-01T12:00:00Z",
+      },
+    ],
+
     hasPreferredEducator: !!mission?.preferredEducator,
 
     preferredEducator: {
@@ -191,16 +201,18 @@ export const MissionDetails = () => {
       )}
 
       <Box
-        sx={{ mb: missionData.hasEducatorsFeedbacks ? theme.spacing(2) : 0 }}
+        sx={{ mb: !missionData.hasEducatorsFeedbacks ? theme.spacing(2) : 0 }}
       >
         <MissionDescriptionCard description={missionData.missionDescription} />
       </Box>
 
-      {missionData.hasEducatorsFeedbacks && (
-        <Box>
-          <Reviews title="Your Feedback" />
-        </Box>
-      )}
+      {missionData.hasEducatorsFeedbacks &&
+        !!missionData.educatorFeedbacks.length &&
+        missionData.educatorFeedbacks.map((feedback: any, index: number) => (
+          <Box key={index}>
+            <Reviews feedback={feedback} />
+          </Box>
+        ))}
 
       {role === "organization" && (
         <TabView tabsNavigation={tabsNavigation} tabsContent={tabsContent} />
