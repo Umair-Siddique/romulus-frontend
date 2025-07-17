@@ -396,15 +396,19 @@ export interface ModalProps {
   onClose: () => void;
   onSubmit?: () => void;
   button1OnClick?: () => void;
-  icon: React.ReactElement;
+  icon?: React.ReactElement;
   title: string;
   description: string;
-  showButton?: boolean;
-  showButton1?: boolean;
+  hasButton?: boolean;
+  hasButton1?: boolean;
   buttonText?: string;
   button1Text?: string;
   additionalElements?: React.ReactNode;
   hasAdditionalElements?: boolean;
+  hasTextarea?: boolean;
+  textareaValue?: string;
+  hasRating?: boolean;
+  ratingValue?: number;
 }
 
 export interface Organization {

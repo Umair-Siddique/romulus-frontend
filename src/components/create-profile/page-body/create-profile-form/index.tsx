@@ -390,7 +390,7 @@ export const CreateProfileForm = ({
             ? "Your profile has been received and is now under review. After submission, your profile will be reviewed within 24-48 hours. You will be informed by email."
             : "Your profile has been created successfully. You can now log in to your dashboard."
         }
-        showButton={true}
+        hasButton={true}
         buttonText="Login and Continue"
         hasAdditionalElements={false}
       />
@@ -403,7 +403,7 @@ export const CreateProfileForm = ({
         icon={<CancelIcon sx={{ color: theme.palette.error.main }} />}
         title="Submission Failed"
         description={errorMessage}
-        showButton={true}
+        hasButton={true}
         buttonText="Try Again"
         hasAdditionalElements={false}
       />

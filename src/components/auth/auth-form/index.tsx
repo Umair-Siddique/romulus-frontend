@@ -42,7 +42,7 @@ export const AuthForm = ({
     title: "",
     description: "",
     buttonText: "OK",
-    showButton: true,
+    hasButton: true,
     onSubmit: () => {},
   });
 
@@ -86,7 +86,7 @@ export const AuthForm = ({
         title: "OTP verified successfully!",
         description: "You're all set. You can now log in to your account.",
         buttonText: "Go to Login",
-        showButton: true,
+        hasButton: true,
         onSubmit: () => {
           closeModal();
           navigate("/login");
@@ -99,7 +99,7 @@ export const AuthForm = ({
         title: "OTP verification failed",
         description: "Please check your OTP and try again.",
         buttonText: "Retry",
-        showButton: true,
+        hasButton: true,
         onSubmit: closeModal,
       });
     }
@@ -224,7 +224,7 @@ export const AuthForm = ({
         title={modalConfig.title}
         description={modalConfig.description}
         buttonText={modalConfig.buttonText}
-        showButton={modalConfig.showButton}
+        hasButton={modalConfig.hasButton}
         hasAdditionalElements={false}
       />
     </Box>

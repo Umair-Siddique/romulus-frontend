@@ -5,12 +5,30 @@ import {
   Typography,
   Button,
   IconButton,
+  Rating,
 } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
 import Markdown from "react-markdown";
 
-import { ModalProps } from "#types";
+interface ModalProps {
+  open: boolean;
+  onClose: () => void;
+  onSubmit: () => void;
+  button1OnClick?: () => void;
+  icon?: React.ReactNode;
+  title: string;
+  description: string;
+  hasButton?: boolean;
+  hasButton1?: boolean;
+  buttonText?: string;
+  button1Text?: string;
+  additionalElements?: React.ReactNode;
+  hasAdditionalElements?: boolean;
+  hasRating?: boolean;
+  rating?: number;
+  onRatingChange?: (value: number) => void;
+}
 
 export const Modal = ({
   open,
@@ -20,14 +38,28 @@ export const Modal = ({
   icon,
   title,
   description,
-  showButton,
-  showButton1,
-  buttonText,
-  button1Text,
+  hasButton = false,
+  hasButton1 = false,
+  buttonText = "Close",
+  button1Text = "Submit",
   additionalElements,
   hasAdditionalElements = false,
+  hasRating = false,
+  rating = 0,
+  onRatingChange,
 }: ModalProps) => {
   const theme = useTheme<Theme>();
+
+  const handleRatingChange = (
+    event: React.SyntheticEvent,
+    newValue: number | null
+  ) => {
+    if (onRatingChange && newValue !== null) {
+      onRatingChange(newValue);
+    }
+  };
+
+  const isCloseButton = (text: string) => text === "Close";
 
   return (
     <Dialog
@@ -40,7 +72,7 @@ export const Modal = ({
         "& .MuiDialog-paper": {
           borderRadius: theme.shape.borderRadius * 1.5,
           padding: 0,
-          backgroundColor: theme.palette.background.default, // Using theme background default
+          backgroundColor: theme.palette.background.default,
         },
       }}
     >
@@ -50,8 +82,8 @@ export const Modal = ({
           onClick={onClose}
           sx={{
             position: "absolute",
-            right: theme.spacing(2), // 16px equivalent
-            top: theme.spacing(2), // 16px equivalent
+            right: theme.spacing(2),
+            top: theme.spacing(2),
             color: theme.palette.text.secondary,
             zIndex: 1,
           }}
@@ -70,21 +102,23 @@ export const Modal = ({
           }}
         >
           {/* Icon */}
-          <Box
-            sx={{
-              fontSize: theme.spacing(8), // 64px equivalent using theme spacing
-              color: theme.palette.primary.main, // Using primary color since success isn't defined in your theme
-              mb: theme.spacing(3),
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              "& > *": {
-                fontSize: "inherit",
-              },
-            }}
-          >
-            {icon}
-          </Box>
+          {icon && (
+            <Box
+              sx={{
+                fontSize: theme.spacing(8),
+                color: theme.palette.primary.main,
+                mb: theme.spacing(3),
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                "& > *": {
+                  fontSize: "inherit",
+                },
+              }}
+            >
+              {icon}
+            </Box>
+          )}
 
           {/* Title */}
           <Typography
@@ -92,7 +126,7 @@ export const Modal = ({
             sx={{
               fontWeight: theme.typography.h2.fontWeight,
               color: theme.palette.text.primary,
-              mb: theme.spacing(2),
+              ...(!hasRating ? { mb: theme.spacing(2) } : {}),
               fontFamily: theme.typography.h5.fontFamily,
             }}
           >
@@ -104,88 +138,105 @@ export const Modal = ({
             variant="body1"
             sx={{
               color: theme.palette.text.secondary,
-              mb: theme.spacing(4),
+              ...(!hasRating ? { mb: theme.spacing(4) } : {}),
               lineHeight: theme.typography.body1.lineHeight,
-              maxWidth: theme.spacing(50), // 400px equivalent using theme spacing (400/8 = 50)
+              maxWidth: theme.spacing(50),
               fontFamily: theme.typography.body1.fontFamily,
             }}
           >
             <Markdown>{description}</Markdown>
           </Typography>
 
-          {/* Additional Elements */}
-          {hasAdditionalElements && (
-            <Box sx={{ mb: theme.spacing(4) }}>{additionalElements}</Box>
+          {/* Rating */}
+          {hasRating && (
+            <Box sx={{ mb: theme.spacing(1) }}>
+              <Rating
+                value={rating}
+                onChange={handleRatingChange}
+                sx={{
+                  mb: theme.spacing(1),
+                  fontSize: theme.spacing(3),
+                }}
+              />
+            </Box>
           )}
 
-          {/* Action Button */}
+          {/* Additional Elements */}
+          {hasAdditionalElements && additionalElements && (
+            <Box sx={{ mb: theme.spacing(4), width: "100%" }}>
+              {additionalElements}
+            </Box>
+          )}
+
+          {/* Action Buttons */}
           <Box
             sx={{
-              display: `${showButton1 ? "flex" : "block"}`,
+              display: hasButton1 ? "flex" : "block",
               justifyContent: "center",
               alignItems: "center",
-              gap: theme.spacing(10),
+              gap: theme.spacing(2),
               width: "100%",
             }}
           >
-            {showButton && (
+            {hasButton && (
               <Button
                 onClick={onSubmit}
-                variant="contained"
+                variant={isCloseButton(buttonText) ? "outlined" : "contained"}
                 size="large"
                 sx={{
-                  width: "50%",
-                  backgroundColor:
-                    buttonText === "Close"
-                      ? theme.palette.primary.contrastText
-                      : theme.palette.primary.main,
-                  color:
-                    buttonText === "Close"
-                      ? theme.palette.text.primary
-                      : theme.palette.primary.contrastText,
+                  width: hasButton1 ? "50%" : "auto",
+                  backgroundColor: isCloseButton(buttonText)
+                    ? "transparent"
+                    : theme.palette.primary.main,
+                  color: isCloseButton(buttonText)
+                    ? theme.palette.text.primary
+                    : theme.palette.primary.contrastText,
                   px: theme.spacing(4),
                   py: theme.spacing(1.5),
-                  border:
-                    buttonText === "Close"
-                      ? `1px solid ${theme.palette.divider}`
-                      : "none",
+                  border: isCloseButton(buttonText)
+                    ? `1px solid ${theme.palette.divider}`
+                    : "none",
                   borderRadius: theme.shape.borderRadius,
                   fontWeight: theme.typography.button.fontWeight,
                   textTransform: "none",
                   fontFamily: theme.typography.button.fontFamily,
+                  "&:hover": {
+                    backgroundColor: isCloseButton(buttonText)
+                      ? theme.palette.action.hover
+                      : theme.palette.primary.dark,
+                  },
                 }}
               >
                 {buttonText}
               </Button>
             )}
 
-            {showButton1 && (
+            {hasButton1 && (
               <Button
                 onClick={button1OnClick}
-                variant="contained"
+                variant={isCloseButton(button1Text) ? "outlined" : "contained"}
                 size="large"
                 sx={{
-                  width: "50%",
-                  backgroundColor:
-                    button1Text === "Close"
-                      ? theme.palette.primary.contrastText
-                      : theme.palette.primary.main,
-                  color:
-                    button1Text === "Close"
-                      ? theme.palette.text.primary
-                      : theme.palette.primary.contrastText,
+                  width: hasButton ? "50%" : "auto",
+                  backgroundColor: isCloseButton(button1Text)
+                    ? "transparent"
+                    : theme.palette.primary.main,
+                  color: isCloseButton(button1Text)
+                    ? theme.palette.text.primary
+                    : theme.palette.primary.contrastText,
                   px: theme.spacing(4),
                   py: theme.spacing(1.5),
-                  border:
-                    button1Text === "Close"
-                      ? `1px solid ${theme.palette.divider}`
-                      : "none",
+                  border: isCloseButton(button1Text)
+                    ? `1px solid ${theme.palette.divider}`
+                    : "none",
                   borderRadius: theme.shape.borderRadius,
                   fontWeight: theme.typography.button.fontWeight,
                   textTransform: "none",
                   fontFamily: theme.typography.button.fontFamily,
                   "&:hover": {
-                    backgroundColor: theme.palette.primary.dark,
+                    backgroundColor: isCloseButton(button1Text)
+                      ? theme.palette.action.hover
+                      : theme.palette.primary.dark,
                   },
                 }}
               >

@@ -222,8 +222,8 @@ export const MissionHeader = memo(
           icon={<CheckCircle />}
           title="Confirm Mission Completion"
           description="Are you sure you want to mark this mission as completed?"
-          showButton={true}
-          showButton1={true}
+          hasButton={true}
+          hasButton1={true}
           buttonText="Close"
           button1Text="Complete Mission"
         />

@@ -272,8 +272,8 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
           icon={getModalContent.icon}
           title={getModalContent.title}
           description={getModalContent.description}
-          showButton={true}
-          showButton1={true}
+          hasButton={true}
+          hasButton1={true}
           buttonText="Close"
           button1Text={getModalContent.buttonText}
         />

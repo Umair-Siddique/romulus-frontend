@@ -127,7 +127,7 @@ export const RegisterPage = () => {
           title={modalConfig.title}
           description={modalConfig.description}
           buttonText={modalConfig.buttonText}
-          showButton={!!modalConfig.buttonText}
+          hasButton={!!modalConfig.buttonText}
           hasAdditionalElements={false}
         />
       )}

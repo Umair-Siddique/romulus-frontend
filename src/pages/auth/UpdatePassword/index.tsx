@@ -93,7 +93,7 @@ export const UpdatePasswordPage = () => {
           title="Password reset successfully!"
           description="Your password has been updated. You can now log in with your new password."
           buttonText="Go to login"
-          showButton={true}
+          hasButton={true}
           hasAdditionalElements={false}
         />
       )}

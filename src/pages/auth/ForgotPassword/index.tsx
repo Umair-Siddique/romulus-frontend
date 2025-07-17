@@ -90,7 +90,7 @@ export const ForgotPasswordPage = () => {
           icon={<EmailIcon color="warning" fontSize="inherit" />}
           title="Check your email!"
           description="We have sent a password reset link to your email address. Please check your inbox (and spam folder, just in case)."
-          showButton={false}
+          hasButton={false}
           hasAdditionalElements={false}
         />
       )}

@@ -412,8 +412,8 @@ export const FindEducator = () => {
         } educator${
           invitees.length !== 1 ? "s" : ""
         }. You'll be notified as soon as they respond.`}
-        showButton={true}
-        showButton1={true}
+        hasButton={true}
+        hasButton1={true}
         buttonText="Close"
         button1Text="View Invitation Status"
         hasAdditionalElements={false}
@@ -428,8 +428,8 @@ export const FindEducator = () => {
         icon={<InfoIcon sx={{ color: "#FFA726" }} />}
         title="No Educators Found Nearby"
         description="No educators are available in your current search radius. You can try expanding the radius to reach more educators or contact our admin team for assistance."
-        showButton={true}
-        showButton1={true}
+        hasButton={true}
+        hasButton1={true}
         buttonText="Contact Admin"
         button1Text="Expand Radius"
         hasAdditionalElements={false}
@@ -443,8 +443,8 @@ export const FindEducator = () => {
         icon={<HelpOutlineIcon sx={{ color: "#2196F3" }} />}
         title="Need Help Finding Educators"
         description="Contact admin team directly for assistance with your mission, educator availability, or technical questions."
-        showButton={true}
-        showButton1={false}
+        hasButton={true}
+        hasButton1={false}
         buttonText="Close"
         additionalElements={<ContactAdmin />}
         hasAdditionalElements={true}
