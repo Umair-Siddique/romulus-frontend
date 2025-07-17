@@ -110,7 +110,7 @@ export const MissionDetails = () => {
 
     organizationContact: {
       phone: mission?.organization?.phone || "Phone Unavailable",
-      email: mission?.organization?.email || "Email Unavailable",
+      email: mission?.organization?.user?.email || "Email Unavailable",
     },
 
     hasEducatorsFeedbacks: !!mission?.educatorsFeedbacks?.length,
