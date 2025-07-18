@@ -9,7 +9,6 @@ import {
   ProfileCard,
   UserBio,
   ProfessionalDetails,
-  MissionsList,
   Reviews,
 } from "#components";
 import { useOne } from "@refinedev/core";
@@ -85,7 +84,7 @@ export const EducatorDetails = () => {
 
       {role === "admin" && (
         <Box sx={{ mb: theme.spacing(2) }}>
-          <MissionsList />
+          <h1>Mission List</h1>
         </Box>
       )}
 
