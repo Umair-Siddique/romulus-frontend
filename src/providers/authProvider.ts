@@ -111,7 +111,7 @@ export const authProvider: AuthProvider = {
     try {
       const { data } = await requestAPI("POST", "/auth/signout");
       localStorage.clear();
-      window.location.reload();
+      // window.location.reload();
 
       return {
         success: true,

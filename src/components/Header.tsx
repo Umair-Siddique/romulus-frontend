@@ -9,7 +9,7 @@ import Toolbar from "@mui/material/Toolbar";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { useLogout, useOne, useUpdate } from "@refinedev/core";
+import { useList, useLogout, useOne, useUpdate } from "@refinedev/core";
 import { useTheme, Theme } from "@mui/material/styles";
 import { SetStateAction, useEffect, useState } from "react";
 import {
@@ -80,44 +80,38 @@ export const Header = () => {
     }
   }, [location.pathname]);
 
+  const [notifications, setNotifications] = useState<any>([]);
+  const [unreadNotifications, setUnreadNotifications] = useState([]);
+
   const { data: notificationsData, refetch: refetchNotifications } = useOne({
-    resource: `notifications`,
     id: userId,
+    resource: `notifications`,
     liveMode: "auto",
-    onLiveEvent: (event) => {
-      console.log(event);
-    },
     queryOptions: {
       enabled: !!userId,
-      staleTime: 1000 * 60, // optional: cache for 1 min
-      retry: 1, // retry once if it fails
-      onError: (error) => {
-        console.error("Failed to fetch notification:", error);
+    },
+  });
+
+  const { mutate: updateNotification } = useUpdate({
+    resource: "notifications",
+    mutationOptions: {
+      onSuccess: () => {
+        refetchNotifications();
       },
     },
   });
 
-  const { mutate: updateNotifications } = useUpdate({
-    resource: `notifications`,
-    id: userId,
-  });
-
-  const [notifications, setNotifications] = useState<any>([]);
-
   useEffect(() => {
-    if (notificationsData?.data) {
-      const notifications = notificationsData?.data?.map(
-        (notification: any) => ({
-          message: notification.message,
-          read: notification.read,
-        })
+    if (notificationsData) {
+      const allNoti = notificationsData.data;
+      const unreadNoti = notificationsData.data.filter(
+        (notification: any) => !notification.read
       );
 
-      notifications && setNotifications(notifications);
-    } else {
-      console.log(notificationsData?.data);
+      setNotifications(allNoti);
+      setUnreadNotifications(unreadNoti);
     }
-  }, [notificationsData?.data]);
+  }, [notificationsData, refetchNotifications]);
 
   const handleUserMenuClick = (event: {
     currentTarget: SetStateAction<HTMLElement | null>;
@@ -134,34 +128,25 @@ export const Header = () => {
 
   const handleNotificationClick = (event: React.MouseEvent<HTMLElement>) => {
     setNotificationAnchorEl(event.currentTarget);
-
-    const hasUnreadNotifications = notifications.some(
-      (notification: any) => !notification.read
-    );
-
-    if (hasUnreadNotifications) {
-      const updatedNotifications = notifications.map((notification: any) => ({
-        ...notification,
-        read: true,
-      }));
-
-      updateNotifications({
-        values: updatedNotifications,
-        successNotification: false,
-      });
-    }
   };
 
   const handleNotificationClose = () => {
     setNotificationAnchorEl(null);
   };
 
-  // Count unread notifications
-  const unreadCount = notifications.filter(
-    (notification: any) => !notification.read
-  ).length;
+  const handleNotificationItemClick = (
+    notificationId: string,
+    readStatus: string
+  ) => {
+    if (!readStatus) {
+      updateNotification({
+        id: notificationId,
+        values: { read: true },
+      });
+    }
+  };
 
-  console.log("notifications", notifications);
+  const unreadCount = unreadNotifications.length;
 
   return (
     <AppBar
@@ -273,7 +258,12 @@ export const Header = () => {
               notifications.map((notification: any, index: number) => (
                 <MenuItem
                   key={index}
-                  onClick={handleNotificationClose}
+                  onClick={() =>
+                    handleNotificationItemClick(
+                      notification._id,
+                      notification.read
+                    )
+                  }
                   sx={{
                     whiteSpace: "normal",
                     maxWidth: 400,

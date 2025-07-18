@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { useCustom, useUpdate } from "@refinedev/core";
+import { useCustom, useCustomMutation, useUpdate } from "@refinedev/core";
 import { memo, useState, useCallback } from "react";
 import { CheckCircle } from "@mui/icons-material";
 
@@ -22,32 +22,9 @@ export const MissionHeader = memo(
   }) => {
     const theme = useTheme();
 
-    const [response, setResponse] = useState<"accepted" | "declined" | "">("");
     const [modalOpen, setModalOpen] = useState(false);
 
-    const { refetch: respondInvitation } = useCustom({
-      method: "post",
-      url: "/missions/respond-invitation",
-      config: {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        payload: {
-          missionId: missionData.id,
-          educatorId: missionData.educatorId,
-          response: response,
-          responseTime: new Date().toISOString(),
-        },
-      },
-      queryOptions: {
-        enabled: response !== "",
-      },
-      successNotification: () => {
-        refetch();
-        setResponse("");
-        return undefined;
-      },
-    });
+    const { mutate: respondToInvitation } = useCustomMutation();
 
     const { mutate: updateMission } = useUpdate({
       resource: "missions",
@@ -61,8 +38,23 @@ export const MissionHeader = memo(
     });
 
     const handleInvitationResponse = (response: "accepted" | "declined") => {
-      setResponse(response);
-      respondInvitation();
+      respondToInvitation(
+        {
+          url: "/missions/respond-invitation",
+          method: "post",
+          values: {
+            missionId: missionData.id,
+            educatorId: missionData.educatorId,
+            response: response,
+            responseTime: new Date().toISOString(),
+          },
+        },
+        {
+          onSuccess: (data, variables, context) => {
+            refetch()
+          },
+        }
+      );
     };
 
     const openCompletionModal = useCallback(() => {
