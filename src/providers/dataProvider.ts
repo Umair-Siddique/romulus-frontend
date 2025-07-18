@@ -5,7 +5,10 @@ import { requestAPI } from "#utils";
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
     try {
-      const { data } = await requestAPI("GET", `/${resource}${id ? `/${id}` : ""}`);
+      const { data } = await requestAPI(
+        "GET",
+        `/${resource}${id ? `/${id}` : ""}`
+      );
 
       if (data.data) {
         localStorage.setItem("romulus-user-profile", JSON.stringify(data.data));
@@ -51,7 +54,9 @@ export const dataProvider: DataProvider = {
         total: 0,
         error: {
           name: "Data Fetch Error",
-          message: `Failed to fetch ${resource}: ${error?.response?.data?.message ?? ""}`,
+          message: `Failed to fetch ${resource}: ${
+            error?.response?.data?.message ?? ""
+          }`,
         },
       };
     }
@@ -83,7 +88,9 @@ export const dataProvider: DataProvider = {
         data: {} as any,
         error: {
           name: "Data Creation Error",
-          message: `Failed to create ${resource}: ${error?.response?.data?.message ?? ""}`,
+          message: `Failed to create ${resource}: ${
+            error?.response?.data?.message ?? ""
+          }`,
         },
       };
     }

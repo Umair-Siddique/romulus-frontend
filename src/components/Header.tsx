@@ -3,18 +3,20 @@ import Menu from "@mui/material/Menu";
 import Stack from "@mui/material/Stack";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
+import Badge from "@mui/material/Badge";
 import { useLocation, useNavigate } from "react-router";
 import Toolbar from "@mui/material/Toolbar";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { useLogout, useOne } from "@refinedev/core";
+import { useLogout, useOne, useUpdate } from "@refinedev/core";
 import { useTheme, Theme } from "@mui/material/styles";
 import { SetStateAction, useEffect, useState } from "react";
 import {
   ArrowBack as ArrowBackIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
   NotificationsOutlined as NotificationsOutlinedIcon,
+  Circle as CircleIcon,
 } from "@mui/icons-material";
 
 import { useUserContext } from "#context";
@@ -23,11 +25,13 @@ export const Header = () => {
   const theme = useTheme<Theme>();
   const [pageName, setPageName] = useState<string>("");
   const [showBackButton, setShowBackButton] = useState<boolean>(false);
+  const [notificationAnchorEl, setNotificationAnchorEl] =
+    useState<null | HTMLElement>(null);
 
   const { user, setUserProfile, setRefetchUserProfile } = useUserContext();
   const navigate = useNavigate();
 
-  const { educatorId, organizationId, role } = user;
+  const { userId, educatorId, organizationId, role } = user;
 
   const { data: userProfile, refetch: refetchUserProfile } = useOne({
     resource: role === "educator" ? "educators" : "organizations",
@@ -76,6 +80,45 @@ export const Header = () => {
     }
   }, [location.pathname]);
 
+  const { data: notificationsData, refetch: refetchNotifications } = useOne({
+    resource: `notifications`,
+    id: userId,
+    liveMode: "auto",
+    onLiveEvent: (event) => {
+      console.log(event);
+    },
+    queryOptions: {
+      enabled: !!userId,
+      staleTime: 1000 * 60, // optional: cache for 1 min
+      retry: 1, // retry once if it fails
+      onError: (error) => {
+        console.error("Failed to fetch notification:", error);
+      },
+    },
+  });
+
+  const { mutate: updateNotifications } = useUpdate({
+    resource: `notifications`,
+    id: userId,
+  });
+
+  const [notifications, setNotifications] = useState<any>([]);
+
+  useEffect(() => {
+    if (notificationsData?.data) {
+      const notifications = notificationsData?.data?.map(
+        (notification: any) => ({
+          message: notification.message,
+          read: notification.read,
+        })
+      );
+
+      notifications && setNotifications(notifications);
+    } else {
+      console.log(notificationsData?.data);
+    }
+  }, [notificationsData?.data]);
+
   const handleUserMenuClick = (event: {
     currentTarget: SetStateAction<HTMLElement | null>;
   }) => {
@@ -88,6 +131,37 @@ export const Header = () => {
       logout();
     }
   };
+
+  const handleNotificationClick = (event: React.MouseEvent<HTMLElement>) => {
+    setNotificationAnchorEl(event.currentTarget);
+
+    const hasUnreadNotifications = notifications.some(
+      (notification: any) => !notification.read
+    );
+
+    if (hasUnreadNotifications) {
+      const updatedNotifications = notifications.map((notification: any) => ({
+        ...notification,
+        read: true,
+      }));
+
+      updateNotifications({
+        values: updatedNotifications,
+        successNotification: false,
+      });
+    }
+  };
+
+  const handleNotificationClose = () => {
+    setNotificationAnchorEl(null);
+  };
+
+  // Count unread notifications
+  const unreadCount = notifications.filter(
+    (notification: any) => !notification.read
+  ).length;
+
+  console.log("notifications", notifications);
 
   return (
     <AppBar
@@ -156,16 +230,103 @@ export const Header = () => {
 
         {/* Right side - Notification and User */}
         <Stack direction="row" alignItems="center" spacing={2}>
-          {/* Notification Icon */}
+          {/* Notification Icon with Badge */}
           <IconButton
+            onClick={handleNotificationClick}
             sx={{
               color: theme.palette.text.secondary,
               border: `1px solid ${theme.palette.divider}`,
               borderRadius: theme.spacing(1),
             }}
           >
-            <NotificationsOutlinedIcon sx={{ fontSize: "25px" }} />
+            <Badge badgeContent={unreadCount} color="error">
+              <NotificationsOutlinedIcon sx={{ fontSize: "25px" }} />
+            </Badge>
           </IconButton>
+
+          {/* Notification Dropdown Menu */}
+          <Menu
+            anchorEl={notificationAnchorEl}
+            open={Boolean(notificationAnchorEl)}
+            onClose={handleNotificationClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            sx={{
+              "& .MuiPaper-root": {
+                minWidth: 300,
+                maxWidth: 400,
+                maxHeight: 400,
+              },
+            }}
+          >
+            {notifications.length === 0 ? (
+              <MenuItem disabled>
+                <Typography variant="body2">No notifications</Typography>
+              </MenuItem>
+            ) : (
+              notifications.map((notification: any, index: number) => (
+                <MenuItem
+                  key={index}
+                  onClick={handleNotificationClose}
+                  sx={{
+                    whiteSpace: "normal",
+                    maxWidth: 400,
+                    padding: theme.spacing(2),
+                    borderBottom: `1px solid ${theme.palette.divider}`,
+                    "&:last-child": {
+                      borderBottom: "none",
+                    },
+                  }}
+                >
+                  <Stack
+                    direction="row"
+                    alignItems="flex-start"
+                    spacing={1}
+                    width="100%"
+                  >
+                    <CircleIcon
+                      sx={{
+                        fontSize: "8px",
+                        color: notification.read
+                          ? theme.palette.text.disabled
+                          : theme.palette.primary.main,
+                        marginTop: theme.spacing(1),
+                      }}
+                    />
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: notification.read
+                            ? theme.palette.text.secondary
+                            : theme.palette.text.primary,
+                          fontWeight: notification.read ? "normal" : "medium",
+                        }}
+                      >
+                        {notification.message}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          color: theme.palette.text.disabled,
+                          display: "block",
+                          marginTop: theme.spacing(0.5),
+                        }}
+                      >
+                        {notification.read ? "Read" : "Unread"}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </MenuItem>
+              ))
+            )}
+          </Menu>
 
           {/* User Info with Dropdown */}
           <Stack

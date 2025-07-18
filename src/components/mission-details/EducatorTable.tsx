@@ -106,7 +106,6 @@ export const EducatorTable = ({
   const theme = useTheme<Theme>();
   const navigate = useNavigate();
 
-  // Use useMany instead of multiple useOne calls
   const { data: educatorsData, isLoading } = useMany({
     resource: "educators",
     ids: educators,
