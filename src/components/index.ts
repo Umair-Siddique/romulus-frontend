@@ -2,7 +2,6 @@ export * from "./auth";
 export * from "./create-profile";
 export * from "./dashboard";
 export * from "./drawer";
-export * from "./educator-details";
 export * from "./find-educator";
 export * from "./mission-details";
 export * from "./page-meta";
