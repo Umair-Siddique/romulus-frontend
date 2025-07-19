@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { useCustom, useCustomMutation, useUpdate } from "@refinedev/core";
+import { useCustomMutation, useUpdate } from "@refinedev/core";
 import { memo, useState, useCallback } from "react";
 import { CheckCircle } from "@mui/icons-material";
 
@@ -31,6 +31,7 @@ export const MissionHeader = memo(
       mutationMode: "optimistic",
       mutationOptions: {
         onSuccess: () => {
+          refetch();
           refetchMission();
           setModalOpen(false);
         },
@@ -51,7 +52,7 @@ export const MissionHeader = memo(
         },
         {
           onSuccess: (data, variables, context) => {
-            refetch()
+            refetch();
           },
         }
       );
@@ -65,10 +66,12 @@ export const MissionHeader = memo(
       setModalOpen(false);
     }, []);
 
+    // console.log("MissionHeader -> missionData:", missionData);
+
     const handleMarkAsCompleted = useCallback(() => {
       updateMission({
         id: missionData.id,
-        values: { status: "completed" },
+        values: { status: "completed", hires: missionData?.hiredEducators },
       });
     }, [updateMission, missionData.id]);
 
@@ -76,8 +79,11 @@ export const MissionHeader = memo(
       missionData.invitationStatus === "pending" &&
       missionData.missionStatus !== "completed";
 
+    // console.log("MissionHeader -> missionData.invitationStatus:", missionData.invitationStatus);
+    console.log("MissionHeader -> missionData.missionStatus:", missionData.missionStatus);
+
     const shouldShowOrganizationActions =
-      showMarkAsCompletedButton && missionData.missionStatus !== "completed";
+      showMarkAsCompletedButton && missionData.missionStatus === "ongoing";
 
     const shouldShowAdminActions =
       missionData.invitationStatus !== "pending" &&

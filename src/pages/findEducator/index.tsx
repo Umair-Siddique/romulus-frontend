@@ -33,6 +33,7 @@ export const FindEducator = () => {
   const [distance, setDistance] = useState(50);
   const [invitees, setInvitees] = useState<string[]>([]);
   const [dataToSubmit, setDataToSubmit] = useState<any>(null);
+  const [isSendingInvitation, setIsSendingInvitation] = useState(false);
   const [findEducatorData, setFindEducatorData] = useState({
     coordinates: [],
     skills: [],
@@ -76,29 +77,32 @@ export const FindEducator = () => {
     ],
     queryOptions: {
       enabled: !!(
-        findEducatorData?.coordinates.length && 
-        findEducatorData?.skills.length &&
-        missionCreated // NEW: Only enable if mission was created successfully
+        (
+          findEducatorData?.coordinates.length &&
+          findEducatorData?.skills.length &&
+          missionCreated
+        ) // NEW: Only enable if mission was created successfully
       ),
     },
   });
 
-  const { refetch: sendInvitations } = useCustom({
-    url: "missions/send-invitations",
-    method: "post",
-    config: {
-      headers: {
-        "Content-Type": "application/json",
+  const { refetch: sendInvitations } =
+    useCustom({
+      url: "missions/send-invitations",
+      method: "post",
+      config: {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        payload: {
+          missionId: missionsData?.data._id,
+          invitees,
+        },
       },
-      payload: {
-        missionId: missionsData?.data._id,
-        invitees,
+      queryOptions: {
+        enabled: false,
       },
-    },
-    queryOptions: {
-      enabled: false,
-    },
-  });
+    });
 
   const role = user?.role;
 
@@ -148,11 +152,17 @@ export const FindEducator = () => {
     ) {
       refetchEducators();
     }
-  }, [distance, findEducatorData?.coordinates, findEducatorData?.skills, missionCreated]);
+  }, [
+    distance,
+    findEducatorData?.coordinates,
+    findEducatorData?.skills,
+    missionCreated,
+  ]);
 
   // Effect for updating invitees when educatorsData changes
   useEffect(() => {
-    if (missionCreated) { // NEW: Only update invitees if mission was created successfully
+    if (missionCreated) {
+      // NEW: Only update invitees if mission was created successfully
       const educatorsIds =
         educatorsData?.data.map((educator: any) => educator._id) || [];
       setInvitees(educatorsIds);
@@ -171,7 +181,13 @@ export const FindEducator = () => {
     ) {
       setNoEducatorsModalOpen(true);
     }
-  }, [isEducatorsLoading, isEducatorsError, educatorsData, findEducatorData, missionCreated]);
+  }, [
+    isEducatorsLoading,
+    isEducatorsError,
+    educatorsData,
+    findEducatorData,
+    missionCreated,
+  ]);
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -213,7 +229,9 @@ export const FindEducator = () => {
 
   const handleSendInvitations = async () => {
     try {
-      await sendInvitations();
+      setIsSendingInvitation(true);
+      const res = await sendInvitations();
+      !res.isLoading && setIsSendingInvitation(false);
       setSuccessModalOpen(true);
     } catch (error) {
       console.log("Error sending invitations:", error);
@@ -252,7 +270,8 @@ export const FindEducator = () => {
   };
 
   const markers: Marker[] = [];
-  if (!isMissionLoading && missionCreated) { // NEW: Only show markers if mission was created successfully
+  if (!isMissionLoading && missionCreated) {
+    // NEW: Only show markers if mission was created successfully
     educatorsData?.data.forEach((educator: any) => {
       markers.push({
         position: {
@@ -365,7 +384,7 @@ export const FindEducator = () => {
       )}
 
       {/* Loading overlay */}
-      {isMissionLoading && (
+      {(isMissionLoading || isSendingInvitation) && (
         <Box
           sx={{
             position: "absolute",
@@ -383,7 +402,7 @@ export const FindEducator = () => {
           <CircularProgress
             size={60}
             sx={{
-              color: "white",
+              color: theme.palette.primary.light,
             }}
           />
         </Box>

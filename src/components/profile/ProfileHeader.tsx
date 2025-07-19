@@ -1,8 +1,8 @@
 import { useUserContext } from "#context";
 import { Box, Button, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { useOne, useUpdate } from "@refinedev/core";
-import { memo, useMemo, useCallback, useState } from "react";
+import { useCustom, useOne, useUpdate } from "@refinedev/core";
+import { memo, useMemo, useCallback, useState, useEffect } from "react";
 import { CheckCircle, Cancel, PersonOff } from "@mui/icons-material";
 
 import { Modal } from "../Modal";
@@ -28,8 +28,9 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
       "hired" | "rejected" | "inactive" | null
     >(null);
 
-    const { data: missionData, refetch: refetchMissionData } = useOne({
-      resource: `missions/${missionId}/${role}/${organizationId}`,
+    const { data: missionData, refetch: refetchMissionData } = useCustom({
+      url: `/missions/${missionId}/${role}/${organizationId}`,
+      method: "get",
       queryOptions: {
         enabled: !!missionId,
       },
@@ -48,20 +49,21 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
       },
     });
 
-    const invitationStatus = educatorData?.missionsInvitedFor?.find(
-      (elem: any) => elem?.mission?._id === missionId
-    )?.invitationStatus;
+    // console.log("ProfileHeader -> missionData:", missionData);
 
-    // Memoize educator status check
-    const isPendingEducator = useMemo(() => {
-      if (!missionData?.data) return false;
+    const isHiredOrRejected =
+      missionData?.data.hiredEducators.includes(educatorId) ||
+      missionData?.data.rejectedEducators.includes(educatorId);
 
-      const { hiredEducators = [], rejectedEducators = [] } = missionData.data;
-      return (
-        hiredEducators.includes(educatorId) ||
-        rejectedEducators.includes(educatorId)
-      );
-    }, [missionData?.data, educatorId]);
+    const [invitationStatus, setInvitationStatus] = useState<string>("pending");
+
+    useEffect(() => {
+      const invitationStatus = educatorData?.missionsInvitedFor?.find(
+        (elem: any) => elem?.mission?._id === missionId
+      )?.invitationStatus;
+
+      setInvitationStatus(invitationStatus);
+    }, [educatorData?.missionsInvitedFor]);
 
     // Memoize button styles
     const buttonStyles = useMemo(
@@ -168,15 +170,16 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
       }
     }, [modalAction]);
 
-    console.log("role:", role);
-    console.log("invitationStatus:", invitationStatus);
-    console.log("isPendingEducator:", isPendingEducator);
+    // console.log("ProfileHeader -> missionData:", missionData);
+    // console.log("ProfileHeader -> role:", role);
+    // console.log("ProfileHeader -> invitationStatus:", invitationStatus);
+    // console.log("ProfileHeader -> isHiredOrRejected:", isHiredOrRejected);
 
     const renderActionButtons = useCallback(() => {
       if (
         role === "organization" &&
         invitationStatus === "accepted" &&
-        !isPendingEducator
+        !isHiredOrRejected
       ) {
         return (
           <Box
@@ -235,7 +238,14 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
       }
 
       return null;
-    }, [role, isPendingEducator, theme, buttonStyles, openModal]);
+    }, [
+      role,
+      invitationStatus,
+      isHiredOrRejected,
+      theme,
+      buttonStyles,
+      openModal,
+    ]);
 
     return (
       <>

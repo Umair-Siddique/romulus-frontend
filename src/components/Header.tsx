@@ -9,7 +9,7 @@ import Toolbar from "@mui/material/Toolbar";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { useList, useLogout, useOne, useUpdate } from "@refinedev/core";
+import { useLogout, useOne, useUpdate } from "@refinedev/core";
 import { useTheme, Theme } from "@mui/material/styles";
 import { SetStateAction, useEffect, useState } from "react";
 import {

@@ -159,10 +159,6 @@ export const MissionDetails = () => {
           : `${firstName} ${lastName}`,
     };
 
-    // Here you would typically send the feedback to your API
-    console.log("Submitting feedback:", feedback);
-
-    // Close modal and reset form
     setFeedbackModalOpen(false);
     setFeedbackText("");
     setRating(0);
