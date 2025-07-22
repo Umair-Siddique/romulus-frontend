@@ -172,7 +172,7 @@ export const MissionsModal = ({
                 <Button
                   variant="text"
                   endIcon={<ArrowForwardIcon sx={{ fontSize: 16 }} />}
-                  onClick={() => navigate(`/missions/${mission.id}`)}
+                  onClick={() => navigate(`/missions/${mission.id ?? mission._id}`)}
                   sx={{
                     color: "primary.main",
                     textTransform: "none",
