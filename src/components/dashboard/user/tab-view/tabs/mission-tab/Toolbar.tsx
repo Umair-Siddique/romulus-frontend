@@ -37,10 +37,7 @@ export const ToolBar = ({
   const [dateAnchor, setDateAnchor] = useState<null | HTMLElement>(null);
 
   const dateOptions = ["Today", "This Week", "This Month", "All Time"];
-  const statusFilters =
-    role === "organization"
-      ? ["All", "Pending", "Ongoing", "Completed"]
-      : ["All", "Ongoing", "Completed"];
+  const statusFilters = ["All", "Pending", "Ongoing", "Completed"];
 
   const handleStatusClick = (status: string) => {
     setSelectedStatus(status);

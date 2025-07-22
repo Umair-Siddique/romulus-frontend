@@ -146,7 +146,8 @@ export const UserDashboard = ({
     const totalMissions =
       role === "organization"
         ? organizationMissions?.total || 0
-        : userProfile?.missionsHiredFor?.length || 0;
+        : userProfile?.missionsHiredFor?.length +
+            userProfile?.missionsInvitedFor?.length || 0;
 
     return getFilteredKpis(role!, missionCounts, totalMissions);
   }, [
@@ -160,12 +161,16 @@ export const UserDashboard = ({
   const tabMissions = useMemo(() => {
     const calendarTabMissions =
       role === "educator"
-        ? userProfile?.missionsInvitedFor?.map((elem: any) => elem.mission) ||
-          []
+        ? userProfile?.missionsInvitedFor?.map((elem: any) => elem.mission)
         : missions;
 
     const missionsTabMissions =
-      role === "educator" ? userProfile?.missionsHiredFor || [] : missions;
+      role === "educator"
+        ? [
+            ...userProfile?.missionsHiredFor,
+            ...userProfile?.missionsInvitedFor.map((elem: any) => elem.mission),
+          ]
+        : missions;
 
     // console.log("UserDashboard.tsx -> calendarTabMissions:", calendarTabMissions);
     // console.log("UserDashboard.tsx -> missionsTabMissions:", missionsTabMissions);
@@ -193,7 +198,7 @@ export const UserDashboard = ({
     return <div>Error loading data</div>;
   }
 
-  console.log("UserDashboard.tsx -> tabMissions:", tabMissions);
+  // console.log("UserDashboard.tsx -> tabMissions:", tabMissions);
 
   return (
     <>
