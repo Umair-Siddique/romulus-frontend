@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 
-import CustomToolbar from "./CustomToolbar";
+import { Toolbar } from "./Toolbar";
 import { MissionsModal } from "./MissionsModal";
 
 moment.locale("en-GB");
@@ -22,14 +22,17 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
     status: mission.status,
   }));
 
-  const missionsByDate = calendarMissionList?.reduce((acc: any, mission: any) => {
-    const dateKey = moment(mission.date).format("YYYY-MM-DD");
-    if (!acc[dateKey]) {
-      acc[dateKey] = [];
-    }
-    acc[dateKey].push(mission);
-    return acc;
-  }, {} as Record<string, typeof calendarMissionList>);
+  const missionsByDate = calendarMissionList?.reduce(
+    (acc: any, mission: any) => {
+      const dateKey = moment(mission.date).format("YYYY-MM-DD");
+      if (!acc[dateKey]) {
+        acc[dateKey] = [];
+      }
+      acc[dateKey].push(mission);
+      return acc;
+    },
+    {} as Record<string, typeof calendarMissionList>
+  );
 
   // Transform grouped missions into calendar events
   const events =
@@ -67,7 +70,7 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
           setCurrentDate(date); // Update current date when navigating
         }}
         components={{
-          toolbar: CustomToolbar,
+          toolbar: (toolbarProps) => <Toolbar {...toolbarProps} />,
         }}
       />
       <MissionsModal

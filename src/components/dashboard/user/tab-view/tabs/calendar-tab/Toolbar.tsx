@@ -6,8 +6,7 @@ import {
   ChevronRight as ChevronRightIcon,
 } from "@mui/icons-material";
 
-const CustomToolbar = ({
-  date,
+export const Toolbar = ({
   onNavigate,
   label,
 }: ToolbarProps) => {
@@ -79,5 +78,3 @@ const CustomToolbar = ({
     </Box>
   );
 };
-
-export default CustomToolbar;
