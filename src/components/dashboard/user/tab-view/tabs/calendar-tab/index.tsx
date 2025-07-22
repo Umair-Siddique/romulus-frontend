@@ -66,7 +66,7 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
     setFilteredMissions(filtered);
   }, [selectedBranch]);
 
-  console.log("calendar-tab -> filteredMissions:", filteredMissions);
+  // console.log("calendar-tab -> filteredMissions:", filteredMissions);
 
   const missionsByDate = filteredMissions?.reduce(
     (acc: any, mission: any) => {
