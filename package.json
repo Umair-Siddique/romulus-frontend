@@ -46,6 +46,8 @@
     "@uiw/react-md-editor": "^3.19.5",
     "@vercel/analytics": "^1.5.0",
     "axios": "^1.6.2",
+    "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
     "dayjs": "^1.11.13",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
