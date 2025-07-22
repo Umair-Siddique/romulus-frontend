@@ -80,7 +80,7 @@ export const MissionHeader = memo(
       missionData.missionStatus !== "completed";
 
     // console.log("MissionHeader -> missionData.invitationStatus:", missionData.invitationStatus);
-    console.log("MissionHeader -> missionData.missionStatus:", missionData.missionStatus);
+    // console.log("MissionHeader -> missionData.missionStatus:", missionData.missionStatus);
 
     const shouldShowOrganizationActions =
       showMarkAsCompletedButton && missionData.missionStatus === "ongoing";
