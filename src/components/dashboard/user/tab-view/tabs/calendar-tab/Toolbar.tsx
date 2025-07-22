@@ -1,16 +1,32 @@
-import { ToolbarProps } from "react-big-calendar";
 import { useTheme, Theme } from "@mui/material/styles";
-import { Box, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  Stack,
+  Typography,
+} from "@mui/material";
 import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
 } from "@mui/icons-material";
+import { KeyboardArrowDown as KeyboardArrowDownIcon } from "@mui/icons-material";
+import { useState } from "react";
 
 export const Toolbar = ({
   onNavigate,
   label,
-}: ToolbarProps) => {
+  selectedBranch,
+  setSelectedBranch,
+  availableBranches,
+}: any) => {
   const theme = useTheme<Theme>();
+  const [branchAnchor, setBranchAnchor] = useState<null | HTMLElement>(null);
+
+  const branchOptions =
+    availableBranches.length > 0 ? availableBranches : ["No Branch"];
 
   const goToPrevious = () => {
     onNavigate("PREV");
@@ -20,61 +36,114 @@ export const Toolbar = ({
     onNavigate("NEXT");
   };
 
+  const handleBranchClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setBranchAnchor(event.currentTarget);
+  };
+
+  const handleBranchClose = () => {
+    setBranchAnchor(null);
+  };
+
+  const handleBranchSelect = (option: string) => {
+    setSelectedBranch(option);
+    handleBranchClose();
+  };
+
   return (
     <Box
       sx={{
         display: "flex",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        gap: 2,
+        justifyContent: "space-between",
+        alignItems: "flex-start",
         mb: 2,
         px: 2,
         py: 1,
       }}
     >
-      <Box sx={{ display: "flex", gap: 1 }}>
-        <IconButton
-          onClick={goToPrevious}
+      {/* Left side: Navigation buttons and label */}
+      <Box sx={{ display: "flex", flexDirection: "row", gap: 3 }}>
+        <Stack direction="row" spacing={1}>
+          <IconButton
+            onClick={goToPrevious}
+            sx={{
+              backgroundColor: theme.palette.background.default,
+              border: "1px solid",
+              borderColor: theme.palette.divider,
+              borderRadius: theme.shape.borderRadius,
+              "&:hover": {
+                backgroundColor: theme.palette.action.hover,
+              },
+            }}
+          >
+            <ChevronLeftIcon />
+          </IconButton>
+          <IconButton
+            onClick={goToNext}
+            sx={{
+              backgroundColor: theme.palette.background.default,
+              border: "1px solid",
+              borderColor: theme.palette.divider,
+              borderRadius: theme.shape.borderRadius,
+              "&:hover": {
+                backgroundColor: theme.palette.action.hover,
+              },
+            }}
+          >
+            <ChevronRightIcon />
+          </IconButton>
+        </Stack>
+        <Typography
+          variant="h6"
           sx={{
-            backgroundColor: theme.palette.background.default,
-            border: "1px solid",
-            borderColor: theme.palette.divider,
-            borderRadius: theme.shape.borderRadius,
-            "&:hover": {
-              backgroundColor: theme.palette.action.hover,
-            },
+            fontWeight: theme.typography.h2.fontWeight,
+            color: "text.primary",
+            fontFamily: "Montserrat, sans-serif",
+            fontSize: "2rem",
+            textAlign: "start",
           }}
         >
-          <ChevronLeftIcon />
-        </IconButton>
-        <IconButton
-          onClick={goToNext}
-          sx={{
-            backgroundColor: theme.palette.background.default,
-            border: "1px solid",
-            borderColor: theme.palette.divider,
-            borderRadius: theme.shape.borderRadius,
-            "&:hover": {
-              backgroundColor: theme.palette.action.hover,
-            },
-          }}
-        >
-          <ChevronRightIcon />
-        </IconButton>
+          {label}
+        </Typography>
       </Box>
-      <Typography
-        variant="h6"
-        sx={{
-          fontWeight: theme.typography.h2.fontWeight,
-          color: "text.primary",
-          fontFamily: "Montserrat, sans-serif",
-          fontSize: "2rem",
-          // width: "275px",
-          textAlign: "start",
-        }}
-      >
-        {label}
-      </Typography>
+
+      {/* Right side: Branch selector */}
+      <Box>
+        <Button
+          variant="outlined"
+          onClick={handleBranchClick}
+          endIcon={<KeyboardArrowDownIcon />}
+          sx={{
+            textTransform: "none",
+            color: theme.palette.text.secondary,
+            borderColor: theme.palette.divider,
+            "&:hover": {
+              borderColor: theme.palette.primary.main,
+            },
+          }}
+        >
+          {selectedBranch}
+        </Button>
+        <Menu
+          anchorEl={branchAnchor}
+          open={Boolean(branchAnchor)}
+          onClose={handleBranchClose}
+        >
+          {branchOptions.map((option: string) => (
+            <MenuItem
+              key={option}
+              onClick={() => handleBranchSelect(option)}
+              sx={{
+                color: theme.palette.text.primary,
+                "&:hover": {
+                  backgroundColor: theme.palette.action.hover,
+                },
+              }}
+            >
+              {option}
+            </MenuItem>
+          ))}
+        </Menu>
+      </Box>
     </Box>
   );
 };

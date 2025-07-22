@@ -18,66 +18,45 @@ import { useUserContext } from "#context";
 interface ToolBarProps {
   selectedStatus: string;
   setSelectedStatus: (status: string) => void;
-  selectedBranch: string;
-  setSelectedBranch: (branch: string) => void;
   selectedDate: string;
   setSelectedDate: (date: string) => void;
-  availableBranches: string[];
 }
 
 export const ToolBar = ({
   selectedStatus,
   setSelectedStatus,
-  selectedBranch,
-  setSelectedBranch,
   selectedDate,
   setSelectedDate,
-  availableBranches
 }: ToolBarProps) => {
   const theme = useTheme<Theme>();
 
   const { user } = useUserContext();
-  
+
   const role = user?.role;
 
-  const [dateAnchor, setDateAnchor] = useState(null);
-  const [branchAnchor, setBranchAnchor] = useState(null);
+  const [dateAnchor, setDateAnchor] = useState<null | HTMLElement>(null);
 
   const dateOptions = ["Today", "This Week", "This Month", "All Time"];
-  const branchOptions = availableBranches.length > 0 ? availableBranches : ["No Branch"];
   const statusFilters =
     role === "organization"
       ? ["All", "Pending", "Ongoing", "Completed"]
       : ["All", "Ongoing", "Completed"];
 
-  const handleStatusClick = (status: any) => {
+  const handleStatusClick = (status: string) => {
     setSelectedStatus(status);
   };
 
-  const handleDateClick = (event: any) => {
+  const handleDateClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setDateAnchor(event.currentTarget);
-  };
-
-  const handleBranchClick = (event: any) => {
-    setBranchAnchor(event.currentTarget);
   };
 
   const handleDateClose = () => {
     setDateAnchor(null);
   };
 
-  const handleBranchClose = () => {
-    setBranchAnchor(null);
-  };
-
-  const handleDateSelect = (option: any) => {
+  const handleDateSelect = (option: string) => {
     setSelectedDate(option);
     handleDateClose();
-  };
-
-  const handleBranchSelect = (option: any) => {
-    setSelectedBranch(option);
-    handleBranchClose();
   };
 
   const CustomChip = styled(Chip)(({ theme }) => ({
@@ -124,41 +103,23 @@ export const ToolBar = ({
           ))}
         </Stack>
 
-        {/* Right side - Date and Branch filters */}
-        <Stack direction="row" spacing={1}>
-          <Button
-            variant="outlined"
-            onClick={handleDateClick}
-            endIcon={<KeyboardArrowDownIcon />}
-            startIcon={<CalendarTodayIcon sx={{ fontSize: 18 }} />}
-            sx={{
-              textTransform: "none",
-              color: theme.palette.text.secondary,
-              borderColor: theme.palette.divider,
-              "&:hover": {
-                borderColor: theme.palette.primary.main,
-              },
-            }}
-          >
-            {selectedDate}
-          </Button>
-
-          <Button
-            variant="outlined"
-            onClick={handleBranchClick}
-            endIcon={<KeyboardArrowDownIcon />}
-            sx={{
-              textTransform: "none",
-              color: theme.palette.text.secondary,
-              borderColor: theme.palette.divider,
-              "&:hover": {
-                borderColor: theme.palette.primary.main,
-              },
-            }}
-          >
-            {selectedBranch}
-          </Button>
-        </Stack>
+        {/* Right side - Date filters */}
+        <Button
+          variant="outlined"
+          onClick={handleDateClick}
+          endIcon={<KeyboardArrowDownIcon />}
+          startIcon={<CalendarTodayIcon sx={{ fontSize: 18 }} />}
+          sx={{
+            textTransform: "none",
+            color: theme.palette.text.secondary,
+            borderColor: theme.palette.divider,
+            "&:hover": {
+              borderColor: theme.palette.primary.main,
+            },
+          }}
+        >
+          {selectedDate}
+        </Button>
       </Box>
 
       {/* Date Menu */}
@@ -171,28 +132,6 @@ export const ToolBar = ({
           <MenuItem
             key={option}
             onClick={() => handleDateSelect(option)}
-            sx={{
-              color: theme.palette.text.primary,
-              "&:hover": {
-                backgroundColor: theme.palette.action.hover,
-              },
-            }}
-          >
-            {option}
-          </MenuItem>
-        ))}
-      </Menu>
-
-      {/* Branch Menu */}
-      <Menu
-        anchorEl={branchAnchor}
-        open={Boolean(branchAnchor)}
-        onClose={handleBranchClose}
-      >
-        {branchOptions.map((option) => (
-          <MenuItem
-            key={option}
-            onClick={() => handleBranchSelect(option)}
             sx={{
               color: theme.palette.text.primary,
               "&:hover": {

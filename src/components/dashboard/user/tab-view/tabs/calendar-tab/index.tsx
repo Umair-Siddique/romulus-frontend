@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 
@@ -12,6 +12,9 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
   const [open, setOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date()); // Add this state
   const [selectedDateMissions, setSelectedDateMissions] = useState<any[]>([]);
+  const [selectedBranch, setSelectedBranch] = useState("All Branches");
+  const [availableBranches, setAvailableBranches] = useState<string[]>([]);
+  const [filteredMissions, setFilteredMissions] = useState<any[]>([]);
 
   const calendarMissionList = calendarTabProps?.map((mission: any) => ({
     id: mission._id,
@@ -22,7 +25,50 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
     status: mission.status,
   }));
 
-  const missionsByDate = calendarMissionList?.reduce(
+  useEffect(() => {
+    const branches: string[] = Array.from(
+      new Set(
+        calendarMissionList.map(
+          (mission: any) => mission.branchName || "No Branch"
+        )
+      )
+    );
+    setAvailableBranches(["All Branches", ...branches]);
+  }, [calendarTabProps]);
+
+  // console.log("calendar-tab -> availableBranches:", availableBranches);
+
+  useEffect(() => {
+    let filtered = calendarTabProps;
+
+    if (selectedBranch !== "All Branches" && selectedBranch !== "Branches") {
+      filtered = filtered.filter(
+        (mission: any) => mission.branchName === selectedBranch
+      );
+    }
+
+    setFilteredMissions(filtered);
+  }, [selectedBranch, calendarTabProps]);
+
+  // console.log("calendar-tab -> selectedBranch:", selectedBranch);
+  // console.log("calendar-tab -> calendarMissionList:", calendarMissionList);
+
+  useEffect(() => {
+    let filtered = calendarMissionList;
+
+    // Apply branch filter
+    if (selectedBranch !== "All Branches" && selectedBranch !== "Branches") {
+      filtered = filtered.filter(
+        (mission: any) => mission.branchName === selectedBranch
+      );
+    }
+
+    setFilteredMissions(filtered);
+  }, [selectedBranch]);
+
+  console.log("calendar-tab -> filteredMissions:", filteredMissions);
+
+  const missionsByDate = filteredMissions?.reduce(
     (acc: any, mission: any) => {
       const dateKey = moment(mission.date).format("YYYY-MM-DD");
       if (!acc[dateKey]) {
@@ -33,6 +79,8 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
     },
     {} as Record<string, typeof calendarMissionList>
   );
+
+  // console.log("calendar-tab -> missionsByDate:", missionsByDate);
 
   // Transform grouped missions into calendar events
   const events =
@@ -70,7 +118,14 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
           setCurrentDate(date); // Update current date when navigating
         }}
         components={{
-          toolbar: (toolbarProps) => <Toolbar {...toolbarProps} />,
+          toolbar: (toolbarProps) => (
+            <Toolbar
+              {...toolbarProps}
+              selectedBranch={selectedBranch}
+              setSelectedBranch={setSelectedBranch}
+              availableBranches={availableBranches}
+            />
+          ),
         }}
       />
       <MissionsModal
