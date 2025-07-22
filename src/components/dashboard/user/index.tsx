@@ -77,7 +77,11 @@ const getMissionCounts = (missions: any[], pendingInvitations: number = 0) => {
 };
 
 // Optimized KPI filtering and mapping
-const getFilteredKpis = (role: string, missionCounts: any, totalMissions: number) => {
+const getFilteredKpis = (
+  role: string,
+  missionCounts: any,
+  totalMissions: number
+) => {
   const kpiTitleMap = {
     "Total Missions": totalMissions,
     "Ongoing Missions": missionCounts.ongoing,
@@ -119,40 +123,52 @@ export const UserDashboard = ({
 
   // Optimized missions selection
   const missions = useMemo(() => {
-    return role === "educator" 
+    return role === "educator"
       ? userProfile?.missionsHiredFor || []
       : organizationMissions?.data || [];
   }, [role, userProfile?.missionsHiredFor, organizationMissions?.data]);
 
   // Optimized mission counts calculation
   const missionCounts = useMemo(() => {
-    const pendingInvitations = role === "educator"
-      ? userProfile?.missionsInvitedFor?.filter(
-          (mission: any) => mission?.mission && mission.invitationStatus === "pending"
-        ).length || 0
-      : 0;
+    const pendingInvitations =
+      role === "educator"
+        ? userProfile?.missionsInvitedFor?.filter(
+            (mission: any) =>
+              mission?.mission && mission.invitationStatus === "pending"
+          ).length || 0
+        : 0;
 
     return getMissionCounts(missions, pendingInvitations);
   }, [missions, role, userProfile?.missionsInvitedFor]);
 
   // Optimized KPIs calculation
   const kpis = useMemo(() => {
-    const totalMissions = role === "organization" 
-      ? organizationMissions?.total || 0
-      : userProfile?.missionsHiredFor?.length || 0;
+    const totalMissions =
+      role === "organization"
+        ? organizationMissions?.total || 0
+        : userProfile?.missionsHiredFor?.length || 0;
 
     return getFilteredKpis(role!, missionCounts, totalMissions);
-  }, [role, organizationMissions?.total, userProfile?.missionsHiredFor?.length, missionCounts]);
+  }, [
+    role,
+    organizationMissions?.total,
+    userProfile?.missionsHiredFor?.length,
+    missionCounts,
+  ]);
 
   // Optimized tab missions
   const tabMissions = useMemo(() => {
-    const calendarTabMissions = role === "educator"
-      ? userProfile?.missionsInvitedFor?.map((elem: any) => elem.mission) || []
-      : missions;
+    const calendarTabMissions =
+      role === "educator"
+        ? userProfile?.missionsInvitedFor?.map((elem: any) => elem.mission) ||
+          []
+        : missions;
 
-    const missionsTabMissions = role === "educator" 
-      ? userProfile?.missionsHiredFor || []
-      : missions;
+    const missionsTabMissions =
+      role === "educator" ? userProfile?.missionsHiredFor || [] : missions;
+
+    // console.log("UserDashboard.tsx -> calendarTabMissions:", calendarTabMissions);
+    // console.log("UserDashboard.tsx -> missionsTabMissions:", missionsTabMissions);
 
     return {
       calendarTabMissions,
@@ -161,15 +177,23 @@ export const UserDashboard = ({
         refetchMissions: refetchOrganizationMissions,
       },
     };
-  }, [role, userProfile?.missionsInvitedFor, userProfile?.missionsHiredFor, missions, refetchOrganizationMissions]);
+  }, [
+    role,
+    userProfile?.missionsInvitedFor,
+    userProfile?.missionsHiredFor,
+    missions,
+    refetchOrganizationMissions,
+  ]);
 
   if (role === "organization" && isLoadingOrganizationMissions) {
     return <div>Loading...</div>;
-  } 
-  
+  }
+
   if (isError) {
     return <div>Error loading data</div>;
   }
+
+  console.log("UserDashboard.tsx -> tabMissions:", tabMissions);
 
   return (
     <>

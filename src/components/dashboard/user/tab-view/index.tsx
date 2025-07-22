@@ -18,6 +18,9 @@ export const TabsView = ({
   const theme = useTheme<Theme>();
   const [activeTab, setActiveTab] = useState(0);
 
+  // console.log("tab-view.tsx -> calendarTabMissions:", calendarTabMissions)
+  // console.log("tab-view.tsx -> missionsTabMissions:", missionsTabMissions)
+
   const { refetchMissions } = missionsTabMissions;
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {

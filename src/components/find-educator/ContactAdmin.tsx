@@ -34,7 +34,7 @@ export const ContactAdmin = () => {
         flexDirection: "column",
         alignItems: "flex-start",
         justifyContent: "center",
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor: theme.palette.background.paper,
         borderRadius: theme.shape.borderRadius,
       }}
     >

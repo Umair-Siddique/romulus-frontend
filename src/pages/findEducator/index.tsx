@@ -459,8 +459,8 @@ export const FindEducator = () => {
         open={contactAdminModalOpen}
         onClose={handleSuccessModalClose}
         onSubmit={handleContactAdminModalClose}
-        icon={<HelpOutlineIcon sx={{ color: "#2196F3" }} />}
-        title="Need Help Finding Educators"
+        icon={<HelpOutlineIcon />}
+        title="Need Help Finding Educators?"
         description="Contact admin team directly for assistance with your mission, educator availability, or technical questions."
         hasButton={true}
         hasButton1={false}
