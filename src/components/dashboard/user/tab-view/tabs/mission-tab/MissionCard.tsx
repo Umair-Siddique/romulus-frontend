@@ -82,39 +82,6 @@ export const MissionCard = ({
     );
   };
 
-  // Extract the date part only
-  const dateOnly = date.split("T")[0]; // "2025-07-21"
-
-  // Extract start and end times
-  const [startTime, endTime] = time.split(" - "); // "19:00", "07:00"
-
-  // Get the browser's time zone
-  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  // Construct ISO timestamps for both
-  const startUtcTimestamp = new Date(`${dateOnly}T${startTime}:00Z`);
-  const endUtcDate = new Date(`${dateOnly}T${endTime}:00Z`);
-
-  // Handle potential day rollover (e.g. 07:00 is next day if end < start)
-  if (endTime < startTime) {
-    endUtcDate.setUTCDate(endUtcDate.getUTCDate() + 1);
-  }
-
-  // Convert to local time zone
-  const localStartDate = toZonedTime(startUtcTimestamp, timeZone);
-  const localEndDate = toZonedTime(endUtcDate, timeZone);
-
-  // Format both times
-  const formattedStart = format(localStartDate, "hh:mm a", {
-    timeZone,
-  }).toLowerCase();
-  const formattedEnd = format(localEndDate, "hh:mm a", {
-    timeZone,
-  }).toLowerCase();
-
-  console.log("Start:", formattedStart);
-  console.log("End:", formattedEnd);
-
   return (
     <Card
       sx={{
@@ -217,7 +184,8 @@ export const MissionCard = ({
               sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
             />
             <Typography variant="body2" color="text.secondary">
-              {formattedStart} to {formattedEnd}
+              {formatTime(time.split("-")[0].trim())} to{" "}
+              {formatTime(time.split("-")[1].trim())}
             </Typography>
           </Box>
 
