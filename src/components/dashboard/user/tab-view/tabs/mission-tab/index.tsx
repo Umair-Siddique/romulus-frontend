@@ -10,18 +10,28 @@ export const MissionsTab = ({
   missionsTabProps: MissionsTabProps;
 }) => {
   const { missions, refetchMissions } = missionsTabProps;
-  const [selectedDate, setSelectedDate] = useState("All Time");
   const [selectedStatus, setSelectedStatus] = useState("All");
+  const [selectedBranch, setSelectedBranch] = useState("Branches");
+  const [selectedDate, setSelectedDate] = useState("Date");
+  const [availableBranches, setAvailableBranches] = useState<string[]>([]);
   const [filteredMissions, setFilteredMissions] = useState<
     MissionsTabsDataProps[]
   >([]);
+
+  // Extract unique branches from missions
+  useEffect(() => {
+    const branches = Array.from(
+      new Set(missions.map((mission: any) => mission.branchName || "No Branch"))
+    );
+    setAvailableBranches(["All Branches", ...branches]);
+  }, [missions]);
 
   // Helper function to check if a date falls within the selected date range
   const isDateInRange = (
     missionDate: string | Date,
     dateRange: string
   ): boolean => {
-    if (!missionDate || dateRange === "All Time") return true;
+    if (!missionDate) return false;
 
     const missionDateTime = new Date(missionDate);
     const now = new Date();
@@ -51,6 +61,7 @@ export const MissionsTab = ({
         return missionDay >= monthStart && missionDay <= monthEnd;
 
       case "All Time":
+      case "Date":
         return true;
 
       default:
@@ -78,16 +89,25 @@ export const MissionsTab = ({
       });
     }
 
+    // Apply branch filter
+    if (selectedBranch !== "All Branches" && selectedBranch !== "Branches") {
+      filtered = filtered.filter(
+        (mission: any) => mission.branchName === selectedBranch
+      );
+    }
+
     // Apply date filter
-    filtered = filtered.filter((mission: any) =>
-      isDateInRange(
-        mission.createdAt || mission.startDate || mission.date,
-        selectedDate
-      )
-    );
+    if (selectedDate !== "Date") {
+      filtered = filtered.filter((mission: any) =>
+        isDateInRange(
+          mission.createdAt || mission.startDate || mission.date,
+          selectedDate
+        )
+      );
+    }
 
     setFilteredMissions(filtered);
-  }, [selectedStatus, selectedDate, missions]);
+  }, [selectedStatus, selectedBranch, selectedDate, missions]);
 
   return (
     <Box sx={{ minHeight: "400px" }}>
@@ -95,8 +115,11 @@ export const MissionsTab = ({
       <ToolBar
         selectedStatus={selectedStatus}
         setSelectedStatus={setSelectedStatus}
+        selectedBranch={selectedBranch}
+        setSelectedBranch={setSelectedBranch}
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
+        availableBranches={availableBranches}
       />
       <Box
         sx={{
