@@ -8,6 +8,7 @@ import { MissionsModal } from "./MissionsModal";
 moment.locale("en-GB");
 
 export const CalendarTab = ({ calendarTabProps }: any) => {
+  // console.log("calendar-tab -> calendarTabProps:", calendarTabProps);
   const localizer = momentLocalizer(moment);
   const [open, setOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date()); // Add this state
@@ -68,17 +69,14 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
 
   // console.log("calendar-tab -> filteredMissions:", filteredMissions);
 
-  const missionsByDate = filteredMissions?.reduce(
-    (acc: any, mission: any) => {
-      const dateKey = moment(mission.date).format("YYYY-MM-DD");
-      if (!acc[dateKey]) {
-        acc[dateKey] = [];
-      }
-      acc[dateKey].push(mission);
-      return acc;
-    },
-    {} as Record<string, typeof calendarMissionList>
-  );
+  const missionsByDate = filteredMissions?.reduce((acc: any, mission: any) => {
+    const dateKey = moment(mission.date).format("YYYY-MM-DD");
+    if (!acc[dateKey]) {
+      acc[dateKey] = [];
+    }
+    acc[dateKey].push(mission);
+    return acc;
+  }, {} as Record<string, typeof calendarMissionList>);
 
   // console.log("calendar-tab -> missionsByDate:", missionsByDate);
 
@@ -97,6 +95,8 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
         missions: missions,
       };
     });
+
+  console.log("calendar-tab -> events:", events);
 
   const handleMissionSelect = (event: any) => {
     setSelectedDateMissions(event.missions);
