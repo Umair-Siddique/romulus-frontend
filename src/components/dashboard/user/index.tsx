@@ -161,14 +161,17 @@ export const UserDashboard = ({
   const tabMissions = useMemo(() => {
     const calendarTabMissions =
       role === "educator"
-        ? userProfile?.missionsInvitedFor?.map((elem: any) => elem.mission)
+        ? userProfile?.missionsInvitedFor?.map((elem: any) => elem.mission) ??
+          []
         : missions;
 
     const missionsTabMissions =
       role === "educator"
         ? [
-            ...userProfile?.missionsHiredFor,
-            ...userProfile?.missionsInvitedFor.map((elem: any) => elem.mission),
+            ...(userProfile?.missionsHiredFor ?? []),
+            ...(userProfile?.missionsInvitedFor?.map(
+              (elem: any) => elem.mission
+            ) ?? []),
           ]
         : missions;
 
