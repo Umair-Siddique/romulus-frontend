@@ -105,29 +105,31 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
 
   return (
     <>
-      <Calendar
-        selectable
-        localizer={localizer}
-        date={currentDate}
-        defaultView="month"
-        views={["month"]} // lock to month view only
-        events={events}
-        style={{ height: "100vh" }}
-        onSelectEvent={handleMissionSelect}
-        onNavigate={(date) => {
-          setCurrentDate(date); // Update current date when navigating
-        }}
-        components={{
-          toolbar: (toolbarProps) => (
-            <Toolbar
-              {...toolbarProps}
-              selectedBranch={selectedBranch}
-              setSelectedBranch={setSelectedBranch}
-              availableBranches={availableBranches}
-            />
-          ),
-        }}
-      />
+      {events.length > 0 && (
+        <Calendar
+          selectable
+          localizer={localizer}
+          date={currentDate}
+          defaultView="month"
+          views={["month"]} // lock to month view only
+          events={events}
+          style={{ height: "100vh" }}
+          onSelectEvent={handleMissionSelect}
+          onNavigate={(date) => {
+            setCurrentDate(date); // Update current date when navigating
+          }}
+          components={{
+            toolbar: (toolbarProps) => (
+              <Toolbar
+                {...toolbarProps}
+                selectedBranch={selectedBranch}
+                setSelectedBranch={setSelectedBranch}
+                availableBranches={availableBranches}
+              />
+            ),
+          }}
+        />
+      )}
       <MissionsModal
         open={open}
         onClose={() => setOpen(false)}
