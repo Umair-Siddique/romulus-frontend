@@ -38,7 +38,7 @@ export const FindEducator = () => {
     coordinates: [],
     skills: [],
   });
-  const [missionCreated, setMissionCreated] = useState(false); // NEW: Track if mission was created successfully
+  const [missionCreated, setMissionCreated] = useState(false);
 
   // Dropdown menu state
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -81,7 +81,7 @@ export const FindEducator = () => {
           findEducatorData?.coordinates.length &&
           findEducatorData?.skills.length &&
           missionCreated
-        ) // NEW: Only enable if mission was created successfully
+        )
       ),
     },
   });
@@ -112,7 +112,7 @@ export const FindEducator = () => {
     }
   }, [role, navigate]);
 
-  // FIXED: Updated effect to handle mission creation with proper error handling
+  // Updated effect to handle mission creation with proper error handling
   useEffect(() => {
     if (dataToSubmit) {
       createMission(
@@ -127,28 +127,28 @@ export const FindEducator = () => {
         {
           onSuccess: () => {
             setModalOpen(false);
-            setMissionCreated(true); // NEW: Set mission as created successfully
-            setDataToSubmit(null); // Clear dataToSubmit after successful creation
+            setMissionCreated(true);
+            setDataToSubmit(null);
+            // Reset no educators modal when new mission is created
+            setNoEducatorsModalOpen(false);
           },
           onError: (error) => {
             console.error("Mission creation failed:", error);
-            setMissionCreated(false); // NEW: Ensure mission is not marked as created
-            // Reset states on error
-            setDataToSubmit(null); // Clear dataToSubmit to prevent infinite loop
+            setMissionCreated(false);
+            setDataToSubmit(null);
             setFindEducatorData({ coordinates: [], skills: [] });
-            // Optionally show error modal or notification here
           },
         }
       );
     }
-  }, [dataToSubmit]); // REMOVED createMission from dependencies
+  }, [dataToSubmit]);
 
   // Effect for refetching when distance changes
   useEffect(() => {
     if (
       findEducatorData?.coordinates.length &&
       findEducatorData?.skills.length &&
-      missionCreated // NEW: Only refetch if mission was created successfully
+      missionCreated
     ) {
       refetchEducators();
     }
@@ -162,10 +162,14 @@ export const FindEducator = () => {
   // Effect for updating invitees when educatorsData changes
   useEffect(() => {
     if (missionCreated) {
-      // NEW: Only update invitees if mission was created successfully
       const educatorsIds =
         educatorsData?.data.map((educator: any) => educator._id) || [];
       setInvitees(educatorsIds);
+      
+      // Close no educators modal if educators are found
+      if (educatorsData && educatorsData?.data?.length > 0) {
+        setNoEducatorsModalOpen(false);
+      }
     }
   }, [educatorsData, missionCreated]);
 
@@ -177,7 +181,7 @@ export const FindEducator = () => {
       educatorsData?.data?.length === 0 &&
       findEducatorData?.coordinates.length &&
       findEducatorData?.skills.length &&
-      missionCreated // NEW: Only show modal if mission was created successfully
+      missionCreated
     ) {
       setNoEducatorsModalOpen(true);
     }
@@ -198,7 +202,7 @@ export const FindEducator = () => {
     setInvitees([]);
     setFindEducatorData({ coordinates: [], skills: [] });
     setDataToSubmit(null);
-    setMissionCreated(false); // NEW: Reset mission creation state
+    setMissionCreated(false);
     navigate("/dashboard", { replace: true });
   };
 
@@ -207,7 +211,7 @@ export const FindEducator = () => {
     setInvitees([]);
     setFindEducatorData({ coordinates: [], skills: [] });
     setDataToSubmit(null);
-    setMissionCreated(false); // NEW: Reset mission creation state
+    setMissionCreated(false);
   };
 
   const handleContactAdminModalClose = () => {
@@ -215,7 +219,7 @@ export const FindEducator = () => {
     setInvitees([]);
     setFindEducatorData({ coordinates: [], skills: [] });
     setDataToSubmit(null);
-    setMissionCreated(false); // NEW: Reset mission creation state
+    setMissionCreated(false);
   };
 
   const handleExpandRadius = () => {
@@ -271,7 +275,6 @@ export const FindEducator = () => {
 
   const markers: Marker[] = [];
   if (!isMissionLoading && missionCreated) {
-    // NEW: Only show markers if mission was created successfully
     educatorsData?.data.forEach((educator: any) => {
       markers.push({
         position: {
@@ -284,7 +287,6 @@ export const FindEducator = () => {
     });
   }
 
-  // FIXED: Updated condition to check if mission was created successfully
   const isMissionCreationPhase = !missionCreated || !educatorsData?.data.length;
 
   return (
