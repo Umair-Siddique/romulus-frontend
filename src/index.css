@@ -50,15 +50,23 @@
 }
 
 .rbc-row-segment {
-  padding-top: 5rem;
-  height: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* justify-content: start; */
+  justify-content: center;
 }
 
-div.rbc-selected.rbc-event {
-  color: #a2b8b0;
+.event-box {
+  font-size: 15px;
   background-color: #f0f4f3;
+  display: flex;
+  justify-content: center;
+  padding: 2px 0;
+  outline: none; /* optional: removes the default browser focus outline */
+}
+
+.event-box:focus {
+  font-size: 15px;
+  background-color: #f0f4f3;
+  display: flex;
+  justify-content: center;
+  padding: 2px 0;
 }

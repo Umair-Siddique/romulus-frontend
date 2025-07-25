@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
+import "moment/locale/en-gb";
 
 import { Toolbar } from "./Toolbar";
 import { MissionsModal } from "./MissionsModal";
@@ -8,25 +9,28 @@ import { MissionsModal } from "./MissionsModal";
 moment.locale("en-GB");
 
 export const CalendarTab = ({ calendarTabProps }: any) => {
-  // console.log("calendar-tab -> calendarTabProps:", calendarTabProps);
   const localizer = momentLocalizer(moment);
   const [open, setOpen] = useState(false);
-  const [currentDate, setCurrentDate] = useState(new Date()); // Add this state
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDateMissions, setSelectedDateMissions] = useState<any[]>([]);
   const [selectedBranch, setSelectedBranch] = useState("All Branches");
-  const [availableBranches, setAvailableBranches] = useState<string[]>([]);
-  const [filteredMissions, setFilteredMissions] = useState<any[]>([]);
 
-  const calendarMissionList = calendarTabProps?.map((mission: any) => ({
-    id: mission._id,
-    title: mission.title,
-    organizationName: mission.organizationName,
-    branchName: mission.branchName,
-    date: mission.date,
-    status: mission.status,
-  }));
+  // Transform raw data once
+  const calendarMissionList = useMemo(
+    () =>
+      calendarTabProps?.map((mission: any) => ({
+        id: mission._id,
+        title: mission.title,
+        organizationName: mission.organizationName,
+        branchName: mission.branchName,
+        date: mission.date,
+        status: mission.status,
+      })) || [],
+    [calendarTabProps]
+  );
 
-  useEffect(() => {
+  // Get available branches
+  const availableBranches = useMemo(() => {
     const branches: string[] = Array.from(
       new Set(
         calendarMissionList.map(
@@ -34,51 +38,30 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
         )
       )
     );
-    setAvailableBranches(["All Branches", ...branches]);
-  }, [calendarTabProps]);
+    return ["All Branches", ...branches];
+  }, [calendarMissionList]);
 
-  // console.log("calendar-tab -> availableBranches:", availableBranches);
-
-  useEffect(() => {
-    let filtered = calendarTabProps;
-
-    if (selectedBranch !== "All Branches" && selectedBranch !== "Branches") {
-      filtered = filtered.filter(
-        (mission: any) => mission.branchName === selectedBranch
-      );
+  // Filter missions based on selected branch
+  const filteredMissions = useMemo(() => {
+    if (selectedBranch === "All Branches" || selectedBranch === "Branches") {
+      return calendarMissionList;
     }
+    return calendarMissionList.filter(
+      (mission: any) => mission.branchName === selectedBranch
+    );
+  }, [selectedBranch, calendarMissionList]);
 
-    setFilteredMissions(filtered);
-  }, [selectedBranch, calendarTabProps]);
-
-  // console.log("calendar-tab -> selectedBranch:", selectedBranch);
-  // console.log("calendar-tab -> calendarMissionList:", calendarMissionList);
-
-  useEffect(() => {
-    let filtered = calendarMissionList;
-
-    // Apply branch filter
-    if (selectedBranch !== "All Branches" && selectedBranch !== "Branches") {
-      filtered = filtered.filter(
-        (mission: any) => mission.branchName === selectedBranch
-      );
-    }
-
-    setFilteredMissions(filtered);
-  }, [selectedBranch]);
-
-  // console.log("calendar-tab -> filteredMissions:", filteredMissions);
-
-  const missionsByDate = filteredMissions?.reduce((acc: any, mission: any) => {
-    const dateKey = moment(mission.date).format("YYYY-MM-DD");
-    if (!acc[dateKey]) {
-      acc[dateKey] = [];
-    }
-    acc[dateKey].push(mission);
-    return acc;
-  }, {} as Record<string, typeof calendarMissionList>);
-
-  // console.log("calendar-tab -> missionsByDate:", missionsByDate);
+  // Group missions by date
+  const missionsByDate = useMemo(() => {
+    return filteredMissions.reduce((acc: any, mission: any) => {
+      const dateKey = moment(mission.date).format("YYYY-MM-DD");
+      if (!acc[dateKey]) {
+        acc[dateKey] = [];
+      }
+      acc[dateKey].push(mission);
+      return acc;
+    }, {} as Record<string, typeof calendarMissionList>);
+  }, [filteredMissions]);
 
   // Transform grouped missions into calendar events
   const events =
@@ -96,8 +79,6 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
       };
     });
 
-  console.log("calendar-tab -> events:", events);
-
   const handleMissionSelect = (event: any) => {
     setSelectedDateMissions(event.missions);
     setOpen(true);
@@ -105,31 +86,36 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
 
   return (
     <>
-      {events.length > 0 && (
-        <Calendar
-          selectable
-          localizer={localizer}
-          date={currentDate}
-          defaultView="month"
-          views={["month"]} // lock to month view only
-          events={events}
-          style={{ height: "100vh" }}
-          onSelectEvent={handleMissionSelect}
-          onNavigate={(date) => {
-            setCurrentDate(date); // Update current date when navigating
-          }}
-          components={{
-            toolbar: (toolbarProps) => (
-              <Toolbar
-                {...toolbarProps}
-                selectedBranch={selectedBranch}
-                setSelectedBranch={setSelectedBranch}
-                availableBranches={availableBranches}
-              />
+      <Calendar
+        selectable
+        localizer={localizer}
+        date={currentDate}
+        defaultView="month"
+        views={["month"]}
+        events={events}
+        style={{ height: "100vh" }}
+        onSelectEvent={handleMissionSelect}
+        onNavigate={(date) => {
+          setCurrentDate(date);
+        }}
+        components={{
+          toolbar: (toolbarProps) => (
+            <Toolbar
+              {...toolbarProps}
+              selectedBranch={selectedBranch}
+              setSelectedBranch={setSelectedBranch}
+              availableBranches={availableBranches}
+            />
+          ),
+          month: {
+            event: (eventProps) => (
+              <div className="event-box" tabIndex={0}>
+                {eventProps.event.title}
+              </div>
             ),
-          }}
-        />
-      )}
+          },
+        }}
+      />
       <MissionsModal
         open={open}
         onClose={() => setOpen(false)}
