@@ -160,11 +160,11 @@ export const CreateProfileForm = ({
         } else if (Array.isArray(value)) {
           // Handle other arrays (like skills) - send as JSON string
           if (value.length > 0) {
-            submitData.append(key, JSON.stringify(value));
+            submitData.append(key, `${value}`);
           }
         } else {
           // Handle regular form fields
-          submitData.append(key, value.toString());
+          submitData.append(key, value);
         }
       }
     }
