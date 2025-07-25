@@ -42,6 +42,12 @@ export const Header = () => {
   });
 
   useEffect(() => {
+    if (!organizationId || !educatorId) {
+      navigate("/create-profile");
+    }
+  });
+
+  useEffect(() => {
     if (userProfile) {
       setUserProfile(userProfile.data);
       if (refetchUserProfile && setRefetchUserProfile) {
