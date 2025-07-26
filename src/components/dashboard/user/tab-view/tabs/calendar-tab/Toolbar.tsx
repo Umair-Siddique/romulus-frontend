@@ -14,6 +14,7 @@ import {
 } from "@mui/icons-material";
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from "@mui/icons-material";
 import { useState } from "react";
+import { useUserContext } from "#context";
 
 export const Toolbar = ({
   onNavigate,
@@ -23,6 +24,11 @@ export const Toolbar = ({
   availableBranches,
 }: any) => {
   const theme = useTheme<Theme>();
+
+  const { user } = useUserContext();
+
+  const role = user?.role;
+
   const [branchAnchor, setBranchAnchor] = useState<null | HTMLElement>(null);
 
   const branchOptions =
@@ -107,43 +113,45 @@ export const Toolbar = ({
       </Box>
 
       {/* Right side: Branch selector */}
-      <Box>
-        <Button
-          variant="outlined"
-          onClick={handleBranchClick}
-          endIcon={<KeyboardArrowDownIcon />}
-          sx={{
-            textTransform: "none",
-            color: theme.palette.text.secondary,
-            borderColor: theme.palette.divider,
-            "&:hover": {
-              borderColor: theme.palette.primary.main,
-            },
-          }}
-        >
-          {selectedBranch}
-        </Button>
-        <Menu
-          anchorEl={branchAnchor}
-          open={Boolean(branchAnchor)}
-          onClose={handleBranchClose}
-        >
-          {branchOptions.map((option: string) => (
-            <MenuItem
-              key={option}
-              onClick={() => handleBranchSelect(option)}
-              sx={{
-                color: theme.palette.text.primary,
-                "&:hover": {
-                  backgroundColor: theme.palette.action.hover,
-                },
-              }}
-            >
-              {option}
-            </MenuItem>
-          ))}
-        </Menu>
-      </Box>
+      {role === "organization" && (
+        <Box>
+          <Button
+            variant="outlined"
+            onClick={handleBranchClick}
+            endIcon={<KeyboardArrowDownIcon />}
+            sx={{
+              textTransform: "none",
+              color: theme.palette.text.secondary,
+              borderColor: theme.palette.divider,
+              "&:hover": {
+                borderColor: theme.palette.primary.main,
+              },
+            }}
+          >
+            {selectedBranch}
+          </Button>
+          <Menu
+            anchorEl={branchAnchor}
+            open={Boolean(branchAnchor)}
+            onClose={handleBranchClose}
+          >
+            {branchOptions.map((option: string) => (
+              <MenuItem
+                key={option}
+                onClick={() => handleBranchSelect(option)}
+                sx={{
+                  color: theme.palette.text.primary,
+                  "&:hover": {
+                    backgroundColor: theme.palette.action.hover,
+                  },
+                }}
+              >
+                {option}
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+      )}
     </Box>
   );
 };

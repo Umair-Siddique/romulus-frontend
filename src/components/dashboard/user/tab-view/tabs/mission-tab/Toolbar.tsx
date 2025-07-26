@@ -46,10 +46,7 @@ export const ToolBar = ({
   const dateOptions = ["Today", "This Week", "This Month", "All Time"];
   const branchOptions =
     availableBranches.length > 0 ? availableBranches : ["No Branch"];
-  const statusFilters =
-    role === "organization"
-      ? ["All", "Pending", "Ongoing", "Completed"]
-      : ["All", "Ongoing", "Completed"];
+  const statusFilters = ["All", "Pending", "Ongoing", "Completed"];
 
   const handleStatusClick = (status: any) => {
     setSelectedStatus(status);
@@ -144,21 +141,23 @@ export const ToolBar = ({
             {selectedDate}
           </Button>
 
-          <Button
-            variant="outlined"
-            onClick={handleBranchClick}
-            endIcon={<KeyboardArrowDownIcon />}
-            sx={{
-              textTransform: "none",
-              color: theme.palette.text.secondary,
-              borderColor: theme.palette.divider,
-              "&:hover": {
-                borderColor: theme.palette.primary.main,
-              },
-            }}
-          >
-            {selectedBranch}
-          </Button>
+          {role === "organization" && (
+            <Button
+              variant="outlined"
+              onClick={handleBranchClick}
+              endIcon={<KeyboardArrowDownIcon />}
+              sx={{
+                textTransform: "none",
+                color: theme.palette.text.secondary,
+                borderColor: theme.palette.divider,
+                "&:hover": {
+                  borderColor: theme.palette.primary.main,
+                },
+              }}
+            >
+              {selectedBranch}
+            </Button>
+          )}
         </Stack>
       </Box>
 
