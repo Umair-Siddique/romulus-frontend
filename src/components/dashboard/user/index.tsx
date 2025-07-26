@@ -165,18 +165,23 @@ export const UserDashboard = ({
           []
         : missions;
 
-    const missionsTabMissions =
-      role === "educator"
-        ? [
-            ...(userProfile?.missionsHiredFor ?? []),
-            ...(userProfile?.missionsInvitedFor?.map(
-              (elem: any) => elem.mission
-            ) ?? []),
-          ]
-        : missions;
+    const mergedMissions = [
+      ...(userProfile?.missionsHiredFor ?? []),
+      ...(userProfile?.missionsInvitedFor?.map((elem: any) => elem.mission) ??
+        []),
+    ];
+
+    const uniqueMissions = Array.from(
+      new Map(mergedMissions.map((m) => [m._id, m])).values()
+    );
+
+    const missionsTabMissions = role === "educator" ? uniqueMissions : missions;
 
     // console.log("UserDashboard.tsx -> calendarTabMissions:", calendarTabMissions);
-    // console.log("UserDashboard.tsx -> missionsTabMissions:", missionsTabMissions);
+    console.log(
+      "UserDashboard.tsx -> missionsTabMissions:",
+      missionsTabMissions
+    );
 
     return {
       calendarTabMissions,

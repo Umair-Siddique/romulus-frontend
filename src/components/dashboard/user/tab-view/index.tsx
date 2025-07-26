@@ -19,7 +19,7 @@ export const TabsView = ({
   const [activeTab, setActiveTab] = useState(0);
 
   // console.log("tab-view.tsx -> calendarTabMissions:", calendarTabMissions)
-  // console.log("tab-view.tsx -> missionsTabMissions:", missionsTabMissions)
+  console.log("tab-view.tsx -> missionsTabMissions:", missionsTabMissions)
 
   const { refetchMissions } = missionsTabMissions;
 
