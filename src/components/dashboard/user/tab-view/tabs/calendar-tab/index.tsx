@@ -68,13 +68,17 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
     missionsByDate &&
     Object.entries(missionsByDate).map(([dateKey, missions]: any) => {
       const missionCount = missions.length;
-      const eventDate = moment(dateKey).toDate();
+      
+      // Create proper start and end dates for all-day events
+      const startDate = moment(dateKey).startOf('day').toDate();
+      const endDate = moment(dateKey).endOf('day').toDate();
 
       return {
         id: dateKey,
         title: `${missionCount} Mission${missionCount > 1 ? "s" : ""}`,
-        start: eventDate,
-        end: eventDate,
+        start: startDate,
+        end: endDate,
+        allDay: true,
         missions: missions,
       };
     });

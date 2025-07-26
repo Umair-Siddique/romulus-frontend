@@ -178,10 +178,10 @@ export const UserDashboard = ({
     const missionsTabMissions = role === "educator" ? uniqueMissions : missions;
 
     // console.log("UserDashboard.tsx -> calendarTabMissions:", calendarTabMissions);
-    console.log(
-      "UserDashboard.tsx -> missionsTabMissions:",
-      missionsTabMissions
-    );
+    // console.log(
+    //   "UserDashboard.tsx -> missionsTabMissions:",
+    //   missionsTabMissions
+    // );
 
     return {
       calendarTabMissions,
