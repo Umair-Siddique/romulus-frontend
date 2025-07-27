@@ -9,7 +9,8 @@
     "deploy": "vercel --prod",
     "format": "prettier --write \"./**/*.{ts,tsx,html,yaml,md,json,txt}\"",
     "lint": "eslint \"./**/*.js\"",
-    "start": "refine start"
+    "start": "refine start",
+    "generateTree": "pwsh generateTree.ps1"
   },
   "browserslist": {
     "production": [
