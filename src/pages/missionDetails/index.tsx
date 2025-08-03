@@ -233,52 +233,54 @@ export const MissionDetails = () => {
       )}
 
       {/* Feedback Modal */}
-      <Modal
-        open={feedbackModalOpen}
-        onClose={closeFeedbackModal}
-        onSubmit={closeFeedbackModal}
-        button1OnClick={handleFeedbackSubmit}
-        hasButton1={true}
-        title="Give Feedback on This Mission"
-        description="How would you rate this mission experience?"
-        hasButton={true}
-        buttonText="Close"
-        button1Text="Submit Feedback"
-        hasRating={true}
-        rating={rating}
-        onRatingChange={setRating}
-        additionalElements={
-          <Box width="500px">
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: theme.typography.fontWeightMedium,
-                color: theme.palette.text.primary,
-                mb: theme.spacing(1),
-                textAlign: "left",
-              }}
-            >
-              Comment
-            </Typography>
-            <TextField
-              value={feedbackText}
-              onChange={(e) => setFeedbackText(e.target.value)}
-              placeholder="Write here."
-              multiline
-              rows={4}
-              fullWidth
-              variant="outlined"
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: theme.shape.borderRadius,
-                  backgroundColor: theme.palette.background.paper,
-                },
-              }}
-            />
-          </Box>
-        }
-        hasAdditionalElements={true}
-      />
+      {role !== "admin" && (
+        <Modal
+          open={feedbackModalOpen}
+          onClose={closeFeedbackModal}
+          onSubmit={closeFeedbackModal}
+          button1OnClick={handleFeedbackSubmit}
+          hasButton1={true}
+          title="Give Feedback on This Mission"
+          description="How would you rate this mission experience?"
+          hasButton={true}
+          buttonText="Close"
+          button1Text="Submit Feedback"
+          hasRating={true}
+          rating={rating}
+          onRatingChange={setRating}
+          additionalElements={
+            <Box width="500px">
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: theme.typography.fontWeightMedium,
+                  color: theme.palette.text.primary,
+                  mb: theme.spacing(1),
+                  textAlign: "left",
+                }}
+              >
+                Comment
+              </Typography>
+              <TextField
+                value={feedbackText}
+                onChange={(e) => setFeedbackText(e.target.value)}
+                placeholder="Write here."
+                multiline
+                rows={4}
+                fullWidth
+                variant="outlined"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: theme.shape.borderRadius,
+                    backgroundColor: theme.palette.background.paper,
+                  },
+                }}
+              />
+            </Box>
+          }
+          hasAdditionalElements={true}
+        />
+      )}
     </Box>
   );
 };
