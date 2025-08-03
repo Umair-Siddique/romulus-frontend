@@ -10,10 +10,15 @@ export const MissionsTab = ({
   missionsTabProps: MissionsTabProps;
 }) => {
   const { missions, refetchMissions } = missionsTabProps;
+  const [selectedDate, setSelectedDate] = useState("Date");
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [selectedBranch, setSelectedBranch] = useState("Branches");
-  const [selectedDate, setSelectedDate] = useState("Date");
   const [availableBranches, setAvailableBranches] = useState<string[]>([]);
+  const [selectedOrganization, setSelectedOrganization] =
+    useState("Organization");
+  const [availableOrganizations, setAvailableOrganizations] = useState<
+    string[]
+  >([]);
   const [filteredMissions, setFilteredMissions] = useState<
     MissionsTabsDataProps[]
   >([]);
@@ -24,6 +29,17 @@ export const MissionsTab = ({
       new Set(missions.map((mission: any) => mission.branchName || "No Branch"))
     );
     setAvailableBranches(["All Branches", ...branches]);
+  }, [missions]);
+
+  useEffect(() => {
+    const organizations = Array.from(
+      new Set(
+        missions.map(
+          (mission: any) => mission.organizationName || "No Organization"
+        )
+      )
+    );
+    setAvailableOrganizations(["All Organizations", ...organizations]);
   }, [missions]);
 
   // Helper function to check if a date falls within the selected date range
@@ -96,6 +112,16 @@ export const MissionsTab = ({
       );
     }
 
+    // Apply organization filter
+    if (
+      selectedOrganization !== "All Organizations" &&
+      selectedOrganization !== "Organization"
+    ) {
+      filtered = filtered.filter(
+        (mission: any) => mission.organizationName === selectedOrganization
+      );
+    }
+
     // Apply date filter
     if (selectedDate !== "Date") {
       filtered = filtered.filter((mission: any) =>
@@ -120,6 +146,9 @@ export const MissionsTab = ({
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
         availableBranches={availableBranches}
+        availableOrganizations={availableOrganizations}
+        selectedOrganization={selectedOrganization}
+        setSelectedOrganization={setSelectedOrganization}
       />
       <Box
         sx={{

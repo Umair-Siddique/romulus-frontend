@@ -23,6 +23,9 @@ interface ToolBarProps {
   selectedDate: string;
   setSelectedDate: (date: string) => void;
   availableBranches: string[];
+  availableOrganizations: string[];
+  selectedOrganization: string;
+  setSelectedOrganization: (organization: string) => void;
 }
 
 export const ToolBar = ({
@@ -33,6 +36,9 @@ export const ToolBar = ({
   selectedDate,
   setSelectedDate,
   availableBranches,
+  availableOrganizations,
+  selectedOrganization,
+  setSelectedOrganization,
 }: ToolBarProps) => {
   const theme = useTheme<Theme>();
 
@@ -42,10 +48,15 @@ export const ToolBar = ({
 
   const [dateAnchor, setDateAnchor] = useState(null);
   const [branchAnchor, setBranchAnchor] = useState(null);
+  const [organizationAnchor, setOrganizationAnchor] = useState(null);
 
   const dateOptions = ["Today", "This Week", "This Month", "All Time"];
   const branchOptions =
     availableBranches.length > 0 ? availableBranches : ["No Branch"];
+  const organizationOptions =
+    availableOrganizations.length > 0
+      ? availableOrganizations
+      : ["No Organization"];
   const statusFilters = ["All", "Pending", "Ongoing", "Completed"];
 
   const handleStatusClick = (status: any) => {
@@ -58,6 +69,14 @@ export const ToolBar = ({
 
   const handleBranchClick = (event: any) => {
     setBranchAnchor(event.currentTarget);
+  };
+
+  const handleOrganizationClick = (event: any) => {
+    setOrganizationAnchor(event.currentTarget);
+  };
+
+  const handleOrganizationClose = () => {
+    setOrganizationAnchor(null);
   };
 
   const handleDateClose = () => {
@@ -141,7 +160,7 @@ export const ToolBar = ({
             {selectedDate}
           </Button>
 
-          {role === "organization" && (
+          {role !== "educator" && (
             <Button
               variant="outlined"
               onClick={handleBranchClick}
@@ -156,6 +175,24 @@ export const ToolBar = ({
               }}
             >
               {selectedBranch}
+            </Button>
+          )}
+
+          {role === "admin" && (
+            <Button
+              variant="outlined"
+              onClick={handleOrganizationClick}
+              endIcon={<KeyboardArrowDownIcon />}
+              sx={{
+                textTransform: "none",
+                color: theme.palette.text.secondary,
+                borderColor: theme.palette.divider,
+                "&:hover": {
+                  borderColor: theme.palette.primary.main,
+                },
+              }}
+            >
+              {selectedOrganization}
             </Button>
           )}
         </Stack>
@@ -193,6 +230,28 @@ export const ToolBar = ({
           <MenuItem
             key={option}
             onClick={() => handleBranchSelect(option)}
+            sx={{
+              color: theme.palette.text.primary,
+              "&:hover": {
+                backgroundColor: theme.palette.action.hover,
+              },
+            }}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
+
+      {/* Organization Menu */}
+      <Menu
+        anchorEl={organizationAnchor}
+        open={Boolean(organizationAnchor)}
+        onClose={handleOrganizationClose}
+      >
+        {organizationOptions.map((option) => (
+          <MenuItem
+            key={option}
+            onClick={() => handleOrganizationClick(option)}
             sx={{
               color: theme.palette.text.primary,
               "&:hover": {
