@@ -1,5 +1,4 @@
-import { Box, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Box } from "@mui/material";
 import { memo } from "react";
 import { MissionDetails } from "./MissionDetails";
 import { PreferredEducatorCard } from "./PreferredEducatorCard";
@@ -12,8 +11,6 @@ export const MissionInfoSection = memo(
     missionData: any;
     getStatusColor: (status: string) => any;
   }) => {
-    const theme = useTheme();
-
     return (
       <Box
         sx={{

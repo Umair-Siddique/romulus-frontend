@@ -17,7 +17,7 @@ import {
   Reviews,
   Modal,
 } from "#components";
-import { getStatusColor } from "#utils";
+import { formatDate, formatTime, getStatusColor } from "#utils";
 
 export const MissionDetails = () => {
   const theme = useTheme<Theme>();
@@ -47,31 +47,6 @@ export const MissionDetails = () => {
     (elem: any) => elem?.mission?._id === missionId
   )?.invitationStatus;
 
-  const formatTime = (time: string) => {
-    return new Date(`1970-01-01T${time}Z`)
-      .toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      })
-      .replace("AM", "am")
-      .replace("PM", "pm");
-  };
-
-  const formatDate = (dateISO: string) => {
-    const date = new Date(dateISO);
-    const parts = date
-      .toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
-      .split(" ");
-
-    const formattedDate = `${parts[0]} ${parts[1]}, ${parts[2]}`;
-    return formattedDate;
-  };
-
   const missionData = {
     id: missionId || "Mission ID Unavailable",
     educatorId: educatorId || "Educator ID Unavailable",
@@ -83,9 +58,14 @@ export const MissionDetails = () => {
       formatDate(mission?.start?.split("T")[0]) || "Date Unavailable",
     missionTime:
       `${formatTime(
-        mission?.start?.split("T")[1]?.split(".")[0]
-      )} to ${formatTime(mission?.end?.split("T")[1]?.split(".")[0])}` ||
-      "Time Unavailable",
+        `${mission?.start?.split("T")[1].split(":")[0]}:${
+          mission?.start?.split("T")[1].split(":")[1]
+        }`
+      )} to ${formatTime(
+        `${mission?.end?.split("T")[1].split(":")[0]}:${
+          mission?.end?.split("T")[1].split(":")[1]
+        }`
+      )}` || "Time Unavailable",
     branchName: mission?.branch || "Branch Name Unavailable",
     missionLocation: `${mission?.organization?.city || "City Unavailable"}, ${
       mission?.organization?.country || "Country Unavailable"
