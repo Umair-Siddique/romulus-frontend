@@ -87,12 +87,6 @@ export const getNavigationItems = (role: string | null): NavigationItem[] => {
           icon: EducatorsIcon,
           active: false,
         },
-        {
-          text: "Missions",
-          to: "/missions",
-          icon: MissionsIcon,
-          active: false,
-        },
         { text: "Reports", to: "/reports", icon: ReportsIcon, active: false },
         {
           text: "Settings",
