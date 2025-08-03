@@ -9,7 +9,7 @@ import { useMemo } from "react";
 
 import { TabsView } from "./tab-view";
 import { KpiCards } from "./kpi-cards";
-import { PageMeta } from "../../page-meta";
+import { PageMeta } from "../page-meta";
 
 import { KpiItem, UserDashboardProps } from "#types";
 import { useUserContext } from "#context";
@@ -115,9 +115,12 @@ export const UserDashboard = ({
     isError,
     refetch: refetchOrganizationMissions,
   } = useList({
-    resource: `missions/organization/${organizationId}`,
+    resource:
+      role === "organization"
+        ? `missions/organization/${organizationId}`
+        : `missions`,
     queryOptions: {
-      enabled: role === "organization",
+      enabled: role === "organization" || role === "admin",
     },
   });
 

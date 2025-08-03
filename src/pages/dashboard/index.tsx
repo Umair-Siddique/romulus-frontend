@@ -1,26 +1,27 @@
 import { useUserContext } from "#context";
-import { AdminDashboard, UserDashboard } from "#components";
+import { UserDashboard } from "#components";
 
 export const Dashboard = () => {
   const { user } = useUserContext();
   const { role, organizationId } = user;
 
-  const ActiveDashboard = role === "admin" ? AdminDashboard : UserDashboard;
-
-  const activeDashboardProps =
-    role === "admin"
-      ? {}
-      : {
-          role,
-          organizationId,
-          title: "Manage & Monitor Missions",
-          description: `Manage all your missions, ${
-            role === "organization" ? "track educators, " : ""
-          } and monitor progress in one place.`,
-        };
+  const activeDashboardProps = {
+    role,
+    organizationId,
+    title:
+      role === "admin"
+        ? "Manage & Monitor Missions, Educators & Organizations"
+        : "Manage & Monitor Missions",
+    description:
+      role === "admin"
+        ? `Manage all your missions, educators and organizations in one place.`
+        : role === "organization"
+        ? `Manage all your missions, track educators and monitor progress in one place.`
+        : `Manage all your missions, and monitor progress in one place.`,
+  };
 
   return (
-    <ActiveDashboard
+    <UserDashboard
       key={role} // forces remount when role changes
       {...activeDashboardProps}
     />

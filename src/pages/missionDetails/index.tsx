@@ -35,7 +35,10 @@ export const MissionDetails = () => {
   const [rating, setRating] = useState<number>(0);
 
   const { data, refetch: refetchMission } = useOne({
-    resource: `missions/${missionId}/${role}/${roleId}`,
+    resource:
+      role === "admin"
+        ? `missions/${missionId}`
+        : `missions/${missionId}/${role}/${roleId}`,
     queryOptions: {
       enabled: true,
     },

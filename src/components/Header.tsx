@@ -353,7 +353,7 @@ export const Header = () => {
                   userProfile?.data.firstName +
                     " " +
                     userProfile?.data.lastName) ||
-                ""}
+                "Admin"}
             </Typography>
             <KeyboardArrowDownIcon
               sx={{
