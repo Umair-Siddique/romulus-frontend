@@ -49,11 +49,12 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
       },
     });
 
-    // console.log("ProfileHeader -> missionData:", missionData);
+    const hiredEducators = missionData?.data?.hiredEducators;
+    const rejectedEducators = missionData?.data?.rejectedEducators;
 
     const isHiredOrRejected =
-      missionData?.data.hiredEducators.includes(educatorId) ||
-      missionData?.data.rejectedEducators.includes(educatorId);
+      hiredEducators?.includes(educatorId) ||
+      rejectedEducators?.includes(educatorId);
 
     const [invitationStatus, setInvitationStatus] = useState<string>("pending");
 
@@ -177,6 +178,7 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
 
     const renderActionButtons = useCallback(() => {
       if (
+        hiredEducators?.length < 1 &&
         role === "organization" &&
         invitationStatus === "accepted" &&
         !isHiredOrRejected
