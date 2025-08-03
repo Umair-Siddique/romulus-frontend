@@ -50,62 +50,14 @@ const getStatusColor = (status: string) => {
 };
 
 const formatTime = (time: string): string => {
-  const trimmedTime = time.trim();
+  const [hourStr, minuteStr] = time.trim().split(":");
+  let hour = parseInt(hourStr, 10);
+  const minute = minuteStr || "00";
 
-  switch (trimmedTime) {
-    case "00:00":
-      return "12 am";
-    case "01:00":
-      return "01 am";
-    case "02:00":
-      return "02 am";
-    case "03:00":
-      return "03 am";
-    case "04:00":
-      return "04 am";
-    case "05:00":
-      return "05 am";
-    case "06:00":
-      return "06 am";
-    case "07:00":
-      return "07 am";
-    case "08:00":
-      return "08 am";
-    case "09:00":
-      return "09 am";
-    case "10:00":
-      return "10 am";
-    case "11:00":
-      return "11 am";
-    case "12:00":
-      return "12 pm";
-    case "13:00":
-      return "01 pm";
-    case "14:00":
-      return "02 pm";
-    case "15:00":
-      return "03 pm";
-    case "16:00":
-      return "04 pm";
-    case "17:00":
-      return "05 pm";
-    case "18:00":
-      return "06 pm";
-    case "19:00":
-      return "07 pm";
-    case "20:00":
-      return "08 pm";
-    case "21:00":
-      return "09 pm";
-    case "22:00":
-      return "10 pm";
-    case "23:00":
-      return "11 pm";
-    case "24:00":
-      return "12 am";
-    default:
-      return time; // Return the original time if no match found
-  }
+  const ampm = hour >= 12 ? "pm" : "am";
+  hour = hour % 12 || 12; // converts 0 -> 12, 13 -> 1, etc.
+
+  return `${hour.toString().padStart(2, "0")}:${minute} ${ampm}`;
 };
 
 const formatDate = (dateISO: string) => {
