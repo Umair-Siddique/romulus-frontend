@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Box,
@@ -16,9 +16,23 @@ import {
 
 import logoImage from "/images/logo.png"; // Adjust the path as necessary
 import { LogoComponent } from "../LogoComponent";
+import { useNavigate } from "react-router";
+import { useUserContext } from "#context";
 
 export const PageHeader = () => {
   const theme = useTheme<Theme>();
+  const userContext = useUserContext();
+  const user = userContext?.user;
+  const role = user?.role;
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (role === "admin") {
+      navigate("/");
+    }
+  }, [role]);
+
   const { mutate: logout } = useLogout();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 

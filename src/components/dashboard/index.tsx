@@ -92,7 +92,8 @@ const getFilteredKpis = (
 
   return defaultKpis
     .filter((kpi) => {
-      if (role === "organization") return kpi.title !== "Pending Invitations";
+      if (role === "organization" || role === "admin")
+        return kpi.title !== "Pending Invitations";
       return kpi.title !== "Pending Missions";
     })
     .map((kpi) => ({
