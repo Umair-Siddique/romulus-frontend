@@ -6,19 +6,19 @@ import {
   MenuItem,
   useTheme,
 } from "@mui/material";
-import { UseFormRegister, FieldErrors } from "react-hook-form";
+import { Controller, Control, FieldErrors } from "react-hook-form";
 import { FormDataProps } from "#types";
 
 interface PreferredEducatorSelectionProps {
-  register: UseFormRegister<FormDataProps>;
+  control: Control<FormDataProps>;
   errors: FieldErrors<FormDataProps>;
   preferredEducators: any[];
 }
 
 export const PreferredEducatorSelection = ({
-  register,
   errors,
   preferredEducators,
+  control,
 }: PreferredEducatorSelectionProps) => {
   const theme = useTheme();
 
@@ -61,29 +61,37 @@ export const PreferredEducatorSelection = ({
           },
         }}
       >
-        <Select
-          displayEmpty
-          {...register("preferredEducator")}
-          renderValue={(selected) => {
-            if (!selected) {
-              return (
-                <Typography color="text.disabled">
-                  Select preferred educator
-                </Typography>
-              );
-            }
-            return typeof selected === "string" ? selected : String(selected);
-          }}
-        >
-          {preferredEducators?.map((preferredEducator: any) => (
-            <MenuItem
-              key={preferredEducator.name}
-              value={preferredEducator.name}
+        <Controller
+          name="preferredEducator"
+          control={control}
+          render={({ field }) => (
+            <Select
+              {...field}
+              displayEmpty
+              value={field.value || ""}
+              onChange={(e) => field.onChange(e.target.value)}
+              renderValue={(selected) => {
+                if (!selected) {
+                  return (
+                    <Typography color="text.disabled">
+                      Select preferred educator
+                    </Typography>
+                  );
+                }
+                const selectedEducator = preferredEducators.find(
+                  (ed) => ed.id === selected
+                );
+                return selectedEducator?.name || selected;
+              }}
             >
-              {preferredEducator.name}
-            </MenuItem>
-          ))}
-        </Select>
+              {preferredEducators?.map((preferredEducator: any) => (
+                <MenuItem key={preferredEducator.id} value={preferredEducator.id}>
+                  {preferredEducator.name}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+        />
         {errors.preferredEducator &&
           typeof errors.preferredEducator.message === "string" && (
             <Typography variant="caption" color="error" sx={{ mt: 0.5 }}>

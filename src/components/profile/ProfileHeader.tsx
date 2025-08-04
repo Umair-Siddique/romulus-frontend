@@ -18,6 +18,7 @@ interface ProfileHeaderProps {
 export const ProfileHeader = memo<ProfileHeaderProps>(
   ({ role, educatorId, missionId, educatorData }) => {
     const theme = useTheme();
+
     const userContext = useUserContext();
     const organizationId = userContext?.user?.organizationId;
     const refetchUserProfile = userContext?.refetchUserProfile;
@@ -25,7 +26,7 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
     // Modal state
     const [modalOpen, setModalOpen] = useState(false);
     const [modalAction, setModalAction] = useState<
-      "hired" | "rejected" | "inactive" | null
+      "hired" | "rejected" | "active" | "inactive" | null
     >(null);
 
     const { data: missionData, refetch: refetchMissionData } = useCustom({
@@ -101,7 +102,7 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
       [updateMission, missionId, educatorId]
     );
 
-    const handleInactiveAction = useCallback(() => {
+    const handleActivationStatusChange = useCallback(() => {
       // Add your inactive logic here
       console.log("Making educator inactive");
       setModalOpen(false);
@@ -109,7 +110,7 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
     }, []);
 
     const openModal = useCallback(
-      (action: "hired" | "rejected" | "inactive") => {
+      (action: "hired" | "rejected" | "active" | "inactive") => {
         setModalAction(action);
         setModalOpen(true);
       },
@@ -119,10 +120,10 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
     const handleModalSubmit = useCallback(() => {
       if (modalAction === "hired" || modalAction === "rejected") {
         handleHireStatusChange(modalAction);
-      } else if (modalAction === "inactive") {
-        handleInactiveAction();
+      } else if (modalAction === "active" || modalAction === "inactive") {
+        handleActivationStatusChange();
       }
-    }, [modalAction, handleHireStatusChange, handleInactiveAction]);
+    }, [modalAction, handleHireStatusChange, handleActivationStatusChange]);
 
     const handleModalClose = useCallback(() => {
       setModalOpen(false);
@@ -153,13 +154,19 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
               "Are you sure you want to reject this educator? This action cannot be undone.",
             buttonText: "Reject",
           };
+        case "active":
+          return {
+            icon: <CheckCircle />,
+            title: "Active Educator",
+            description: `Are you sure you want to active this educator? This action cannot be undone.`,
+            buttonText: "Active",
+          };
         case "inactive":
           return {
-            icon: <PersonOff />,
-            title: "Make Inactive",
-            description:
-              "Are you sure you want to make this educator inactive? This will restrict their access.",
-            buttonText: "Make Inactive",
+            icon: <Cancel />,
+            title: "Inactive Educator",
+            description: `Are you sure you want to inactive this educator? This action cannot be undone.`,
+            buttonText: "Inactive",
           };
         default:
           return {
@@ -175,13 +182,15 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
     // console.log("ProfileHeader -> role:", role);
     // console.log("ProfileHeader -> invitationStatus:", invitationStatus);
     // console.log("ProfileHeader -> isHiredOrRejected:", isHiredOrRejected);
+    // console.log("ProfileHeader -> educatorData:", educatorData);
 
     const renderActionButtons = useCallback(() => {
       if (
         hiredEducators?.length < 1 &&
         role === "organization" &&
         invitationStatus === "accepted" &&
-        !isHiredOrRejected
+        !isHiredOrRejected &&
+        educatorData?.availableForHiring
       ) {
         return (
           <Box
@@ -224,8 +233,9 @@ export const ProfileHeader = memo<ProfileHeaderProps>(
               variant="contained"
               color="primary"
               sx={{ ...buttonStyles.base, ...buttonStyles.primary }}
+              onClick={() => openModal("active")}
             >
-              Edit Info
+              Active
             </Button>
             <Button
               variant="outlined"

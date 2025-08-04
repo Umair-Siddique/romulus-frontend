@@ -85,9 +85,7 @@ export const MissionHeader = memo(
     const shouldShowOrganizationActions =
       showMarkAsCompletedButton && missionData.missionStatus === "ongoing";
 
-    const shouldShowAdminActions =
-      missionData.invitationStatus !== "pending" &&
-      missionData.missionStatus !== "completed";
+    const shouldShowAdminActions = missionData.missionStatus === "pending";
 
     const renderActionButtons = () => {
       switch (role) {

@@ -8,7 +8,7 @@ export const authProvider: AuthProvider = {
     try {
       const { data } = await requestAPI("POST", "/auth/signin", params);
       const { accessToken, data: userData } = data;
-      const { educatorId, organizationId } = userData;
+      const { role, educatorId, organizationId } = userData;
 
       localStorage.setItem("romulus-access-token", accessToken);
       localStorage.setItem("romulus-user", JSON.stringify(userData));
@@ -17,7 +17,8 @@ export const authProvider: AuthProvider = {
 
       return {
         success: true,
-        redirectTo: hasProfile ? "/" : "/create-profile",
+        redirectTo:
+          role === "admin" ? "/" : hasProfile ? "/" : "/create-profile",
         data: userData,
       };
     } catch (error: any) {

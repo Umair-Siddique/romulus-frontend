@@ -11,6 +11,7 @@ import {
   Info as InfoIcon,
   HelpOutline as HelpOutlineIcon,
 } from "@mui/icons-material";
+
 import { useUserContext } from "#context";
 import {
   ContactAdmin,
@@ -77,32 +78,29 @@ export const FindEducator = () => {
     ],
     queryOptions: {
       enabled: !!(
-        (
-          findEducatorData?.coordinates.length &&
-          findEducatorData?.skills.length &&
-          missionCreated
-        )
+        findEducatorData?.coordinates.length &&
+        findEducatorData?.skills.length &&
+        missionCreated
       ),
     },
   });
 
-  const { refetch: sendInvitations } =
-    useCustom({
-      url: "missions/send-invitations",
-      method: "post",
-      config: {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        payload: {
-          missionId: missionsData?.data._id,
-          invitees,
-        },
+  const { refetch: sendInvitations } = useCustom({
+    url: "missions/send-invitations",
+    method: "post",
+    config: {
+      headers: {
+        "Content-Type": "application/json",
       },
-      queryOptions: {
-        enabled: false,
+      payload: {
+        missionId: missionsData?.data._id,
+        invitees,
       },
-    });
+    },
+    queryOptions: {
+      enabled: false,
+    },
+  });
 
   const role = user?.role;
 
@@ -165,7 +163,7 @@ export const FindEducator = () => {
       const educatorsIds =
         educatorsData?.data.map((educator: any) => educator._id) || [];
       setInvitees(educatorsIds);
-      
+
       // Close no educators modal if educators are found
       if (educatorsData && educatorsData?.data?.length > 0) {
         setNoEducatorsModalOpen(false);

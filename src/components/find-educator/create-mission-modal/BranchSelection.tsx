@@ -6,19 +6,17 @@ import {
   MenuItem,
   useTheme,
 } from "@mui/material";
-import { UseFormRegister, FieldErrors, Control } from "react-hook-form";
+import { FieldErrors, Control } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { FormDataProps } from "#types";
 
 interface BranchSelectionProps {
-  register: UseFormRegister<FormDataProps>;
   errors: FieldErrors<FormDataProps>;
   branches: Array<{ name: string; coordinates: any }>;
   control: Control<FormDataProps>; // Add control prop
 }
 
 export const BranchSelection = ({
-  register,
   errors,
   branches,
   control, // Add control to destructured props

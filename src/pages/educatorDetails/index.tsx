@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import { useUserContext } from "#context";
@@ -20,18 +19,10 @@ export const EducatorDetails = () => {
 
   const role = user?.role;
 
-  const navigate = useNavigate();
-
   const { id: educatorId } = useParams();
 
   const location = useLocation();
   const missionId = location.state?.missionId;
-
-  useEffect(() => {
-    if (role === "educator") {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [user, navigate]);
 
   const { data: educatorData } = useOne({
     resource: `educators/${educatorId}`,

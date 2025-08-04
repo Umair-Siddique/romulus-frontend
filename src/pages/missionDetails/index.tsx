@@ -100,16 +100,12 @@ export const MissionDetails = () => {
       },
     ],
     hasPreferredEducator: !!mission?.preferredEducator,
-    preferredEducator: {
-      name: mission?.preferredEducator?.name || "John Clark",
-      rating: mission?.preferredEducator?.rating || 4.6,
-      avatar:
-        mission?.preferredEducator?.avatar ||
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    },
+    preferredEducator: mission?.preferredEducator,
     invitedEducators: mission?.invitedEducators || [],
     hiredEducators: mission?.hiredEducators || [],
   };
+
+  // console.log("MissionDetails.tsx -> mission:", mission);
 
   // Check if feedback modal should open
   useEffect(() => {

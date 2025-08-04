@@ -111,10 +111,10 @@ export const UserDashboard = ({
   const { userProfile } = useUserContext();
 
   const {
-    data: organizationMissions,
-    isLoading: isLoadingOrganizationMissions,
+    data: missionsData,
+    isLoading: isMissionsDataLoading,
     isError,
-    refetch: refetchOrganizationMissions,
+    refetch: refetchMissionsData,
   } = useList({
     resource:
       role === "organization"
@@ -125,12 +125,14 @@ export const UserDashboard = ({
     },
   });
 
+  // console.log("UserDashboard.tsx -> missionsData:", missionsData);
+
   // Optimized missions selection
   const missions = useMemo(() => {
     return role === "educator"
       ? userProfile?.missionsHiredFor || []
-      : organizationMissions?.data || [];
-  }, [role, userProfile?.missionsHiredFor, organizationMissions?.data]);
+      : missionsData?.data || [];
+  }, [role, userProfile?.missionsHiredFor, missionsData?.data]);
 
   // Optimized mission counts calculation
   const missionCounts = useMemo(() => {
@@ -148,15 +150,15 @@ export const UserDashboard = ({
   // Optimized KPIs calculation
   const kpis = useMemo(() => {
     const totalMissions =
-      role === "organization"
-        ? organizationMissions?.total || 0
+      role !== "educator"
+        ? missionsData?.total || 0
         : userProfile?.missionsHiredFor?.length +
             userProfile?.missionsInvitedFor?.length || 0;
 
     return getFilteredKpis(role!, missionCounts, totalMissions);
   }, [
     role,
-    organizationMissions?.total,
+    missionsData?.total,
     userProfile?.missionsHiredFor?.length,
     missionCounts,
   ]);
@@ -176,7 +178,7 @@ export const UserDashboard = ({
     ];
 
     const uniqueMissions = Array.from(
-      new Map(mergedMissions.map((m) => [m._id, m])).values()
+      new Map(mergedMissions.map((m) => [m?._id, m])).values()
     );
 
     const missionsTabMissions = role === "educator" ? uniqueMissions : missions;
@@ -191,7 +193,7 @@ export const UserDashboard = ({
       calendarTabMissions,
       missionsTabMissions: {
         missions: missionsTabMissions,
-        refetchMissions: refetchOrganizationMissions,
+        refetchMissions: refetchMissionsData,
       },
     };
   }, [
@@ -199,10 +201,10 @@ export const UserDashboard = ({
     userProfile?.missionsInvitedFor,
     userProfile?.missionsHiredFor,
     missions,
-    refetchOrganizationMissions,
+    refetchMissionsData,
   ]);
 
-  if (role === "organization" && isLoadingOrganizationMissions) {
+  if (role === "organization" && isMissionsDataLoading) {
     return <div>Loading...</div>;
   }
 

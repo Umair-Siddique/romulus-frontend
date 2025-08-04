@@ -25,6 +25,7 @@ import { SkillsSection } from "./SkillsSection";
 import { DateTimeSection } from "./DateTimeSection";
 import { DescriptionField } from "./DescriptionField";
 import { FileUploadSection } from "./FileUploadSection";
+import { useMany } from "@refinedev/core";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialog-paper": {
@@ -48,6 +49,13 @@ export const CreateMissionModal = ({
   const [skillsArray, setSkillsArray] = useState<string[]>([]);
   const [selectedDocument, setSelectedDocument] = useState<File | null>(null);
 
+  const preferredEducatorsIds = userProfile?.preferredEducators;
+
+  const { data, isLoading, isError } = useMany({
+    resource: "educators",
+    ids: preferredEducatorsIds,
+  });
+
   const {
     register,
     handleSubmit,
@@ -60,13 +68,13 @@ export const CreateMissionModal = ({
     mode: "onChange",
     defaultValues: {
       title: "",
-      branch: "",
-      preferredEducator: "",
-      skills: "",
+      description: "",
       startDate: "",
       startTime: "",
       endTime: "",
-      description: "",
+      skills: "",
+      branch: "",
+      preferredEducator: "",
       technicalDocument: undefined,
     },
   });
@@ -79,7 +87,12 @@ export const CreateMissionModal = ({
     coordinates: branch.branchAddressCoordinates.coordinates,
   }));
 
-  const preferredEducators: any = ["Select Educator"];
+  const preferredEducators: any[] | undefined = data?.data?.map(
+    (educator: any) => ({
+      id: educator._id,
+      name: `${educator.firstName} ${educator.lastName}`,
+    })
+  );
 
   const onFormSubmit = async (data: FormDataProps) => {
     try {
@@ -90,13 +103,14 @@ export const CreateMissionModal = ({
 
       // Append all form fields
       formData.append("title", data.title);
-      formData.append("branch", data.branch);
-      formData.append("skills", data.skills);
+      formData.append("description", data.description);
       formData.append("startDate", data.startDate);
       formData.append("endDate", data.startDate);
       formData.append("startTime", data.startTime);
       formData.append("endTime", data.endTime);
-      formData.append("description", data.description);
+      formData.append("skills", data.skills);
+      formData.append("branch", data.branch);
+      formData.append("preferredEducator", data.preferredEducator);
       formData.append("organization", organizationId || "");
 
       // FIXED: Use selectedDocument state instead of form data
@@ -120,12 +134,12 @@ export const CreateMissionModal = ({
   const isFormValid =
     isValid &&
     watchedValues.title &&
-    watchedValues.branch &&
-    skillsArray.length > 0 &&
+    watchedValues.description &&
     watchedValues.startDate &&
     watchedValues.startTime &&
     watchedValues.endTime &&
-    watchedValues.description;
+    skillsArray.length > 0 &&
+    watchedValues.branch
 
   // Updated handleFileUpload function
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,16 +198,15 @@ export const CreateMissionModal = ({
             />
 
             <BranchSelection
-              register={register}
               errors={errors}
               branches={branches}
               control={control}
             />
 
             <PreferredEducatorSelection
-              register={register}
               errors={errors}
-              preferredEducators={preferredEducators}
+              preferredEducators={preferredEducators!}
+              control={control}
             />
 
             <FileUploadSection
