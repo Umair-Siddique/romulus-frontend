@@ -25,7 +25,7 @@ export const Reviews = memo(({ feedback }: { feedback?: any }) => {
           color: theme.palette.text.primary,
         }}
       >
-        {feedback.name} <span>{getElapsedTime(feedback.time)}</span>
+        {feedback.userName} <span>{getElapsedTime(feedback.createdAt)}</span>
       </Typography>
       <Rating value={feedback.rating} sx={{ mb: theme.spacing(1) }} readOnly />
       <Typography
@@ -36,7 +36,7 @@ export const Reviews = memo(({ feedback }: { feedback?: any }) => {
           fontSize: theme.typography.body1.fontSize,
         }}
       >
-        "{feedback.comment}"
+        "{feedback.feedback}"
       </Typography>
     </Box>
   );

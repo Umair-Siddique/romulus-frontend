@@ -1,7 +1,7 @@
 // Main container component
 import { Box, TextField, Typography } from "@mui/material";
 import { useParams } from "react-router";
-import { useOne } from "@refinedev/core";
+import { useOne, useUpdate } from "@refinedev/core";
 import { useUserContext } from "#context";
 import { useTheme, Theme } from "@mui/material/styles";
 import { useState, useEffect } from "react";
@@ -31,8 +31,11 @@ export const MissionDetails = () => {
 
   // Modal state
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
-  const [feedbackText, setFeedbackText] = useState("");
-  const [rating, setRating] = useState<number>(0);
+
+  const [review, setReview] = useState<any>({
+    feedback: "",
+    rating: 0,
+  });
 
   const { data, refetch: refetchMission } = useOne({
     resource:
@@ -42,6 +45,14 @@ export const MissionDetails = () => {
     queryOptions: {
       enabled: true,
     },
+  });
+
+  const { mutate: updateMission } = useUpdate({
+    resource: "missions",
+  });
+
+  const { mutate: updateEducator } = useUpdate({
+    resource: "educators",
   });
 
   const mission = data?.data || {};
@@ -119,35 +130,63 @@ export const MissionDetails = () => {
 
   // Handle feedback submission
   const handleFeedbackSubmit = () => {
-    // Check if rating is provided (mandatory)
-    if (rating === 0) {
+    if (review.rating === 0) {
       alert("Please provide a rating before submitting feedback.");
       return;
     }
 
-    const feedback = {
-      missionId: missionData.id,
-      rating,
-      comment: feedbackText, // Optional - can be empty
-      submittedAt: new Date().toISOString(),
-      ...(educatorId !== undefined && { educatorId }),
-      ...(organizationId !== undefined && { organizationId }),
-      userName:
-        user.role === "organization"
-          ? organizationName
-          : `${firstName} ${lastName}`,
-    };
+    let feedback;
+
+    if (user.role === "organization") {
+      feedback = {
+        organizationId,
+        userName: organizationName,
+        feedback: review.feedback,
+        rating: review.rating,
+      };
+
+      updateEducator({
+        id: educatorId,
+        values: feedback,
+      });
+    } else {
+      feedback = {
+        educatorId,
+        userName: `${firstName} ${lastName}`,
+        feedback: review.feedback,
+        rating: review.rating,
+      };
+
+      updateMission({
+        id: missionId,
+        values: feedback,
+      });
+    }
+
+    // console.log("MissionDetails.tsx -> feedback:", feedback);
+
+    refetchMission();
 
     setFeedbackModalOpen(false);
-    setFeedbackText("");
-    setRating(0);
+    setReview({
+      feedback: "",
+      rating: 0,
+    });
   };
 
   const closeFeedbackModal = () => {
     setFeedbackModalOpen(false);
-    setFeedbackText("");
-    setRating(0);
+    setReview({
+      feedback: "",
+      rating: 0,
+    });
   };
+
+  // console.log("MissionDetails.tsx -> missionData:", missionData);
+
+  const hasGivenFeedback = missionData.educatorFeedbacks.some(
+    (feedback: any) => feedback.educatorId === educatorId
+  );
 
   const tabsNavigation = [
     { title: "Invited Educators" },
@@ -166,6 +205,9 @@ export const MissionDetails = () => {
       missionId={missionData.id}
     />,
   ];
+
+  console.log(role)
+  console.log(hasGivenFeedback)
 
   return (
     <Box
@@ -212,12 +254,13 @@ export const MissionDetails = () => {
       )}
 
       <Box
-        sx={{ mb: !missionData.hasEducatorsFeedbacks ? theme.spacing(2) : 0 }}
+        sx={{ mb: missionData.hasEducatorsFeedbacks ? theme.spacing(2) : 0 }}
       >
         <MissionDescriptionCard description={missionData.missionDescription} />
       </Box>
 
-      {missionData.hasEducatorsFeedbacks &&
+      {role === "educator" &&
+        missionData.hasEducatorsFeedbacks &&
         missionData.educatorFeedbacks.map((feedback: any, index: number) => (
           <Box key={index}>
             <Reviews feedback={feedback} />
@@ -229,7 +272,7 @@ export const MissionDetails = () => {
       )}
 
       {/* Feedback Modal */}
-      {role !== "admin" && (
+      {role !== "admin" && !hasGivenFeedback && (
         <Modal
           open={feedbackModalOpen}
           onClose={closeFeedbackModal}
@@ -242,8 +285,8 @@ export const MissionDetails = () => {
           buttonText="Close"
           button1Text="Submit Feedback"
           hasRating={true}
-          rating={rating}
-          onRatingChange={setRating}
+          rating={review.rating}
+          onRatingChange={(rating) => setReview({ ...review, rating })}
           additionalElements={
             <Box width="500px">
               <Typography
@@ -258,8 +301,13 @@ export const MissionDetails = () => {
                 Comment
               </Typography>
               <TextField
-                value={feedbackText}
-                onChange={(e) => setFeedbackText(e.target.value)}
+                value={review.feedback}
+                onChange={(e) =>
+                  setReview({
+                    ...review,
+                    feedback: e.target.value,
+                  })
+                }
                 placeholder="Write here."
                 multiline
                 rows={4}
