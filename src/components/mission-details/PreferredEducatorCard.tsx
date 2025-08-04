@@ -18,7 +18,7 @@ export const PreferredEducatorCard = memo(({ preferredEducator }: any) => {
     id: preferredEducator,
   });
 
-  console.log("preferredEducator", educatorData?.data);
+  // console.log("preferredEducator", educatorData?.data);
   const theme = useTheme();
 
   const navigate = useNavigate();
