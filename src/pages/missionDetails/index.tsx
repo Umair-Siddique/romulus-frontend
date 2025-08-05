@@ -49,11 +49,13 @@ export const MissionDetails = () => {
 
   const { mutate: updateMission } = useUpdate({
     resource: "missions",
-  });
+    successNotification: false,
+});
 
-  const { mutate: updateEducator } = useUpdate({
+const { mutate: updateEducator } = useUpdate({
     resource: "educators",
-  });
+    successNotification: false,
+});
 
   const mission = data?.data || {};
 
@@ -117,10 +119,10 @@ export const MissionDetails = () => {
     hiredEducators: mission?.hiredEducators || [],
   };
 
-  console.log(
-    "MissionDetails.tsx -> missionData?.educatorsFeedbacks:",
-    missionData?.educatorsFeedbacks
-  );
+  // console.log(
+  //   "MissionDetails.tsx -> missionData?.educatorsFeedbacks:",
+  //   missionData?.educatorsFeedbacks
+  // );
 
   // Check if feedback modal should open
   useEffect(() => {

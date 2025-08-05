@@ -54,8 +54,8 @@ export const PreferredEducatorCard = memo(({ preferredEducator }: any) => {
         sx={{
           boxShadow: theme.shadows[2],
           borderRadius: theme.shape.borderRadius,
-          width: "210px",
-          height: "210px",
+          width: "220px",
+          height: "220px",
         }}
       >
         <CardContent

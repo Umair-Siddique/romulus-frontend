@@ -7,8 +7,6 @@ import { getElapsedTime } from "#utils";
 export const Reviews = memo(({ feedback }: { feedback?: any }) => {
   const theme = useTheme();
 
-  console.log("Reviews.tsx -> feedback:", feedback);
-
   return (
     <Box
       sx={{
