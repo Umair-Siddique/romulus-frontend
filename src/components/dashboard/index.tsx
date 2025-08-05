@@ -147,22 +147,22 @@ export const UserDashboard = ({
     return getMissionCounts(missions, pendingInvitations);
   }, [missions, role, userProfile?.missionsInvitedFor]);
 
-  const invitedPlusHiredMissions = [
-    ...userProfile?.missionsInvitedFor.map((mission: any) => mission.mission),
-    ...userProfile?.missionsHiredFor,
-  ].filter(
-    (mission: any, index: number, self: any) =>
-      self.findIndex((t: any) => t._id === mission._id) === index
-  );
-
   // Optimized KPIs calculation
   const kpis = useMemo(() => {
     const totalMissions =
-      role !== "educator"
-        ? missionsData?.total || 0
-        : invitedPlusHiredMissions?.length || 0;
+      role === "educator"
+        ? [
+            ...userProfile?.missionsInvitedFor?.map(
+              (mission: any) => mission.mission
+            ),
+            ...userProfile?.missionsHiredFor,
+          ].filter(
+            (mission: any, index: number, self: any) =>
+              self.findIndex((t: any) => t._id === mission._id) === index
+          )?.length
+        : missionsData?.total;
 
-    return getFilteredKpis(role!, missionCounts, totalMissions);
+    return getFilteredKpis(role!, missionCounts, totalMissions!);
   }, [
     role,
     missionsData?.total,
