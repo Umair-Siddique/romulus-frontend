@@ -36,10 +36,10 @@ export const EducatorDetails = () => {
 
   const organizationFeedbacks = educatorData?.data?.organizationsFeedbacks;
 
-  console.log(
-    "EducatorDetails.tsx -> organizationFeedbacks:",
-    organizationFeedbacks
-  );
+  // console.log(
+  //   "EducatorDetails.tsx -> organizationFeedbacks:",
+  //   organizationFeedbacks
+  // );
 
   return (
     <Box
