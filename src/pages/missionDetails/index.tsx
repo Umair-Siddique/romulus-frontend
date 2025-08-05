@@ -101,13 +101,14 @@ export const MissionDetails = () => {
       email: mission?.organization?.user?.email || "Email Unavailable",
     },
     hasEducatorsFeedbacks: !!mission?.educatorsFeedbacks?.length,
-    educatorFeedbacks: mission?.educatorsFeedbacks || [
+    hasGivenFeedbackToEducator: mission?.hasGivenFeedbackToEducator,
+    educatorsFeedbacks: mission?.educatorsFeedbacks || [
       {
-        name: "John Doe",
+        userName: "John Doe",
         rating: 4.5,
-        comment:
+        feedback:
           "Great experience. Students were attentive, and the coordinator was helpful.",
-        givenAt: "2023-10-01T12:00:00Z",
+        createdAt: "2023-10-01T12:00:00Z",
       },
     ],
     hasPreferredEducator: !!mission?.preferredEducator,
@@ -116,14 +117,26 @@ export const MissionDetails = () => {
     hiredEducators: mission?.hiredEducators || [],
   };
 
-  // console.log("MissionDetails.tsx -> mission:", mission);
+  console.log(
+    "MissionDetails.tsx -> missionData?.educatorsFeedbacks:",
+    missionData?.educatorsFeedbacks
+  );
 
   // Check if feedback modal should open
   useEffect(() => {
-    if (
+    const hasGivenFeedback =
+      role === "educator"
+        ? missionData.educatorsFeedbacks.some(
+            (feedback: any) => feedback.educatorId === educatorId
+          )
+        : missionData.hasGivenFeedbackToEducator;
+
+    const showFeedbackModal =
+      role !== "admin" &&
       missionData.missionStatus === "completed" &&
-      !missionData.hasEducatorsFeedbacks
-    ) {
+      !hasGivenFeedback;
+
+    if (showFeedbackModal) {
       setFeedbackModalOpen(true);
     }
   }, [missionData.missionStatus, missionData.hasEducatorsFeedbacks]);
@@ -137,7 +150,7 @@ export const MissionDetails = () => {
 
     let feedback;
 
-    if (user.role === "organization") {
+    if (role === "organization") {
       feedback = {
         organizationId,
         userName: organizationName,
@@ -145,9 +158,16 @@ export const MissionDetails = () => {
         rating: review.rating,
       };
 
+      const educatorId = missionData.hiredEducators[0];
+
       updateEducator({
         id: educatorId,
         values: feedback,
+      });
+
+      updateMission({
+        id: missionId,
+        values: { hasGivenFeedbackToEducator: true },
       });
     } else {
       feedback = {
@@ -184,9 +204,8 @@ export const MissionDetails = () => {
 
   // console.log("MissionDetails.tsx -> missionData:", missionData);
 
-  const hasGivenFeedback = missionData.educatorFeedbacks.some(
-    (feedback: any) => feedback.educatorId === educatorId
-  );
+  const showEducatorReviews =
+    role === "educator" && missionData.hasEducatorsFeedbacks;
 
   const tabsNavigation = [
     { title: "Invited Educators" },
@@ -205,9 +224,6 @@ export const MissionDetails = () => {
       missionId={missionData.id}
     />,
   ];
-
-  console.log(role)
-  console.log(hasGivenFeedback)
 
   return (
     <Box
@@ -259,9 +275,8 @@ export const MissionDetails = () => {
         <MissionDescriptionCard description={missionData.missionDescription} />
       </Box>
 
-      {role === "educator" &&
-        missionData.hasEducatorsFeedbacks &&
-        missionData.educatorFeedbacks.map((feedback: any, index: number) => (
+      {showEducatorReviews &&
+        missionData.educatorsFeedbacks.map((feedback: any, index: number) => (
           <Box key={index}>
             <Reviews feedback={feedback} />
           </Box>
@@ -272,59 +287,57 @@ export const MissionDetails = () => {
       )}
 
       {/* Feedback Modal */}
-      {role !== "admin" && !hasGivenFeedback && (
-        <Modal
-          open={feedbackModalOpen}
-          onClose={closeFeedbackModal}
-          onSubmit={closeFeedbackModal}
-          button1OnClick={handleFeedbackSubmit}
-          hasButton1={true}
-          title="Give Feedback on This Mission"
-          description="How would you rate this mission experience?"
-          hasButton={true}
-          buttonText="Close"
-          button1Text="Submit Feedback"
-          hasRating={true}
-          rating={review.rating}
-          onRatingChange={(rating) => setReview({ ...review, rating })}
-          additionalElements={
-            <Box width="500px">
-              <Typography
-                variant="body2"
-                sx={{
-                  fontWeight: theme.typography.fontWeightMedium,
-                  color: theme.palette.text.primary,
-                  mb: theme.spacing(1),
-                  textAlign: "left",
-                }}
-              >
-                Comment
-              </Typography>
-              <TextField
-                value={review.feedback}
-                onChange={(e) =>
-                  setReview({
-                    ...review,
-                    feedback: e.target.value,
-                  })
-                }
-                placeholder="Write here."
-                multiline
-                rows={4}
-                fullWidth
-                variant="outlined"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: theme.shape.borderRadius,
-                    backgroundColor: theme.palette.background.paper,
-                  },
-                }}
-              />
-            </Box>
-          }
-          hasAdditionalElements={true}
-        />
-      )}
+      <Modal
+        open={feedbackModalOpen}
+        onClose={closeFeedbackModal}
+        onSubmit={closeFeedbackModal}
+        button1OnClick={handleFeedbackSubmit}
+        hasButton1={true}
+        title="Give Feedback on This Mission"
+        description="How would you rate this mission experience?"
+        hasButton={true}
+        buttonText="Close"
+        button1Text="Submit Feedback"
+        hasRating={true}
+        rating={review.rating}
+        onRatingChange={(rating) => setReview({ ...review, rating })}
+        additionalElements={
+          <Box width="500px">
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: theme.typography.fontWeightMedium,
+                color: theme.palette.text.primary,
+                mb: theme.spacing(1),
+                textAlign: "left",
+              }}
+            >
+              Comment
+            </Typography>
+            <TextField
+              value={review.feedback}
+              onChange={(e) =>
+                setReview({
+                  ...review,
+                  feedback: e.target.value,
+                })
+              }
+              placeholder="Write here."
+              multiline
+              rows={4}
+              fullWidth
+              variant="outlined"
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: theme.shape.borderRadius,
+                  backgroundColor: theme.palette.background.paper,
+                },
+              }}
+            />
+          </Box>
+        }
+        hasAdditionalElements={true}
+      />
     </Box>
   );
 };

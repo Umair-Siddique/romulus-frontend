@@ -7,6 +7,8 @@ import { getElapsedTime } from "#utils";
 export const Reviews = memo(({ feedback }: { feedback?: any }) => {
   const theme = useTheme();
 
+  console.log("Reviews.tsx -> feedback:", feedback);
+
   return (
     <Box
       sx={{
@@ -25,9 +27,9 @@ export const Reviews = memo(({ feedback }: { feedback?: any }) => {
           color: theme.palette.text.primary,
         }}
       >
-        {feedback.userName} <span>{getElapsedTime(feedback.createdAt)}</span>
+        {feedback?.userName} <span>{getElapsedTime(feedback?.createdAt)}</span>
       </Typography>
-      <Rating value={feedback.rating} sx={{ mb: theme.spacing(1) }} readOnly />
+      <Rating value={feedback?.rating} sx={{ mb: theme.spacing(1) }} readOnly />
       <Typography
         variant="body1"
         sx={{
@@ -36,7 +38,7 @@ export const Reviews = memo(({ feedback }: { feedback?: any }) => {
           fontSize: theme.typography.body1.fontSize,
         }}
       >
-        "{feedback.feedback}"
+        "{feedback?.feedback}"
       </Typography>
     </Box>
   );

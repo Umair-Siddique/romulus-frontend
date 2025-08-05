@@ -34,6 +34,13 @@ export const EducatorDetails = () => {
   const hasOrganizationsFeedbacks =
     educatorData?.data?.organizationsFeedbacks?.length > 0;
 
+  const organizationFeedbacks = educatorData?.data?.organizationsFeedbacks;
+
+  console.log(
+    "EducatorDetails.tsx -> organizationFeedbacks:",
+    organizationFeedbacks
+  );
+
   return (
     <Box
       sx={{
@@ -81,7 +88,9 @@ export const EducatorDetails = () => {
 
       {hasOrganizationsFeedbacks && (
         <Box sx={{ mb: theme.spacing(2) }}>
-          <Reviews />
+          {organizationFeedbacks.map((feedback: any, index: number) => (
+            <Reviews feedback={feedback} key={index} />
+          ))}
         </Box>
       )}
     </Box>
