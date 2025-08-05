@@ -293,8 +293,16 @@ export const MissionDetails = () => {
         onSubmit={closeFeedbackModal}
         button1OnClick={handleFeedbackSubmit}
         hasButton1={true}
-        title="Give Feedback on This Mission"
-        description="How would you rate this mission experience?"
+        title={
+          role === "organization"
+            ? "Give Feedback to Educator"
+            : "Give Feedback on This Mission"
+        }
+        description={
+          role === "organization"
+            ? "How would you rate this educator experience?"
+            : "How would you rate this mission experience?"
+        }
         hasButton={true}
         buttonText="Close"
         button1Text="Submit Feedback"
