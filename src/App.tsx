@@ -41,11 +41,27 @@ import {
   RegisterPage,
   UpdatePasswordPage,
 } from "#pages";
+import { socket } from "./utils/socket";
+import { useEffect } from "react";
 
 const App = () => {
   const customTitleHandler = () => {
     return "Romulus"; // Default title
   };
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log(`connected: socket at ${socket.id}`);
+    });
+
+    socket.on("disconnect", () => {
+      console.log(`disconnected: socket at ${socket.id}`);
+    });
+
+    return () => {
+      socket.disconnect(); // Clean up on unmount
+    };
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
