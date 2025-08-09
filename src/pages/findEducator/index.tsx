@@ -93,7 +93,7 @@ export const FindEducator = () => {
         "Content-Type": "application/json",
       },
       payload: {
-        missionId: missionsData?.data._id,
+        missionId: missionsData?.data?._id,
         invitees,
       },
     },
@@ -161,7 +161,7 @@ export const FindEducator = () => {
   useEffect(() => {
     if (missionCreated) {
       const educatorsIds =
-        educatorsData?.data.map((educator: any) => educator._id) || [];
+        educatorsData?.data?.map((educator: any) => educator._id) || [];
       setInvitees(educatorsIds);
 
       // Close no educators modal if educators are found
@@ -273,7 +273,7 @@ export const FindEducator = () => {
 
   const markers: Marker[] = [];
   if (!isMissionLoading && missionCreated) {
-    educatorsData?.data.forEach((educator: any) => {
+    educatorsData?.data?.forEach((educator: any) => {
       markers.push({
         position: {
           lng: educator.fullAddressCoordinates.coordinates[0],
@@ -285,7 +285,7 @@ export const FindEducator = () => {
     });
   }
 
-  const isMissionCreationPhase = !missionCreated || !educatorsData?.data.length;
+  const isMissionCreationPhase = !missionCreated || !educatorsData?.data?.length;
 
   return (
     <Box sx={{ position: "relative" }}>
@@ -422,7 +422,7 @@ export const FindEducator = () => {
         onClose={handleSuccessModalClose}
         onSubmit={handleSuccessModalClose}
         button1OnClick={() =>
-          navigate(`/missions/${missionsData?.data._id}`, { replace: true })
+          navigate(`/missions/${missionsData?.data?._id}`, { replace: true })
         }
         icon={<CheckCircleIcon />}
         title="Invitations Sent Successfully!"

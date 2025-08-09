@@ -165,7 +165,7 @@ export const Dashboard = () => {
             ...(userProfile?.missionsHiredFor ?? []),
           ].filter(
             (mission: any, index: number, self: any) =>
-              self.findIndex((t: any) => t._id === mission._id) === index
+              self.findIndex((t: any) => t?._id === mission?._id) === index
           )?.length
         : missionsData?.total || 0;
 

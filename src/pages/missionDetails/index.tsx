@@ -219,11 +219,13 @@ const { mutate: updateEducator } = useUpdate({
       key="invited"
       educators={missionData.invitedEducators}
       missionId={missionData.id}
+      tableType="invited"
     />,
     <EducatorTable
       key="hired"
       educators={missionData.hiredEducators}
       missionId={missionData.id}
+      tableType="hired"
     />,
   ];
 
