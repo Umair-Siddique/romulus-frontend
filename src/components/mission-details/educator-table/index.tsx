@@ -19,13 +19,14 @@ import { useNavigate } from "react-router";
 import { formatDate, formatTime, getStatusColor } from "#utils";
 import { useCreate, useMany, useUpdate } from "@refinedev/core";
 import { GridMoreVertIcon } from "@mui/x-data-grid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserContext } from "#context";
 import TableHeader from "./TableHeader";
 import NoEducatorFound from "./NoEducatorFound";
 import LoadingEducators from "./LoadingEducators";
 import ReportModal from "./ReportModal";
 import RehireModal from "./RehireModal";
+import { CreateMissionModal } from "./create-mission-modal";
 
 interface Data {
   id: number;
@@ -33,11 +34,6 @@ interface Data {
   avatar: string;
   responseTime: string;
   status: string;
-}
-
-interface Mission {
-  id: string;
-  name: string;
 }
 
 // Fixed column widths
@@ -63,6 +59,17 @@ export const EducatorTable = ({
   const organizationId = user?.organizationId;
   const organizationName = userProfile?.organizationName;
 
+  const {
+    mutate: createMission,
+    data: missionsData,
+    isLoading: isMissionLoading,
+    isError: isMissionError,
+  } = useCreate({
+    resource: "missions",
+    successNotification: false,
+    errorNotification: false,
+  });
+
   // Menu state
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedEducatorId, setSelectedEducatorId] = useState<number | null>(
@@ -80,6 +87,10 @@ export const EducatorTable = ({
   const [rehireModalOpen, setRehireModalOpen] = useState(false);
   const [rehiringEducatorName, setRehiringEducatorName] = useState("");
   const [selectedMission, setSelectedMission] = useState("");
+
+  // Modal state for creating mission
+  const [modalOpen, setModalOpen] = useState(false);
+  const [dataToSubmit, setDataToSubmit] = useState<any>(null);
 
   const { mutate: createReport } = useCreate({
     resource: "reports",
@@ -123,6 +134,7 @@ export const EducatorTable = ({
 
   const handleRehireEducator = (educatorId: number) => {
     setRehireModalOpen(true);
+    setSelectedEducatorId(educatorId);
     handleClose();
   };
 
@@ -190,7 +202,7 @@ export const EducatorTable = ({
       educatorId: selectedEducatorId,
       missionId: selectedMission,
     });
-    
+
     updateMission({
       id: selectedMission,
       values: {
@@ -198,7 +210,7 @@ export const EducatorTable = ({
         status: "ongoing",
       },
     });
-    
+
     updateEducator({
       id: selectedEducatorId!,
       values: {
@@ -211,9 +223,7 @@ export const EducatorTable = ({
   };
 
   const handleCreateNewMission = () => {
-    console.log("Navigate to create new mission");
-    // Add your navigation logic here
-    // navigate("/missions/create");
+    setModalOpen(true);
     handleCloseRehireModal();
   };
 
@@ -260,6 +270,31 @@ export const EducatorTable = ({
       state: { missionId },
     });
   };
+
+  // Updated effect to handle mission creation with proper error handling
+  useEffect(() => {
+    if (dataToSubmit) {
+      createMission(
+        {
+          values: dataToSubmit,
+          meta: {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          },
+        },
+        {
+          onSuccess: () => {
+            setModalOpen(false);
+          },
+          onError: (error) => {
+            console.error("Mission creation failed:", error);
+            setDataToSubmit(null);
+          },
+        }
+      );
+    }
+  }, [dataToSubmit]);
 
   return (
     <>
@@ -456,6 +491,16 @@ export const EducatorTable = ({
         setSelectedMission={setSelectedMission}
         handleSubmitRehire={handleSubmitRehire}
         onCreateNewMission={handleCreateNewMission}
+      />
+
+      {/* Create Mission Modal */}
+      <CreateMissionModal
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+        }}
+        educatorId={selectedEducatorId!}
+        setDataToSubmit={setDataToSubmit}
       />
     </>
   );
