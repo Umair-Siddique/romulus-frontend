@@ -25,6 +25,7 @@ import TableHeader from "./TableHeader";
 import NoEducatorFound from "./NoEducatorFound";
 import LoadingEducators from "./LoadingEducators";
 import ReportModal from "./ReportModal";
+import RehireModal from "./RehireModal";
 
 interface Data {
   id: number;
@@ -32,6 +33,11 @@ interface Data {
   avatar: string;
   responseTime: string;
   status: string;
+}
+
+interface Mission {
+  id: string;
+  name: string;
 }
 
 // Fixed column widths
@@ -64,14 +70,30 @@ export const EducatorTable = ({
   );
   const open = Boolean(anchorEl);
 
-  // Modal state
+  // Modal state for reporting
   const [reportModalOpen, setReportModalOpen] = useState(false);
   const [reportReason, setReportReason] = useState("");
   const [reportingEducatorName, setReportingEducatorName] = useState("");
   const [reportEvidence, setReportEvidence] = useState<File | null>(null);
 
-  const { mutate } = useCreate({
+  // Modal state for rehiring
+  const [rehireModalOpen, setRehireModalOpen] = useState(false);
+  const [rehiringEducatorName, setRehiringEducatorName] = useState("");
+  const [selectedMission, setSelectedMission] = useState("");
+
+  // Mock missions data - replace with actual data from your API
+  const missions: Mission[] = [
+    { id: "1", name: "Mission Alpha" },
+    { id: "2", name: "Mission Beta" },
+    { id: "3", name: "Mission Gamma" },
+  ];
+
+  const { mutate: createReport } = useCreate({
     resource: "reports",
+  });
+
+  const { mutate: createRehire } = useCreate({
+    resource: "rehires",
   });
 
   const { data: educatorsData, isLoading } = useMany({
@@ -90,6 +112,7 @@ export const EducatorTable = ({
     setAnchorEl(event.currentTarget);
     setSelectedEducatorId(educatorId);
     setReportingEducatorName(educatorName);
+    setRehiringEducatorName(educatorName);
   };
 
   const handleClose = () => {
@@ -98,6 +121,11 @@ export const EducatorTable = ({
 
   const handleReportEducator = (educatorId: number) => {
     setReportModalOpen(true);
+    handleClose();
+  };
+
+  const handleRehireEducator = (educatorId: number) => {
+    setRehireModalOpen(true);
     handleClose();
   };
 
@@ -128,8 +156,13 @@ export const EducatorTable = ({
     setReportEvidence(null);
   };
 
+  const handleCloseRehireModal = () => {
+    setRehireModalOpen(false);
+    setSelectedMission("");
+    setRehiringEducatorName("");
+  };
+
   const handleSubmitReport = () => {
-    // Log all the report data to console
     console.log("Report Data:", {
       educatorId: selectedEducatorId,
       organizationId: organizationId,
@@ -142,7 +175,7 @@ export const EducatorTable = ({
             name: reportEvidence.name,
             size: reportEvidence.size,
             type: reportEvidence.type,
-            file: reportEvidence, // The actual file object
+            file: reportEvidence,
           }
         : null,
       reportStatus: "pending",
@@ -162,7 +195,7 @@ export const EducatorTable = ({
     submitData.append("reportStatus", "pending");
     submitData.append("timestamp", new Date().toISOString());
 
-    mutate({
+    createReport({
       values: submitData,
       meta: {
         headers: {
@@ -172,6 +205,40 @@ export const EducatorTable = ({
     });
 
     handleCloseReportModal();
+  };
+
+  const handleSubmitRehire = () => {
+    console.log("Rehire Data:", {
+      educatorId: selectedEducatorId,
+      missionId: selectedMission,
+      organizationId: organizationId,
+      educatorName: rehiringEducatorName,
+      organizationName: organizationName,
+      timestamp: new Date().toISOString(),
+    });
+
+    const rehireData = {
+      educatorId: selectedEducatorId,
+      missionId: selectedMission,
+      organizationId: organizationId,
+      educatorName: rehiringEducatorName,
+      organizationName: organizationName,
+      status: "pending",
+      timestamp: new Date().toISOString(),
+    };
+
+    createRehire({
+      values: rehireData,
+    });
+
+    handleCloseRehireModal();
+  };
+
+  const handleCreateNewMission = () => {
+    console.log("Navigate to create new mission");
+    // Add your navigation logic here
+    // navigate("/missions/create");
+    handleCloseRehireModal();
   };
 
   // Early return if no educators provided
@@ -210,9 +277,7 @@ export const EducatorTable = ({
             (mission: any) => mission?.mission?._id === missionId
           )?.invitationStatus || "Status Unavailable",
       }))
-      .filter((educator) => educator.id) || []; // Filter out educators without valid IDs
-
-  // console.log("EducatorTable.tsx -> data:", data);
+      .filter((educator) => educator.id) || [];
 
   const handleViewEducator = (educatorId: number) => {
     navigate(`/educators/${educatorId}`, {
@@ -369,12 +434,17 @@ export const EducatorTable = ({
                           <MenuItem
                             onClick={() => handleViewEducator(educator.id)}
                           >
-                            View Educator
+                            View
+                          </MenuItem>
+                          <MenuItem
+                            onClick={() => handleRehireEducator(educator.id)}
+                          >
+                            Re-hire
                           </MenuItem>
                           <MenuItem
                             onClick={() => handleReportEducator(educator.id)}
                           >
-                            Report Educator
+                            Report
                           </MenuItem>
                         </Menu>
                       </>
@@ -398,6 +468,19 @@ export const EducatorTable = ({
         reportEvidence={reportEvidence}
         handleSubmitReport={handleSubmitReport}
         handleFileUpload={handleFileUpload}
+      />
+
+      {/* Rehire Modal */}
+      <RehireModal
+        theme={theme}
+        rehireModalOpen={rehireModalOpen}
+        handleCloseRehireModal={handleCloseRehireModal}
+        educatorName={rehiringEducatorName}
+        selectedMission={selectedMission}
+        setSelectedMission={setSelectedMission}
+        missions={missions}
+        handleSubmitRehire={handleSubmitRehire}
+        onCreateNewMission={handleCreateNewMission}
       />
     </>
   );
