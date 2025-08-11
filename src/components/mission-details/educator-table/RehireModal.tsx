@@ -15,11 +15,8 @@ import {
 } from "@mui/material";
 import { Theme } from "@mui/material/styles";
 import { Close as CloseIcon, Add as AddIcon } from "@mui/icons-material";
-
-interface Mission {
-  id: string;
-  name: string;
-}
+import { useList } from "@refinedev/core";
+import { useUserContext } from "#context";
 
 interface RehireModalProps {
   theme: Theme;
@@ -28,7 +25,6 @@ interface RehireModalProps {
   educatorName: string;
   selectedMission: string;
   setSelectedMission: (mission: string) => void;
-  missions: Mission[];
   handleSubmitRehire: () => void;
   onCreateNewMission: () => void;
 }
@@ -40,13 +36,30 @@ const RehireModal: React.FC<RehireModalProps> = ({
   educatorName,
   selectedMission,
   setSelectedMission,
-  missions,
   handleSubmitRehire,
   onCreateNewMission,
 }) => {
+  const { user } = useUserContext();
+
+  const { organizationId } = user;
+
   const handleMissionChange = (event: SelectChangeEvent) => {
     setSelectedMission(event.target.value);
   };
+
+  const { data: missionsData } = useList({
+    resource: `missions/organization/${organizationId}`,
+    queryOptions: {
+      enabled: rehireModalOpen,
+    },
+  });
+
+  const missions = missionsData?.data || [];
+  const pendingMissions = missions.filter(
+    (mission) => mission.status === "pending"
+  );
+
+  console.log(pendingMissions);
 
   return (
     <Dialog
@@ -148,9 +161,9 @@ const RehireModal: React.FC<RehireModalProps> = ({
                   Select Mission
                 </Typography>
               </MenuItem>
-              {missions.map((mission) => (
-                <MenuItem key={mission.id} value={mission.id}>
-                  {mission.name}
+              {pendingMissions.map((mission) => (
+                <MenuItem key={mission._id} value={mission._id}>
+                  {mission.title}
                 </MenuItem>
               ))}
             </Select>

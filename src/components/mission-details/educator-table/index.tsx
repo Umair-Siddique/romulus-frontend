@@ -17,7 +17,7 @@ import { Theme, useTheme } from "@mui/material/styles";
 import { RemoveRedEye as EyeIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { formatDate, formatTime, getStatusColor } from "#utils";
-import { useCreate, useMany } from "@refinedev/core";
+import { useCreate, useMany, useUpdate } from "@refinedev/core";
 import { GridMoreVertIcon } from "@mui/x-data-grid";
 import { useState } from "react";
 import { useUserContext } from "#context";
@@ -81,19 +81,16 @@ export const EducatorTable = ({
   const [rehiringEducatorName, setRehiringEducatorName] = useState("");
   const [selectedMission, setSelectedMission] = useState("");
 
-  // Mock missions data - replace with actual data from your API
-  const missions: Mission[] = [
-    { id: "1", name: "Mission Alpha" },
-    { id: "2", name: "Mission Beta" },
-    { id: "3", name: "Mission Gamma" },
-  ];
-
   const { mutate: createReport } = useCreate({
     resource: "reports",
   });
 
-  const { mutate: createRehire } = useCreate({
-    resource: "rehires",
+  const { mutate: updateMission } = useUpdate({
+    resource: "missions",
+  });
+
+  const { mutate: updateEducator } = useUpdate({
+    resource: "educators",
   });
 
   const { data: educatorsData, isLoading } = useMany({
@@ -163,25 +160,6 @@ export const EducatorTable = ({
   };
 
   const handleSubmitReport = () => {
-    console.log("Report Data:", {
-      educatorId: selectedEducatorId,
-      organizationId: organizationId,
-      missionId: missionId,
-      educatorName: reportingEducatorName,
-      organizationName: organizationName,
-      reportReason: reportReason.trim(),
-      reportProof: reportEvidence
-        ? {
-            name: reportEvidence.name,
-            size: reportEvidence.size,
-            type: reportEvidence.type,
-            file: reportEvidence,
-          }
-        : null,
-      reportStatus: "pending",
-      timestamp: new Date().toISOString(),
-    });
-
     const educatorId = selectedEducatorId?.toString();
 
     const submitData = new FormData();
@@ -211,24 +189,22 @@ export const EducatorTable = ({
     console.log("Rehire Data:", {
       educatorId: selectedEducatorId,
       missionId: selectedMission,
-      organizationId: organizationId,
-      educatorName: rehiringEducatorName,
-      organizationName: organizationName,
-      timestamp: new Date().toISOString(),
     });
-
-    const rehireData = {
-      educatorId: selectedEducatorId,
-      missionId: selectedMission,
-      organizationId: organizationId,
-      educatorName: rehiringEducatorName,
-      organizationName: organizationName,
-      status: "pending",
-      timestamp: new Date().toISOString(),
-    };
-
-    createRehire({
-      values: rehireData,
+    
+    updateMission({
+      id: selectedMission,
+      values: {
+        educatorId: selectedEducatorId!,
+        status: "ongoing",
+      },
+    });
+    
+    updateEducator({
+      id: selectedEducatorId!,
+      values: {
+        missionId: selectedMission,
+        availableForHiring: false,
+      },
     });
 
     handleCloseRehireModal();
@@ -478,7 +454,6 @@ export const EducatorTable = ({
         educatorName={rehiringEducatorName}
         selectedMission={selectedMission}
         setSelectedMission={setSelectedMission}
-        missions={missions}
         handleSubmitRehire={handleSubmitRehire}
         onCreateNewMission={handleCreateNewMission}
       />
