@@ -1,3 +1,5 @@
+// Calendar Toolbar - Updated with Organization Filter
+
 import { useTheme, Theme } from "@mui/material/styles";
 import {
   Box,
@@ -22,6 +24,9 @@ export const Toolbar = ({
   selectedBranch,
   setSelectedBranch,
   availableBranches,
+  selectedOrganization,
+  setSelectedOrganization,
+  availableOrganizations,
 }: any) => {
   const theme = useTheme<Theme>();
 
@@ -30,9 +35,15 @@ export const Toolbar = ({
   const role = user?.role;
 
   const [branchAnchor, setBranchAnchor] = useState<null | HTMLElement>(null);
+  const [organizationAnchor, setOrganizationAnchor] =
+    useState<null | HTMLElement>(null);
 
   const branchOptions =
     availableBranches.length > 0 ? availableBranches : ["No Branch"];
+  const organizationOptions =
+    availableOrganizations.length > 0
+      ? availableOrganizations
+      : ["No Organization"];
 
   const goToPrevious = () => {
     onNavigate("PREV");
@@ -53,6 +64,21 @@ export const Toolbar = ({
   const handleBranchSelect = (option: string) => {
     setSelectedBranch(option);
     handleBranchClose();
+  };
+
+  const handleOrganizationClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setOrganizationAnchor(event.currentTarget);
+  };
+
+  const handleOrganizationClose = () => {
+    setOrganizationAnchor(null);
+  };
+
+  const handleOrganizationSelect = (option: string) => {
+    setSelectedOrganization(option);
+    handleOrganizationClose();
   };
 
   return (
@@ -112,45 +138,89 @@ export const Toolbar = ({
         </Typography>
       </Box>
 
-      {/* Right side: Branch selector */}
-      {role === "organization" && (
-        <Box>
-          <Button
-            variant="outlined"
-            onClick={handleBranchClick}
-            endIcon={<KeyboardArrowDownIcon />}
-            sx={{
-              textTransform: "none",
-              color: theme.palette.text.secondary,
-              borderColor: theme.palette.divider,
-              "&:hover": {
-                borderColor: theme.palette.primary.main,
-              },
-            }}
-          >
-            {selectedBranch}
-          </Button>
-          <Menu
-            anchorEl={branchAnchor}
-            open={Boolean(branchAnchor)}
-            onClose={handleBranchClose}
-          >
-            {branchOptions.map((option: string) => (
-              <MenuItem
-                key={option}
-                onClick={() => handleBranchSelect(option)}
+      {/* Right side: Organization and Branch selectors */}
+      {role !== "educator" && (
+        <Stack direction="row" spacing={1}>
+          {/* Organization selector - only show for admin */}
+          {role === "admin" && (
+            <Box>
+              <Button
+                variant="outlined"
+                onClick={handleOrganizationClick}
+                endIcon={<KeyboardArrowDownIcon />}
                 sx={{
-                  color: theme.palette.text.primary,
+                  textTransform: "none",
+                  color: theme.palette.text.secondary,
+                  borderColor: theme.palette.divider,
                   "&:hover": {
-                    backgroundColor: theme.palette.action.hover,
+                    borderColor: theme.palette.primary.main,
                   },
                 }}
               >
-                {option}
-              </MenuItem>
-            ))}
-          </Menu>
-        </Box>
+                {selectedOrganization}
+              </Button>
+              <Menu
+                anchorEl={organizationAnchor}
+                open={Boolean(organizationAnchor)}
+                onClose={handleOrganizationClose}
+              >
+                {organizationOptions.map((option: string) => (
+                  <MenuItem
+                    key={option}
+                    onClick={() => handleOrganizationSelect(option)}
+                    sx={{
+                      color: theme.palette.text.primary,
+                      "&:hover": {
+                        backgroundColor: theme.palette.action.hover,
+                      },
+                    }}
+                  >
+                    {option}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          )}
+
+          {/* Branch selector */}
+          <Box>
+            <Button
+              variant="outlined"
+              onClick={handleBranchClick}
+              endIcon={<KeyboardArrowDownIcon />}
+              sx={{
+                textTransform: "none",
+                color: theme.palette.text.secondary,
+                borderColor: theme.palette.divider,
+                "&:hover": {
+                  borderColor: theme.palette.primary.main,
+                },
+              }}
+            >
+              {selectedBranch}
+            </Button>
+            <Menu
+              anchorEl={branchAnchor}
+              open={Boolean(branchAnchor)}
+              onClose={handleBranchClose}
+            >
+              {branchOptions.map((option: string) => (
+                <MenuItem
+                  key={option}
+                  onClick={() => handleBranchSelect(option)}
+                  sx={{
+                    color: theme.palette.text.primary,
+                    "&:hover": {
+                      backgroundColor: theme.palette.action.hover,
+                    },
+                  }}
+                >
+                  {option}
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        </Stack>
       )}
     </Box>
   );

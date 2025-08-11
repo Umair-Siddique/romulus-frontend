@@ -41,14 +41,13 @@ export const ToolBar = ({
   setSelectedOrganization,
 }: ToolBarProps) => {
   const theme = useTheme<Theme>();
-
   const { user } = useUserContext();
-
   const role = user?.role;
 
-  const [dateAnchor, setDateAnchor] = useState(null);
-  const [branchAnchor, setBranchAnchor] = useState(null);
-  const [organizationAnchor, setOrganizationAnchor] = useState(null);
+  const [dateAnchor, setDateAnchor] = useState<null | HTMLElement>(null);
+  const [branchAnchor, setBranchAnchor] = useState<null | HTMLElement>(null);
+  const [organizationAnchor, setOrganizationAnchor] =
+    useState<null | HTMLElement>(null);
 
   const dateOptions = ["Today", "This Week", "This Month", "All Time"];
   const branchOptions =
@@ -57,45 +56,8 @@ export const ToolBar = ({
     availableOrganizations.length > 0
       ? availableOrganizations
       : ["No Organization"];
+
   const statusFilters = ["All", "Pending", "Ongoing", "Completed"];
-
-  const handleStatusClick = (status: any) => {
-    setSelectedStatus(status);
-  };
-
-  const handleDateClick = (event: any) => {
-    setDateAnchor(event.currentTarget);
-  };
-
-  const handleBranchClick = (event: any) => {
-    setBranchAnchor(event.currentTarget);
-  };
-
-  const handleOrganizationClick = (event: any) => {
-    setOrganizationAnchor(event.currentTarget);
-  };
-
-  const handleOrganizationClose = () => {
-    setOrganizationAnchor(null);
-  };
-
-  const handleDateClose = () => {
-    setDateAnchor(null);
-  };
-
-  const handleBranchClose = () => {
-    setBranchAnchor(null);
-  };
-
-  const handleDateSelect = (option: any) => {
-    setSelectedDate(option);
-    handleDateClose();
-  };
-
-  const handleBranchSelect = (option: any) => {
-    setSelectedBranch(option);
-    handleBranchClose();
-  };
 
   const CustomChip = styled(Chip)(({ theme }) => ({
     borderRadius: "12px",
@@ -114,13 +76,12 @@ export const ToolBar = ({
           gap: theme.spacing(2),
         }}
       >
-        {/* Left side - Status filters */}
         <Stack direction="row" spacing={1}>
           {statusFilters.map((status) => (
             <CustomChip
               key={status}
               label={status}
-              onClick={() => handleStatusClick(status)}
+              onClick={() => setSelectedStatus(status)}
               sx={{
                 width: "auto",
                 cursor: "pointer",
@@ -141,11 +102,10 @@ export const ToolBar = ({
           ))}
         </Stack>
 
-        {/* Right side - Date and Branch filters */}
         <Stack direction="row" spacing={1}>
           <Button
             variant="outlined"
-            onClick={handleDateClick}
+            onClick={(e) => setDateAnchor(e.currentTarget)}
             endIcon={<KeyboardArrowDownIcon />}
             startIcon={<CalendarTodayIcon sx={{ fontSize: 18 }} />}
             sx={{
@@ -163,7 +123,7 @@ export const ToolBar = ({
           {role !== "educator" && (
             <Button
               variant="outlined"
-              onClick={handleBranchClick}
+              onClick={(e) => setBranchAnchor(e.currentTarget)}
               endIcon={<KeyboardArrowDownIcon />}
               sx={{
                 textTransform: "none",
@@ -181,7 +141,7 @@ export const ToolBar = ({
           {role === "admin" && (
             <Button
               variant="outlined"
-              onClick={handleOrganizationClick}
+              onClick={(e) => setOrganizationAnchor(e.currentTarget)}
               endIcon={<KeyboardArrowDownIcon />}
               sx={{
                 textTransform: "none",
@@ -202,12 +162,15 @@ export const ToolBar = ({
       <Menu
         anchorEl={dateAnchor}
         open={Boolean(dateAnchor)}
-        onClose={handleDateClose}
+        onClose={() => setDateAnchor(null)}
       >
         {dateOptions.map((option) => (
           <MenuItem
             key={option}
-            onClick={() => handleDateSelect(option)}
+            onClick={() => {
+              setSelectedDate(option);
+              setDateAnchor(null);
+            }}
             sx={{
               color: theme.palette.text.primary,
               "&:hover": {
@@ -224,12 +187,15 @@ export const ToolBar = ({
       <Menu
         anchorEl={branchAnchor}
         open={Boolean(branchAnchor)}
-        onClose={handleBranchClose}
+        onClose={() => setBranchAnchor(null)}
       >
         {branchOptions.map((option) => (
           <MenuItem
             key={option}
-            onClick={() => handleBranchSelect(option)}
+            onClick={() => {
+              setSelectedBranch(option);
+              setBranchAnchor(null);
+            }}
             sx={{
               color: theme.palette.text.primary,
               "&:hover": {
@@ -246,12 +212,15 @@ export const ToolBar = ({
       <Menu
         anchorEl={organizationAnchor}
         open={Boolean(organizationAnchor)}
-        onClose={handleOrganizationClose}
+        onClose={() => setOrganizationAnchor(null)}
       >
         {organizationOptions.map((option) => (
           <MenuItem
             key={option}
-            onClick={() => handleOrganizationClick(option)}
+            onClick={() => {
+              setSelectedOrganization(option);
+              setOrganizationAnchor(null);
+            }}
             sx={{
               color: theme.palette.text.primary,
               "&:hover": {

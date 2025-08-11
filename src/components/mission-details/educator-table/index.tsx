@@ -59,6 +59,7 @@ export const EducatorTable = ({
   const organizationId = user?.organizationId;
   const organizationName = userProfile?.organizationName;
 
+  // ALL HOOKS MUST BE DECLARED AT THE TOP, BEFORE ANY CONDITIONAL LOGIC
   const {
     mutate: createMission,
     data: missionsData,
@@ -68,6 +69,26 @@ export const EducatorTable = ({
     resource: "missions",
     successNotification: false,
     errorNotification: false,
+  });
+
+  const { mutate: createReport } = useCreate({
+    resource: "reports",
+  });
+
+  const { mutate: updateMission } = useUpdate({
+    resource: "missions",
+  });
+
+  const { mutate: updateEducator } = useUpdate({
+    resource: "educators",
+  });
+
+  const { data: educatorsData, isLoading } = useMany({
+    resource: "educators",
+    ids: educators,
+    queryOptions: {
+      enabled: educators.length > 0,
+    },
   });
 
   // Menu state
@@ -92,25 +113,69 @@ export const EducatorTable = ({
   const [modalOpen, setModalOpen] = useState(false);
   const [dataToSubmit, setDataToSubmit] = useState<any>(null);
 
-  const { mutate: createReport } = useCreate({
-    resource: "reports",
-  });
+  // Updated effect to handle mission creation with proper error handling
+  useEffect(() => {
+    if (dataToSubmit) {
+      createMission(
+        {
+          values: dataToSubmit,
+          meta: {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          },
+        },
+        {
+          onSuccess: () => {
+            setModalOpen(false);
+          },
+          onError: (error) => {
+            console.error("Mission creation failed:", error);
+            setDataToSubmit(null);
+          },
+        }
+      );
+    }
+  }, [dataToSubmit, createMission]);
 
-  const { mutate: updateMission } = useUpdate({
-    resource: "missions",
-  });
+  // NOW HANDLE CONDITIONAL RETURNS AFTER ALL HOOKS
+  // Early return if no educators provided
+  if (!educators || educators.length === 0) {
+    return <NoEducatorFound theme={theme} COLUMN_WIDTHS={COLUMN_WIDTHS} />;
+  }
 
-  const { mutate: updateEducator } = useUpdate({
-    resource: "educators",
-  });
+  // Handle loading state
+  if (isLoading) {
+    return <LoadingEducators theme={theme} COLUMN_WIDTHS={COLUMN_WIDTHS} />;
+  }
 
-  const { data: educatorsData, isLoading } = useMany({
-    resource: "educators",
-    ids: educators,
-    queryOptions: {
-      enabled: educators.length > 0,
-    },
-  });
+  const data: Data[] =
+    educatorsData?.data
+      ?.map((educator: any) => ({
+        id: educator?._id,
+        name:
+          `${educator?.firstName} ${educator?.lastName}` || "Unknown Educator",
+        avatar: educator?.avatar || "/api/placeholder/40/40",
+        responseTime: educator?.missionsInvitedFor?.find(
+          (mission: any) => mission?.mission?._id === missionId
+        )?.responseTime
+          ? `${formatDate(
+              educator?.missionsInvitedFor
+                ?.find((mission: any) => mission?.mission?._id === missionId)
+                ?.responseTime?.split("T")[0]
+            )} - ${formatTime(
+              educator?.missionsInvitedFor
+                ?.find((mission: any) => mission?.mission?._id === missionId)
+                ?.responseTime?.split("T")[1]
+                .split(".")[0]
+            )}`
+          : "—",
+        status:
+          educator?.missionsInvitedFor?.find(
+            (mission: any) => mission?.mission?._id === missionId
+          )?.invitationStatus || "Status Unavailable",
+      }))
+      .filter((educator) => educator.id) || [];
 
   const handleClick = (
     event: React.MouseEvent<HTMLElement>,
@@ -227,74 +292,11 @@ export const EducatorTable = ({
     handleCloseRehireModal();
   };
 
-  // Early return if no educators provided
-  if (!educators || educators.length === 0) {
-    return <NoEducatorFound theme={theme} COLUMN_WIDTHS={COLUMN_WIDTHS} />;
-  }
-
-  // Handle loading state
-  if (isLoading) {
-    return <LoadingEducators theme={theme} COLUMN_WIDTHS={COLUMN_WIDTHS} />;
-  }
-
-  const data: Data[] =
-    educatorsData?.data
-      ?.map((educator: any) => ({
-        id: educator?._id,
-        name:
-          `${educator?.firstName} ${educator?.lastName}` || "Unknown Educator",
-        avatar: educator?.avatar || "/api/placeholder/40/40",
-        responseTime: educator?.missionsInvitedFor?.find(
-          (mission: any) => mission?.mission?._id === missionId
-        )?.responseTime
-          ? `${formatDate(
-              educator?.missionsInvitedFor
-                ?.find((mission: any) => mission?.mission?._id === missionId)
-                ?.responseTime?.split("T")[0]
-            )} - ${formatTime(
-              educator?.missionsInvitedFor
-                ?.find((mission: any) => mission?.mission?._id === missionId)
-                ?.responseTime?.split("T")[1]
-                .split(".")[0]
-            )}`
-          : "—",
-        status:
-          educator?.missionsInvitedFor?.find(
-            (mission: any) => mission?.mission?._id === missionId
-          )?.invitationStatus || "Status Unavailable",
-      }))
-      .filter((educator) => educator.id) || [];
-
   const handleViewEducator = (educatorId: number) => {
     navigate(`/educators/${educatorId}`, {
       state: { missionId },
     });
   };
-
-  // Updated effect to handle mission creation with proper error handling
-  useEffect(() => {
-    if (dataToSubmit) {
-      createMission(
-        {
-          values: dataToSubmit,
-          meta: {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          },
-        },
-        {
-          onSuccess: () => {
-            setModalOpen(false);
-          },
-          onError: (error) => {
-            console.error("Mission creation failed:", error);
-            setDataToSubmit(null);
-          },
-        }
-      );
-    }
-  }, [dataToSubmit]);
 
   return (
     <>

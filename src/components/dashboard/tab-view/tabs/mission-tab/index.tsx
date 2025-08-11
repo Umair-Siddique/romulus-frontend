@@ -23,24 +23,59 @@ export const MissionsTab = ({
     MissionsTabsDataProps[]
   >([]);
 
-  // Extract unique branches from missions
   useEffect(() => {
-    const branches = Array.from(
-      new Set(missions.map((mission: any) => mission.branchName || "No Branch"))
-    );
-    setAvailableBranches(["All Branches", ...branches]);
-  }, [missions]);
-
-  useEffect(() => {
-    const organizations = Array.from(
+    const organizationsWithMissionsArray = Array.from(
       new Set(
-        missions.map(
-          (mission: any) => mission.organizationName || "No Organization"
-        )
+        missions.map((mission: any, index: number, self: any) => {
+          const output: any = {
+            organizationName: mission.organizationName,
+            branches: [],
+          };
+
+          if (self[index].organizationName === mission.organizationName) {
+            output.branches.push(mission.branchName);
+          }
+
+          return output;
+        })
       )
     );
+
+    const sortedOrganizationsWithMissionsArray =
+      organizationsWithMissionsArray.sort((a, b) =>
+        a.organizationName.localeCompare(b.organizationName, undefined, {
+          sensitivity: "base",
+        })
+      );
+
+    console.log(
+      "organizationsWithMissionsArray",
+      organizationsWithMissionsArray
+    );
+
+    const organizations = Array.from(
+      new Set(missions.map((mission: any) => mission.organizationName))
+    );
+
+    let availableBranches = [];
+
+    for (let i = 0; i < sortedOrganizationsWithMissionsArray.length; i++) {
+      if (
+        sortedOrganizationsWithMissionsArray[i].organizationName ===
+        selectedOrganization
+      ) {
+        availableBranches.push(
+          sortedOrganizationsWithMissionsArray[i].branches[0]
+        );
+      }
+    }
+
     setAvailableOrganizations(["All Organizations", ...organizations]);
-  }, [missions]);
+
+    availableBranches = Array.from(new Set(availableBranches));
+
+    setAvailableBranches(["All Branches", ...availableBranches]);
+  }, [missions, selectedOrganization]);
 
   // Helper function to check if a date falls within the selected date range
   const isDateInRange = (

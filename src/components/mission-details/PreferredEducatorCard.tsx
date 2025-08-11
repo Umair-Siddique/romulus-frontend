@@ -110,7 +110,7 @@ export const PreferredEducatorCard = memo(({ preferredEducator }: any) => {
                   color: theme.palette.text.primary,
                 }}
               >
-                {educatorData?.data?.rating}
+                {Number(educatorData?.data?.rating).toFixed(1)}
               </Typography>
               <Star sx={{ color: theme.palette.warning.main, fontSize: 20 }} />
             </Box>

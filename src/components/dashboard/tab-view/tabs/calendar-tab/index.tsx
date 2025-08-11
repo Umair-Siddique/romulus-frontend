@@ -1,4 +1,6 @@
-import { useEffect, useState, useMemo } from "react";
+// Calendar Tab - Updated with Organization Filter
+
+import { useState, useMemo } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "moment/locale/en-gb";
@@ -14,6 +16,8 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDateMissions, setSelectedDateMissions] = useState<any[]>([]);
   const [selectedBranch, setSelectedBranch] = useState("All Branches");
+  const [selectedOrganization, setSelectedOrganization] =
+    useState("All Organizations");
 
   // Transform raw data once
   const calendarMissionList = useMemo(
@@ -29,27 +33,59 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
     [calendarTabProps]
   );
 
-  // Get available branches
-  const availableBranches = useMemo(() => {
-    const branches: string[] = Array.from(
+  // Get available organizations
+  const availableOrganizations = useMemo(() => {
+    const organizations: string[] = Array.from(
       new Set(
         calendarMissionList.map(
+          (mission: any) => mission.organizationName || "No Organization"
+        )
+      )
+    );
+    return ["All Organizations", ...organizations.sort()];
+  }, [calendarMissionList]);
+
+  // Get available branches based on selected organization
+  const availableBranches = useMemo(() => {
+    let filteredMissions = calendarMissionList;
+
+    // Filter by organization first if not "All Organizations"
+    if (selectedOrganization !== "All Organizations") {
+      filteredMissions = calendarMissionList.filter(
+        (mission: any) => mission.organizationName === selectedOrganization
+      );
+    }
+
+    const branches: string[] = Array.from(
+      new Set(
+        filteredMissions.map(
           (mission: any) => mission.branchName || "No Branch"
         )
       )
     );
-    return ["All Branches", ...branches];
-  }, [calendarMissionList]);
+    return ["All Branches", ...branches.sort()];
+  }, [calendarMissionList, selectedOrganization]);
 
-  // Filter missions based on selected branch
+  // Filter missions based on selected organization and branch
   const filteredMissions = useMemo(() => {
-    if (selectedBranch === "All Branches" || selectedBranch === "Branches") {
-      return calendarMissionList;
+    let filtered = calendarMissionList;
+
+    // Apply organization filter
+    if (selectedOrganization !== "All Organizations") {
+      filtered = filtered.filter(
+        (mission: any) => mission.organizationName === selectedOrganization
+      );
     }
-    return calendarMissionList.filter(
-      (mission: any) => mission.branchName === selectedBranch
-    );
-  }, [selectedBranch, calendarMissionList]);
+
+    // Apply branch filter
+    if (selectedBranch !== "All Branches") {
+      filtered = filtered.filter(
+        (mission: any) => mission.branchName === selectedBranch
+      );
+    }
+
+    return filtered;
+  }, [selectedOrganization, selectedBranch, calendarMissionList]);
 
   // Group missions by date
   const missionsByDate = useMemo(() => {
@@ -68,10 +104,10 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
     missionsByDate &&
     Object.entries(missionsByDate).map(([dateKey, missions]: any) => {
       const missionCount = missions.length;
-      
+
       // Create proper start and end dates for all-day events
-      const startDate = moment(dateKey).startOf('day').toDate();
-      const endDate = moment(dateKey).endOf('day').toDate();
+      const startDate = moment(dateKey).startOf("day").toDate();
+      const endDate = moment(dateKey).endOf("day").toDate();
 
       return {
         id: dateKey,
@@ -86,6 +122,12 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
   const handleMissionSelect = (event: any) => {
     setSelectedDateMissions(event.missions);
     setOpen(true);
+  };
+
+  // Reset branch filter when organization changes
+  const handleOrganizationChange = (organization: string) => {
+    setSelectedOrganization(organization);
+    setSelectedBranch("All Branches"); // Reset branch when organization changes
   };
 
   return (
@@ -109,6 +151,9 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
               selectedBranch={selectedBranch}
               setSelectedBranch={setSelectedBranch}
               availableBranches={availableBranches}
+              selectedOrganization={selectedOrganization}
+              setSelectedOrganization={handleOrganizationChange}
+              availableOrganizations={availableOrganizations}
             />
           ),
           month: {
