@@ -44,6 +44,14 @@ const getStatusColor = (status: string) => {
       return { color: "#2e7d32", backgroundColor: "#e8f5e9" }; // dark green
     case "declined":
       return { color: "#c62828", backgroundColor: "#ffebee" }; // dark red
+    case "hired":
+      return { color: "#2e7d32", backgroundColor: "#e8f5e9" }; // dark green
+    case "rejected":
+      return { color: "#c62828", backgroundColor: "#ffebee" }; // dark red
+    case "active":
+      return { color: "#2e7d32", backgroundColor: "#e8f5e9" }; // dark green
+    case "inactive":
+      return { color: "#c62828", backgroundColor: "#ffebee" }; // dark red
     default:
       return { color: "#1565c0", backgroundColor: "#e3f2fd" }; // dark blue
   }

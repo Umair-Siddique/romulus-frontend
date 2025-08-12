@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import GlobalStyles from "@mui/material/GlobalStyles";
@@ -40,6 +39,7 @@ import {
   ForgotPasswordPage,
   RegisterPage,
   UpdatePasswordPage,
+  AssignEducator,
 } from "#pages";
 import { socket } from "./utils/socket";
 import { useEffect } from "react";
@@ -96,7 +96,9 @@ const App = () => {
                 }
               >
                 <Route index element={<Dashboard />} />
+
                 <Route path="/dashboard" element={<Dashboard />} />
+
                 <Route path="/organizations" element={<Organizations />} />
                 <Route
                   path="/organizations/:id"
@@ -113,9 +115,15 @@ const App = () => {
                 <Route path="/reports/:id" element={<ReportDetails />} />
 
                 <Route path="/find-educator" element={<FindEducator />} />
+
+                <Route path="/assign-educator" element={<AssignEducator />} />
+
                 <Route path="/branches" element={<Branches />} />
+
                 <Route path="/chats" element={<Chats />} />
+
                 <Route path="/training" element={<Training />} />
+
                 <Route path="/settings" element={<Settings />} />
               </Route>
 

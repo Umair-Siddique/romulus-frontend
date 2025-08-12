@@ -24,7 +24,7 @@ export const EducatorDetails = () => {
   const location = useLocation();
   const missionId = location.state?.missionId;
 
-  const { data: educatorData } = useOne({
+  const { data: educatorData, refetch: refetchEducatorData } = useOne({
     resource: `educators/${educatorId}`,
     queryOptions: {
       enabled: !!educatorId,
@@ -54,9 +54,11 @@ export const EducatorDetails = () => {
     >
       <Box sx={{ mb: theme.spacing(2) }}>
         <ProfileHeader
+          key={educatorData?.data?.status + educatorId}
           role={role}
           missionId={missionId}
           educatorId={educatorId!}
+          refetchEducatorData={refetchEducatorData}
           educatorData={educatorData?.data}
         />
       </Box>

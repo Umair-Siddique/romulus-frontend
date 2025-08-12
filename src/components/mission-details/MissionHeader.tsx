@@ -3,6 +3,7 @@ import { useTheme } from "@mui/material/styles";
 import { useCustomMutation, useUpdate } from "@refinedev/core";
 import { memo, useState, useCallback } from "react";
 import { CheckCircle } from "@mui/icons-material";
+import { useNavigate } from "react-router";
 
 import { Modal } from "../Modal";
 
@@ -25,6 +26,8 @@ export const MissionHeader = memo(
     const [modalOpen, setModalOpen] = useState(false);
 
     const { mutate: respondToInvitation } = useCustomMutation();
+
+    const navigate = useNavigate();
 
     const { mutate: updateMission } = useUpdate({
       resource: "missions",
@@ -164,6 +167,7 @@ export const MissionHeader = memo(
             shouldShowAdminActions && (
               <Button
                 variant="contained"
+                onClick={() => navigate("/assign-educator")}
                 sx={{
                   borderRadius: theme.shape.borderRadius,
                   px: theme.spacing(3),

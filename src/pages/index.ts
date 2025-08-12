@@ -1,3 +1,4 @@
+export * from "./assign-educator";
 export * from "./auth";
 export * from "./branches";
 export * from "./chats";
