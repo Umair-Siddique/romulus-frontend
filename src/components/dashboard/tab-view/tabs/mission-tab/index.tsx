@@ -48,11 +48,6 @@ export const MissionsTab = ({
         })
       );
 
-    console.log(
-      "organizationsWithMissionsArray",
-      organizationsWithMissionsArray
-    );
-
     const organizations = Array.from(
       new Set(missions.map((mission: any) => mission.organizationName))
     );

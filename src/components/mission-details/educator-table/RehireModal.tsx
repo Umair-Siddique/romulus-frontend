@@ -59,8 +59,6 @@ const RehireModal: React.FC<RehireModalProps> = ({
     (mission) => mission.status === "pending"
   );
 
-  console.log(pendingMissions);
-
   return (
     <Dialog
       open={rehireModalOpen}

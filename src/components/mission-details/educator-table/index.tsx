@@ -136,7 +136,7 @@ export const EducatorTable = ({
         }
       );
     }
-  }, [dataToSubmit, createMission]);
+  }, [dataToSubmit]);
 
   // NOW HANDLE CONDITIONAL RETURNS AFTER ALL HOOKS
   // Early return if no educators provided
@@ -263,11 +263,6 @@ export const EducatorTable = ({
   };
 
   const handleSubmitRehire = () => {
-    console.log("Rehire Data:", {
-      educatorId: selectedEducatorId,
-      missionId: selectedMission,
-    });
-
     updateMission({
       id: selectedMission,
       values: {
