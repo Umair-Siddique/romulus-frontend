@@ -48,12 +48,12 @@ export const Educators = () => {
 
   const educatorsArray = educators?.map((educator) => ({
     id: educator?._id,
-    avatar: educator?.avatar,
-    name: `${educator?.firstName} ${educator?.lastName}`,
+    avatar: educator?.avatar || null,
+    name: `${educator?.firstName} ${educator?.lastName}` || "N/A",
     createdAt: formatDate(educator?.createdAt),
-    email: educator?.user?.email,
-    phone: educator?.user?.phone,
-    status: educator?.status,
+    email: educator?.user?.email || "N/A",
+    phone: educator?.user?.phone || "N/A",
+    status: educator?.status || "N/A",
   }));
 
   // console.log("Educators -> educatorsArray:", educatorsArray);

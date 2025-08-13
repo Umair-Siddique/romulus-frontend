@@ -49,12 +49,12 @@ export const Organizations = () => {
 
   const organizationsArray = organizations?.map((organization) => ({
     id: organization._id,
-    avatar: organization.avatar,
-    name: organization.organizationName,
+    avatar: organization.avatar || null,
+    name: organization.organizationName || "N/A",
     createdAt: formatDate(organization.createdAt),
-    siretNumber: organization.siretNumber,
+    siretNumber: organization.siretNumber || "N/A",
     branches: organization.branches.length,
-    status: organization.status,
+    status: organization.status || "N/A",
   }));
 
   const kpis: KpiItem[] = [
