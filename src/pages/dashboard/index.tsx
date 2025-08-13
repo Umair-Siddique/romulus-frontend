@@ -4,7 +4,7 @@ import {
   Assignment as AssignmentIcon,
   AssignmentTurnedIn as AssignmentTurnedInIcon,
   HourglassBottom as HourglassBottomIcon,
-  WatchLater as WatchLaterIcon,
+  HourglassTop as HourglassTopIcon,
 } from "@mui/icons-material";
 
 import { TabsView, KpiCards, PageMeta } from "#components";
@@ -16,34 +16,34 @@ const defaultKpis: KpiItem[] = [
   {
     title: "Total Missions",
     total: 0,
-    icon: <AssignmentIcon sx={{ color: "#1976d2", fontSize: "1.5rem" }} />,
-    iconBg: "#e3f2fd",
+    icon: <AssignmentIcon sx={{ color: "#1976d2", fontSize: "1.5rem" }} />, // Blue 700
+    iconBg: "#e3f2fd", // Blue 50
   },
   {
-    title: `Pending Invitations`,
+    title: "Pending Invitations",
     total: 0,
-    icon: <WatchLaterIcon sx={{ color: "#ffc107", fontSize: "1.5rem" }} />,
-    iconBg: "#fff8e1",
+    icon: <HourglassTopIcon sx={{ color: "#f57c00", fontSize: "1.5rem" }} />, // Orange 700
+    iconBg: "#fff3e0", // Orange 50
   },
   {
-    title: `Pending Missions`,
+    title: "Pending Missions",
     total: 0,
-    icon: <WatchLaterIcon sx={{ color: "#ffc107", fontSize: "1.5rem" }} />,
-    iconBg: "#fff8e1",
+    icon: <HourglassTopIcon sx={{ color: "#f57c00", fontSize: "1.5rem" }} />, // Orange 700
+    iconBg: "#fff3e0", // Orange 50
   },
   {
     title: "Ongoing Missions",
     total: 0,
-    icon: <HourglassBottomIcon sx={{ color: "#ff9800", fontSize: "1.5rem" }} />,
-    iconBg: "#fff3e0",
+    icon: <HourglassBottomIcon sx={{ color: "#0288d1", fontSize: "1.5rem" }} />, // Light Blue 700
+    iconBg: "#e1f5fe", // Light Blue 50
   },
   {
     title: "Completed Missions",
     total: 0,
     icon: (
-      <AssignmentTurnedInIcon sx={{ color: "#4caf50", fontSize: "1.5rem" }} />
-    ),
-    iconBg: "#e8f5e9",
+      <AssignmentTurnedInIcon sx={{ color: "#2e7d32", fontSize: "1.5rem" }} />
+    ), // Green 800
+    iconBg: "#e8f5e9", // Green 50
   },
 ];
 
