@@ -49,7 +49,7 @@ export const Organizations = () => {
 
   const organizationsArray = organizations?.map((organization) => ({
     id: organization._id,
-    avatar: organization.avatar || null,
+    avatar: organization.avatar || "N/A",
     name: organization.organizationName || "N/A",
     createdAt: formatDate(organization.createdAt),
     siretNumber: organization.siretNumber || "N/A",

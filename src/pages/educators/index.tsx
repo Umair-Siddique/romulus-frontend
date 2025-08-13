@@ -48,7 +48,7 @@ export const Educators = () => {
 
   const educatorsArray = educators?.map((educator) => ({
     id: educator?._id,
-    avatar: educator?.avatar || null,
+    avatar: educator?.avatar || "N/A",
     name: `${educator?.firstName} ${educator?.lastName}` || "N/A",
     createdAt: formatDate(educator?.createdAt),
     email: educator?.user?.email || "N/A",
