@@ -1,15 +1,9 @@
-import { Box } from "@mui/material";
-import { MissionCard } from "./MissionCard";
-import { ToolBar } from "./Toolbar";
+import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { MissionsTabProps, MissionsTabsDataProps } from "#types";
+import { ToolBar } from "./Toolbar";
+import { MissionsTable } from "./MissionsTable";
 
-export const MissionsTab = ({
-  missionsTabProps,
-}: {
-  missionsTabProps: MissionsTabProps;
-}) => {
-  const { missions, refetchMissions } = missionsTabProps;
+export const MissionsList = ({ missions }: { missions: any }) => {
   const [selectedDate, setSelectedDate] = useState("Date");
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [selectedBranch, setSelectedBranch] = useState("Branches");
@@ -19,16 +13,12 @@ export const MissionsTab = ({
   const [availableOrganizations, setAvailableOrganizations] = useState<
     string[]
   >([]);
-  const [filteredMissions, setFilteredMissions] = useState<
-    MissionsTabsDataProps[]
-  >([]);
-
-  console.log("Dashboard -> MissionsTab -> missions:", missions);
+  const [filteredMissions, setFilteredMissions] = useState([]);
 
   useEffect(() => {
     const organizationsWithMissionsArray = Array.from(
       new Set(
-        missions.map((mission: any, index: number, self: any) => {
+        missions?.map((mission: any, index: number, self: any) => {
           const output: any = {
             organizationName: mission.organizationName,
             branches: [],
@@ -43,15 +33,15 @@ export const MissionsTab = ({
       )
     );
 
-    const sortedOrganizationsWithMissionsArray =
-      organizationsWithMissionsArray.sort((a, b) =>
+    const sortedOrganizationsWithMissionsArray: any =
+      organizationsWithMissionsArray?.sort((a: any, b: any) =>
         a.organizationName.localeCompare(b.organizationName, undefined, {
           sensitivity: "base",
         })
       );
 
-    const organizations = Array.from(
-      new Set(missions.map((mission: any) => mission.organizationName))
+    const organizations: any = Array.from(
+      new Set(missions?.map((mission: any) => mission.organizationName))
     );
 
     let availableBranches = [];
@@ -123,7 +113,7 @@ export const MissionsTab = ({
 
     // Apply status filter
     if (selectedStatus !== "All") {
-      filtered = filtered.filter((mission) => {
+      filtered = filtered.filter((mission: any) => {
         switch (selectedStatus) {
           case "Pending":
             return mission.status === "pending";
@@ -167,9 +157,10 @@ export const MissionsTab = ({
     setFilteredMissions(filtered);
   }, [selectedStatus, selectedBranch, selectedDate, missions]);
 
+  console.log("MissionList -> missions:", filteredMissions);
+
   return (
-    <Box sx={{ minHeight: "400px" }}>
-      {/* Toolbar */}
+    <Box>
       <ToolBar
         selectedStatus={selectedStatus}
         setSelectedStatus={setSelectedStatus}
@@ -182,18 +173,7 @@ export const MissionsTab = ({
         selectedBranch={selectedBranch}
         setSelectedBranch={setSelectedBranch}
       />
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 5,
-        }}
-      >
-        {/* Mission Cards */}
-        {filteredMissions?.map((mission: any, index) => (
-          <MissionCard key={index} {...mission} refetch={refetchMissions} />
-        ))}
-      </Box>
+      <MissionsTable missions={filteredMissions} />
     </Box>
   );
 };

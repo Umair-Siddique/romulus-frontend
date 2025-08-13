@@ -22,8 +22,6 @@ import { GridMoreVertIcon } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useUserContext } from "#context";
 import TableHeader from "./TableHeader";
-import NoEducatorFound from "./NoEducatorFound";
-import LoadingEducators from "./LoadingEducators";
 import ReportModal from "./ReportModal";
 import RehireModal from "./RehireModal";
 import { CreateMissionModal } from "./create-mission-modal";
@@ -141,12 +139,12 @@ export const EducatorTable = ({
   // NOW HANDLE CONDITIONAL RETURNS AFTER ALL HOOKS
   // Early return if no educators provided
   if (!educators || educators.length === 0) {
-    return <NoEducatorFound theme={theme} COLUMN_WIDTHS={COLUMN_WIDTHS} />;
+    return "No educators found";
   }
 
   // Handle loading state
   if (isLoading) {
-    return <LoadingEducators theme={theme} COLUMN_WIDTHS={COLUMN_WIDTHS} />;
+    return "Loading...";
   }
 
   const data: Data[] =

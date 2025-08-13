@@ -2,15 +2,18 @@ import { useLocation, useParams } from "react-router";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import { useUserContext } from "#context";
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import {
   ProfileHeader,
   ProfileCard,
   UserBio,
   ProfessionalDetails,
   Reviews,
+  TabView,
+  MissionsList,
 } from "#components";
 import { useOne } from "@refinedev/core";
+import { formatDate } from "#utils";
 
 export const EducatorDetails = () => {
   const theme = useTheme<Theme>();
@@ -31,15 +34,41 @@ export const EducatorDetails = () => {
     },
   });
 
+  const { data: missionsData, isLoading } = useOne({
+    resource: `missions/educator/${educatorId}`,
+    queryOptions: {
+      enabled: !!educatorId,
+    },
+  });
+
+  // console.log("EducatorDetails -> missionsData:", missionsData);
+
+  const missions = missionsData?.data?.map((mission: any) => ({
+    id: mission?._id,
+    missionTitle: mission?.title,
+    createdAt: formatDate(mission?.createdAt),
+    organizationName: mission?.organization?.organizationName,
+    branchName: mission?.branch,
+    status: mission?.status,
+  }));
+
+  console.log("EducatorDetails -> missions:", missions);
+
   const hasOrganizationsFeedbacks =
     educatorData?.data?.organizationsFeedbacks?.length > 0;
 
   const organizationFeedbacks = educatorData?.data?.organizationsFeedbacks;
 
-  // console.log(
-  //   "EducatorDetails.tsx -> organizationFeedbacks:",
-  //   organizationFeedbacks
-  // );
+  const tabsNavigation = [{ title: "Missions" }, { title: "Reports" }];
+
+  const tabsContent = [
+    <MissionsList missions={missions} />,
+    <Box>
+      <Typography variant="h4" component="h2" gutterBottom>
+        Reports
+      </Typography>
+    </Box>,
+  ];
 
   return (
     <Box
@@ -84,7 +113,7 @@ export const EducatorDetails = () => {
 
       {role === "admin" && (
         <Box sx={{ mb: theme.spacing(2) }}>
-          <h1>Mission List</h1>
+          <TabView tabsNavigation={tabsNavigation} tabsContent={tabsContent} />
         </Box>
       )}
 
