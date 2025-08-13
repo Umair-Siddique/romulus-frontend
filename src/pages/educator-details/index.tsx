@@ -59,16 +59,9 @@ export const EducatorDetails = () => {
 
   const organizationFeedbacks = educatorData?.data?.organizationsFeedbacks;
 
-  const tabsNavigation = [{ title: "Missions" }, { title: "Reports" }];
+  const tabsNavigation = [{ title: "Missions" }];
 
-  const tabsContent = [
-    <MissionsList missions={missions} />,
-    <Box>
-      <Typography variant="h4" component="h2" gutterBottom>
-        Reports
-      </Typography>
-    </Box>,
-  ];
+  const tabsContent = [<MissionsList missions={missions} />];
 
   return (
     <Box
