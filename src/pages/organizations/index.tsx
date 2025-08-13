@@ -51,7 +51,7 @@ export const Organizations = () => {
     id: organization._id,
     avatar: organization.avatar,
     name: organization.organizationName,
-    createdAt: formatDate(organization.updatedAt),
+    createdAt: formatDate(organization.createdAt),
     siretNumber: organization.siretNumber,
     branches: organization.branches.length,
     status: organization.status,

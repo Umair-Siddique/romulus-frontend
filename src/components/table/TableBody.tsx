@@ -119,6 +119,40 @@ const TableBodyComponent = ({
               </Typography>
             </TableCell>
           )}
+          {item.email && (
+            <TableCell
+              align="center"
+              sx={{
+                padding: theme.spacing(2),
+                width: columnWidths.email,
+                minWidth: columnWidths.email,
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{ color: theme.palette.text.secondary }}
+              >
+                {item.email}
+              </Typography>
+            </TableCell>
+          )}
+          {item.phone && (
+            <TableCell
+              align="center"
+              sx={{
+                padding: theme.spacing(2),
+                width: columnWidths.phone,
+                minWidth: columnWidths.email,
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{ color: theme.palette.text.secondary }}
+              >
+                {item.phone}
+              </Typography>
+            </TableCell>
+          )}
           {item.branches && (
             <TableCell
               align="center"
