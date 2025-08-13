@@ -23,7 +23,7 @@ export const MissionsTab = ({
     MissionsTabsDataProps[]
   >([]);
 
-  console.log("Dashboard -> MissionsTab -> missions:", missions);
+  // console.log("Dashboard -> MissionsTab -> missions:", missions);
 
   useEffect(() => {
     const organizationsWithMissionsArray = Array.from(

@@ -157,7 +157,7 @@ export const MissionsList = ({ missions }: { missions: any }) => {
     setFilteredMissions(filtered);
   }, [selectedStatus, selectedBranch, selectedDate, missions]);
 
-  console.log("MissionList -> missions:", filteredMissions);
+  // console.log("MissionList -> missions:", filteredMissions);
 
   return (
     <Box>

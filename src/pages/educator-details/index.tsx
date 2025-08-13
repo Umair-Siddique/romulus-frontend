@@ -52,7 +52,7 @@ export const EducatorDetails = () => {
     status: mission?.status,
   }));
 
-  console.log("EducatorDetails -> missions:", missions);
+  // console.log("EducatorDetails -> missions:", missions);
 
   const hasOrganizationsFeedbacks =
     educatorData?.data?.organizationsFeedbacks?.length > 0;
