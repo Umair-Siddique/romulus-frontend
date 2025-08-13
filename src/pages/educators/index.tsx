@@ -47,13 +47,13 @@ export const Educators = () => {
   // console.log("Educators -> educatorsData:", educatorsData);
 
   const educatorsArray = educators?.map((educator) => ({
-    id: educator._id,
-    avatar: educator.avatar,
-    name: `${educator.firstName} ${educator.lastName}`,
-    createdAt: formatDate(educator.createdAt),
-    email: educator.user.email,
-    phone: educator.user.phone,
-    status: educator.status,
+    id: educator?._id,
+    avatar: educator?.avatar,
+    name: `${educator?.firstName} ${educator?.lastName}`,
+    createdAt: formatDate(educator?.createdAt),
+    email: educator?.user?.email,
+    phone: educator?.user?.phone,
+    status: educator?.status,
   }));
 
   // console.log("Educators -> educatorsArray:", educatorsArray);
@@ -67,7 +67,7 @@ export const Educators = () => {
     {
       title: "Pending",
       total:
-        educatorsArray?.filter((educator) => educator.status === "pending")
+        educatorsArray?.filter((educator) => educator?.status === "pending")
           .length || 0,
       icon: <HourglassTopIcon sx={{ color: "#f57c00", fontSize: "1.5rem" }} />, // Orange 700
       iconBg: "#fff3e0", // Orange 50
@@ -75,7 +75,7 @@ export const Educators = () => {
     {
       title: "Active",
       total:
-        educatorsArray?.filter((educator) => educator.status === "active")
+        educatorsArray?.filter((educator) => educator?.status === "active")
           .length || 0,
       icon: <CheckCircleIcon sx={{ color: "#2e7d32", fontSize: "1.5rem" }} />, // Green 800
       iconBg: "#e8f5e9", // Green 50
@@ -83,7 +83,7 @@ export const Educators = () => {
     {
       title: "Inactive",
       total:
-        educatorsArray?.filter((educator) => educator.status === "inactive")
+        educatorsArray?.filter((educator) => educator?.status === "inactive")
           .length || 0,
       icon: <HighlightOffIcon sx={{ color: "#c62828", fontSize: "1.5rem" }} />, // Red 800
       iconBg: "#ffebee", // Red 50
