@@ -171,7 +171,7 @@ export const EducatorTable = ({
         status:
           educator?.missionsInvitedFor?.find(
             (mission: any) => mission?.mission?._id === missionId
-          )?.invitationStatus || "Status Unavailable",
+          )?.invitationStatus || "N/A",
       }))
       .filter((educator) => educator.id) || [];
 

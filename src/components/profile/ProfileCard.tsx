@@ -16,19 +16,18 @@ export const ProfileCard = ({
 
   const userInfo = {
     name:
-      `${educatorData?.firstName} ${educatorData?.lastName}` ||
-      "Name Unavailable",
-    phone: educatorData?.user.phone || "Phone Unavailable",
-    email: educatorData?.user.email || "Email Unavailable",
-    gender: educatorData?.gender || "Not Specified",
+      `${educatorData?.firstName} ${educatorData?.lastName}` || "N/A",
+    phone: educatorData?.user?.phone || "N/A",
+    email: educatorData?.user?.email || "N/A",
+    gender: educatorData?.gender || "N/A",
     dob:
       formatDate(educatorData?.dateOfBirth.split("T")[0]) ||
-      "Date of Birth Unavailable",
+      "N/A",
     location:
       `${educatorData?.city} ${educatorData?.country}` ||
-      "Location Unavailable",
-    status: educatorData?.status || "Status Unavailable",
-    avatar: educatorData?.avatar || "Avatar Unavailable",
+      "N/A",
+    status: educatorData?.status || "N/A",
+    avatar: educatorData?.avatar || "N/A",
   };
 
   const missions = {

@@ -34,10 +34,10 @@ export const ProfessionalDetails = ({
   const role = user?.role;
 
   const professionData = {
-    title: educatorData?.profession || "Profession Unavailable",
-    hourlyRate: `$${educatorData?.hourlyRate}/hr` || "Hourly Rate Unavailable",
+    title: educatorData?.profession || "N/A",
+    hourlyRate: `$${educatorData?.hourlyRate}/hr` || "N/A",
     skills: educatorData?.skills || [],
-    education: educatorData?.education || "Bachelor's in Education",
+    education: educatorData?.education || "N/A",
     certificates: [
       {
         name: "Certificate Of Honorability",

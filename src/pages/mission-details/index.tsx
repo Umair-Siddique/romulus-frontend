@@ -64,14 +64,14 @@ const { mutate: updateEducator } = useUpdate({
   )?.invitationStatus;
 
   const missionData = {
-    id: missionId || "Mission ID Unavailable",
-    educatorId: educatorId || "Educator ID Unavailable",
-    missionTitle: mission?.title || "Mission Title Unavailable",
+    id: missionId || "N/A",
+    educatorId: educatorId || "N/A",
+    missionTitle: mission?.title || "N/A",
     invitationStatus,
     organizationName:
-      mission?.organization?.organizationName || "Organization Unavailable",
+      mission?.organization?.organizationName || "N/A",
     missionDate:
-      formatDate(mission?.start?.split("T")[0]) || "Date Unavailable",
+      formatDate(mission?.start?.split("T")[0]) || "N/A",
     missionTime:
       `${formatTime(
         `${mission?.start?.split("T")[1].split(":")[0]}:${
@@ -81,17 +81,17 @@ const { mutate: updateEducator } = useUpdate({
         `${mission?.end?.split("T")[1].split(":")[0]}:${
           mission?.end?.split("T")[1].split(":")[1]
         }`
-      )}` || "Time Unavailable",
-    branchName: mission?.branch || "Branch Name Unavailable",
-    missionLocation: `${mission?.organization?.city || "City Unavailable"}, ${
-      mission?.organization?.country || "Country Unavailable"
+      )}` || "N/A",
+    branchName: mission?.branch || "N/A",
+    missionLocation: `${mission?.organization?.city || "N/A"}, ${
+      mission?.organization?.country || "N/A"
     }`,
     branchAddress:
       mission?.organization?.branches?.find(
         (branch: any) => branch.branchName === mission?.branch
-      )?.branchAddress || "Address Unavailable",
-    missionStatus: mission?.status || "Status Unavailable",
-    missionDescription: mission?.description || "Description Unavailable",
+      )?.branchAddress || "N/A",
+    missionStatus: mission?.status || "N/A",
+    missionDescription: mission?.description || "N/A",
     hasResidenceGuidelines:
       Object.keys(mission?.technicalDocument || {}).length > 0,
     residenceGuidelines: {
@@ -99,18 +99,18 @@ const { mutate: updateEducator } = useUpdate({
       url: mission?.technicalDocument,
     },
     organizationContact: {
-      phone: mission?.organization?.phone || "Phone Unavailable",
-      email: mission?.organization?.user?.email || "Email Unavailable",
+      phone: mission?.organization?.phone || "N/A",
+      email: mission?.organization?.user?.email || "N/A",
     },
     hasEducatorsFeedbacks: !!mission?.educatorsFeedbacks?.length,
     hasGivenFeedbackToEducator: mission?.hasGivenFeedbackToEducator,
     educatorsFeedbacks: mission?.educatorsFeedbacks || [
       {
-        userName: "John Doe",
-        rating: 4.5,
+        userName: "N/A",
+        rating: "N/A",
         feedback:
-          "Great experience. Students were attentive, and the coordinator was helpful.",
-        createdAt: "2023-10-01T12:00:00Z",
+          "N/A",
+        createdAt: "N/A",
       },
     ],
     hasPreferredEducator: !!mission?.preferredEducator,

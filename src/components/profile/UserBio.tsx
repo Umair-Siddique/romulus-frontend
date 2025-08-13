@@ -33,7 +33,7 @@ export const UserBio = memo(({ educatorData }: { educatorData: any }) => {
           fontSize: theme.typography.body1.fontSize,
         }}
       >
-        {educatorData?.bio || "Bio Unavailable"}
+        {educatorData?.bio || "N/A"}
       </Typography>
     </Box>
   );
