@@ -12,7 +12,7 @@ import {
 } from "@mui/icons-material";
 
 import { KpiItem } from "#types";
-import { KpiCards, PageMeta } from "#components";
+import { KpiCards, PageMeta, Table } from "#components";
 
 const defaultKpis: KpiItem[] = [
   {
@@ -63,6 +63,7 @@ export const Organizations = () => {
         description="Manage all organizations here"
       />
       <KpiCards kpiCardsData={defaultKpis} />
+      <Table />
     </>
   );
 };

@@ -26,7 +26,6 @@ import {
   OrganizationDetails,
   Educators,
   EducatorDetails,
-  Missions,
   MissionDetails,
   FindEducator,
   Branches,
@@ -108,7 +107,6 @@ const App = () => {
                 <Route path="/educators" element={<Educators />} />
                 <Route path="/educators/:id" element={<EducatorDetails />} />
 
-                <Route path="/missions" element={<Missions />} />
                 <Route path="/missions/:id" element={<MissionDetails />} />
 
                 <Route path="/reports" element={<Reports />} />

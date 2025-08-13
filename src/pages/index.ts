@@ -8,7 +8,6 @@ export * from "./educator-details";
 export * from "./educators";
 export * from "./find-educator";
 export * from "./mission-details";
-export * from "./missions";
 export * from "./organization-details";
 export * from "./organizations";
 export * from "./report-details";

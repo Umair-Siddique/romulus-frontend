@@ -14,3 +14,5 @@ export * from "./LogoComponent";
 export * from "./Modal";
 export * from "./Reviews";
 export * from "./TextLink";
+export * from "./table";
+
