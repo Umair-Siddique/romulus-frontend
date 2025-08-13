@@ -64,12 +64,13 @@ export const ProfessionalDetails = ({
     console.log(`Editing ${section}`);
   };
 
-  const CardHeader = ({ title, onEdit }: any) => (
+  const CardHeader = ({ title }: any) => (
     <Box
       sx={{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
+        mb: theme.spacing(2),
       }}
     >
       <Typography
@@ -83,7 +84,7 @@ export const ProfessionalDetails = ({
       >
         {title}
       </Typography>
-      {role === "admin" && (
+      {/* {role === "admin" && (
         <Button
           startIcon={<EditIcon />}
           onClick={onEdit}
@@ -99,7 +100,7 @@ export const ProfessionalDetails = ({
         >
           Edit
         </Button>
-      )}
+      )} */}
     </Box>
   );
 
