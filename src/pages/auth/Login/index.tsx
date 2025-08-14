@@ -47,7 +47,6 @@ export const LoginPage = () => {
       },
       onError: (error) => {
         setLoginPhase("complete");
-        console.log("Login failed:", error);
         return;
       },
     });

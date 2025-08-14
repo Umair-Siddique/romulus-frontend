@@ -7,6 +7,7 @@ import "moment/locale/en-gb";
 
 import { Toolbar } from "./Toolbar";
 import { MissionsModal } from "./MissionsModal";
+import { Box } from "@mui/material";
 
 moment.locale("en-GB");
 
@@ -23,12 +24,12 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
   const calendarMissionList = useMemo(
     () =>
       calendarTabProps?.map((mission: any) => ({
-        id: mission._id,
-        title: mission.title,
-        organizationName: mission.organizationName,
-        branchName: mission.branchName,
-        date: mission.date,
-        status: mission.status,
+        id: mission?._id,
+        title: mission?.title,
+        organizationName: mission?.organization?.organizationName,
+        branchName: mission?.branch,
+        date: mission?.date,
+        status: mission?.status,
       })) || [],
     [calendarTabProps]
   );
@@ -131,7 +132,7 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
   };
 
   return (
-    <>
+    <Box sx={{ height: "100vh", m: 2 }}>
       <Calendar
         selectable
         localizer={localizer}
@@ -175,6 +176,6 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
         }
         missions={selectedDateMissions}
       />
-    </>
+    </Box>
   );
 };

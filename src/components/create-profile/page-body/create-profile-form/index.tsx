@@ -45,7 +45,6 @@ export const CreateProfileForm = ({
         setIsSubmitting(false);
       },
       onError: (error) => {
-        console.log("Submission failed:", error.message);
         setErrorMessage(
           "An unexpected error occurred. Please try again later."
         );

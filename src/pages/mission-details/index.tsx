@@ -50,12 +50,12 @@ export const MissionDetails = () => {
   const { mutate: updateMission } = useUpdate({
     resource: "missions",
     successNotification: false,
-});
+  });
 
-const { mutate: updateEducator } = useUpdate({
+  const { mutate: updateEducator } = useUpdate({
     resource: "educators",
     successNotification: false,
-});
+  });
 
   const mission = data?.data || {};
 
@@ -68,10 +68,8 @@ const { mutate: updateEducator } = useUpdate({
     educatorId: educatorId || "N/A",
     missionTitle: mission?.title || "N/A",
     invitationStatus,
-    organizationName:
-      mission?.organization?.organizationName || "N/A",
-    missionDate:
-      formatDate(mission?.start?.split("T")[0]) || "N/A",
+    organizationName: mission?.organization?.organizationName || "N/A",
+    missionDate: formatDate(mission?.start?.split("T")[0]) || "N/A",
     missionTime:
       `${formatTime(
         `${mission?.start?.split("T")[1].split(":")[0]}:${
@@ -108,8 +106,7 @@ const { mutate: updateEducator } = useUpdate({
       {
         userName: "N/A",
         rating: "N/A",
-        feedback:
-          "N/A",
+        feedback: "N/A",
         createdAt: "N/A",
       },
     ],
@@ -119,12 +116,6 @@ const { mutate: updateEducator } = useUpdate({
     hiredEducators: mission?.hiredEducators || [],
   };
 
-  // console.log(
-  //   "MissionDetails.tsx -> missionData?.educatorsFeedbacks:",
-  //   missionData?.educatorsFeedbacks
-  // );
-
-  // Check if feedback modal should open
   useEffect(() => {
     const hasGivenFeedback =
       role === "educator"
@@ -185,8 +176,6 @@ const { mutate: updateEducator } = useUpdate({
       });
     }
 
-    // console.log("MissionDetails.tsx -> feedback:", feedback);
-
     refetchMission();
 
     setFeedbackModalOpen(false);
@@ -204,15 +193,8 @@ const { mutate: updateEducator } = useUpdate({
     });
   };
 
-  // console.log("MissionDetails.tsx -> missionData:", missionData);
-
   const showEducatorReviews =
     role === "educator" && missionData.hasEducatorsFeedbacks;
-
-  const tabsNavigation = [
-    { title: "Invited Educators" },
-    { title: "Hired Educators" },
-  ];
 
   const tabsContent = [
     <EducatorTable
@@ -287,7 +269,10 @@ const { mutate: updateEducator } = useUpdate({
         ))}
 
       {role === "organization" && (
-        <TabView tabsNavigation={tabsNavigation} tabsContent={tabsContent} />
+        <TabView
+          tabsTitles={["Invited Educators", "Hired Educators"]}
+          tabsContent={tabsContent}
+        />
       )}
 
       {/* Feedback Modal */}

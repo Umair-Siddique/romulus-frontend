@@ -13,7 +13,7 @@ import {
 import { Box } from "@mui/material";
 
 import { KpiItem } from "#types";
-import { KpiCards, PageMeta } from "#components";
+import { KpiCards, PageMeta, ToolBarComponent } from "#components";
 import { useList } from "@refinedev/core";
 import { formatDate } from "#utils";
 import { TableComponent } from "#components";
@@ -44,8 +44,6 @@ export const Educators = () => {
 
   const educators = educatorsData?.data;
 
-  // console.log("Educators -> educatorsData:", educatorsData);
-
   const educatorsArray = educators?.map((educator) => ({
     id: educator?._id,
     avatar: educator?.avatar || "N/A",
@@ -56,7 +54,6 @@ export const Educators = () => {
     status: educator?.status || "N/A",
   }));
 
-  // console.log("Educators -> educatorsArray:", educatorsArray);
   const kpis: KpiItem[] = [
     {
       title: "Total",
@@ -116,6 +113,7 @@ export const Educators = () => {
       />
       <KpiCards kpiCardsData={kpis} />
       <Box sx={{ mt: 3 }}>
+        <ToolBarComponent />
         <TableComponent
           tableData={educatorsArray}
           columnWidths={columnWidths}

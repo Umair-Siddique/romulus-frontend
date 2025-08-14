@@ -1,12 +1,16 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 
-import { MissionsTable } from "./MissionsTable";
+import { MissionCard } from "./MissionCard";
+import { MissionsTabsDataProps } from "#types";
 import { ToolBarComponent } from "#components";
-import { useTheme, Theme } from "@mui/material/styles";
 
-export const MissionsList = ({ missions }: { missions: any }) => {
-  const theme = useTheme<Theme>();
+export const MissionsTab = ({
+  missionsTabProps,
+}: {
+  missionsTabProps: any;
+}) => {
+  const { missions, refetchMissions } = missionsTabProps;
 
   // Available Filters
   const availableStatuses = ["All", "Pending", "Ongoing", "Completed"];
@@ -24,7 +28,9 @@ export const MissionsList = ({ missions }: { missions: any }) => {
   const [selectedBranch, setSelectedBranch] = useState("Branches");
 
   // Filtered Missions
-  const [filteredMissions, setFilteredMissions] = useState<any>([]);
+  const [filteredMissions, setFilteredMissions] = useState<
+    MissionsTabsDataProps[]
+  >([]);
 
   // Set Available Branches and Organizations
   useEffect(() => {
@@ -153,17 +159,32 @@ export const MissionsList = ({ missions }: { missions: any }) => {
 
   function filterByOrganization(selectedOrganization: string, missions: any[]) {
     return missions.filter(
-      (mission: any) =>
-        mission?.organization?.organizationName === selectedOrganization
+      (mission: any) => mission?.organization?.organizationName === selectedOrganization
     );
   }
 
   function filterByBranch(selectedBranch: string, missions: any[]) {
-    return missions.filter((mission: any) => mission.branch === selectedBranch);
+    return missions.filter(
+      (mission: any) => mission.branch === selectedBranch
+    );
   }
 
+  const cardData = filteredMissions?.map((mission: any, index: number) => ({
+    _id: mission._id,
+    title: mission.title,
+    organizationName: mission.organization?.organizationName,
+    branchName: mission.branch,
+    date: mission.start,
+    time: mission.start,
+    branchAddress: mission.organization?.branches?.find(
+      (branch: any) => branch.branchName === mission.branch
+    )?.branchAddress,
+    status: mission.status,
+  }));
+
   return (
-    <Box sx={{ m: theme.spacing(2) }}>
+    <Box sx={{ m: 2 }}>
+      {/* Toolbar */}
       <ToolBarComponent
         availableStatuses={availableStatuses}
         selectedStatus={selectedStatus}
@@ -178,7 +199,22 @@ export const MissionsList = ({ missions }: { missions: any }) => {
         selectedBranch={selectedBranch}
         setSelectedBranch={setSelectedBranch}
       />
-      <MissionsTable missions={filteredMissions} />
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 5,
+        }}
+      >
+        {/* Mission Cards */}
+        {cardData?.map((mission: any, index) => (
+          <MissionCard
+            key={index}
+            mission={mission}
+            refetch={refetchMissions}
+          />
+        ))}
+      </Box>
     </Box>
   );
 };

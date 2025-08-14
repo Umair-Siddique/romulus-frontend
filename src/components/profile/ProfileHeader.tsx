@@ -219,12 +219,6 @@ export const ProfileHeader = ({
     }
   }, [modalAction]);
 
-  // console.log("ProfileHeader -> missionData:", missionData);
-  // console.log("ProfileHeader -> role:", role);
-  // console.log("ProfileHeader -> invitationStatus:", invitationStatus);
-  // console.log("ProfileHeader -> isHiredOrRejected:", isHiredOrRejected);
-  // console.log("ProfileHeader -> educatorData:", educatorData);
-
   const renderActionButtons = useCallback(() => {
     if (
       hiredEducators?.length < 1 &&

@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import {
   Business as BusinessIcon,
+  Apartment as ApartmentIcon,
   LocationOn as LocationOnIcon,
   Schedule as ScheduleIcon,
   CalendarToday as CalendarTodayIcon,
@@ -20,23 +21,29 @@ import {
 } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
 
-import { MissionCardProps } from "#types";
 import { useUserContext } from "#context";
 import { useNavigate } from "react-router";
 import { formatDate, formatTime, getStatusColor } from "#utils";
 import { useDelete } from "@refinedev/core";
 
 export const MissionCard = ({
-  _id,
-  title,
-  organizationName,
-  branchName,
-  date,
-  time,
-  branchAddress,
-  status,
+  mission,
   refetch,
-}: MissionCardProps) => {
+}: {
+  mission: any;
+  refetch: any;
+}) => {
+  const {
+    _id,
+    title,
+    organizationName,
+    branchName,
+    date,
+    time,
+    branchAddress,
+    status,
+  } = mission;
+
   const theme = useTheme<Theme>();
 
   const { user } = useUserContext();
@@ -58,7 +65,7 @@ export const MissionCard = ({
     setAnchorEl(null);
   };
 
-  const handleDeleteMision = () => {
+  const handleDeleteMission = () => {
     deleteMission(
       {
         resource: "missions",
@@ -74,7 +81,6 @@ export const MissionCard = ({
           refetch();
         },
         onError: (error) => {
-          console.log("Error deleting mission:", error);
           handleMenuClose();
         },
       }
@@ -149,7 +155,7 @@ export const MissionCard = ({
               gap: theme.spacing(1.5),
             }}
           >
-            <BusinessIcon
+            <ApartmentIcon
               sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
             />
             <Typography variant="body2" color="text.secondary">
@@ -183,8 +189,8 @@ export const MissionCard = ({
               sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
             />
             <Typography variant="body2" color="text.secondary">
-              {formatTime(time.split("-")[0].trim())} to{" "}
-              {formatTime(time.split("-")[1].trim())}
+              {formatTime(time?.split("-")[0]?.trim())} to{" "}
+              {formatTime(time?.split("-")[1]?.trim())}
             </Typography>
           </Box>
 
@@ -255,7 +261,7 @@ export const MissionCard = ({
                   "aria-labelledby": "basic-button",
                 }}
               >
-                <MenuItem onClick={handleDeleteMision}>Delete</MenuItem>
+                <MenuItem onClick={handleDeleteMission}>Delete</MenuItem>
               </Menu>
             </>
           )}

@@ -69,8 +69,6 @@ export const MissionHeader = memo(
       setModalOpen(false);
     }, []);
 
-    // console.log("MissionHeader -> missionData:", missionData);
-
     const handleMarkAsCompleted = useCallback(() => {
       updateMission({
         id: missionData.id,
@@ -81,9 +79,6 @@ export const MissionHeader = memo(
     const shouldShowEducatorActions =
       missionData.invitationStatus === "pending" &&
       missionData.missionStatus !== "completed";
-
-    // console.log("MissionHeader -> missionData.invitationStatus:", missionData.invitationStatus);
-    // console.log("MissionHeader -> missionData.missionStatus:", missionData.missionStatus);
 
     const shouldShowOrganizationActions =
       showMarkAsCompletedButton && missionData.missionStatus === "ongoing";

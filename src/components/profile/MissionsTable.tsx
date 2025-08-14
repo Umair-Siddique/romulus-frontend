@@ -16,30 +16,21 @@ import { useNavigate } from "react-router";
 import { formatDate, getStatusColor } from "#utils";
 import TableHeader from "./TableHeader";
 
-interface Data {
-  id: number;
-  missionTitle: string;
-  createdOn: string;
-  organizationName: string;
-  branchName: string;
-  status: string;
-}
-
 // Fixed column widths
 const COLUMN_WIDTHS = {
-  missionTitle: 200,
-  createdOn: 200,
+  title: 200,
+  createdAt: 200,
   organizationName: 200,
   branchName: 200,
   status: 150,
   actions: 150,
 };
 
-export const MissionsTable = ({ missions }: { missions: Data[] }) => {
+export const MissionsTable = ({ missions }: { missions: any[] }) => {
   const theme = useTheme<Theme>();
   const navigate = useNavigate();
 
-  const handleViewMission = (missionId: number) => {
+  const handleViewMission = (missionId: string) => {
     navigate(`/missions/${missionId}`, {
       state: { missionId },
     });
@@ -59,9 +50,9 @@ export const MissionsTable = ({ missions }: { missions: Data[] }) => {
           <Table sx={{ width: "100%", tableLayout: "fixed" }}>
             <TableHeader theme={theme} COLUMN_WIDTHS={COLUMN_WIDTHS} />
             <TableBody>
-              {missions?.map((mission: Data) => (
+              {missions?.map((mission: any) => (
                 <TableRow
-                  key={mission.id}
+                  key={mission._id}
                   hover
                   sx={{
                     backgroundColor: theme.palette.background.default,
@@ -72,30 +63,30 @@ export const MissionsTable = ({ missions }: { missions: Data[] }) => {
                     align="center"
                     sx={{
                       padding: theme.spacing(2),
-                      width: COLUMN_WIDTHS.missionTitle,
-                      minWidth: COLUMN_WIDTHS.missionTitle,
+                      width: COLUMN_WIDTHS.title,
+                      minWidth: COLUMN_WIDTHS.title,
                     }}
                   >
                     <Typography
                       variant="body2"
                       sx={{ color: theme.palette.text.secondary }}
                     >
-                      {mission.missionTitle}
+                      {mission.title}
                     </Typography>
                   </TableCell>
                   <TableCell
                     align="center"
                     sx={{
                       padding: theme.spacing(2),
-                      width: COLUMN_WIDTHS.createdOn,
-                      minWidth: COLUMN_WIDTHS.createdOn,
+                      width: COLUMN_WIDTHS.createdAt,
+                      minWidth: COLUMN_WIDTHS.createdAt,
                     }}
                   >
                     <Typography
                       variant="body2"
                       sx={{ color: theme.palette.text.secondary }}
                     >
-                      {formatDate(mission.createdOn)}
+                      {formatDate(mission.createdAt)}
                     </Typography>
                   </TableCell>
                   <TableCell
@@ -110,7 +101,7 @@ export const MissionsTable = ({ missions }: { missions: Data[] }) => {
                       variant="body2"
                       sx={{ color: theme.palette.text.secondary }}
                     >
-                      {mission.organizationName}
+                      {mission.organization.organizationName}
                     </Typography>
                   </TableCell>
                   <TableCell
@@ -125,7 +116,7 @@ export const MissionsTable = ({ missions }: { missions: Data[] }) => {
                       variant="body2"
                       sx={{ color: theme.palette.text.secondary }}
                     >
-                      {mission.branchName}
+                      {mission.branch}
                     </Typography>
                   </TableCell>
                   <TableCell
@@ -155,7 +146,7 @@ export const MissionsTable = ({ missions }: { missions: Data[] }) => {
                   >
                     <IconButton
                       size="small"
-                      onClick={() => handleViewMission(mission.id)}
+                      onClick={() => handleViewMission(mission._id)}
                       sx={{
                         color: theme.palette.text.secondary,
                         "&:hover": {

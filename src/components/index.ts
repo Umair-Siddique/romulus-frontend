@@ -8,11 +8,13 @@ export * from "./mission-details";
 export * from "./page-meta";
 export * from "./profile";
 export * from "./sider";
-export * from "./tab-view";
+export * from "./TabView";
 export * from "./Header";
 export * from "./LogoComponent";
 export * from "./Modal";
 export * from "./Reviews";
 export * from "./TextLink";
 export * from "./table";
+export * from "./ToolBarComponent";
+
 

@@ -3,10 +3,10 @@ import { Box, Tabs, Tab } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 
 export const TabView = ({
-  tabsNavigation,
+  tabsTitles,
   tabsContent,
 }: {
-  tabsNavigation: { title: string }[];
+  tabsTitles: string[];
   tabsContent: React.ReactNode[];
 }) => {
   const theme = useTheme<Theme>();
@@ -40,8 +40,8 @@ export const TabView = ({
             },
           }}
         >
-          {tabsNavigation.map((tab, index) => (
-            <Tab key={index} label={tab.title} />
+          {tabsTitles.map((title, index) => (
+            <Tab key={index} label={title} />
           ))}
         </Tabs>
       </Box>

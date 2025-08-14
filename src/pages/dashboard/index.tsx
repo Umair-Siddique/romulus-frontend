@@ -7,10 +7,11 @@ import {
   HourglassTop as HourglassTopIcon,
 } from "@mui/icons-material";
 
-import { TabsView, KpiCards, PageMeta } from "#components";
+import { KpiCards, PageMeta, TabView } from "#components";
 
 import { KpiItem } from "#types";
 import { useUserContext } from "#context";
+import { CalendarTab, MissionsTab } from "#components/dashboard";
 
 const defaultKpis: KpiItem[] = [
   {
@@ -105,18 +106,6 @@ export const Dashboard = () => {
 
   const { role, organizationId } = user;
 
-  const title =
-    role === "admin"
-      ? "Manage & Monitor Missions, Educators & Organizations"
-      : "Manage & Monitor Missions";
-
-  const description =
-    role === "admin"
-      ? `Manage all your missions, educators and organizations in one place.`
-      : role === "organization"
-      ? `Manage all your missions, track educators and monitor progress in one place.`
-      : `Manage all your missions, and monitor progress in one place.`;
-
   const {
     data: missionsData,
     isLoading: isMissionsDataLoading,
@@ -132,90 +121,8 @@ export const Dashboard = () => {
     },
   });
 
-  // console.log("Dashboard.tsx -> missionsData:", missionsData);
-
   // Optimized missions selection
-  const missions = useMemo(() => {
-    return role === "educator"
-      ? userProfile?.missionsHiredFor || []
-      : missionsData?.data || [];
-  }, [role, userProfile?.missionsHiredFor, missionsData?.data]);
-
-  // Optimized mission counts calculation
-  const missionCounts = useMemo(() => {
-    const pendingInvitations =
-      role === "educator"
-        ? userProfile?.missionsInvitedFor?.filter(
-            (mission: any) =>
-              mission?.mission && mission.invitationStatus === "pending"
-          ).length || 0
-        : 0;
-
-    return getMissionCounts(missions, pendingInvitations);
-  }, [missions, role, userProfile?.missionsInvitedFor]);
-
-  // Optimized KPIs calculation
-  const kpis = useMemo(() => {
-    const totalMissions =
-      role === "educator"
-        ? [
-            ...(userProfile?.missionsInvitedFor?.map(
-              (mission: any) => mission.mission
-            ) ?? []),
-            ...(userProfile?.missionsHiredFor ?? []),
-          ].filter(
-            (mission: any, index: number, self: any) =>
-              self.findIndex((t: any) => t?._id === mission?._id) === index
-          )?.length
-        : missionsData?.total || 0;
-
-    return getFilteredKpis(role!, missionCounts, totalMissions!);
-  }, [
-    role,
-    missionsData?.total,
-    userProfile?.missionsHiredFor?.length,
-    missionCounts,
-  ]);
-
-  // Optimized tab missions
-  const tabMissions = useMemo(() => {
-    const calendarTabMissions =
-      role === "educator"
-        ? userProfile?.missionsInvitedFor?.map((elem: any) => elem.mission) ??
-          []
-        : missions;
-
-    const mergedMissions = [
-      ...(userProfile?.missionsHiredFor ?? []),
-      ...(userProfile?.missionsInvitedFor?.map((elem: any) => elem.mission) ??
-        []),
-    ];
-
-    const uniqueMissions = Array.from(
-      new Map(mergedMissions.map((m) => [m?._id, m])).values()
-    );
-
-    const missionsTabMissions = role === "educator" ? uniqueMissions : missions;
-
-    // console.log("Dashboard.tsx -> calendarTabMissions:", calendarTabMissions);
-    // console.log("Dashboard.tsx -> missionsTabMissions:", missionsTabMissions);
-
-    return {
-      calendarTabMissions,
-      missionsTabMissions: {
-        missions: missionsTabMissions,
-        refetchMissions: refetchMissionsData,
-      },
-    };
-  }, [
-    role,
-    userProfile?.missionsInvitedFor,
-    userProfile?.missionsHiredFor,
-    missions,
-    refetchMissionsData,
-  ]);
-
-  if (role === "organization" && isMissionsDataLoading) {
+  if (isMissionsDataLoading) {
     return <div>Loading...</div>;
   }
 
@@ -223,13 +130,74 @@ export const Dashboard = () => {
     return <div>Error loading data</div>;
   }
 
-  // console.log("Dashboard.tsx -> tabMissions:", tabMissions);
+  const missions =
+    role === "educator"
+      ? userProfile?.missionsHiredFor || []
+      : missionsData?.data || [];
+
+  const pendingInvitations =
+    role === "educator"
+      ? userProfile?.missionsInvitedFor?.filter(
+          (mission: any) =>
+            mission?.mission && mission.invitationStatus === "pending"
+        ).length || 0
+      : 0;
+
+  const missionCounts = getMissionCounts(missions, pendingInvitations);
+
+  const totalMissions =
+    role === "educator"
+      ? [
+          ...(userProfile?.missionsInvitedFor?.map(
+            (mission: any) => mission.mission
+          ) ?? []),
+          ...(userProfile?.missionsHiredFor ?? []),
+        ].filter(
+          (mission: any, index: number, self: any) =>
+            self.findIndex((t: any) => t?._id === mission?._id) === index
+        )?.length
+      : missionsData?.total || 0;
+
+  const kpis = getFilteredKpis(role!, missionCounts, totalMissions!);
+
+  const calendarTabMissions =
+    role === "educator"
+      ? userProfile?.missionsInvitedFor?.map((elem: any) => elem.mission) ?? []
+      : missions;
+
+  const mergedMissions = [
+    ...(userProfile?.missionsHiredFor ?? []),
+    ...(userProfile?.missionsInvitedFor?.map((elem: any) => elem.mission) ??
+      []),
+  ];
+
+  const uniqueMissions = Array.from(
+    new Map(mergedMissions.map((m) => [m?._id, m])).values()
+  );
+
+  const missionsTabMissions = role === "educator" ? uniqueMissions : missions;
+
+  const tabsContent = [
+    <CalendarTab calendarTabProps={calendarTabMissions} />,
+    <MissionsTab
+      missionsTabProps={{
+        missions: missionsTabMissions,
+        refetchMissions: refetchMissionsData,
+      }}
+    />,
+  ];
 
   return (
     <>
-      <PageMeta title={title} description={description} />
+      <PageMeta
+        title="Manage & Monitor Missions"
+        description="Manage all missions here."
+      />
       <KpiCards kpiCardsData={kpis} />
-      <TabsView {...tabMissions} />
+      <TabView
+        tabsTitles={["Calendar", "Missions"]}
+        tabsContent={tabsContent}
+      />
     </>
   );
 };

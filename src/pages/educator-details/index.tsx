@@ -2,7 +2,7 @@ import { useLocation, useParams } from "react-router";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import { useUserContext } from "#context";
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import {
   ProfileHeader,
   ProfileCard,
@@ -13,7 +13,6 @@ import {
   MissionsList,
 } from "#components";
 import { useOne } from "@refinedev/core";
-import { formatDate } from "#utils";
 
 export const EducatorDetails = () => {
   const theme = useTheme<Theme>();
@@ -27,39 +26,34 @@ export const EducatorDetails = () => {
   const location = useLocation();
   const missionId = location.state?.missionId;
 
-  const { data: educatorData, refetch: refetchEducatorData } = useOne({
+  const {
+    data: educatorData,
+    refetch: refetchEducatorData,
+    isLoading: educatorDataLoading,
+  } = useOne({
     resource: `educators/${educatorId}`,
     queryOptions: {
       enabled: !!educatorId,
     },
   });
 
-  const { data: missionsData, isLoading } = useOne({
+  const { data: missionsData, isLoading: missionsDataLoading } = useOne({
     resource: `missions/educator/${educatorId}`,
     queryOptions: {
       enabled: !!educatorId,
     },
   });
 
-  // console.log("EducatorDetails -> missionsData:", missionsData);
+  if (educatorDataLoading || missionsDataLoading) {
+    return "Loading...";
+  }
 
-  const missions = missionsData?.data?.map((mission: any) => ({
-    id: mission?._id,
-    missionTitle: mission?.title,
-    createdAt: formatDate(mission?.createdAt),
-    organizationName: mission?.organization?.organizationName,
-    branchName: mission?.branch,
-    status: mission?.status,
-  }));
-
-  // console.log("EducatorDetails -> missions:", missions);
+  const missions = missionsData?.data;
 
   const hasOrganizationsFeedbacks =
     educatorData?.data?.organizationsFeedbacks?.length > 0;
 
   const organizationFeedbacks = educatorData?.data?.organizationsFeedbacks;
-
-  const tabsNavigation = [{ title: "Missions" }];
 
   const tabsContent = [<MissionsList missions={missions} />];
 
@@ -106,7 +100,7 @@ export const EducatorDetails = () => {
 
       {role === "admin" && (
         <Box sx={{ mb: theme.spacing(2) }}>
-          <TabView tabsNavigation={tabsNavigation} tabsContent={tabsContent} />
+          <TabView tabsTitles={["Missions"]} tabsContent={tabsContent} />
         </Box>
       )}
 
