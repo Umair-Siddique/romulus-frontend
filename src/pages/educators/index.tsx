@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { useUserContext } from "#context";
@@ -17,6 +17,7 @@ import { KpiCards, PageMeta, ToolBarComponent } from "#components";
 import { useList } from "@refinedev/core";
 import { formatDate } from "#utils";
 import { TableComponent } from "#components";
+import { isError } from "util";
 
 export const Educators = () => {
   const { user } = useUserContext();
@@ -31,20 +32,115 @@ export const Educators = () => {
     }
   }, [user, navigate]);
 
-  const { data: educatorsData, isLoading: isEducatorsDataLoading } = useList({
+  const { data, isLoading, isError } = useList({
     resource: "educators",
     queryOptions: {
       enabled: role === "admin",
     },
   });
 
-  if (isEducatorsDataLoading) {
+  const educators = data?.data;
+
+  // Available Filters
+  const availableStatuses = ["All", "Pending", "Active", "Inactive"];
+  const availableDates = ["Today", "This Week", "This Month", "All Time"];
+
+  // Filters States
+  const [selectedStatus, setSelectedStatus] = useState("All");
+  const [selectedDate, setSelectedDate] = useState("Date");
+
+  // Filtered Educators
+  const [filteredEducators, setFilteredEducators] = useState<any>([]);
+
+  useEffect(() => {
+    let filtered = educators;
+
+    // Filter by status
+    if (selectedStatus !== "All") {
+      filtered = filterByStatus(selectedStatus, educators!);
+    }
+
+    // Filter by date
+    if (selectedDate !== "Date") {
+      filtered = filterByDate(selectedDate, educators!);
+    }
+
+    setFilteredEducators(filtered);
+  }, [selectedStatus, selectedDate, educators]);
+
+  if (isLoading) {
     return "Loading...";
+  } else if (isError) {
+    return "Error loading organizations";
   }
 
-  const educators = educatorsData?.data;
+  function filterByStatus(selectedStatus: string, educators: any[]) {
+    return educators.filter((educator) => {
+      switch (selectedStatus) {
+        case "Pending":
+          return educator.status === "pending";
+        case "Active":
+          return educator.status === "active";
+        case "Inactive":
+          return educator.status === "inactive";
+        default:
+          return true;
+      }
+    });
+  }
 
-  const educatorsArray = educators?.map((educator) => ({
+  function filterByDate(selectedDate: string, educators: any[]) {
+    const isDateInRange = (
+      educatorDate: string | Date,
+      dateRange: string
+    ): boolean => {
+      if (!educatorDate) return false;
+
+      const educatorDateTime = new Date(educatorDate);
+      const now = new Date();
+
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const educatorDay = new Date(
+        educatorDateTime.getFullYear(),
+        educatorDateTime.getMonth(),
+        educatorDateTime.getDate()
+      );
+
+      switch (dateRange) {
+        case "Today":
+          return educatorDay.getTime() === today.getTime();
+
+        case "This Week":
+          const weekStart = new Date(today);
+          weekStart.setDate(today.getDate() - today.getDay());
+          const weekEnd = new Date(weekStart);
+          weekEnd.setDate(weekStart.getDate() + 6);
+          return educatorDay >= weekStart && educatorDay <= weekEnd;
+
+        case "This Month":
+          const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+          const monthEnd = new Date(
+            today.getFullYear(),
+            today.getMonth() + 1,
+            0
+          );
+          return educatorDay >= monthStart && educatorDay <= monthEnd;
+
+        case "All Time":
+        case "Date":
+          return true;
+
+        default:
+          return true;
+      }
+    };
+
+    return educators.filter((educator: any) =>
+      isDateInRange(educator.createdAt, selectedDate)
+    );
+  }
+
+  const educatorsArray = filteredEducators?.map((educator: any) => ({
     id: educator?._id,
     avatar: educator?.avatar || "N/A",
     name: `${educator?.firstName} ${educator?.lastName}` || "N/A",
@@ -57,14 +153,14 @@ export const Educators = () => {
   const kpis: KpiItem[] = [
     {
       title: "Total",
-      total: educatorsArray?.length || 0,
+      total: educators?.length || 0,
       icon: <GroupsIcon sx={{ color: "#1976d2", fontSize: "1.5rem" }} />, // Blue 700
       iconBg: "#e3f2fd", // Blue 50
     },
     {
       title: "Pending",
       total:
-        educatorsArray?.filter((educator) => educator?.status === "pending")
+        educators?.filter((educator) => educator?.status === "pending")
           .length || 0,
       icon: <HourglassTopIcon sx={{ color: "#f57c00", fontSize: "1.5rem" }} />, // Orange 700
       iconBg: "#fff3e0", // Orange 50
@@ -72,15 +168,15 @@ export const Educators = () => {
     {
       title: "Active",
       total:
-        educatorsArray?.filter((educator) => educator?.status === "active")
-          .length || 0,
+        educators?.filter((educator) => educator?.status === "active").length ||
+        0,
       icon: <CheckCircleIcon sx={{ color: "#2e7d32", fontSize: "1.5rem" }} />, // Green 800
       iconBg: "#e8f5e9", // Green 50
     },
     {
       title: "Inactive",
       total:
-        educatorsArray?.filter((educator) => educator?.status === "inactive")
+        educators?.filter((educator) => educator?.status === "inactive")
           .length || 0,
       icon: <HighlightOffIcon sx={{ color: "#c62828", fontSize: "1.5rem" }} />, // Red 800
       iconBg: "#ffebee", // Red 50
@@ -113,7 +209,15 @@ export const Educators = () => {
       />
       <KpiCards kpiCardsData={kpis} />
       <Box sx={{ mt: 3 }}>
-        <ToolBarComponent />
+        <ToolBarComponent
+          availableStatuses={availableStatuses}
+          selectedStatus={selectedStatus}
+          setSelectedStatus={setSelectedStatus}
+          availableDates={availableDates}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
+
         <TableComponent
           tableData={educatorsArray}
           columnWidths={columnWidths}

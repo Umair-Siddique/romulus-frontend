@@ -34,19 +34,14 @@ export const Organizations = () => {
     }
   }, [user, navigate]);
 
-  const {
-    data: organizationsData,
-    isLoading: isOrganizationsDataLoading,
-    isError,
-    refetch: refetchOrganizationsData,
-  } = useList({
+  const { data, isLoading, isError } = useList({
     resource: "organizations",
     queryOptions: {
       enabled: role === "admin",
     },
   });
 
-  const organizations = organizationsData?.data;
+  const organizations = data?.data;
 
   // Available Filters
   const availableStatuses = ["All", "Pending", "Active", "Inactive"];
@@ -75,7 +70,7 @@ export const Organizations = () => {
     setFilteredOrganizations(filtered);
   }, [selectedStatus, selectedDate, organizations]);
 
-  if (isOrganizationsDataLoading) {
+  if (isLoading) {
     return "Loading...";
   } else if (isError) {
     return "Error loading organizations";

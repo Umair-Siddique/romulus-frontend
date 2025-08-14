@@ -33,7 +33,7 @@ const TableBodyComponent = ({
 
   return (
     <TableBody>
-      {bodyData.map((item: any) => (
+      {bodyData?.map((item: any) => (
         <TableRow
           key={item.id}
           hover
