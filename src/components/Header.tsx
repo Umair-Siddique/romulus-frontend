@@ -124,10 +124,12 @@ export const Header = () => {
     }
   }, [notificationsData, refetchNotifications]);
 
-  if (isUserLoading || isNotificationsLoading) {
-    return "Loading...";
-  } else if (isUserError || isNotificationsError) {
-    return "Error...";
+  if (role === "organization" || role === "educator") {
+    if (isUserLoading || isNotificationsLoading) {
+      return "Loading...";
+    } else if (isUserError || isNotificationsError) {
+      return "Error...";
+    }
   }
 
   const handleUserMenuClick = (event: {

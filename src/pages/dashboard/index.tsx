@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useList } from "@refinedev/core";
 import {
   Assignment as AssignmentIcon,
@@ -122,10 +121,12 @@ export const Dashboard = () => {
   });
 
   // Optimized missions selection
-  if (isLoading) {
-    return <div>Loading...</div>;
-  } else if (isError) {
-    return <div>Error loading data</div>;
+  if (role === "organization" || role === "admin") {
+    if (isLoading) {
+      return <div>Loading...</div>;
+    } else if (isError) {
+      return <div>Error loading data</div>;
+    }
   }
 
   const missions =
