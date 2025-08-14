@@ -47,7 +47,11 @@ const RehireModal: React.FC<RehireModalProps> = ({
     setSelectedMission(event.target.value);
   };
 
-  const { data: missionsData } = useList({
+  const {
+    data: missionsData,
+    isLoading: missionsDataLoading,
+    isError: missionsDataError,
+  } = useList({
     resource: `missions/organization/${organizationId}`,
     queryOptions: {
       enabled: rehireModalOpen,
@@ -58,6 +62,12 @@ const RehireModal: React.FC<RehireModalProps> = ({
   const pendingMissions = missions.filter(
     (mission) => mission.status === "pending"
   );
+
+  if (missionsDataLoading) {
+    return "Loading...";
+  } else if (missionsDataError) {
+    return "Error...";
+  }
 
   return (
     <Dialog

@@ -17,7 +17,6 @@ import { KpiCards, PageMeta, ToolBarComponent } from "#components";
 import { useList } from "@refinedev/core";
 import { formatDate } from "#utils";
 import { TableComponent } from "#components";
-import { isError } from "util";
 
 export const Educators = () => {
   const { user } = useUserContext();

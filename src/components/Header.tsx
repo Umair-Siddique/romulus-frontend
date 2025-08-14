@@ -23,21 +23,58 @@ import { useUserContext } from "#context";
 
 export const Header = () => {
   const theme = useTheme<Theme>();
-  const [pageName, setPageName] = useState<string>("");
-  const [showBackButton, setShowBackButton] = useState<boolean>(false);
-  const [notificationAnchorEl, setNotificationAnchorEl] =
-    useState<null | HTMLElement>(null);
 
   const { user, setUserProfile, setRefetchUserProfile } = useUserContext();
-  const navigate = useNavigate();
 
   const { userId, educatorId, organizationId, role } = user;
 
-  const { data: userProfile, refetch: refetchUserProfile } = useOne({
+  const [pageName, setPageName] = useState<string>("");
+  const [showBackButton, setShowBackButton] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [notifications, setNotifications] = useState<any>([]);
+  const [unreadNotifications, setUnreadNotifications] = useState([]);
+  const [notificationAnchorEl, setNotificationAnchorEl] =
+    useState<null | HTMLElement>(null);
+
+  const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const { mutate: logout } = useLogout();
+
+  const {
+    data: userProfile,
+    refetch: refetchUserProfile,
+    isLoading: isUserLoading,
+    isError: isUserError,
+  } = useOne({
     resource: role === "educator" ? "educators" : "organizations",
     id: educatorId || organizationId,
     queryOptions: {
       enabled: !!(educatorId || organizationId),
+    },
+  });
+
+  const {
+    data: notificationsData,
+    refetch: refetchNotifications,
+    isLoading: isNotificationsLoading,
+    isError: isNotificationsError,
+  } = useOne({
+    id: userId,
+    resource: `notifications`,
+    liveMode: "auto",
+    queryOptions: {
+      enabled: !!userId,
+    },
+  });
+
+  const { mutate: updateNotification } = useUpdate({
+    resource: "notifications",
+    mutationOptions: {
+      onSuccess: () => {
+        refetchNotifications();
+      },
     },
   });
 
@@ -49,11 +86,6 @@ export const Header = () => {
       }
     }
   }, [userProfile, setUserProfile]);
-
-  const location = useLocation();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const { mutate: logout } = useLogout();
 
   useEffect(() => {
     const segments = location.pathname.split("/").filter(Boolean);
@@ -80,27 +112,6 @@ export const Header = () => {
     }
   }, [location.pathname]);
 
-  const [notifications, setNotifications] = useState<any>([]);
-  const [unreadNotifications, setUnreadNotifications] = useState([]);
-
-  const { data: notificationsData, refetch: refetchNotifications } = useOne({
-    id: userId,
-    resource: `notifications`,
-    liveMode: "auto",
-    queryOptions: {
-      enabled: !!userId,
-    },
-  });
-
-  const { mutate: updateNotification } = useUpdate({
-    resource: "notifications",
-    mutationOptions: {
-      onSuccess: () => {
-        refetchNotifications();
-      },
-    },
-  });
-
   useEffect(() => {
     if (notificationsData) {
       const allNoti = notificationsData.data;
@@ -112,6 +123,12 @@ export const Header = () => {
       setUnreadNotifications(unreadNoti);
     }
   }, [notificationsData, refetchNotifications]);
+
+  if (isUserLoading || isNotificationsLoading) {
+    return "Loading...";
+  } else if (isUserError || isNotificationsError) {
+    return "Error...";
+  }
 
   const handleUserMenuClick = (event: {
     currentTarget: SetStateAction<HTMLElement | null>;

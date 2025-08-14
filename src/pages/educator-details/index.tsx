@@ -30,6 +30,7 @@ export const EducatorDetails = () => {
     data: educatorData,
     refetch: refetchEducatorData,
     isLoading: educatorDataLoading,
+    isError: educatorDataError,
   } = useOne({
     resource: `educators/${educatorId}`,
     queryOptions: {
@@ -37,7 +38,11 @@ export const EducatorDetails = () => {
     },
   });
 
-  const { data: missionsData, isLoading: missionsDataLoading } = useOne({
+  const {
+    data: missionsData,
+    isLoading: missionsDataLoading,
+    isError: missionsDataError,
+  } = useOne({
     resource: `missions/educator/${educatorId}`,
     queryOptions: {
       enabled: !!educatorId,
@@ -46,6 +51,8 @@ export const EducatorDetails = () => {
 
   if (educatorDataLoading || missionsDataLoading) {
     return "Loading...";
+  } else if (educatorDataError || missionsDataError) {
+    return "Error...";
   }
 
   const missions = missionsData?.data;

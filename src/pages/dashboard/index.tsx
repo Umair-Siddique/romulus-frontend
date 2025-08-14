@@ -108,7 +108,7 @@ export const Dashboard = () => {
 
   const {
     data: missionsData,
-    isLoading: isMissionsDataLoading,
+    isLoading,
     isError,
     refetch: refetchMissionsData,
   } = useList({
@@ -122,11 +122,9 @@ export const Dashboard = () => {
   });
 
   // Optimized missions selection
-  if (isMissionsDataLoading) {
+  if (isLoading) {
     return <div>Loading...</div>;
-  }
-
-  if (isError) {
+  } else if (isError) {
     return <div>Error loading data</div>;
   }
 

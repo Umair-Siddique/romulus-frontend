@@ -13,7 +13,11 @@ import { memo } from "react";
 import { useNavigate } from "react-router";
 
 export const PreferredEducatorCard = memo(({ preferredEducator }: any) => {
-  const { data: educatorData } = useOne({
+  const {
+    data: educatorData,
+    isLoading: isEducatorLoading,
+    isError: isEducatorError,
+  } = useOne({
     resource: "educators",
     id: preferredEducator,
   });
@@ -25,6 +29,12 @@ export const PreferredEducatorCard = memo(({ preferredEducator }: any) => {
   const handleViewEducator = (preferredEducator: string) => {
     navigate(`/educators/${preferredEducator}`);
   };
+
+  if (isEducatorLoading) {
+    return "Loading...";
+  } else if (isEducatorError) {
+    return "Error...";
+  }
 
   return (
     <Box
