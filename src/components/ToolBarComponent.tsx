@@ -16,17 +16,21 @@ import {
 import { useUserContext } from "#context";
 
 interface ToolBarProps {
+  availableStatuses: string[];
   selectedStatus: string;
   setSelectedStatus: (status: string) => void;
-  selectedBranch: string;
-  setSelectedBranch: (branch: string) => void;
+
+  availableDates: string[];
   selectedDate: string;
   setSelectedDate: (date: string) => void;
-  availableBranches: string[];
-  availableOrganizations: string[];
-  selectedOrganization: string;
-  setSelectedOrganization: (organization: string) => void;
-  statusFilters: string[];
+
+  availableOrganizations?: string[];
+  selectedOrganization?: string;
+  setSelectedOrganization?: (organization: string) => void;
+
+  availableBranches?: string[];
+  selectedBranch?: string;
+  setSelectedBranch?: (branch: string) => void;
 }
 
 export const ToolBarComponent = ({
@@ -42,20 +46,7 @@ export const ToolBarComponent = ({
   availableBranches,
   selectedBranch,
   setSelectedBranch,
-}: {
-  availableStatuses: string[];
-  selectedStatus: string;
-  setSelectedStatus: (status: string) => void;
-  availableDates: string[];
-  selectedDate: string;
-  setSelectedDate: (date: string) => void;
-  availableOrganizations: string[];
-  selectedOrganization: string;
-  setSelectedOrganization: (organization: string) => void;
-  availableBranches: string[];
-  selectedBranch: string;
-  setSelectedBranch: (branch: string) => void;
-}) => {
+}: ToolBarProps) => {
   const theme = useTheme<Theme>();
   const { user } = useUserContext();
   const role = user?.role;
@@ -69,6 +60,10 @@ export const ToolBarComponent = ({
     borderRadius: "12px",
     padding: theme.spacing(0.5, 1),
   }));
+
+  const showOrganizationsFilter =
+    availableOrganizations && availableOrganizations?.length > 0;
+  const showBranchesFilter = availableBranches && availableBranches?.length > 0;
 
   return (
     <>
@@ -131,7 +126,7 @@ export const ToolBarComponent = ({
           </Button>
 
           {/* Branch Filter */}
-          {role !== "educator" && (
+          {role !== "educator" && showBranchesFilter && (
             <Button
               variant="outlined"
               onClick={(e) => setBranchAnchor(e.currentTarget)}
@@ -150,7 +145,7 @@ export const ToolBarComponent = ({
           )}
 
           {/* Organization Filter */}
-          {role === "admin" && (
+          {role === "admin" && showOrganizationsFilter && (
             <Button
               variant="outlined"
               onClick={(e) => setOrganizationAnchor(e.currentTarget)}
@@ -201,11 +196,11 @@ export const ToolBarComponent = ({
         open={Boolean(branchAnchor)}
         onClose={() => setBranchAnchor(null)}
       >
-        {availableBranches.map((option) => (
+        {availableBranches?.map((option) => (
           <MenuItem
             key={option}
             onClick={() => {
-              setSelectedBranch(option);
+              setSelectedBranch && setSelectedBranch(option);
               setBranchAnchor(null);
             }}
             sx={{
@@ -226,11 +221,11 @@ export const ToolBarComponent = ({
         open={Boolean(organizationAnchor)}
         onClose={() => setOrganizationAnchor(null)}
       >
-        {availableOrganizations.map((option) => (
+        {availableOrganizations?.map((option) => (
           <MenuItem
             key={option}
             onClick={() => {
-              setSelectedOrganization(option);
+              setSelectedOrganization && setSelectedOrganization(option);
               setOrganizationAnchor(null);
             }}
             sx={{

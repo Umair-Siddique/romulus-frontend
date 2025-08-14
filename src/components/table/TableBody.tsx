@@ -12,7 +12,7 @@ import {
 import { RemoveRedEye as EyeIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 
-import { getStatusColor } from "#utils";
+import { formatDate, getStatusColor } from "#utils";
 
 const TableBodyComponent = ({
   bodyData,
@@ -80,7 +80,10 @@ const TableBodyComponent = ({
                     color: theme.palette.text.primary,
                   }}
                 >
-                  {item.name}
+                  {item.name ||
+                    item.organizationName ||
+                    `${item.firstName} ${item.lastName}` ||
+                    "N/A"}
                 </Typography>
               </Box>
             </TableCell>
@@ -98,7 +101,7 @@ const TableBodyComponent = ({
                 variant="body2"
                 sx={{ color: theme.palette.text.secondary }}
               >
-                {item.createdAt}
+                {formatDate(item.createdAt)}
               </Typography>
             </TableCell>
           )}
