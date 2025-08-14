@@ -142,18 +142,6 @@ export const Organizations = () => {
     );
   }
 
-  const organizationsArray = filteredOrganizations?.map(
-    (organization: any) => ({
-      id: organization._id,
-      avatar: organization.avatar || "N/A",
-      name: organization.organizationName || "N/A",
-      createdAt: formatDate(organization.createdAt),
-      siretNumber: organization.siretNumber || "N/A",
-      branches: organization.branches.length,
-      status: organization.status || "N/A",
-    })
-  );
-
   const kpis: KpiItem[] = [
     {
       title: "Total",
@@ -207,6 +195,18 @@ export const Organizations = () => {
     { id: "status", label: "Status" },
     { id: "actions", label: "Actions" },
   ];
+
+  const organizationsArray = filteredOrganizations?.map(
+    (organization: any) => ({
+      id: organization._id,
+      avatar: organization.avatar || "N/A",
+      name: organization.organizationName || "N/A",
+      createdAt: formatDate(organization.createdAt),
+      siretNumber: organization.siretNumber || "N/A",
+      branches: organization.branches.length,
+      status: organization.status || "N/A",
+    })
+  );
 
   return (
     <>

@@ -12,7 +12,7 @@ import {
 import { RemoveRedEye as EyeIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 
-import { formatDate, getStatusColor } from "#utils";
+import { formatDate, getStatusColor, truncateWithEllipsis } from "#utils";
 
 const TableBodyComponent = ({
   bodyData,
@@ -68,10 +68,12 @@ const TableBodyComponent = ({
                     color: theme.palette.primary.contrastText,
                   }}
                 >
-                  {item.name
-                    .split(" ")
-                    .map((n: string) => n[0])
-                    .join("")}
+                  {truncateWithEllipsis(
+                    item.name
+                      .split(" ")
+                      .map((n: string) => n[0])
+                      .join("")
+                  )}
                 </Avatar>
                 <Typography
                   variant="body1"
@@ -80,12 +82,31 @@ const TableBodyComponent = ({
                     color: theme.palette.text.primary,
                   }}
                 >
-                  {item.name ||
-                    item.organizationName ||
-                    `${item.firstName} ${item.lastName}` ||
-                    "N/A"}
+                  {truncateWithEllipsis(
+                    item.name ||
+                      item.organizationName ||
+                      `${item.firstName} ${item.lastName}` ||
+                      "N/A"
+                  )}
                 </Typography>
               </Box>
+            </TableCell>
+          )}
+          {item.reportedBy && (
+            <TableCell
+              align="center"
+              sx={{
+                padding: theme.spacing(2),
+                width: columnWidths.reportedBy,
+                minWidth: columnWidths.reportedBy,
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{ color: theme.palette.text.secondary }}
+              >
+                {truncateWithEllipsis(item.reportedBy)}
+              </Typography>
             </TableCell>
           )}
           {item.createdAt && (
@@ -102,6 +123,40 @@ const TableBodyComponent = ({
                 sx={{ color: theme.palette.text.secondary }}
               >
                 {formatDate(item.createdAt)}
+              </Typography>
+            </TableCell>
+          )}
+          {item.reportedEducator && (
+            <TableCell
+              align="center"
+              sx={{
+                padding: theme.spacing(2),
+                width: columnWidths.reportedEducator,
+                minWidth: columnWidths.reportedEducator,
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{ color: theme.palette.text.secondary }}
+              >
+                {truncateWithEllipsis(item.reportedEducator)}
+              </Typography>
+            </TableCell>
+          )}
+          {item.reportReason && (
+            <TableCell
+              align="center"
+              sx={{
+                padding: theme.spacing(2),
+                width: columnWidths.reportReason,
+                minWidth: columnWidths.reportReason,
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{ color: theme.palette.text.secondary }}
+              >
+                {truncateWithEllipsis(item.reportReason)}
               </Typography>
             </TableCell>
           )}
@@ -135,7 +190,7 @@ const TableBodyComponent = ({
                 variant="body2"
                 sx={{ color: theme.palette.text.secondary }}
               >
-                {item.email}
+                {truncateWithEllipsis(item.email)}
               </Typography>
             </TableCell>
           )}

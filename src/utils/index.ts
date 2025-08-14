@@ -35,25 +35,24 @@ const requestAPI = <T = any>(
 };
 
 const getStatusColor = (status: string) => {
-  switch (status) {
+  switch (status.toLowerCase()) {
     case "ongoing":
-      return { color: "#ef6c00", backgroundColor: "#fff3e0" }; // dark orange
+    case "open":
+      return { color: "#E65100", backgroundColor: "#FFF3E0" }; // Orange 800 / Orange 50
     case "pending":
-      return { color: "#f9a825", backgroundColor: "#fff8e1" }; // amber/dark yellow
+      return { color: "#F9A825", backgroundColor: "#FFFDE7" }; // Amber 800 / Amber 50
     case "completed":
-      return { color: "#2e7d32", backgroundColor: "#e8f5e9" }; // dark green
-    case "declined":
-      return { color: "#c62828", backgroundColor: "#ffebee" }; // dark red
     case "hired":
-      return { color: "#2e7d32", backgroundColor: "#e8f5e9" }; // dark green
-    case "rejected":
-      return { color: "#c62828", backgroundColor: "#ffebee" }; // dark red
     case "active":
-      return { color: "#2e7d32", backgroundColor: "#e8f5e9" }; // dark green
+    case "resolved":
+      return { color: "#2E7D32", backgroundColor: "#E8F5E9" }; // Green 800 / Green 50
+    case "declined":
+    case "rejected":
     case "inactive":
-      return { color: "#c62828", backgroundColor: "#ffebee" }; // dark red
+    case "dismissed":
+      return { color: "#C62828", backgroundColor: "#FFEBEE" }; // Red 800 / Red 50
     default:
-      return { color: "#1565c0", backgroundColor: "#e3f2fd" }; // dark blue
+      return { color: "#1565C0", backgroundColor: "#E3F2FD" }; // Blue 800 / Blue 50
   }
 };
 
@@ -117,6 +116,10 @@ const handleDownload = (url: string) => {
   window.open(url, "_blank", "noopener,noreferrer");
 };
 
+const truncateWithEllipsis = (text: string, limit = 20) => {
+  return text.length > limit ? `${text.slice(0, limit)}...` : text;
+};
+
 export {
   requestAPI,
   getStatusColor,
@@ -124,4 +127,5 @@ export {
   formatDate,
   getElapsedTime,
   handleDownload,
+  truncateWithEllipsis,
 };
