@@ -10,23 +10,26 @@ import { formatDate, formatTime } from "#utils";
 
 interface ProfileHeaderProps {
   role: string;
-  educatorId: string;
+  educatorId?: string;
+  organizationIdProp?: string;
   missionId: string;
   educatorData?: any; // Adjust type as necessary
   refetchEducatorData?: () => void;
+  refetchOrganizationData?: () => void;
 }
 
 export const ProfileHeader = ({
   role,
   educatorId,
+  organizationIdProp,
   missionId,
   educatorData,
-  refetchEducatorData,
+  refetchOrganizationData,
 }: ProfileHeaderProps) => {
   const theme = useTheme();
 
   const userContext = useUserContext();
-  const organizationId = userContext?.user?.organizationId;
+  const organizationId = organizationIdProp && userContext?.user?.organizationId;
   const refetchUserProfile = userContext?.refetchUserProfile;
 
   // Modal state
@@ -47,14 +50,14 @@ export const ProfileHeader = ({
 
   const updateUserResource = educatorId ? "educators" : "organizations";
   const updateRoleId =
-    updateUserResource === "educators" ? educatorId : organizationId;
+    updateUserResource === "educators" ? educatorId : organizationIdProp;
 
   const { mutate: updateUser } = useUpdate({
     resource: updateUserResource,
     mutationMode: "optimistic",
     mutationOptions: {
       onSuccess: () => {
-        refetchEducatorData && refetchEducatorData();
+        refetchOrganizationData && refetchOrganizationData();
         refetchMissionData && refetchMissionData();
         refetchUserProfile && refetchUserProfile();
 
@@ -71,7 +74,7 @@ export const ProfileHeader = ({
       onSuccess: () => {
         refetchUserProfile && refetchUserProfile();
         refetchMissionData && refetchMissionData();
-        refetchEducatorData && refetchEducatorData();
+        refetchOrganizationData && refetchOrganizationData();
 
         setModalOpen(false);
         setModalAction(null);
@@ -133,6 +136,8 @@ export const ProfileHeader = ({
 
   const handleActivationStatusChange = useCallback(
     (status: "active" | "inactive") => {
+      console.log(updateRoleId);
+
       updateUser({
         id: updateRoleId,
         values: { status },
@@ -144,7 +149,7 @@ export const ProfileHeader = ({
     [
       updateUser,
       updateRoleId,
-      refetchEducatorData,
+      refetchOrganizationData,
       refetchMissionData,
       refetchUserProfile,
     ]
@@ -319,7 +324,7 @@ export const ProfileHeader = ({
             fontSize: theme.typography.h5.fontSize,
           }}
         >
-          Personal Info
+          Profile Data
         </Typography>
 
         {renderActionButtons()}
