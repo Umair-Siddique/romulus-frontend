@@ -13,7 +13,7 @@ export const ReportInfo = ({ reportDetails }: { reportDetails: any }) => {
         p: theme.spacing(2),
         display: "flex",
         flexDirection: "column",
-        width: "75%",
+        width: "78%",
       }}
     >
       <Typography

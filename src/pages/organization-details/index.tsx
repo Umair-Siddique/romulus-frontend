@@ -18,7 +18,7 @@ export const OrganizationDetails = ({
   parentComponent,
   reportId,
 }: {
-  organizationIdProp: string;
+  organizationIdProp?: string;
   parentComponent?: string;
   reportId?: string;
 }) => {

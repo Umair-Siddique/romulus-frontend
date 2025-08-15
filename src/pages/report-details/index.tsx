@@ -78,7 +78,7 @@ export const ReportDetails = () => {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            alignItems: "center",
+            alignItems: "flex-start",
           }}
         >
           <ReportInfo reportDetails={reportDetails} />
