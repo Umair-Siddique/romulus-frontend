@@ -1,56 +1,90 @@
 import { useUserContext } from "#context";
 import { formatDate, getStatusColor } from "#utils";
 import { Avatar, Typography, Box, Chip, useTheme } from "@mui/material";
+import { useOne } from "@refinedev/core";
 
 export const ProfileCard = ({
-  educatorId,
   educatorData,
+  organizationData,
 }: {
-  educatorId: string;
   educatorData?: any;
+  organizationData?: any;
 }) => {
   const theme = useTheme();
 
   const userContext = useUserContext();
   const role = userContext?.user?.role;
 
+  const { data } = useOne({
+    resource: `missions/organization/${organizationData?._id}`,
+    queryOptions: {
+      enabled: !!organizationData?._id,
+    },
+  });
+
+  const organizationMissions = data?.data;
+
   const userInfo = {
-    name:
-      `${educatorData?.firstName} ${educatorData?.lastName}` || "N/A",
+    name: educatorData
+      ? `${educatorData?.firstName} ${educatorData?.lastName}`
+      : organizationData?.organizationName || "N/A",
     phone: educatorData?.user?.phone || "N/A",
-    email: educatorData?.user?.email || "N/A",
+    siretNumber: organizationData?.siretNumber || "N/A",
+    email: educatorData
+      ? educatorData?.user?.email
+      : organizationData?.user?.email || "N/A",
     gender: educatorData?.gender || "N/A",
-    dob:
-      formatDate(educatorData?.dateOfBirth.split("T")[0]) ||
-      "N/A",
-    location:
-      `${educatorData?.city} ${educatorData?.country}` ||
-      "N/A",
-    status: educatorData?.status || "N/A",
-    avatar: educatorData?.avatar || "N/A",
+    address: organizationData?.officeAddress || "N/A",
+    dob: formatDate(educatorData?.dateOfBirth.split("T")[0]) || "N/A",
+    founded: formatDate(organizationData?.createdAt.split("T")[0]) || "N/A",
+    location: educatorData
+      ? `${educatorData?.city} ${educatorData?.country}`
+      : `${organizationData?.city} ${organizationData?.country}` || "N/A",
+    status: educatorData?.status || organizationData?.status || "N/A",
+    avatar: educatorData?.avatar || organizationData?.avatar || "N/A",
   };
 
   const missions = {
-    total: educatorData?.missionsHiredFor.length || 0,
-    pending:
-      educatorData?.missionsHiredFor.filter(
-        (mission: any) => mission.status === "pending"
-      ).length || 0,
-    ongoing:
-      educatorData?.missionsHiredFor.filter(
-        (mission: any) => mission.status === "ongoing"
-      ).length || 0,
-    completed:
-      educatorData?.missionsHiredFor.filter(
-        (mission: any) => mission.status === "completed"
-      ).length || 0,
+    total: educatorData
+      ? educatorData?.missionsHiredFor.length
+      : organizationMissions?.length || 0,
+    pending: educatorData
+      ? educatorData?.missionsHiredFor.filter(
+          (mission: any) => mission.status === "pending"
+        ).length
+      : organizationMissions?.filter(
+          (mission: any) => mission.status === "pending"
+        ).length || 0,
+    ongoing: educatorData
+      ? educatorData?.missionsHiredFor.filter(
+          (mission: any) => mission.status === "ongoing"
+        ).length
+      : organizationMissions?.filter(
+          (mission: any) => mission.status === "ongoing"
+        ).length || 0,
+    completed: educatorData
+      ? educatorData?.missionsHiredFor.filter(
+          (mission: any) => mission.status === "completed"
+        ).length
+      : organizationMissions?.filter(
+          (mission: any) => mission.status === "completed"
+        ).length || 0,
   };
 
   const userInfoItems = [
-    { label: "Phone:", value: userInfo.phone },
+    {
+      label: `${educatorData ? "Phone:" : "SIRET Number:"}`,
+      value: educatorData ? userInfo.phone : userInfo.siretNumber,
+    },
     { label: "Email:", value: userInfo.email },
-    { label: "Gender:", value: userInfo.gender },
-    { label: "DOB:", value: userInfo.dob },
+    {
+      label: `${educatorData ? "Gender:" : "Office Address:"}`,
+      value: educatorData ? userInfo.gender : userInfo.address,
+    },
+    {
+      label: `${educatorData ? "DOB:" : "Founded:"}`,
+      value: educatorData ? userInfo.dob : userInfo.founded,
+    },
     { label: "Location:", value: userInfo.location },
   ];
 

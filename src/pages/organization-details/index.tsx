@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router";
 
 import { useUserContext } from "#context";
 import { Box, Theme, useTheme } from "@mui/material";
-import { MissionsList, ProfileHeader } from "#components";
+import { MissionsList, ProfileCard, ProfileHeader } from "#components";
 import { useOne } from "@refinedev/core";
 
 export const OrganizationDetails = () => {
@@ -84,6 +84,10 @@ export const OrganizationDetails = () => {
           refetchOrganizationData={refetchOrganizationData}
           educatorData={organizationData?.data}
         />
+      </Box>
+
+      <Box sx={{ mb: theme.spacing(2) }}>
+        <ProfileCard organizationData={organizationData?.data} />
       </Box>
     </Box>
   );

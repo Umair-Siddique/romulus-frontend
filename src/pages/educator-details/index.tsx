@@ -87,10 +87,7 @@ export const EducatorDetails = () => {
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
-        <ProfileCard
-          educatorId={educatorId!}
-          educatorData={educatorData?.data}
-        />
+        <ProfileCard educatorData={educatorData?.data} />
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
