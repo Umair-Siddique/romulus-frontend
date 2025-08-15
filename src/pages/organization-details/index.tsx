@@ -11,6 +11,7 @@ import {
   TabView,
 } from "#components";
 import { useOne } from "@refinedev/core";
+import { ReportsList } from "#components/profile/ReportsList";
 
 export const OrganizationDetails = () => {
   const theme = useTheme<Theme>();
@@ -55,20 +56,29 @@ export const OrganizationDetails = () => {
     },
   });
 
-  if (organizationDataLoading || missionsDataLoading) {
+  const {
+    data: reportsData,
+    isLoading: reportsDataLoading,
+    isError: reportsDataError,
+  } = useOne({
+    resource: `reports/organization/${organizationId}`,
+    queryOptions: {
+      enabled: !!organizationId,
+    },
+  });
+
+  if (organizationDataLoading || missionsDataLoading || reportsDataLoading) {
     return "Loading...";
-  } else if (organizationDataError || missionsDataError) {
+  } else if (organizationDataError || missionsDataError || reportsDataError) {
     return "Error...";
   }
 
   const missions = missionsData?.data;
 
-  const hasOrganizationsFeedbacks =
-    organizationData?.data?.organizationsFeedbacks?.length > 0;
-
-  const organizationFeedbacks = organizationData?.data?.organizationsFeedbacks;
-
-  const tabsContent = [<MissionsList missions={missions} />];
+  const tabsData = {
+    tabsTitles: ["Missions", "Reports"],
+    tabsContent: [<MissionsList missions={missions} />, <ReportsList />],
+  };
 
   return (
     <Box
@@ -104,7 +114,10 @@ export const OrganizationDetails = () => {
 
       {role === "admin" && (
         <Box sx={{ mb: theme.spacing(2) }}>
-          <TabView tabsTitles={["Missions", "Reports"]} tabsContent={tabsContent} />
+          <TabView
+            tabsTitles={tabsData.tabsTitles}
+            tabsContent={tabsData.tabsContent}
+          />
         </Box>
       )}
     </Box>

@@ -62,7 +62,10 @@ export const EducatorDetails = () => {
 
   const organizationFeedbacks = educatorData?.data?.organizationsFeedbacks;
 
-  const tabsContent = [<MissionsList missions={missions} />];
+  const tabsData = {
+    tabsTitles: ["Missions"],
+    tabsContent: [<MissionsList missions={missions} />],
+  };
 
   return (
     <Box
@@ -104,7 +107,10 @@ export const EducatorDetails = () => {
 
       {role === "admin" && (
         <Box sx={{ mb: theme.spacing(2) }}>
-          <TabView tabsTitles={["Missions"]} tabsContent={tabsContent} />
+          <TabView
+            tabsTitles={tabsData.tabsTitles}
+            tabsContent={tabsData.tabsContent}
+          />
         </Box>
       )}
 

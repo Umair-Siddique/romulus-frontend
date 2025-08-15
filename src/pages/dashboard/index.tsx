@@ -186,6 +186,11 @@ export const Dashboard = () => {
     />,
   ];
 
+  const tabsData = {
+    tabsTitles: ["Calendar", "Missions"],
+    tabsContent: tabsContent,
+  };
+
   return (
     <>
       <PageMeta
@@ -194,8 +199,8 @@ export const Dashboard = () => {
       />
       <KpiCards kpiCardsData={kpis} />
       <TabView
-        tabsTitles={["Calendar", "Missions"]}
-        tabsContent={tabsContent}
+        tabsTitles={tabsData.tabsTitles}
+        tabsContent={tabsData.tabsContent}
       />
     </>
   );

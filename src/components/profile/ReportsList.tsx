@@ -1,37 +1,17 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-
+import { TableComponent } from "#components/table";
+import { ToolBarComponent } from "#components/ToolBarComponent";
 import { useUserContext } from "#context";
 import { Box } from "@mui/material";
-
-import {
-  Assignment as AssignmentIcon,
-  HourglassTop as HourglassTopIcon,
-  CheckCircle as CheckCircleIcon,
-  HighlightOff as HighlightOffIcon,
-} from "@mui/icons-material";
-
-import { KpiItem } from "#types";
-import {
-  KpiCards,
-  PageMeta,
-  TableComponent,
-  ToolBarComponent,
-} from "#components";
 import { useList } from "@refinedev/core";
+import { useEffect, useState } from "react";
+import { useTheme, Theme } from "@mui/material/styles";
 
-export const Reports = () => {
+export const ReportsList = () => {
+  const theme = useTheme<Theme>();
+
   const { user } = useUserContext();
 
   const role = user?.role;
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (role !== "admin") {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [user, navigate]);
 
   const { data, isLoading, isError } = useList({
     resource: "reports",
@@ -154,40 +134,6 @@ export const Reports = () => {
       isDateInRange(report.createdAt, selectedDate)
     );
   }
-
-  const kpis: KpiItem[] = [
-    {
-      title: "Total",
-      total: reports?.length || 0,
-      icon: <AssignmentIcon sx={{ color: "#1976d2", fontSize: "1.5rem" }} />, // Blue 700
-      iconBg: "#e3f2fd", // Blue 50
-    },
-    {
-      title: "Open",
-      total:
-        reports?.filter((report: any) => report.reportStatus === "open")
-          .length || 0,
-      icon: <HourglassTopIcon sx={{ color: "#ef6c00", fontSize: "1.5rem" }} />, // Orange 800 (slightly deeper for contrast)
-      iconBg: "#fff3e0", // Orange 50
-    },
-    {
-      title: "Resolved",
-      total:
-        reports?.filter((report: any) => report.reportStatus === "resolved")
-          .length || 0,
-      icon: <CheckCircleIcon sx={{ color: "#1b5e20", fontSize: "1.5rem" }} />, // Green 900 for max contrast
-      iconBg: "#e8f5e9", // Green 50
-    },
-    {
-      title: "Dismissed",
-      total:
-        reports?.filter((report: any) => report.reportStatus === "dismissed")
-          .length || 0,
-      icon: <HighlightOffIcon sx={{ color: "#b71c1c", fontSize: "1.5rem" }} />, // Red 900 for max contrast
-      iconBg: "#ffebee", // Red 50
-    },
-  ];
-
   const columnWidths = {
     reportedBy: "20%",
     createdAt: "20%",
@@ -216,29 +162,25 @@ export const Reports = () => {
   }));
 
   return (
-    <>
-      <PageMeta title="Manage Reports" description="Manage all reports here" />
-      <KpiCards kpiCardsData={kpis} />
-      <Box sx={{ mt: 3 }}>
-        <ToolBarComponent
-          availableStatuses={availableStatuses}
-          selectedStatus={selectedStatus}
-          setSelectedStatus={setSelectedStatus}
-          availableDates={availableDates}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          availableOrganizations={availableOrganizations}
-          selectedOrganization={selectedOrganization}
-          setSelectedOrganization={setSelectedOrganization}
-        />
+    <Box sx={{ m: theme.spacing(2) }}>
+      <ToolBarComponent
+        availableStatuses={availableStatuses}
+        selectedStatus={selectedStatus}
+        setSelectedStatus={setSelectedStatus}
+        availableDates={availableDates}
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+        availableOrganizations={availableOrganizations}
+        selectedOrganization={selectedOrganization}
+        setSelectedOrganization={setSelectedOrganization}
+      />
 
-        <TableComponent
-          tableData={reportsArray}
-          columnWidths={columnWidths}
-          headerData={headerData}
-          navigateTo="reports"
-        />
-      </Box>
-    </>
+      <TableComponent
+        tableData={reportsArray}
+        columnWidths={columnWidths}
+        headerData={headerData}
+        navigateTo="reports"
+      />
+    </Box>
   );
 };

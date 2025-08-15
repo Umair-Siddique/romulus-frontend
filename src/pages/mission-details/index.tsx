@@ -207,20 +207,23 @@ export const MissionDetails = () => {
   const showEducatorReviews =
     role === "educator" && missionData.hasEducatorsFeedbacks;
 
-  const tabsContent = [
-    <EducatorTable
-      key="invited"
-      educators={missionData.invitedEducators}
-      missionId={missionData.id}
-      tableType="invited"
-    />,
-    <EducatorTable
-      key="hired"
-      educators={missionData.hiredEducators}
-      missionId={missionData.id}
-      tableType="hired"
-    />,
-  ];
+  const tabsData = {
+    tabsTitles: ["Invited Educators", "Hired Educators"],
+    tabsContent: [
+      <EducatorTable
+        key="invited"
+        educators={missionData.invitedEducators}
+        missionId={missionData.id}
+        tableType="invited"
+      />,
+      <EducatorTable
+        key="hired"
+        educators={missionData.hiredEducators}
+        missionId={missionData.id}
+        tableType="hired"
+      />,
+    ],
+  };
 
   return (
     <Box
@@ -281,8 +284,8 @@ export const MissionDetails = () => {
 
       {role === "organization" && (
         <TabView
-          tabsTitles={["Invited Educators", "Hired Educators"]}
-          tabsContent={tabsContent}
+          tabsTitles={tabsData.tabsTitles}
+          tabsContent={tabsData.tabsContent}
         />
       )}
 
