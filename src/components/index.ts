@@ -16,5 +16,4 @@ export * from "./Reviews";
 export * from "./TextLink";
 export * from "./table";
 export * from "./ToolBarComponent";
-
-
+export * from "./report-details";

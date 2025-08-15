@@ -16,6 +16,8 @@ interface ProfileHeaderProps {
   educatorData?: any; // Adjust type as necessary
   refetchEducatorData?: () => void;
   refetchOrganizationData?: () => void;
+  parentComponent?: string;
+  reportId?: string;
 }
 
 export const ProfileHeader = ({
@@ -25,17 +27,26 @@ export const ProfileHeader = ({
   missionId,
   educatorData,
   refetchOrganizationData,
+  parentComponent,
+  reportId,
 }: ProfileHeaderProps) => {
   const theme = useTheme();
 
   const userContext = useUserContext();
-  const organizationId = organizationIdProp || userContext?.user?.organizationId;
+  const organizationId =
+    organizationIdProp || userContext?.user?.organizationId;
   const refetchUserProfile = userContext?.refetchUserProfile;
 
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [modalAction, setModalAction] = useState<
-    "hired" | "rejected" | "active" | "inactive" | null
+    | "hired"
+    | "rejected"
+    | "active"
+    | "inactive"
+    | "resolved"
+    | "dismissed"
+    | null
   >(null);
 
   const { data: missionData, refetch: refetchMissionData } = useCustom({
@@ -69,6 +80,21 @@ export const ProfileHeader = ({
 
   const { mutate: updateMission } = useUpdate({
     resource: "missions",
+    mutationMode: "optimistic",
+    mutationOptions: {
+      onSuccess: () => {
+        refetchUserProfile && refetchUserProfile();
+        refetchMissionData && refetchMissionData();
+        refetchOrganizationData && refetchOrganizationData();
+
+        setModalOpen(false);
+        setModalAction(null);
+      },
+    },
+  });
+
+  const { mutate: updateReport } = useUpdate({
+    resource: "reports",
     mutationMode: "optimistic",
     mutationOptions: {
       onSuccess: () => {
@@ -155,8 +181,29 @@ export const ProfileHeader = ({
     ]
   );
 
+  const handleReportStatusChange = useCallback(
+    (status: "resolved" | "dismissed") => {
+      updateReport({
+        id: reportId,
+        values: { reportStatus: status },
+      });
+
+      setModalOpen(false);
+      setModalAction(null);
+    },
+    [updateReport, reportId]
+  );
+
   const openModal = useCallback(
-    (action: "hired" | "rejected" | "active" | "inactive") => {
+    (
+      action:
+        | "hired"
+        | "rejected"
+        | "active"
+        | "inactive"
+        | "resolved"
+        | "dismissed"
+    ) => {
       setModalAction(action);
       setModalOpen(true);
     },
@@ -168,6 +215,8 @@ export const ProfileHeader = ({
       handleHireStatusChange(modalAction);
     } else if (modalAction === "active" || modalAction === "inactive") {
       handleActivationStatusChange(modalAction);
+    } else if (modalAction === "resolved" || modalAction === "dismissed") {
+      handleReportStatusChange(modalAction);
     }
   }, [modalAction, handleHireStatusChange, handleActivationStatusChange]);
 
@@ -262,7 +311,7 @@ export const ProfileHeader = ({
 
     const activationStatus = educatorData?.status;
 
-    if (role === "admin") {
+    if (role === "admin" && parentComponent !== "reports") {
       return (
         <Box
           sx={{
@@ -288,6 +337,37 @@ export const ProfileHeader = ({
             disabled={activationStatus === "inactive"}
           >
             Inactive
+          </Button>
+        </Box>
+      );
+    }
+
+    if (role === "admin" && parentComponent === "reports") {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: theme.spacing(2),
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ ...buttonStyles.base, ...buttonStyles.primary }}
+            onClick={() => openModal("resolved")}
+            disabled={activationStatus === "resolved"}
+          >
+            Resolve
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => openModal("dismissed")}
+            sx={{ ...buttonStyles.base, ...buttonStyles.error }}
+            disabled={activationStatus === "dismissed"}
+          >
+            Dismiss
           </Button>
         </Box>
       );
@@ -324,7 +404,9 @@ export const ProfileHeader = ({
             fontSize: theme.typography.h5.fontSize,
           }}
         >
-          Profile Data
+          {parentComponent === "reports" && educatorId
+            ? "Educator Info"
+            : "Organization Info"}
         </Typography>
 
         {renderActionButtons()}

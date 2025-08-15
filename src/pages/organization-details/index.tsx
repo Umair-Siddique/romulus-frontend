@@ -13,7 +13,15 @@ import {
 import { useOne } from "@refinedev/core";
 import { ReportsList } from "#components/profile/ReportsList";
 
-export const OrganizationDetails = () => {
+export const OrganizationDetails = ({
+  organizationIdProp,
+  parentComponent,
+  reportId,
+}: {
+  organizationIdProp: string;
+  parentComponent?: string;
+  reportId?: string;
+}) => {
   const theme = useTheme<Theme>();
 
   const { user } = useUserContext();
@@ -28,10 +36,12 @@ export const OrganizationDetails = () => {
     }
   }, [user, navigate]);
 
-  const { id: organizationId } = useParams();
+  const { id: organization } = useParams();
 
   const location = useLocation();
   const missionId = location.state?.missionId;
+
+  const organizationId = organizationIdProp || organization;
 
   const {
     data: organizationData,
@@ -74,10 +84,14 @@ export const OrganizationDetails = () => {
   }
 
   const missions = missionsData?.data;
+  const reports = reportsData?.data;
 
   const tabsData = {
     tabsTitles: ["Missions", "Reports"],
-    tabsContent: [<MissionsList missions={missions} />, <ReportsList />],
+    tabsContent: [
+      <MissionsList missions={missions} />,
+      <ReportsList reportsData={reports} />,
+    ],
   };
 
   return (
@@ -99,20 +113,29 @@ export const OrganizationDetails = () => {
           organizationIdProp={organizationId}
           refetchOrganizationData={refetchOrganizationData}
           educatorData={organizationData?.data}
+          reportId={reportId}
+          parentComponent={parentComponent}
         />
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
-        <ProfileCard organizationData={organizationData?.data} />
+        <ProfileCard
+          organizationData={organizationData?.data}
+          parentComponent={parentComponent}
+        />
       </Box>
 
-      <Box sx={{ mb: theme.spacing(2) }}>
-        <Branches organizationData={organizationData?.data} />
-      </Box>
+      {parentComponent !== "reports" && (
+        <Box sx={{ mb: theme.spacing(2) }}>
+          <Branches organizationData={organizationData?.data} />
+        </Box>
+      )}
 
-      <Divider sx={{ mb: theme.spacing(2) }} />
+      {parentComponent !== "reports" && (
+        <Divider sx={{ mb: theme.spacing(2) }} />
+      )}
 
-      {role === "admin" && (
+      {role === "admin" && parentComponent !== "reports" && (
         <Box sx={{ mb: theme.spacing(2) }}>
           <TabView
             tabsTitles={tabsData.tabsTitles}

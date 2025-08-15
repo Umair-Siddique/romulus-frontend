@@ -6,9 +6,11 @@ import { useOne } from "@refinedev/core";
 export const ProfileCard = ({
   educatorData,
   organizationData,
+  parentComponent,
 }: {
   educatorData?: any;
   organizationData?: any;
+  parentComponent?: string;
 }) => {
   const theme = useTheme();
 
@@ -191,7 +193,7 @@ export const ProfileCard = ({
       </Box>
 
       {/* Missions Section */}
-      {role === "admin" && (
+      {role === "admin" && parentComponent !== "reports" && (
         <Box
           sx={{
             display: "flex",

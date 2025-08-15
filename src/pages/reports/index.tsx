@@ -213,6 +213,9 @@ export const Reports = () => {
     reportedEducator: report.educatorName,
     reportReason: report.reportReason,
     status: report.reportStatus,
+    missionId: report.missionId,
+    organizationId: report.organizationId,
+    educatorId: report.educatorId,
   }));
 
   return (

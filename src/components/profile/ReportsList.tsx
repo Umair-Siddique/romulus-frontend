@@ -6,7 +6,7 @@ import { useList } from "@refinedev/core";
 import { useEffect, useState } from "react";
 import { useTheme, Theme } from "@mui/material/styles";
 
-export const ReportsList = () => {
+export const ReportsList = ({ reportsData }: { reportsData: any }) => {
   const theme = useTheme<Theme>();
 
   const { user } = useUserContext();
@@ -20,7 +20,7 @@ export const ReportsList = () => {
     },
   });
 
-  const reports = data?.data;
+  const reports = reportsData || data?.data;
 
   // Available Filters
   const availableStatuses = ["All", "Open", "Resolved", "Dismissed"];

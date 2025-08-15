@@ -27,8 +27,23 @@ const TableBodyComponent = ({
 }) => {
   const navigate = useNavigate();
 
-  const handleView = (id: string) => {
-    navigate(`/${navigateTo}/${id}`);
+  const handleView = (
+    id: string,
+    missionId: string,
+    organizationId: string,
+    educatorId: string
+  ) => {
+    if (navigateTo === "reports") {
+      navigate(`/${navigateTo}/${id}`, {
+        state: {
+          missionId,
+          organizationId,
+          educatorId,
+        },
+      });
+    } else {
+      navigate(`/${navigateTo}/${id}`);
+    }
   };
 
   return (
@@ -258,7 +273,14 @@ const TableBodyComponent = ({
             >
               <IconButton
                 size="small"
-                onClick={() => handleView(item.id)}
+                onClick={() =>
+                  handleView(
+                    item.id,
+                    item.missionId,
+                    item.organizationId,
+                    item.educatorId
+                  )
+                }
                 sx={{
                   color: theme.palette.text.secondary,
                   "&:hover": {
