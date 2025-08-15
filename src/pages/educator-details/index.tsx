@@ -14,14 +14,26 @@ import {
 } from "#components";
 import { useOne } from "@refinedev/core";
 
-export const EducatorDetails = () => {
+export const EducatorDetails = ({
+  educatorIdProp,
+  parentComponent,
+  reportId,
+  showViewDetails
+}: {
+  educatorIdProp?: string;
+  parentComponent?: string;
+  reportId?: string;
+  showViewDetails?: boolean;
+}) => {
   const theme = useTheme<Theme>();
 
   const { user } = useUserContext();
 
   const role = user?.role;
 
-  const { id: educatorId } = useParams();
+  const { id } = useParams();
+
+  const educatorId = educatorIdProp || id;
 
   const location = useLocation();
   const missionId = location.state?.missionId;
@@ -86,26 +98,37 @@ export const EducatorDetails = () => {
           educatorId={educatorId}
           refetchEducatorData={refetchEducatorData}
           educatorData={educatorData?.data}
+          parentComponent={parentComponent}
+          reportId={reportId}
+          showViewDetails={showViewDetails}
         />
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
-        <ProfileCard educatorData={educatorData?.data} />
+        <ProfileCard educatorData={educatorData?.data} parentComponent={parentComponent} />
       </Box>
 
-      <Box sx={{ mb: theme.spacing(2) }}>
-        <UserBio educatorData={educatorData?.data} />
-      </Box>
+      {parentComponent !== "reports" && (
+        <Box sx={{ mb: theme.spacing(2) }}>
+          <UserBio educatorData={educatorData?.data} />
+        </Box>
+      )}
 
-      <Divider sx={{ mb: theme.spacing(2) }} />
+      {parentComponent !== "reports" && (
+        <Divider sx={{ mb: theme.spacing(2) }} />
+      )}
 
-      <Box sx={{ mb: theme.spacing(2) }}>
-        <ProfessionalDetails educatorData={educatorData?.data} />
-      </Box>
+      {parentComponent !== "reports" && (
+        <Box sx={{ mb: theme.spacing(2) }}>
+          <ProfessionalDetails educatorData={educatorData?.data} />
+        </Box>
+      )}
 
-      <Divider sx={{ mb: theme.spacing(2) }} />
+      {parentComponent !== "reports" && (
+        <Divider sx={{ mb: theme.spacing(2) }} />
+      )}
 
-      {role === "admin" && (
+      {role === "admin" && parentComponent !== "reports" && (
         <Box sx={{ mb: theme.spacing(2) }}>
           <TabView
             tabsTitles={tabsData.tabsTitles}
@@ -114,7 +137,7 @@ export const EducatorDetails = () => {
         </Box>
       )}
 
-      {hasOrganizationsFeedbacks && (
+      {hasOrganizationsFeedbacks && parentComponent !== "reports" && (
         <Box sx={{ mb: theme.spacing(2) }}>
           {organizationFeedbacks.map((feedback: any, index: number) => (
             <Reviews feedback={feedback} key={index} />

@@ -7,6 +7,7 @@ import { CheckCircle, Cancel } from "@mui/icons-material";
 
 import { Modal } from "../Modal";
 import { formatDate, formatTime } from "#utils";
+import { useNavigate } from "react-router";
 
 interface ProfileHeaderProps {
   role: string;
@@ -18,6 +19,7 @@ interface ProfileHeaderProps {
   refetchOrganizationData?: () => void;
   parentComponent?: string;
   reportId?: string;
+  showViewDetails?: boolean;
 }
 
 export const ProfileHeader = ({
@@ -29,6 +31,7 @@ export const ProfileHeader = ({
   refetchOrganizationData,
   parentComponent,
   reportId,
+  showViewDetails,
 }: ProfileHeaderProps) => {
   const theme = useTheme();
 
@@ -58,6 +61,8 @@ export const ProfileHeader = ({
       enabled: !!missionId,
     },
   });
+
+  const navigate = useNavigate();
 
   const updateUserResource = educatorId ? "educators" : "organizations";
   const updateRoleId =
@@ -279,7 +284,8 @@ export const ProfileHeader = ({
       role === "organization" &&
       invitationStatus === "accepted" &&
       !isHiredOrRejected &&
-      educatorData?.availableForHiring
+      educatorData?.availableForHiring &&
+      !showViewDetails
     ) {
       return (
         <Box
@@ -311,7 +317,7 @@ export const ProfileHeader = ({
 
     const activationStatus = educatorData?.status;
 
-    if (role === "admin" && parentComponent !== "reports") {
+    if (role === "admin" && parentComponent !== "reports" && !showViewDetails) {
       return (
         <Box
           sx={{
@@ -342,7 +348,7 @@ export const ProfileHeader = ({
       );
     }
 
-    if (role === "admin" && parentComponent === "reports") {
+    if (role === "admin" && parentComponent === "reports" && !showViewDetails) {
       return (
         <Box
           sx={{
@@ -370,6 +376,17 @@ export const ProfileHeader = ({
             Dismiss
           </Button>
         </Box>
+      );
+    }
+
+    if (showViewDetails) {
+      return (
+        <Button
+          variant="outlined"
+          onClick={() => navigate(`/educators/${educatorId}`)}
+        >
+          View Details
+        </Button>
       );
     }
 
