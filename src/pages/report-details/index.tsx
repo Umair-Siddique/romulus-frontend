@@ -38,7 +38,6 @@ export const ReportDetails = () => {
   });
 
   const reportDetails = reportData?.data;
-  console.log("reportDetails", reportDetails);
 
   return (
     <>

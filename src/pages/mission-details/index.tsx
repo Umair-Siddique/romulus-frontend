@@ -23,8 +23,8 @@ export const MissionDetails = ({
   missionIdProp,
   parentComponent,
 }: {
-  missionIdProp: string;
-  parentComponent: string;
+  missionIdProp?: string;
+  parentComponent?: string;
 }) => {
   const theme = useTheme<Theme>();
   const { user, userProfile, refetchUserProfile } = useUserContext();

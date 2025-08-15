@@ -167,8 +167,6 @@ export const ProfileHeader = ({
 
   const handleActivationStatusChange = useCallback(
     (status: "active" | "inactive") => {
-      console.log(updateRoleId);
-
       updateUser({
         id: updateRoleId,
         values: { status },

@@ -20,6 +20,8 @@ export const ReportEvidence = ({ reportDetails }: { reportDetails: any }) => {
 
   const reportEvidence = reportDetails?.reportProof;
 
+  console.log("reportEvidence", reportEvidence);
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", width: "20%" }}>
       <Typography

@@ -19,19 +19,12 @@ import {
   LocationOn as LocationOnIcon,
   Business as BusinessIcon,
 } from "@mui/icons-material";
-import { useUserContext } from "#context";
 import { handleDownload } from "#utils";
 
 export const Branches = ({ organizationData }: { organizationData: any }) => {
   const theme = useTheme();
 
-  const userContext = useUserContext();
-  const user = userContext?.user;
-  const role = user?.role;
-
   const branches = organizationData?.branches;
-
-  console.log("branches", branches);
 
   const CardHeader = ({ title }: any) => (
     <Box
@@ -53,23 +46,6 @@ export const Branches = ({ organizationData }: { organizationData: any }) => {
       >
         {title}
       </Typography>
-      {/* {role === "admin" && (
-        <Button
-          startIcon={<EditIcon />}
-          onClick={onEdit}
-          sx={{
-            color: theme.palette.text.secondary,
-            textTransform: "none",
-            fontSize: theme.typography.pxToRem(14),
-            fontWeight: theme.typography.fontWeightRegular,
-            "&:hover": {
-              backgroundColor: theme.palette.grey[50],
-            },
-          }}
-        >
-          Edit
-        </Button>
-      )} */}
     </Box>
   );
 
