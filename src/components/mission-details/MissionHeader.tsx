@@ -14,12 +14,14 @@ export const MissionHeader = memo(
     refetch,
     refetchMission,
     showMarkAsCompletedButton,
+    parentComponent,
   }: {
     role: string;
     missionData: any;
     refetch: () => void;
     refetchMission: () => void;
     showMarkAsCompletedButton: boolean;
+    parentComponent?: string;
   }) => {
     const theme = useTheme();
 
@@ -86,6 +88,17 @@ export const MissionHeader = memo(
     const shouldShowAdminActions = missionData.missionStatus === "pending";
 
     const renderActionButtons = () => {
+      if (parentComponent === "reports") {
+        return (
+          <Button
+            variant="outlined"
+            onClick={() => navigate(`/missions/${missionData.id}`)}
+          >
+            View Details
+          </Button>
+        );
+      }
+
       switch (role) {
         case "educator":
           return (
@@ -192,19 +205,35 @@ export const MissionHeader = memo(
             justifyContent: "space-between",
           }}
         >
-          <Typography
-            variant="h3"
-            component="h1"
-            sx={{
-              fontWeight: theme.typography.fontWeightMedium,
-              color: theme.palette.text.primary,
-              mb: theme.spacing(3),
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            Mission Overview
-          </Typography>
+          {parentComponent === "reports" ? (
+            <Typography
+              variant="h6"
+              component="h6"
+              sx={{
+                fontWeight: theme.typography.fontWeightMedium,
+                color: theme.palette.grey[400],
+                display: "flex",
+                alignItems: "center",
+                fontSize: theme.typography.h5.fontSize,
+              }}
+            >
+              Mission Info
+            </Typography>
+          ) : (
+            <Typography
+              variant="h3"
+              component="h1"
+              sx={{
+                fontWeight: theme.typography.fontWeightMedium,
+                color: theme.palette.text.primary,
+                mb: theme.spacing(3),
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              Mission Overview
+            </Typography>
+          )}
 
           {renderActionButtons()}
         </Box>

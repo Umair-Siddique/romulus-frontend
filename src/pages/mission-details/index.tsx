@@ -19,14 +19,22 @@ import {
 } from "#components";
 import { formatDate, formatTime, getStatusColor } from "#utils";
 
-export const MissionDetails = () => {
+export const MissionDetails = ({
+  missionIdProp,
+  parentComponent,
+}: {
+  missionIdProp: string;
+  parentComponent: string;
+}) => {
   const theme = useTheme<Theme>();
   const { user, userProfile, refetchUserProfile } = useUserContext();
   const { role, educatorId, organizationId } = user;
   const { missionsInvitedFor, organizationName, firstName, lastName } =
     userProfile || {};
 
-  const { id: missionId } = useParams();
+  const { id } = useParams();
+  const missionId = missionIdProp || id;
+
   const roleId = educatorId || organizationId;
 
   // Modal state
@@ -237,6 +245,7 @@ export const MissionDetails = () => {
           refetch={refetchUserProfile ?? (() => {})}
           refetchMission={refetchMission}
           showMarkAsCompletedButton={!!missionData.hiredEducators.length}
+          parentComponent={parentComponent}
         />
       </Box>
 
@@ -247,15 +256,17 @@ export const MissionDetails = () => {
         />
       </Box>
 
-      {missionData.hasResidenceGuidelines && role !== "organization" && (
-        <Box sx={{ mb: theme.spacing(2) }}>
-          <DocumentDownloadSection
-            residenceGuidelines={missionData.residenceGuidelines}
-          />
-        </Box>
-      )}
+      {missionData.hasResidenceGuidelines &&
+        parentComponent !== "reports" &&
+        role !== "organization" && (
+          <Box sx={{ mb: theme.spacing(2) }}>
+            <DocumentDownloadSection
+              residenceGuidelines={missionData.residenceGuidelines}
+            />
+          </Box>
+        )}
 
-      {role !== "organization" && (
+      {role !== "organization" && parentComponent !== "reports" && (
         <Box sx={{ mb: theme.spacing(2) }}>
           <ContactInformationCard
             organizationContact={missionData.organizationContact}
@@ -263,20 +274,25 @@ export const MissionDetails = () => {
         </Box>
       )}
 
-      <Box
-        sx={{ mb: missionData.hasEducatorsFeedbacks ? theme.spacing(2) : 0 }}
-      >
-        <MissionDescriptionCard description={missionData.missionDescription} />
-      </Box>
+      {parentComponent !== "reports" && (
+        <Box
+          sx={{ mb: missionData.hasEducatorsFeedbacks ? theme.spacing(2) : 0 }}
+        >
+          <MissionDescriptionCard
+            description={missionData.missionDescription}
+          />
+        </Box>
+      )}
 
       {showEducatorReviews &&
+        parentComponent !== "reports" &&
         missionData.educatorsFeedbacks.map((feedback: any, index: number) => (
           <Box key={index}>
             <Reviews feedback={feedback} />
           </Box>
         ))}
 
-      {role === "organization" && (
+      {role === "organization" && parentComponent !== "reports" && (
         <TabView
           tabsTitles={tabsData.tabsTitles}
           tabsContent={tabsData.tabsContent}

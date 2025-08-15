@@ -8,6 +8,7 @@ import { ReportInfo, ReportEvidence } from "#components/report-details";
 import { useOne } from "@refinedev/core";
 import { getStatusColor } from "#utils";
 import { EducatorDetails } from "#pages/educator-details";
+import { MissionDetails } from "#pages/mission-details";
 
 export const ReportDetails = () => {
   const theme = useTheme<Theme>();
@@ -92,6 +93,10 @@ export const ReportDetails = () => {
           parentComponent="reports"
           showViewDetails={true}
         />
+      </Box>
+
+      <Box sx={{ mt: theme.spacing(2) }}>
+        <MissionDetails missionIdProp={missionId} parentComponent="reports" />
       </Box>
     </>
   );
