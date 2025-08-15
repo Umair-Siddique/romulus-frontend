@@ -83,7 +83,7 @@ export const EducatorDetails = () => {
           key={educatorData?.data?.status + educatorId}
           role={role}
           missionId={missionId}
-          educatorId={educatorId!}
+          educatorId={educatorId}
           refetchEducatorData={refetchEducatorData}
           educatorData={educatorData?.data}
         />

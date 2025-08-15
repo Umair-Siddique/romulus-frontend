@@ -29,7 +29,7 @@ export const ProfileHeader = ({
   const theme = useTheme();
 
   const userContext = useUserContext();
-  const organizationId = organizationIdProp && userContext?.user?.organizationId;
+  const organizationId = organizationIdProp || userContext?.user?.organizationId;
   const refetchUserProfile = userContext?.refetchUserProfile;
 
   // Modal state
