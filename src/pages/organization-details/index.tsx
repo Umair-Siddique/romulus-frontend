@@ -2,8 +2,14 @@ import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 
 import { useUserContext } from "#context";
-import { Box, Theme, useTheme } from "@mui/material";
-import { MissionsList, ProfileCard, ProfileHeader } from "#components";
+import { Box, Divider, Theme, useTheme } from "@mui/material";
+import {
+  Branches,
+  MissionsList,
+  ProfileCard,
+  ProfileHeader,
+  TabView,
+} from "#components";
 import { useOne } from "@refinedev/core";
 
 export const OrganizationDetails = () => {
@@ -89,6 +95,18 @@ export const OrganizationDetails = () => {
       <Box sx={{ mb: theme.spacing(2) }}>
         <ProfileCard organizationData={organizationData?.data} />
       </Box>
+
+      <Box sx={{ mb: theme.spacing(2) }}>
+        <Branches organizationData={organizationData?.data} />
+      </Box>
+
+      <Divider sx={{ mb: theme.spacing(2) }} />
+
+      {role === "admin" && (
+        <Box sx={{ mb: theme.spacing(2) }}>
+          <TabView tabsTitles={["Missions", "Reports"]} tabsContent={tabsContent} />
+        </Box>
+      )}
     </Box>
   );
 };
