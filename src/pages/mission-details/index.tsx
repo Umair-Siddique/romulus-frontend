@@ -139,12 +139,6 @@ export const MissionDetails = () => {
     }
   }, [missionData.missionStatus, missionData.hasEducatorsFeedbacks]);
 
-  if (missionDataLoading) {
-    return "Loading...";
-  } else if (missionDataError) {
-    return "Error...";
-  }
-
   // Handle feedback submission
   const handleFeedbackSubmit = () => {
     if (review.rating === 0) {

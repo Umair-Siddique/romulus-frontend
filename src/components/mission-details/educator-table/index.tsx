@@ -142,11 +142,6 @@ export const EducatorTable = ({
     return "No educators found";
   }
 
-  // Handle loading state
-  if (isLoading) {
-    return "Loading...";
-  }
-
   const data: Data[] =
     educatorsData?.data
       ?.map((educator: any) => ({
