@@ -18,7 +18,7 @@ export const EducatorDetails = ({
   educatorIdProp,
   parentComponent,
   reportId,
-  showViewDetails
+  showViewDetails,
 }: {
   educatorIdProp?: string;
   parentComponent?: string;
@@ -38,34 +38,19 @@ export const EducatorDetails = ({
   const location = useLocation();
   const missionId = location.state?.missionId;
 
-  const {
-    data: educatorData,
-    refetch: refetchEducatorData,
-    isLoading: educatorDataLoading,
-    isError: educatorDataError,
-  } = useOne({
+  const { data: educatorData, refetch: refetchEducatorData } = useOne({
     resource: `educators/${educatorId}`,
     queryOptions: {
       enabled: !!educatorId,
     },
   });
 
-  const {
-    data: missionsData,
-    isLoading: missionsDataLoading,
-    isError: missionsDataError,
-  } = useOne({
+  const { data: missionsData } = useOne({
     resource: `missions/educator/${educatorId}`,
     queryOptions: {
       enabled: !!educatorId,
     },
   });
-
-  if (educatorDataLoading || missionsDataLoading) {
-    return "Loading...";
-  } else if (educatorDataError || missionsDataError) {
-    return "Error...";
-  }
 
   const missions = missionsData?.data;
 
@@ -105,7 +90,10 @@ export const EducatorDetails = ({
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
-        <ProfileCard educatorData={educatorData?.data} parentComponent={parentComponent} />
+        <ProfileCard
+          educatorData={educatorData?.data}
+          parentComponent={parentComponent}
+        />
       </Box>
 
       {parentComponent !== "reports" && (

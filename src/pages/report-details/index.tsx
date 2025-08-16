@@ -30,12 +30,7 @@ export const ReportDetails = () => {
   const { id: reportId } = useParams();
   const { missionId, organizationId, educatorId } = location.state;
 
-  const {
-    data: reportData,
-    isLoading: reportDataLoading,
-    isError: reportDataError,
-    refetch: refetchReportData,
-  } = useOne({
+  const { data: reportData, refetch: refetchReportData } = useOne({
     resource: `reports/${reportId}`,
     queryOptions: {
       enabled: !!reportId,
@@ -43,12 +38,6 @@ export const ReportDetails = () => {
   });
 
   const reportDetails = reportData?.data;
-
-  if (reportDataLoading) {
-    return "Loading...";
-  } else if (reportDataError) {
-    return "Error...";
-  }
 
   return (
     <>

@@ -45,45 +45,26 @@ export const OrganizationDetails = ({
 
   const organizationId = organizationIdProp || organization;
 
-  const {
-    data: organizationData,
-    refetch: refetchOrganizationData,
-    isLoading: organizationDataLoading,
-    isError: organizationDataError,
-  } = useOne({
+  const { data: organizationData, refetch: refetchOrganizationData } = useOne({
     resource: `organizations/${organizationId}`,
     queryOptions: {
       enabled: !!organizationId,
     },
   });
 
-  const {
-    data: missionsData,
-    isLoading: missionsDataLoading,
-    isError: missionsDataError,
-  } = useOne({
+  const { data: missionsData } = useOne({
     resource: `missions/organization/${organizationId}`,
     queryOptions: {
       enabled: !!organizationId,
     },
   });
 
-  const {
-    data: reportsData,
-    isLoading: reportsDataLoading,
-    isError: reportsDataError,
-  } = useOne({
+  const { data: reportsData } = useOne({
     resource: `reports/organization/${organizationId}`,
     queryOptions: {
       enabled: !!organizationId,
     },
   });
-
-  if (organizationDataLoading || missionsDataLoading || reportsDataLoading) {
-    return "Loading...";
-  } else if (organizationDataError || missionsDataError || reportsDataError) {
-    return "Error...";
-  }
 
   const missions = missionsData?.data;
   const reports = reportsData?.data;

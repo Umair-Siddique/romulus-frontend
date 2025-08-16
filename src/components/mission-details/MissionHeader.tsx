@@ -175,7 +175,14 @@ export const MissionHeader = memo(
             shouldShowAdminActions && (
               <Button
                 variant="contained"
-                onClick={() => navigate("/assign-educator")}
+                onClick={() =>
+                  navigate("/assign-educator", {
+                    state: {
+                      missionId: missionData.id,
+                      missionSkills: missionData.skills,
+                    },
+                  })
+                }
                 sx={{
                   borderRadius: theme.shape.borderRadius,
                   px: theme.spacing(3),

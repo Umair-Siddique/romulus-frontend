@@ -34,7 +34,7 @@ export const Organizations = () => {
     }
   }, [user, navigate]);
 
-  const { data, isLoading, isError } = useList({
+  const { data } = useList({
     resource: "organizations",
     queryOptions: {
       enabled: role === "admin",
@@ -69,12 +69,6 @@ export const Organizations = () => {
 
     setFilteredOrganizations(filtered);
   }, [selectedStatus, selectedDate, organizations]);
-
-  if (isLoading) {
-    return "Loading...";
-  } else if (isError) {
-    return "Error loading organizations";
-  }
 
   function filterByStatus(selectedStatus: string, organizations: any[]) {
     return organizations.filter((organization) => {

@@ -127,6 +127,7 @@ export const MissionDetails = ({
     preferredEducator: mission?.preferredEducator,
     invitedEducators: mission?.invitedEducators || [],
     hiredEducators: mission?.hiredEducators || [],
+    skills: mission?.skills?.join(", ") || "",
   };
 
   useEffect(() => {

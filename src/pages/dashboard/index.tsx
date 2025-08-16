@@ -105,12 +105,7 @@ export const Dashboard = () => {
 
   const { role, organizationId } = user;
 
-  const {
-    data: missionsData,
-    isLoading,
-    isError,
-    refetch: refetchMissionsData,
-  } = useList({
+  const { data: missionsData, refetch: refetchMissionsData } = useList({
     resource:
       role === "organization"
         ? `missions/organization/${organizationId}`
@@ -119,15 +114,6 @@ export const Dashboard = () => {
       enabled: role === "organization" || role === "admin",
     },
   });
-
-  // Optimized missions selection
-  if (role === "organization" || role === "admin") {
-    if (isLoading) {
-      return <div>Loading...</div>;
-    } else if (isError) {
-      return <div>Error loading data</div>;
-    }
-  }
 
   const missions =
     role === "educator"

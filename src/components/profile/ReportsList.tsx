@@ -13,7 +13,7 @@ export const ReportsList = ({ reportsData }: { reportsData: any }) => {
 
   const role = user?.role;
 
-  const { data, isLoading, isError } = useList({
+  const { data } = useList({
     resource: "reports",
     queryOptions: {
       enabled: role === "admin",
@@ -62,12 +62,6 @@ export const ReportsList = ({ reportsData }: { reportsData: any }) => {
 
     setFilteredReports(filtered);
   }, [selectedStatus, selectedDate, reports]);
-
-  if (isLoading) {
-    return "Loading...";
-  } else if (isError) {
-    return "Error loading reports";
-  }
 
   function filterByStatus(selectedStatus: string, reports: any[]) {
     return reports.filter((report) => {

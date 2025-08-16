@@ -30,7 +30,7 @@ export const MissionsList = ({ missions }: { missions: any }) => {
   useEffect(() => {
     const uniqueOrganizations: string[] = Array.from(
       new Set(
-        missions.map((mission: any) => mission?.organization?.organizationName)
+        missions?.map((mission: any) => mission?.organization?.organizationName)
       )
     );
 
@@ -38,12 +38,10 @@ export const MissionsList = ({ missions }: { missions: any }) => {
 
     const uniqueBranches: string[] = Array.from(
       new Set(
-        missions
-          .filter(
-            (mission: any) =>
-              mission?.organization?.organizationName === selectedOrganization
-          )
-          .map((mission: any) => mission?.branch)
+        missions?.filter(
+          (mission: any) =>
+            mission?.organization?.organizationName === selectedOrganization
+        )?.map((mission: any) => mission?.branch)
       )
     );
 
