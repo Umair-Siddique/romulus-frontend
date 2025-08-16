@@ -20,6 +20,7 @@ interface ProfileHeaderProps {
   parentComponent?: string;
   reportId?: string;
   showViewDetails?: boolean;
+  refetchReportData?: () => void;
 }
 
 export const ProfileHeader = ({
@@ -32,6 +33,7 @@ export const ProfileHeader = ({
   parentComponent,
   reportId,
   showViewDetails,
+  refetchReportData,
 }: ProfileHeaderProps) => {
   const theme = useTheme();
 
@@ -106,6 +108,7 @@ export const ProfileHeader = ({
         refetchUserProfile && refetchUserProfile();
         refetchMissionData && refetchMissionData();
         refetchOrganizationData && refetchOrganizationData();
+        refetchReportData && refetchReportData();
 
         setModalOpen(false);
         setModalAction(null);
@@ -239,39 +242,51 @@ export const ProfileHeader = ({
     switch (modalAction) {
       case "hired":
         return {
-          icon: <CheckCircle />,
+          icon: <CheckCircle color="success" fontSize="inherit" />,
           title: "Hire Educator",
           description: `You're about to officailly hire **${educatorData?.firstName} ${educatorData?.lastName}** for the mission **"${missionData?.data?.title}"** on **${now.date}** at **${now.time}**. Once confirmed, this educator will be notified and the mission status will be updated.`,
           buttonText: "Hire",
         };
       case "rejected":
         return {
-          icon: <Cancel />,
+          icon: <Cancel color="error" fontSize="inherit" />,
           title: "Reject Educator",
-          description:
-            "Are you sure you want to reject this educator? This action cannot be undone.",
+          description: "Are you sure you want to reject this educator?",
           buttonText: "Reject",
         };
       case "active":
         return {
-          icon: <CheckCircle />,
+          icon: <CheckCircle color="success" fontSize="inherit" />,
           title: "Active Educator",
-          description: `Are you sure you want to active this educator? This action cannot be undone.`,
+          description: `Are you sure you want to active this educator?`,
           buttonText: "Active",
         };
       case "inactive":
         return {
-          icon: <Cancel />,
+          icon: <Cancel color="error" fontSize="inherit" />,
           title: "Inactive Educator",
-          description: `Are you sure you want to inactive this educator? This action cannot be undone.`,
+          description: `Are you sure you want to inactive this educator?`,
           buttonText: "Inactive",
+        };
+      case "resolved":
+        return {
+          icon: <CheckCircle color="success" fontSize="inherit" />,
+          title: "Resolved Report",
+          description: `Are you sure you want to resolve this report?`,
+          buttonText: "Resolve",
+        };
+      case "dismissed":
+        return {
+          icon: <Cancel color="error" fontSize="inherit" />,
+          title: "Dismissed Report",
+          description: `Are you sure you want to dismiss this report?`,
+          buttonText: "Dismiss",
         };
       default:
         return {
-          icon: <CheckCircle />,
           title: "",
           description: "",
-          buttonText: "Confirm",
+          buttonText: "",
         };
     }
   }, [modalAction]);

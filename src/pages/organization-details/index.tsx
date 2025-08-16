@@ -17,10 +17,12 @@ export const OrganizationDetails = ({
   organizationIdProp,
   parentComponent,
   reportId,
+  refetchReportData,
 }: {
   organizationIdProp?: string;
   parentComponent?: string;
   reportId?: string;
+  refetchReportData?: () => void;
 }) => {
   const theme = useTheme<Theme>();
 
@@ -94,6 +96,8 @@ export const OrganizationDetails = ({
     ],
   };
 
+  console.log("reportsData", reportsData);
+
   return (
     <Box
       sx={{
@@ -115,6 +119,7 @@ export const OrganizationDetails = ({
           educatorData={organizationData?.data}
           reportId={reportId}
           parentComponent={parentComponent}
+          refetchReportData={refetchReportData}
         />
       </Box>
 
