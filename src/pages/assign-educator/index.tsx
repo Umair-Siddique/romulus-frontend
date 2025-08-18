@@ -3,17 +3,29 @@ import { useCustom, useUpdate } from "@refinedev/core";
 import { Lens as CircleIcon } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router";
 import { useTheme } from "@mui/material/styles";
+import { useEffect } from "react";
+import { useUserContext } from "#context";
 
 export const AssignEducator = () => {
   const theme = useTheme();
 
-  const { state } = useLocation();
+  const { user } = useUserContext();
 
   const navigate = useNavigate();
 
+  const role = user?.role;
+
+  useEffect(() => {
+    if (role !== "admin") {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [role, navigate]);
+
+  const { state } = useLocation();
+
   const { missionId, missionSkills } = state;
 
-  const { data: EducatorData } = useCustom({
+  const { data: EducatorData, refetch: refetchEducatorData } = useCustom({
     url: `/educators/get-by-skills`,
     method: "get",
     config: {
@@ -26,11 +38,21 @@ export const AssignEducator = () => {
   const { mutate: updateMission } = useUpdate({
     resource: "missions",
     id: missionId,
+    mutationOptions: {
+      onSuccess: () => {
+        refetchEducatorData();
+      },
+    },
   });
 
   const { mutate: updateEducator } = useUpdate({
     resource: "educators",
     id: EducatorData?.data?._id,
+    mutationOptions: {
+      onSuccess: () => {
+        refetchEducatorData();
+      },
+    },
   });
 
   const educatorsArray = EducatorData?.data?.map((educator: any) => ({
@@ -43,6 +65,8 @@ export const AssignEducator = () => {
     skills: educator.skills,
   }));
 
+  console.log("educatorsArray", educatorsArray);
+
   const handleAssignEducator = (educator: any) => {
     updateMission({
       id: missionId,
@@ -51,6 +75,7 @@ export const AssignEducator = () => {
         status: "ongoing",
       },
     });
+
     updateEducator({
       id: educator.id,
       values: {
