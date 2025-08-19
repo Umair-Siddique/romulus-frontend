@@ -166,6 +166,7 @@ export const Branches = () => {
           tableData={branchesArray}
           columnWidths={columnWidths}
           headerData={headerData}
+          menuOptions={["Edit Branch", "Inactive Branch"]}
         />
       </Box>
     </>

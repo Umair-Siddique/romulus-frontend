@@ -9,11 +9,13 @@ export const TableComponent = ({
   columnWidths,
   headerData,
   navigateTo,
+  menuOptions,
 }: {
   tableData: any;
   columnWidths: any;
   headerData: any;
   navigateTo?: string;
+  menuOptions?: string[];
 }) => {
   const theme = useTheme<Theme>();
 
@@ -39,6 +41,7 @@ export const TableComponent = ({
               columnWidths={columnWidths}
               theme={theme}
               navigateTo={navigateTo}
+              menuOptions={menuOptions}
             />
           </Table>
         </TableContainer>
