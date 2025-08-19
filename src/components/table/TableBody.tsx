@@ -9,7 +9,10 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { RemoveRedEye as EyeIcon } from "@mui/icons-material";
+import {
+  RemoveRedEye as EyeIcon,
+  MoreVert as MoreVertIcon,
+} from "@mui/icons-material";
 import { useNavigate } from "react-router";
 
 import { formatDate, getStatusColor, truncateWithEllipsis } from "#utils";
@@ -57,7 +60,7 @@ const TableBodyComponent = ({
             borderBottom: `1px solid ${theme.palette.divider}`,
           }}
         >
-          {item.avatar && (
+          {item.name && (
             <TableCell
               align="left"
               sx={{
@@ -74,22 +77,24 @@ const TableBodyComponent = ({
                   gap: theme.spacing(2),
                 }}
               >
-                <Avatar
-                  src={item.avatar}
-                  sx={{
-                    width: 40,
-                    height: 40,
-                    backgroundColor: theme.palette.primary.main,
-                    color: theme.palette.primary.contrastText,
-                  }}
-                >
-                  {truncateWithEllipsis(
-                    item.name
-                      .split(" ")
-                      .map((n: string) => n[0])
-                      .join("")
-                  )}
-                </Avatar>
+                {item.avatar && (
+                  <Avatar
+                    src={item.avatar}
+                    sx={{
+                      width: 40,
+                      height: 40,
+                      backgroundColor: theme.palette.primary.main,
+                      color: theme.palette.primary.contrastText,
+                    }}
+                  >
+                    {truncateWithEllipsis(
+                      item.name
+                        .split(" ")
+                        .map((n: string) => n[0])
+                        .join("")
+                    )}
+                  </Avatar>
+                )}
                 <Typography
                   variant="body1"
                   sx={{
@@ -273,14 +278,6 @@ const TableBodyComponent = ({
             >
               <IconButton
                 size="small"
-                onClick={() =>
-                  handleView(
-                    item.id,
-                    item.missionId,
-                    item.organizationId,
-                    item.educatorId
-                  )
-                }
                 sx={{
                   color: theme.palette.text.secondary,
                   "&:hover": {
@@ -289,7 +286,21 @@ const TableBodyComponent = ({
                   },
                 }}
               >
-                <EyeIcon />
+                {navigateTo ? (
+                  <EyeIcon
+                    onClick={() =>
+                      handleView(
+                        item.id,
+                        item.missionId,
+                        item.organizationId,
+                        item.educatorId
+                      )
+                    }
+                  />
+                ) : (
+                  // show a three-dot menu instead of the eye icon here
+                  <MoreVertIcon />
+                )}
               </IconButton>
             </TableCell>
           )}

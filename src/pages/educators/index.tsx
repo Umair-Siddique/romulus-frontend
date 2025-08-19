@@ -177,7 +177,7 @@ export const Educators = () => {
   ];
 
   const columnWidths = {
-    name: "30%",
+    name: "20%",
     createdAt: "20%",
     email: "20%",
     phone: "20%",

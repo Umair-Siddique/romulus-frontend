@@ -173,7 +173,7 @@ export const Organizations = () => {
   ];
 
   const columnWidths = {
-    name: "30%",
+    name: "20%",
     createdAt: "20%",
     siretNumber: "20%",
     branches: "20%",
