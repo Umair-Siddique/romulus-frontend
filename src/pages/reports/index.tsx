@@ -214,7 +214,10 @@ export const Reports = () => {
 
   return (
     <>
-      <PageMeta title="Manage Reports" description="Manage all reports here" />
+      <PageMeta
+        title="Manage & Monitor Reports"
+        description="Manage all reports here"
+      />
       <KpiCards kpiCardsData={kpis} />
       <Box sx={{ mt: 3 }}>
         <ToolBarComponent

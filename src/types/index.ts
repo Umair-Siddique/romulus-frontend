@@ -151,7 +151,7 @@ export interface FormFieldProps {
 export interface BranchModalProps {
   open: boolean;
   onClose: () => void;
-  onSave: (branchData: any) => void;
+  onSave: (branchData: any, editIndex?: number) => void;
   editBranch?: any; // Branch data to edit
   editIndex?: number; // Index of branch being edited
 }

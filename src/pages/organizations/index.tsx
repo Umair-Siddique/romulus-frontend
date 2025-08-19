@@ -205,7 +205,7 @@ export const Organizations = () => {
   return (
     <>
       <PageMeta
-        title="Manage Organizations"
+        title="Manage & Monitor Organizations"
         description="Manage all organizations here"
       />
       <KpiCards kpiCardsData={kpis} />

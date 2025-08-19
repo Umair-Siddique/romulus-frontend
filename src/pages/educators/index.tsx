@@ -197,7 +197,7 @@ export const Educators = () => {
   return (
     <>
       <PageMeta
-        title="Manage Educators"
+        title="Manage & Monitor Educators"
         description="Manage all educators here"
       />
       <KpiCards kpiCardsData={kpis} />

@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useUserContext } from "#context";
-import { Theme, useTheme } from "@mui/material";
+import { Box, Theme, useTheme } from "@mui/material";
+import { PageMeta } from "#components";
 
 export const Branches = () => {
   const theme = useTheme<Theme>();
 
-  const { user } = useUserContext();
+  const { user, userProfile } = useUserContext();
 
   const role = user?.role;
 
@@ -18,5 +19,35 @@ export const Branches = () => {
     }
   }, [user, navigate]);
 
-  return <div>Branches</div>;
+  console.log("Branches -> branches:", userProfile?.branches);
+
+  return (
+    <>
+      {" "}
+      <PageMeta
+        title="Manage & Monitor Branches"
+        description="Manage all branches here"
+      />
+      {/* <Box sx={{ mt: 3 }}>
+        <ToolBarComponent
+          availableStatuses={availableStatuses}
+          selectedStatus={selectedStatus}
+          setSelectedStatus={setSelectedStatus}
+          availableDates={availableDates}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          availableOrganizations={availableOrganizations}
+          selectedOrganization={selectedOrganization}
+          setSelectedOrganization={setSelectedOrganization}
+        />
+
+        <TableComponent
+          tableData={reportsArray}
+          columnWidths={columnWidths}
+          headerData={headerData}
+          navigateTo="reports"
+        />
+      </Box> */}
+    </>
+  );
 };

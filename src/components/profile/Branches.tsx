@@ -58,7 +58,7 @@ export const Branches = ({ organizationData }: { organizationData: any }) => {
     >
       <CardHeader title="Branches" />
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: theme.spacing(4) }}>
-        {branches.map((branch: any, index: number) => (
+        {branches?.map((branch: any, index: number) => (
           <Card
             sx={{
               width: "45%",
