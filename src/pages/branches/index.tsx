@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useUserContext } from "#context";
-import { Box, Theme, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 import { PageMeta, TableComponent, ToolBarComponent } from "#components";
 import { formatDate } from "#utils";
 
 export const Branches = () => {
-  const theme = useTheme<Theme>();
-
   const { user, userProfile } = useUserContext();
 
   const role = user?.role;
@@ -22,9 +20,7 @@ export const Branches = () => {
 
   const branches = userProfile?.branches;
 
-  console.log("Branches -> branches:", branches);
-
-  const availableStatuses = ["All", "Pending", "Active", "Inactive"];
+  const availableStatuses = ["All", "Active", "Inactive"];
   const availableDates = ["Today", "This Week", "This Month", "All Time"];
 
   // Filters States
@@ -53,12 +49,10 @@ export const Branches = () => {
   function filterByStatus(selectedStatus: string, branches: any[]) {
     return branches.filter((branch) => {
       switch (selectedStatus) {
-        case "Pending":
-          return branch.status === "pending";
         case "Active":
-          return branch.status === "active";
+          return branch.branchStatus === "active";
         case "Inactive":
-          return branch.status === "inactive";
+          return branch.branchStatus === "inactive";
         default:
           return true;
       }
@@ -116,15 +110,13 @@ export const Branches = () => {
     );
   }
 
-  console.log("Branches -> filteredBranches:", filteredBranches);
-
   const branchesArray = filteredBranches?.map((branch: any) => ({
     id: branch?._id,
     name: branch?.branchName || "N/A",
     createdAt: formatDate(branch?.createdAt),
     email: branch?.branchEmail || "N/A",
     phone: branch?.branchPhone || "N/A",
-    status: branch?.status || "N/A",
+    status: branch?.branchStatus || "N/A",
   }));
 
   const columnWidths = {
