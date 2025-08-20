@@ -36,7 +36,6 @@ export const BranchModal = ({
     branchCountry: string;
     branchAddress: string;
     residenceGuidelines: File | null;
-    status: string;
   }>({
     branchName: "",
     branchEmail: "",
@@ -45,7 +44,6 @@ export const BranchModal = ({
     branchCountry: "",
     branchAddress: "",
     residenceGuidelines: null,
-    status: "active",
   });
 
   // Pre-populate form when editing
@@ -59,7 +57,6 @@ export const BranchModal = ({
         branchCountry: editBranch.branchCountry || "",
         branchAddress: editBranch.branchAddress || "",
         residenceGuidelines: editBranch.residenceGuidelines || null,
-        status: "active",
       });
     } else if (!editBranch && open) {
       // Reset form for adding new branch
@@ -71,7 +68,6 @@ export const BranchModal = ({
         branchCountry: "",
         branchAddress: "",
         residenceGuidelines: null,
-        status: "active",
       });
     }
   }, [editBranch, open]);
@@ -91,7 +87,6 @@ export const BranchModal = ({
       branchCountry: "",
       branchAddress: "",
       residenceGuidelines: null,
-      status: "active",
     });
   };
 
