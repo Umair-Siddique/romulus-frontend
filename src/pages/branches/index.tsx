@@ -116,6 +116,10 @@ export const Branches = () => {
     createdAt: formatDate(branch?.createdAt),
     email: branch?.branchEmail || "N/A",
     phone: branch?.branchPhone || "N/A",
+    city: branch?.branchCity || "N/A",
+    country: branch?.branchCountry || "N/A",
+    address: branch?.branchAddress || "N/A",
+    residenceGuidelines: branch?.residenceGuidelines || "N/A",
     status: branch?.branchStatus || "N/A",
   }));
 

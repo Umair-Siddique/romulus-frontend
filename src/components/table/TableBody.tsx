@@ -21,6 +21,7 @@ import { formatDate, getStatusColor, truncateWithEllipsis } from "#utils";
 import { useState } from "react";
 import { useUpdate } from "@refinedev/core";
 import { useUserContext } from "#context";
+import { BranchModal } from "./BranchModal";
 
 const TableBodyComponent = ({
   bodyData,
@@ -43,9 +44,16 @@ const TableBodyComponent = ({
 
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
   const [menuId, setMenuId] = useState<string>("");
+  const [showBranchMenu, setShowBranchMenu] = useState(false);
+  const [selectedBranch, setSelectedBranch] = useState<any>(null);
 
   const { mutate: updateOrganization } = useUpdate({
     resource: "organizations",
+    mutationOptions: {
+      onSuccess: () => {
+        setShowBranchMenu(false);
+      },
+    },
   });
 
   const handleView = (
@@ -81,7 +89,22 @@ const TableBodyComponent = ({
           status: "inactive",
         },
       });
+    } else if (option === "Edit Branch") {
+      setShowBranchMenu(true);
+
+      const branch = bodyData.find((item: any) => item.id === menuId);
+      setSelectedBranch(branch);
     }
+  };
+
+  const handleBranchUpdate = (branchData: any) => {
+    updateOrganization({
+      id: organizationId,
+      values: {
+        branchId: menuId,
+        ...branchData,
+      },
+    });
   };
 
   return (
@@ -369,6 +392,14 @@ const TableBodyComponent = ({
           </MenuItem>
         ))}
       </Menu>
+      {showBranchMenu && (
+        <BranchModal
+          open={showBranchMenu}
+          onClose={() => setShowBranchMenu(false)}
+          onSave={handleBranchUpdate}
+          existingData={selectedBranch}
+        />
+      )}
     </>
   );
 };
