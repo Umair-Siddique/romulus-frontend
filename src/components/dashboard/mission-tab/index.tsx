@@ -159,14 +159,13 @@ export const MissionsTab = ({
 
   function filterByOrganization(selectedOrganization: string, missions: any[]) {
     return missions.filter(
-      (mission: any) => mission?.organization?.organizationName === selectedOrganization
+      (mission: any) =>
+        mission?.organization?.organizationName === selectedOrganization
     );
   }
 
   function filterByBranch(selectedBranch: string, missions: any[]) {
-    return missions.filter(
-      (mission: any) => mission.branch === selectedBranch
-    );
+    return missions.filter((mission: any) => mission.branch === selectedBranch);
   }
 
   const cardData = filteredMissions?.map((mission: any, index: number) => ({

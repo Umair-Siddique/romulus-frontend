@@ -2,6 +2,7 @@ import { Email, Message, Phone } from "@mui/icons-material";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { memo } from "react";
+import { useNavigate } from "react-router";
 
 const ContactItem = memo(
   ({
@@ -48,9 +49,29 @@ export const ContactInformationCard = memo(
   ({
     organizationContact,
   }: {
-    organizationContact: { phone: string; email: string };
+    organizationContact: {
+      userId: string;
+      name: string;
+      avatar: string;
+      phone: string;
+      email: string;
+    };
   }) => {
     const theme = useTheme();
+
+    const navigate = useNavigate();
+
+    const handleSendMessage = () => {
+      navigate("/chats", {
+        state: {
+          recipient: {
+            id: organizationContact.userId,
+            name: organizationContact.name,
+            avatar: organizationContact.avatar,
+          },
+        },
+      });
+    };
 
     return (
       <Box
@@ -98,6 +119,7 @@ export const ContactInformationCard = memo(
           <Button
             variant="contained"
             startIcon={<Message />}
+            onClick={handleSendMessage}
             sx={{
               borderRadius: theme.shape.borderRadius,
               color: theme.palette.common.black,

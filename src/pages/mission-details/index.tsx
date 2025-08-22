@@ -1,4 +1,3 @@
-// Main container component
 import { Box, TextField, Typography } from "@mui/material";
 import { useParams } from "react-router";
 import { useOne, useUpdate } from "@refinedev/core";
@@ -45,12 +44,7 @@ export const MissionDetails = ({
     rating: 0,
   });
 
-  const {
-    data,
-    refetch: refetchMission,
-    isLoading: missionDataLoading,
-    isError: missionDataError,
-  } = useOne({
+  const { data, refetch: refetchMission } = useOne({
     resource:
       role === "admin"
         ? `missions/${missionId}`
@@ -110,8 +104,11 @@ export const MissionDetails = ({
       url: mission?.technicalDocument,
     },
     organizationContact: {
-      phone: mission?.organization?.phone || "N/A",
-      email: mission?.organization?.user?.email || "N/A",
+      userId: mission?.organization?.user?._id ?? "N/A",
+      name: mission?.organization?.organizationName ?? "N/A",
+      avatar: mission?.organization?.avatar ?? "N/A",
+      phone: mission?.organization?.phone ?? "N/A",
+      email: mission?.organization?.user?.email ?? "N/A",
     },
     hasEducatorsFeedbacks: !!mission?.educatorsFeedbacks?.length,
     hasGivenFeedbackToEducator: mission?.hasGivenFeedbackToEducator,
@@ -309,13 +306,13 @@ export const MissionDetails = ({
         hasButton1={true}
         title={
           role === "organization"
-            ? "Give Feedback to Educator"
-            : "Give Feedback on This Mission"
+            ? "Give Feedback to This Educator"
+            : "Give Feedback to This Mission"
         }
         description={
           role === "organization"
-            ? "How would you rate this educator experience?"
-            : "How would you rate this mission experience?"
+            ? "How would you rate the experience with this educator?"
+            : "How would you rate the experience with this mission?"
         }
         hasButton={true}
         buttonText="Close"
