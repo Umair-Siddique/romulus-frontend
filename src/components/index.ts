@@ -1,4 +1,5 @@
 export * from "./auth";
+export * from "./chat";
 export * from "./create-profile";
 export * from "./dashboard";
 export * from "./drawer";

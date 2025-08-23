@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { useUserContext } from "#context";
 import { useLocation, useNavigate } from "react-router";
 import { socket } from "#utils/socket";
-import { Box, Typography } from "@mui/material";
-import { Send as SendIcon } from "@mui/icons-material";
+import { Box } from "@mui/material";
 import { useCreate, useList } from "@refinedev/core";
-import { truncateWithEllipsis } from "#utils";
 import { useTheme } from "@mui/material/styles";
+import { ChatSidebar, ChatMain } from "#components";
 
 export const Chats = () => {
   const theme = useTheme();
@@ -38,6 +37,7 @@ export const Chats = () => {
 
   useEffect(() => {
     socket.on(`receive_message_${userId}`, (message) => {
+      console.log("message:", message);
       setMessages((prevMessages) => [...prevMessages, message]);
       refetchChatsList();
     });
@@ -125,8 +125,6 @@ export const Chats = () => {
     );
   };
 
-  console.log(messages);
-
   return (
     <Box
       sx={{
@@ -136,210 +134,17 @@ export const Chats = () => {
         height: "calc(100dvh - 150px)",
       }}
     >
-      <Box
-        sx={{
-          width: "20%",
-          borderRight: `1px solid ${theme.palette.divider}`,
-          px: 2,
-          py: 2,
-        }}
-      >
-        {chatsList?.data?.map((chat, index) => {
-          return (
-            <Box
-              onClick={() => handleChatSelection(chat)}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 2,
-                cursor: "default",
-                borderTop: `1px solid ${theme.palette.divider}`,
-                py: 1,
-              }}
-              key={index}
-            >
-              <Box
-                component="img"
-                src={
-                  chat?.recipient?.id === userId
-                    ? chat?.sender?.avatar
-                    : chat?.recipient?.avatar
-                }
-                sx={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: "50%",
-                }}
-                alt="recipient image"
-              />
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Box>
-                  <Typography
-                    sx={{
-                      m: 0,
-                      p: 0,
-                      fontWeight: theme.typography.fontWeightMedium,
-                    }}
-                  >
-                    {truncateWithEllipsis(
-                      chat?.recipient?.id === userId
-                        ? chat?.sender?.name
-                        : chat?.recipient?.name ?? "",
-                      15
-                    )}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      m: 0,
-                      p: 0,
-                      fontSize: theme.typography.body2.fontSize,
-                      color: theme.palette.text.secondary,
-                    }}
-                  >
-                    {truncateWithEllipsis(chat?.message || "")}
-                  </Typography>
-                </Box>
-                <Typography
-                  sx={{
-                    m: 0,
-                    p: 0,
-                    fontSize: theme.typography.body2.fontSize,
-                    color: theme.palette.text.secondary,
-                  }}
-                >
-                  {chat?.time.split("T")[1].split(".")[0].slice(0, 5)}
-                </Typography>
-              </Box>
-            </Box>
-          );
-        })}
-      </Box>
-      <Box
-        sx={{
-          height: "100%",
-          width: "80%",
-          display: "flex",
-          flexDirection: "column",
-          px: 2,
-          pt: 1,
-        }}
-      >
-        {selectedRecipient && (
-          <Box
-            sx={{
-              height: "60px",
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              mb: 2,
-            }}
-          >
-            <Box
-              component="img"
-              src={selectedRecipient?.avatar}
-              sx={{
-                width: 50,
-                height: 50,
-                borderRadius: "50%",
-              }}
-              alt="recipient image"
-            />
-            <Typography
-              sx={{
-                m: 0,
-                p: 0,
-                fontWeight: theme.typography.fontWeightMedium,
-              }}
-            >
-              {selectedRecipient?.name}
-            </Typography>
-          </Box>
-        )}
-        <Box
-          sx={{
-            flex: 1,
-            overflowY: "scroll",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            backgroundColor: theme.palette.grey[50],
-            p: 2,
-          }}
-        >
-          {messages.map((msg, index) => {
-            const isSender =
-              userId === msg.sender.id || userId === msg.recipient.id;
-
-            return (
-              <Typography
-                sx={{
-                  maxWidth: "70%",
-                  height: "auto",
-                  alignSelf: isSender ? "flex-end" : "flex-start",
-                  borderRadius: 2,
-                  mb: index === messages.length - 1 ? 0 : 2,
-                  bgcolor: isSender ? "#e6f3ff" : "#fff",
-                  color: "black",
-                  p: 1,
-                }}
-                key={index}
-              >
-                {msg?.message || ""}
-              </Typography>
-            );
-          })}
-        </Box>
-        <Box sx={{ mt: 2, height: "60px", display: "flex" }}>
-          <Box
-            component="textarea"
-            placeholder="Enter message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            sx={{
-              flex: 1,
-              marginRight: theme.spacing(1),
-              padding: theme.spacing(1),
-              height: "45px",
-              border: "none",
-              outline: "none",
-              backgroundColor: theme.palette.background.paper,
-              borderRadius: theme.spacing(1),
-              fontSize: theme.typography.body2.fontSize,
-              fontFamily: theme.typography.body2.fontFamily,
-              fontWeight: theme.typography.body2.fontWeight,
-              color: theme.palette.text.primary,
-              placeholderColor: theme.palette.text.secondary,
-              resize: "none",
-            }}
-          />
-          <Box
-            component="button"
-            onClick={sendMessage}
-            disabled={!message.trim()}
-            sx={{
-              p: 1,
-              height: "45px",
-              width: "45px",
-              borderRadius: theme.spacing(1),
-              border: `1px solid ${theme.palette.divider}`,
-              bgcolor: theme.palette.primary.main,
-              color: theme.palette.primary.contrastText,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-            }}
-          >
-            <SendIcon />
-          </Box>
-        </Box>
-      </Box>
+      <ChatSidebar
+        chatsList={chatsList}
+        handleChatSelection={handleChatSelection}
+      />
+      <ChatMain
+        selectedRecipient={selectedRecipient}
+        messages={messages}
+        message={message}
+        setMessage={setMessage}
+        sendMessage={sendMessage}
+      />
     </Box>
   );
 };
