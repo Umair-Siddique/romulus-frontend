@@ -90,7 +90,7 @@ export const Chats = () => {
 
   useEffect(() => {
     socket.on(`receive_message_${userId}`, (message: any) => {
-      if (selectedRecipient) {
+      if (selectedRecipient && selectedRecipient.id === message.recipient.id) {
         setMessages((prevMessages) => [...prevMessages, message]);
       }
 
