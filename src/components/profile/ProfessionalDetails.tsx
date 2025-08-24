@@ -60,10 +60,6 @@ export const ProfessionalDetails = ({
     ],
   };
 
-  const handleEdit = (section: any) => {
-    console.log(`Editing ${section}`);
-  };
-
   const CardHeader = ({ title }: any) => (
     <Box
       sx={{
@@ -124,10 +120,7 @@ export const ProfessionalDetails = ({
         }}
       >
         <CardContent sx={{ p: theme.spacing(3) }}>
-          <CardHeader
-            title="Profession & Skills"
-            onEdit={() => handleEdit("profession")}
-          />
+          <CardHeader title="Profession & Skills" />
 
           <Typography
             variant="h4"
@@ -267,10 +260,7 @@ export const ProfessionalDetails = ({
           }}
         >
           <CardContent sx={{ p: theme.spacing(3) }}>
-            <CardHeader
-              title="Document Identity"
-              onEdit={() => handleEdit("documents")}
-            />
+            <CardHeader title="Document Identity" />
 
             <Box
               sx={{

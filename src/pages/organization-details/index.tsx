@@ -77,8 +77,6 @@ export const OrganizationDetails = ({
     ],
   };
 
-  console.log("reportsData", reportsData);
-
   return (
     <Box
       sx={{

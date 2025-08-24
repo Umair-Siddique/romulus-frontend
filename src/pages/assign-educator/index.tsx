@@ -65,8 +65,6 @@ export const AssignEducator = () => {
     skills: educator.skills,
   }));
 
-  console.log("educatorsArray", educatorsArray);
-
   const handleAssignEducator = (educator: any) => {
     updateMission({
       id: missionId,
