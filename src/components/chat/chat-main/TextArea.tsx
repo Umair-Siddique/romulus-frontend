@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Send as SendIcon } from "@mui/icons-material";
 
-export const InputArea = ({
+export const TextArea = ({
   message,
   setMessage,
   onSendMessage,

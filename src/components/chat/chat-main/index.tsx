@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 
 import { ChatHeader } from "./ChatHeader";
 import { ChatWindow } from "./ChatWindow";
-import { InputArea } from "./InputArea";
+import { TextArea } from "./TextArea";
 
 export const ChatMain = ({
   selectedRecipient,
@@ -30,7 +30,7 @@ export const ChatMain = ({
     >
       <ChatHeader selectedRecipient={selectedRecipient} />
       <ChatWindow messages={messages} />
-      <InputArea
+      <TextArea
         message={message}
         setMessage={setMessage}
         onSendMessage={onSendMessage}
