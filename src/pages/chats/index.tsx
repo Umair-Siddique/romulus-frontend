@@ -8,11 +8,24 @@ import { useTheme } from "@mui/material/styles";
 import { ChatSidebar, ChatMain } from "#components";
 
 export const Chats = () => {
-  const theme = useTheme();
-
   const { user, userProfile } = useUserContext();
 
   const { userId, role } = user || {};
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (role === "admin") {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [user, navigate]);
+
+  const [message, setMessage] = useState<string>("");
+  const [messages, setMessages] = useState<any[]>([]);
+  const [selectedSender, setSelectedSender] = useState<any>(null);
+  const [selectedRecipient, setSelectedRecipient] = useState<any>(null);
+
+  const theme = useTheme();
 
   const { firstName, lastName, organizationName, avatar } = userProfile || {};
 
@@ -22,42 +35,17 @@ export const Chats = () => {
 
   const { recipient } = state || {};
 
-  const navigate = useNavigate();
-
-  const [message, setMessage] = useState<string>("");
-  const [messages, setMessages] = useState<any[]>([]);
-  const [selectedSender, setSelectedSender] = useState<any>(null);
-  const [selectedRecipient, setSelectedRecipient] = useState<any>(null);
-
-  useEffect(() => {
-    if (role === "admin") {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [user, navigate]);
-
-  useEffect(() => {
-    socket.on(`receive_message_${userId}`, (message) => {
-      console.log("message:", message);
-      setMessages((prevMessages) => [...prevMessages, message]);
-      refetchChatsList();
-    });
-
-    return () => {
-      socket.off(`receive_message_${userId}`);
-    };
-  }, [userId]);
-
-  const { mutate: createMessage } = useCreate({
+  const { mutate: sendMessage } = useCreate({
     resource: "chats/send-message",
     mutationOptions: {
       onSuccess: () => {
-        refetchChatsList();
+        refetchChatList();
       },
     },
   });
 
-  const { data: chatsList, refetch: refetchChatsList } = useList({
-    resource: "chats/chats-list",
+  const { data: chatList, refetch: refetchChatList } = useList({
+    resource: "chats/chat-list",
     filters: [
       {
         field: "userId",
@@ -70,8 +58,8 @@ export const Chats = () => {
     },
   });
 
-  const { data: chatMessages } = useList({
-    resource: "chats/get-conversation",
+  const { data: chatMessages, refetch: refetchChatMessages } = useList({
+    resource: "chats/message-list",
     filters: [
       {
         field: "user1",
@@ -90,12 +78,50 @@ export const Chats = () => {
   });
 
   useEffect(() => {
-    if (chatMessages?.data?.length) {
+    if (recipient) {
+      setSelectedRecipient(recipient);
+      setSelectedSender({
+        id: userId,
+        name: userName,
+        avatar,
+      });
+    }
+  }, [recipient]);
+
+  useEffect(() => {
+    socket.on(`receive_message_${userId}`, (message: any) => {
+      if (selectedRecipient) {
+        setMessages((prevMessages) => [...prevMessages, message]);
+      }
+
+      refetchChatMessages();
+      refetchChatList();
+    });
+
+    return () => {
+      socket.off(`receive_message_${userId}`);
+    };
+  }, [userId, selectedRecipient]);
+
+  useEffect(() => {
+    if (chatMessages?.data?.length && selectedRecipient) {
       setMessages(chatMessages?.data);
     }
   }, [chatMessages]);
 
-  const sendMessage = () => {
+  const handleChatSelection = (chat: any) => {
+    setSelectedSender(
+      userId === chat?.recipient?.id ? chat?.recipient : chat?.sender
+    );
+
+    setSelectedRecipient(
+      userId === chat?.recipient?.id ? chat?.sender : chat?.recipient
+    );
+
+    refetchChatMessages();
+  };
+
+  const handleSendMessage = () => {
     if (!message.trim()) return;
 
     if (!recipient && !selectedRecipient) return;
@@ -109,20 +135,11 @@ export const Chats = () => {
 
     setMessages((prevMessages) => [...prevMessages, newMessage]);
 
-    createMessage({
+    sendMessage({
       values: newMessage,
     });
 
     setMessage("");
-  };
-
-  const handleChatSelection = (chat: any) => {
-    setSelectedSender(
-      userId === chat?.recipient?.id ? chat?.recipient : chat?.sender
-    );
-    setSelectedRecipient(
-      userId === chat?.recipient?.id ? chat?.sender : chat?.recipient
-    );
   };
 
   return (
@@ -134,16 +151,13 @@ export const Chats = () => {
         height: "calc(100dvh - 150px)",
       }}
     >
-      <ChatSidebar
-        chatsList={chatsList}
-        handleChatSelection={handleChatSelection}
-      />
+      <ChatSidebar chatList={chatList} onChatSelection={handleChatSelection} />
       <ChatMain
         selectedRecipient={selectedRecipient}
         messages={messages}
         message={message}
         setMessage={setMessage}
-        sendMessage={sendMessage}
+        onSendMessage={handleSendMessage}
       />
     </Box>
   );

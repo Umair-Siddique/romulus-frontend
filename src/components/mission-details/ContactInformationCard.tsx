@@ -61,7 +61,7 @@ export const ContactInformationCard = memo(
 
     const navigate = useNavigate();
 
-    const handleSendMessage = () => {
+    const handlehandleSendMessaage = () => {
       navigate("/chats", {
         state: {
           recipient: {
@@ -119,7 +119,7 @@ export const ContactInformationCard = memo(
           <Button
             variant="contained"
             startIcon={<Message />}
-            onClick={handleSendMessage}
+            onClick={handlehandleSendMessaage}
             sx={{
               borderRadius: theme.shape.borderRadius,
               color: theme.palette.common.black,

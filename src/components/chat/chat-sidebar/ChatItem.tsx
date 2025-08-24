@@ -5,11 +5,11 @@ import { useUserContext } from "#context";
 
 export const ChatItem = ({
   chat,
-  handleChatSelection,
+  onChatSelection,
   index,
 }: {
   chat: any;
-  handleChatSelection: (chat: any) => void;
+  onChatSelection: (chat: any) => void;
   index: number;
 }) => {
   const theme = useTheme<Theme>();
@@ -20,7 +20,7 @@ export const ChatItem = ({
 
   return (
     <Box
-      onClick={() => handleChatSelection(chat)}
+      onClick={() => onChatSelection(chat)}
       sx={{
         display: "flex",
         alignItems: "center",

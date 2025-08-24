@@ -7,37 +7,37 @@ export const ChatHeader = ({
 }) => {
   const theme = useTheme<Theme>();
 
+  if (!selectedRecipient) return null;
+
   return (
-    selectedRecipient && (
+    <Box
+      sx={{
+        height: "60px",
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
+        mb: 2,
+      }}
+    >
       <Box
+        component="img"
+        src={selectedRecipient?.avatar}
         sx={{
-          height: "60px",
-          display: "flex",
-          alignItems: "center",
-          gap: 2,
-          mb: 2,
+          width: 50,
+          height: 50,
+          borderRadius: "50%",
+        }}
+        alt="recipient image"
+      />
+      <Typography
+        sx={{
+          m: 0,
+          p: 0,
+          fontWeight: theme.typography.fontWeightMedium,
         }}
       >
-        <Box
-          component="img"
-          src={selectedRecipient?.avatar}
-          sx={{
-            width: 50,
-            height: 50,
-            borderRadius: "50%",
-          }}
-          alt="recipient image"
-        />
-        <Typography
-          sx={{
-            m: 0,
-            p: 0,
-            fontWeight: theme.typography.fontWeightMedium,
-          }}
-        >
-          {selectedRecipient?.name}
-        </Typography>
-      </Box>
-    )
+        {selectedRecipient?.name}
+      </Typography>
+    </Box>
   );
 };

@@ -1,19 +1,19 @@
 import { ChatItem } from "./ChatItem";
 
 export const ChatList = ({
-  chatsList,
-  handleChatSelection,
+  chatList,
+  onChatSelection,
 }: {
-  chatsList: any;
-  handleChatSelection: (chat: any) => void;
+  chatList: any;
+  onChatSelection: (chat: any) => void;
 }) => {
   return (
     <>
-      {chatsList?.data?.map((chat: any, index: number) => (
+      {chatList?.data?.map((chat: any, index: number) => (
         <ChatItem
           key={index}
           chat={chat}
-          handleChatSelection={handleChatSelection}
+          onChatSelection={onChatSelection}
           index={index}
         />
       ))}

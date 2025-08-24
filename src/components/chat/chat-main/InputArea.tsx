@@ -5,26 +5,36 @@ import { Send as SendIcon } from "@mui/icons-material";
 export const InputArea = ({
   message,
   setMessage,
-  sendMessage,
+  onSendMessage,
 }: {
   message: string;
   setMessage: (message: string) => void;
-  sendMessage: () => void;
+  onSendMessage: () => void;
 }) => {
   const theme = useTheme();
 
   return (
-    <Box sx={{ mt: 2, height: "60px", display: "flex" }}>
+    <Box
+      sx={{
+        my: theme.spacing(2),
+        height: "45px",
+        display: "flex",
+      }}
+    >
       <Box
         component="textarea"
         placeholder="Enter message"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         sx={{
+          height: "100%",
           flex: 1,
-          marginRight: theme.spacing(1),
-          padding: theme.spacing(1),
-          height: "45px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          p: theme.spacing(2),
+          mr: theme.spacing(1),
+          overflow: "hidden",
           border: "none",
           outline: "none",
           backgroundColor: theme.palette.background.paper,
@@ -39,11 +49,9 @@ export const InputArea = ({
       />
       <Box
         component="button"
-        onClick={sendMessage}
+        onClick={onSendMessage}
         disabled={!message.trim()}
         sx={{
-          p: 1,
-          height: "45px",
           width: "45px",
           borderRadius: theme.spacing(1),
           border: `1px solid ${theme.palette.divider}`,

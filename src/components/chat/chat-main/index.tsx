@@ -9,19 +9,19 @@ export const ChatMain = ({
   messages,
   message,
   setMessage,
-  sendMessage,
+  onSendMessage,
 }: {
   selectedRecipient: any;
   messages: any[];
   message: string;
   setMessage: (message: string) => void;
-  sendMessage: () => void;
+  onSendMessage: () => void;
 }) => {
   return (
     <Box
       sx={{
-        height: "100%",
         width: "80%",
+        height: "100%",
         display: "flex",
         flexDirection: "column",
         px: 2,
@@ -33,7 +33,7 @@ export const ChatMain = ({
       <InputArea
         message={message}
         setMessage={setMessage}
-        sendMessage={sendMessage}
+        onSendMessage={onSendMessage}
       />
     </Box>
   );
