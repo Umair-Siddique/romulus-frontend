@@ -1,7 +1,9 @@
-import { Box, Typography, Theme } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { truncateWithEllipsis } from "#utils";
+import { Box, Typography, Theme } from "@mui/material";
+import { Circle as CircleIcon } from "@mui/icons-material";
+
 import { useUserContext } from "#context";
+import { truncateWithEllipsis } from "#utils";
 
 export const ChatItem = ({
   chat,
@@ -78,16 +80,26 @@ export const ChatItem = ({
             {truncateWithEllipsis(chat?.message || "")}
           </Typography>
         </Box>
-        <Typography
-          sx={{
-            m: 0,
-            p: 0,
-            fontSize: theme.typography.body2.fontSize,
-            color: theme.palette.text.secondary,
-          }}
-        >
-          {chat?.time.split("T")[1].split(".")[0].slice(0, 5)}
-        </Typography>
+        <Box>
+          <Typography
+            sx={{
+              m: 0,
+              p: 0,
+              fontSize: theme.typography.body2.fontSize,
+              color: theme.palette.text.secondary,
+            }}
+          >
+            {chat?.time.split("T")[1].split(".")[0].slice(0, 5)}
+          </Typography>
+          {chat?.sender?.id !== userId && !chat?.hasRead && (
+            <CircleIcon
+              sx={{
+                color: theme.palette.primary.main,
+                fontSize: "12px",
+              }}
+            />
+          )}
+        </Box>
       </Box>
     </Box>
   );

@@ -3,7 +3,7 @@ import { useUserContext } from "#context";
 import { useLocation, useNavigate } from "react-router";
 import { socket } from "#utils/socket";
 import { Box } from "@mui/material";
-import { useCreate, useList } from "@refinedev/core";
+import { useCreate, useList, useUpdate } from "@refinedev/core";
 import { useTheme } from "@mui/material/styles";
 import { ChatSidebar, ChatMain } from "#components";
 
@@ -77,6 +77,15 @@ export const Chats = () => {
     },
   });
 
+  const { mutate: updateMessage } = useUpdate({
+    resource: "chats/update-message",
+    mutationOptions: {
+      onSuccess: () => {
+        refetchChatList();
+      },
+    },
+  });
+
   useEffect(() => {
     if (recipient) {
       setSelectedRecipient(recipient);
@@ -118,7 +127,14 @@ export const Chats = () => {
       userId === chat?.recipient?.id ? chat?.sender : chat?.recipient
     );
 
-    refetchChatMessages();
+    if (chat?.hasRead) return;
+
+    updateMessage({
+      id: chat?._id,
+      values: {
+        hasRead: true,
+      },
+    });
   };
 
   const handleSendMessage = () => {
@@ -130,6 +146,7 @@ export const Chats = () => {
       sender: { id: userId, name: userName, avatar },
       recipient: recipient ?? selectedRecipient,
       message,
+      hasRead: false,
       time: new Date(),
     };
 
