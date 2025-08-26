@@ -2,7 +2,7 @@ import { Box, Theme } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import { ChatList } from "./ChatList";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUserContext } from "#context";
 import { SearchBox } from "./SearchBox";
 
