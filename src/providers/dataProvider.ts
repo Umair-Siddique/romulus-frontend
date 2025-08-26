@@ -19,8 +19,13 @@ export const dataProvider: DataProvider = {
         throw new Error("No data found");
       }
     } catch (error: any) {
+      if (error?.response?.data?.message === "invalid signature")
+        localStorage.clear();
+
       return {
         data: {} as any,
+        redirectTo:
+          error?.response?.data?.message === "invalid signature" && "/login",
         error: {
           name: "Data Fetch Error",
           message: `Failed to fetch ${resource} with ID ${id}: ${
