@@ -1,5 +1,5 @@
-import { useTheme, Theme } from "@mui/material";
 import { Typography } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 
 export const SettingsItem = ({
   item,
@@ -18,12 +18,14 @@ export const SettingsItem = ({
     <Typography
       variant="body1"
       sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: 2,
-        cursor: "pointer",
         p: 1,
         my: 1,
+        gap: 2,
+        display: "flex",
+        cursor: "pointer",
+        alignItems: "center",
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: isSelected ? theme.palette.grey[100] : "transparent",
       }}
       onClick={() => onSettingsSelection(item.id)}
     >

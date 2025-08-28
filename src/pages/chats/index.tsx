@@ -10,7 +10,7 @@ import { ChatSidebar, ChatMain } from "#components";
 export const Chats = () => {
   const { user, userProfile } = useUserContext();
 
-  const { userId, role } = user || {};
+  const { userId, role, isMessagesAllowed } = user || {};
 
   const navigate = useNavigate();
 
@@ -54,7 +54,7 @@ export const Chats = () => {
       },
     ],
     queryOptions: {
-      enabled: !!userId,
+      enabled: !!isMessagesAllowed,
     },
   });
 
@@ -73,7 +73,8 @@ export const Chats = () => {
       },
     ],
     queryOptions: {
-      enabled: !!selectedRecipient?.id && !!selectedSender?.id,
+      enabled:
+        !!isMessagesAllowed && !!selectedRecipient?.id && !!selectedSender?.id,
     },
   });
 
@@ -169,6 +170,7 @@ export const Chats = () => {
       }}
     >
       <ChatSidebar chatList={chatList} onChatSelection={handleChatSelection} />
+      <Box sx={{ borderLeft: `1px solid ${theme.palette.divider}` }} />
       <ChatMain
         selectedRecipient={selectedRecipient}
         messages={messages}

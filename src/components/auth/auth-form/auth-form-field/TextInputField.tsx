@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useTheme, Theme } from "@mui/material/styles";
 import {
   Info as InfoIcon,
-  Visibility as VisibilityIcon,
-  VisibilityOff as VisibilityOffIcon,
+  VisibilityOutlined as VisibilityIcon,
+  VisibilityOffOutlined as VisibilityOffIcon,
 } from "@mui/icons-material";
 import {
   Box,
@@ -97,9 +97,9 @@ export const TextInputField = ({
         variant="body2"
         sx={{
           mb: theme.spacing(1),
-          color: theme.palette.text.primary, // Using theme text primary instead of hardcoded #333
+          color: theme.palette.text.primary,
           fontWeight: theme.typography.h3.fontWeight,
-          fontSize: "0.875rem", // 14px equivalent using rem (14/16 = 0.875)
+          fontSize: "0.875rem",
           fontFamily: theme.typography.body2.fontFamily,
         }}
       >

@@ -26,7 +26,8 @@ export const Header = () => {
 
   const { user, setUserProfile, setRefetchUserProfile } = useUserContext();
 
-  const { userId, educatorId, organizationId, role } = user;
+  const { userId, educatorId, organizationId, role, isNotificationsAllowed } =
+    user || {};
 
   const [pageName, setPageName] = useState<string>("");
   const [showBackButton, setShowBackButton] = useState<boolean>(false);
@@ -42,12 +43,7 @@ export const Header = () => {
 
   const { mutate: logout } = useLogout();
 
-  const {
-    data: userProfile,
-    refetch: refetchUserProfile,
-    isLoading: isUserLoading,
-    isError: isUserError,
-  } = useOne({
+  const { data: userProfile, refetch: refetchUserProfile } = useOne({
     resource: role === "educator" ? "educators" : "organizations",
     id: educatorId || organizationId,
     queryOptions: {
@@ -55,17 +51,12 @@ export const Header = () => {
     },
   });
 
-  const {
-    data: notificationsData,
-    refetch: refetchNotifications,
-    isLoading: isNotificationsLoading,
-    isError: isNotificationsError,
-  } = useOne({
+  const { data: notificationsData, refetch: refetchNotifications } = useOne({
     id: userId,
     resource: `notifications`,
     liveMode: "auto",
     queryOptions: {
-      enabled: !!userId,
+      enabled: !!isNotificationsAllowed,
     },
   });
 

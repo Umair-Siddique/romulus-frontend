@@ -1,5 +1,4 @@
-import { Box, Theme } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Box } from "@mui/material";
 
 import { ChatList } from "./ChatList";
 import { useState } from "react";
@@ -13,8 +12,6 @@ export const ChatSidebar = ({
   chatList: any;
   onChatSelection: (chat: any) => void;
 }) => {
-  const theme = useTheme<Theme>();
-
   const { user } = useUserContext();
 
   const { userId } = user || {};
@@ -57,7 +54,6 @@ export const ChatSidebar = ({
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        borderRight: `1px solid ${theme.palette.divider}`,
         px: 2,
         py: 2,
       }}

@@ -43,6 +43,7 @@ export const Settings = () => {
           onSettingsSelection={handleSettingsSelection}
           selectedSettings={selectedSettings}
         />
+        <Box sx={{ borderLeft: `1px solid ${theme.palette.divider}` }} />
         <SettingsMain selectedSettings={selectedSettings} />
       </Box>
     </>
