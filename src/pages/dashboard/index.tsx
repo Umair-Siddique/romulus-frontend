@@ -6,7 +6,7 @@ import {
   HourglassTop as HourglassTopIcon,
 } from "@mui/icons-material";
 
-import { KpiCards, PageMeta, TabView } from "#components";
+import { KpiCards, PageMeta, TabViewHorizontal } from "#components";
 
 import { KpiItem } from "#types";
 import { useUserContext } from "#context";
@@ -184,7 +184,7 @@ export const Dashboard = () => {
         description="Manage all missions here."
       />
       <KpiCards kpiCardsData={kpis} />
-      <TabView
+      <TabViewHorizontal
         tabsTitles={tabsData.tabsTitles}
         tabsContent={tabsData.tabsContent}
       />

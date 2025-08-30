@@ -8,7 +8,7 @@ import {
   MissionsList,
   ProfileCard,
   ProfileHeader,
-  TabView,
+  TabViewHorizontal,
 } from "#components";
 import { useOne } from "@refinedev/core";
 import { ReportsList } from "#components/profile/ReportsList";
@@ -121,7 +121,7 @@ export const OrganizationDetails = ({
 
       {role === "admin" && parentComponent !== "reports" && (
         <Box sx={{ mb: theme.spacing(2) }}>
-          <TabView
+          <TabViewHorizontal
             tabsTitles={tabsData.tabsTitles}
             tabsContent={tabsData.tabsContent}
           />

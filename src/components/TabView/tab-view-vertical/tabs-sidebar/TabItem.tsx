@@ -1,13 +1,13 @@
 import { Typography } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 
-export const SettingsItem = ({
+export const TabItem = ({
   item,
-  onSettingsSelection,
+  onTabSelection,
   isSelected,
 }: {
   item: any;
-  onSettingsSelection: (id: string) => void;
+  onTabSelection: (id: string) => void;
   isSelected: boolean;
 }) => {
   const theme = useTheme<Theme>();
@@ -27,7 +27,7 @@ export const SettingsItem = ({
         borderRadius: theme.shape.borderRadius,
         backgroundColor: isSelected ? theme.palette.grey[100] : "transparent",
       }}
-      onClick={() => onSettingsSelection(item.id)}
+      onClick={() => onTabSelection(item.id)}
     >
       <Icon color={isSelected ? "primary" : "inherit"} />
       {item.label}

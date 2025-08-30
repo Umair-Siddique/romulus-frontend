@@ -9,7 +9,7 @@ import {
   UserBio,
   ProfessionalDetails,
   Reviews,
-  TabView,
+  TabViewHorizontal,
   MissionsList,
 } from "#components";
 import { useOne } from "@refinedev/core";
@@ -118,7 +118,7 @@ export const EducatorDetails = ({
 
       {role === "admin" && parentComponent !== "reports" && (
         <Box sx={{ mb: theme.spacing(2) }}>
-          <TabView
+          <TabViewHorizontal
             tabsTitles={tabsData.tabsTitles}
             tabsContent={tabsData.tabsContent}
           />

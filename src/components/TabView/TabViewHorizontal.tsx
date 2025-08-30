@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 
-export const TabView = ({
+export const TabViewHorizontal = ({
   tabsTitles,
   tabsContent,
 }: {

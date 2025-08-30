@@ -11,7 +11,7 @@ import {
   DocumentDownloadSection,
   ContactInformationCard,
   MissionDescriptionCard,
-  TabView,
+  TabViewHorizontal,
   EducatorTable,
   Reviews,
   Modal,
@@ -291,7 +291,7 @@ export const MissionDetails = ({
         ))}
 
       {role === "organization" && parentComponent !== "reports" && (
-        <TabView
+        <TabViewHorizontal
           tabsTitles={tabsData.tabsTitles}
           tabsContent={tabsData.tabsContent}
         />

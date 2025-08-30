@@ -1,2 +1,3 @@
-export * from "./settings-sidebar";
-export * from "./settings-main";
+export * from "./Profile";
+export * from "./Password";
+export * from "./Notification";

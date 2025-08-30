@@ -1,28 +1,36 @@
-import { Box } from "@mui/material";
-import { useTheme, Theme } from "@mui/material";
 import {
   PersonOutline as PersonIcon,
   LockOutlined as LockIcon,
   NotificationsNoneOutlined as NotificationIcon,
 } from "@mui/icons-material";
 
-import { PageMeta, SettingsMain, SettingsSidebar } from "#components";
-import { useState } from "react";
+import { useUserContext } from "#context";
+import {
+  PageMeta,
+  TabViewVertical,
+  Profile,
+  Password,
+  Notification,
+} from "#components";
 
 export const Settings = () => {
-  const theme = useTheme<Theme>();
+  const { user, userProfile } = useUserContext();
 
-  const [selectedSettings, setSelectedSettings] = useState<string>("profile");
+  const { role } = user || {};
 
-  const settingsData = [
-    { id: "profile", label: "Profile", icon: PersonIcon },
+  const settingsTabs = [
+    ...(role !== "admin"
+      ? [{ id: "profile", label: "Profile", icon: PersonIcon }]
+      : []),
     { id: "password", label: "Password", icon: LockIcon },
     { id: "notifications", label: "Notifications", icon: NotificationIcon },
   ];
 
-  const handleSettingsSelection = (id: string) => {
-    setSelectedSettings(id);
-  };
+  const settingsContent = [
+    role !== "admin" ? <Profile profileData={userProfile} /> : null,
+    <Password />,
+    <Notification />,
+  ];
 
   return (
     <>
@@ -30,22 +38,7 @@ export const Settings = () => {
         title="Account Settings"
         description="Manage your account settings here"
       />
-      <Box
-        sx={{
-          display: "flex",
-          border: `1px solid ${theme.palette.divider}`,
-          borderRadius: theme.shape.borderRadius,
-          mt: 3,
-        }}
-      >
-        <SettingsSidebar
-          settingsData={settingsData}
-          onSettingsSelection={handleSettingsSelection}
-          selectedSettings={selectedSettings}
-        />
-        <Box sx={{ borderLeft: `1px solid ${theme.palette.divider}` }} />
-        <SettingsMain selectedSettings={selectedSettings} />
-      </Box>
+      <TabViewVertical tabTitles={settingsTabs} tabsContent={settingsContent} />
     </>
   );
 };
