@@ -1,27 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
+
 import { Box, Tabs, Tab } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 
-export const TabViewHorizontal = ({
-  tabsTitles,
-  tabsContent,
-}: {
-  tabsTitles: string[];
-  tabsContent: React.ReactNode[];
-}) => {
-  const theme = useTheme<Theme>();
-  const [activeTab, setActiveTab] = useState(0);
+export const TabBar = React.memo(
+  ({
+    tabsTitles,
+    selectedTab,
+    handleTabChange,
+  }: {
+    tabsTitles: string[];
+    selectedTab: number;
+    handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
+  }) => {
+    const theme = useTheme<Theme>();
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
-  };
-
-  return (
-    <>
-      {/* Tab Navigation */}
+    return (
       <Box sx={{ mt: 4, borderBottom: 1, borderColor: "divider" }}>
         <Tabs
-          value={activeTab}
+          value={selectedTab}
           onChange={handleTabChange}
           sx={{
             "& .MuiTabs-indicator": {
@@ -45,18 +42,6 @@ export const TabViewHorizontal = ({
           ))}
         </Tabs>
       </Box>
-
-      {/* Tab Content */}
-      <Box
-        sx={{
-          textAlign: "center",
-          border: `1px solid ${theme.palette.primary.light}`,
-          borderRadius: theme.shape.borderRadius,
-          marginTop: 2,
-        }}
-      >
-        {tabsContent[activeTab]}
-      </Box>
-    </>
-  );
-};
+    );
+  }
+);

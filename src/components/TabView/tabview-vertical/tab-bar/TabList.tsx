@@ -1,21 +1,21 @@
 import { TabItem } from "./TabItem";
 
 export const TabList = ({
-  tabTitles,
-  onTabSelection,
+  tabsTitles,
   selectedTab,
+  onTabChange,
 }: {
-  tabTitles: any[];
-  onTabSelection: (id: string) => void;
+  tabsTitles: any[];
   selectedTab: string;
+  onTabChange: (id: string) => void;
 }) => {
-  if (!tabTitles || tabTitles.length === 0) return null;
+  if (!tabsTitles || tabsTitles.length === 0) return null;
 
-  return tabTitles.map((item: any) => (
+  return tabsTitles.map((item: any) => (
     <TabItem
       key={item.id}
       item={item}
-      onTabSelection={onTabSelection}
+      onTabChange={onTabChange}
       isSelected={selectedTab === item.id}
     />
   ));

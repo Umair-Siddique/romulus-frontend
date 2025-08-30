@@ -1,6 +1,7 @@
+import React from "react";
 import { Box } from "@mui/material";
 
-export const TabsMain = ({
+export const Main = ({
   selectedTabContent,
 }: {
   selectedTabContent: React.ReactNode | null;

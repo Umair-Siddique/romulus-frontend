@@ -3,11 +3,11 @@ import { useTheme, Theme } from "@mui/material/styles";
 
 export const TabItem = ({
   item,
-  onTabSelection,
+  onTabChange,
   isSelected,
 }: {
   item: any;
-  onTabSelection: (id: string) => void;
+  onTabChange: (id: string) => void;
   isSelected: boolean;
 }) => {
   const theme = useTheme<Theme>();
@@ -27,7 +27,7 @@ export const TabItem = ({
         borderRadius: theme.shape.borderRadius,
         backgroundColor: isSelected ? theme.palette.grey[100] : "transparent",
       }}
-      onClick={() => onTabSelection(item.id)}
+      onClick={() => onTabChange(item.id)}
     >
       <Icon color={isSelected ? "primary" : "inherit"} />
       {item.label}

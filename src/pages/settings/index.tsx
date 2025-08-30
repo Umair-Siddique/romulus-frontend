@@ -27,10 +27,15 @@ export const Settings = () => {
   ];
 
   const settingsContent = [
-    role !== "admin" ? <Profile profileData={userProfile} /> : null,
+    role !== "admin" && <Profile profileData={userProfile} />,
     <Password />,
     <Notification />,
   ];
+
+  const tabsData = {
+    tabsTitles: settingsTabs.filter((tab) => !!tab),
+    tabsContent: settingsContent.filter((content) => !!content),
+  };
 
   return (
     <>
@@ -38,7 +43,10 @@ export const Settings = () => {
         title="Account Settings"
         description="Manage your account settings here"
       />
-      <TabViewVertical tabTitles={settingsTabs} tabsContent={settingsContent} />
+      <TabViewVertical
+        tabsTitles={tabsData.tabsTitles}
+        tabsContent={tabsData.tabsContent}
+      />
     </>
   );
 };
