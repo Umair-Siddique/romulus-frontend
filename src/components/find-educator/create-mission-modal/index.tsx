@@ -51,7 +51,7 @@ export const CreateMissionModal = ({
 
   const preferredEducatorsIds = userProfile?.preferredEducators;
 
-  const { data, isLoading, isError } = useMany({
+  const { data } = useMany({
     resource: "educators",
     ids: preferredEducatorsIds,
   });
@@ -139,7 +139,7 @@ export const CreateMissionModal = ({
     watchedValues.startTime &&
     watchedValues.endTime &&
     skillsArray.length > 0 &&
-    watchedValues.branch
+    watchedValues.branch;
 
   // Updated handleFileUpload function
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -239,20 +239,6 @@ export const FindEducator = () => {
       console.log("Error sending invitations:", error);
     }
   };
-
-  const handleDistanceChange = (event: Event, newValue: number | number[]) => {
-    setDistance(newValue as number);
-  };
-
-  // Dropdown handlers
-  const handleDropdownClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleDropdownClose = () => {
-    setAnchorEl(null);
-  };
-
   const center: LatLngTuple = [
     findEducatorData?.coordinates[1] ??
       userProfile?.officeAddressCoordinates?.coordinates[1] ??
@@ -285,57 +271,20 @@ export const FindEducator = () => {
     });
   }
 
-  const isMissionCreationPhase = !missionCreated || !educatorsData?.data?.length;
+  const isMissionCreationPhase =
+    !missionCreated || !educatorsData?.data?.length;
 
   return (
     <Box sx={{ position: "relative" }}>
       {/* Radius dropdown positioned at top right - only show if mission was created */}
       {missionCreated && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: theme.spacing(2),
-            right: theme.spacing(2),
-            zIndex: 1000,
-          }}
-        >
-          <Button
-            variant="outlined"
-            onClick={handleDropdownClick}
-            endIcon={<ExpandMoreIcon />}
-            startIcon={<MyLocationIcon />}
-            sx={{
-              backgroundColor: "white",
-              textTransform: "none",
-              minWidth: 120,
-              boxShadow: theme.shadows[2],
-              color: theme.palette.text.secondary,
-            }}
-          >
-            Radius
-          </Button>
-          <Menu
-            anchorEl={anchorEl}
-            open={dropdownOpen}
-            onClose={handleDropdownClose}
-            PaperProps={{
-              sx: {
-                mt: 1,
-                ml: -5,
-                width: 300,
-                height: 85,
-                borderRadius: theme.shape.borderRadius,
-              },
-            }}
-          >
-            <MenuItem disableRipple>
-              <RadiusSlider
-                distance={distance}
-                handleDistanceChange={handleDistanceChange}
-              />
-            </MenuItem>
-          </Menu>
-        </Box>
+        <RadiusSlider
+          distance={distance}
+          anchorEl={anchorEl}
+          setAnchorEl={setAnchorEl}
+          setDistance={setDistance}
+          dropdownOpen={!!anchorEl}
+        />
       )}
 
       {/* Map displaying educator locations */}
