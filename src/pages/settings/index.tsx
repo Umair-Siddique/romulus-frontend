@@ -18,23 +18,28 @@ export const Settings = () => {
 
   const { role } = user || {};
 
-  const settingsTabs = [
-    ...(role !== "admin"
-      ? [{ id: "profile", label: "Profile", icon: PersonIcon }]
-      : []),
-    { id: "password", label: "Password", icon: LockIcon },
-    { id: "notifications", label: "Notifications", icon: NotificationIcon },
-  ];
-
-  const settingsContent = [
-    role !== "admin" && <Profile profileData={userProfile} />,
-    <Password />,
-    <Notification />,
-  ];
-
   const tabsData = {
-    tabsTitles: settingsTabs.filter((tab) => !!tab),
-    tabsContent: settingsContent.filter((content) => !!content),
+    tabsTitles: [
+      ...(role !== "admin"
+        ? [{ id: "profile", label: "Profile", icon: PersonIcon }]
+        : []),
+      ...(role !== "admin"
+        ? [
+            {
+              id: "notifications",
+              label: "Notifications",
+              icon: NotificationIcon,
+            },
+          ]
+        : []),
+      { id: "password", label: "Password", icon: LockIcon },
+    ].filter((tab) => !!tab),
+
+    tabsContent: [
+      ...(role !== "admin" ? [<Profile profileData={userProfile} />] : []),
+      ...(role !== "admin" ? [<Notification />] : []),
+      <Password />,
+    ].filter((content) => !!content),
   };
 
   return (
