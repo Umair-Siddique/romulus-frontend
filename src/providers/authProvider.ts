@@ -7,8 +7,8 @@ export const authProvider: AuthProvider = {
   login: async (params: any) => {
     try {
       const { data } = await requestAPI("POST", "/auth/signin", params);
-      const { accessToken, data: userData } = data;
-      const { role, educatorId, organizationId } = userData;
+      const { data: userData } = data;
+      const { role, educatorId, organizationId, accessToken } = userData;
 
       localStorage.setItem("romulus-access-token", accessToken);
       localStorage.setItem("romulus-user", JSON.stringify(userData));

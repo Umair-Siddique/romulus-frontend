@@ -65,16 +65,10 @@ export const DateField = ({
               cursor: "pointer",
             },
           }}
-        />
-        <CalendarTodayIcon
-          sx={{
-            position: "absolute",
-            right: theme.spacing(1.5), // 12px equivalent
-            top: "50%",
-            transform: "translateY(-50%)",
-            color: theme.palette.text.secondary,
-            pointerEvents: "none",
-            zIndex: 1,
+          InputProps={{
+            endAdornment: (
+              <CalendarTodayIcon sx={{ color: theme.palette.text.secondary }} />
+            ),
           }}
         />
       </Box>

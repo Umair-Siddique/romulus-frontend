@@ -70,7 +70,7 @@ export const Notification = () => {
   };
 
   return (
-    <>
+    <Box>
       <Typography
         sx={{
           mb: theme.spacing(2),
@@ -129,6 +129,6 @@ export const Notification = () => {
           </Box>
         )}
       </Box>
-    </>
+    </Box>
   );
 };

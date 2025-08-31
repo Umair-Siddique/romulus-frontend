@@ -91,7 +91,7 @@ export const Password = () => {
   };
 
   return (
-    <>
+    <Box>
       <Typography
         sx={{
           mb: theme.spacing(2),
@@ -239,6 +239,6 @@ export const Password = () => {
           </CardContent>
         </Card>
       </Box>
-    </>
+    </Box>
   );
 };

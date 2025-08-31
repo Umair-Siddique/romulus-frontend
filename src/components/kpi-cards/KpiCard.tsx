@@ -1,8 +1,9 @@
+import React from "react";
 import { Card, Typography, Box, Avatar } from "@mui/material";
 
 import { KpiCardProps } from "#types";
 
-const KpiCard = ({ title, total, icon, iconBg }: KpiCardProps) => {
+const KpiCard = React.memo(({ title, total, icon, iconBg }: KpiCardProps) => {
   return (
     <Card
       elevation={0}
@@ -50,6 +51,6 @@ const KpiCard = ({ title, total, icon, iconBg }: KpiCardProps) => {
       </Typography>
     </Card>
   );
-};
+});
 
 export default KpiCard;

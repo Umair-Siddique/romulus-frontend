@@ -47,7 +47,7 @@ export const TabViewVertical = ({
       <Box sx={{ borderLeft: `1px solid ${theme.palette.divider}` }} />
 
       {/* Tab Content */}
-      <Main selectedTabContent={selectedTabContent ?? null} />
+      <Main selectedTabContent={selectedTabContent ?? null} key={selectedTab} />
     </Box>
   );
 };

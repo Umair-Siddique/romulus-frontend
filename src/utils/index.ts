@@ -120,6 +120,11 @@ const truncateWithEllipsis = (text: string, limit = 20) => {
   return text.length > limit ? `${text.slice(0, limit)}...` : text;
 };
 
+const convertToISO = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toISOString();
+};
+
 export {
   requestAPI,
   getStatusColor,
@@ -128,4 +133,5 @@ export {
   getElapsedTime,
   handleDownload,
   truncateWithEllipsis,
+  convertToISO,
 };
