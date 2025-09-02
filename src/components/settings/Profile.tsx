@@ -30,24 +30,24 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
   // ✅ Flattened + consistent initial state
   const initialState = {
     avatar: profileData?.avatar || "",
-    email: profileData?.user?.email || "",
-    city: profileData?.city || "",
-    country: profileData?.country || "",
-    name: isEducator
+    fullName: isEducator
       ? `${profileData?.firstName || ""} ${profileData?.lastName || ""}`.trim()
       : profileData?.organizationName || "",
-    phone: isEducator
-      ? profileData?.user?.phone || ""
-      : profileData?.phone || "",
-    gender: isEducator ? profileData?.gender : undefined,
-    siretNumber: !isEducator ? profileData?.siretNumber : undefined,
+    email: profileData?.user?.email || "",
     date: isEducator
       ? profileData?.dateOfBirth || ""
       : profileData?.foundedYear || "",
+    phone: isEducator
+      ? profileData?.user?.phone || ""
+      : profileData?.phone || "",
+    ...(isEducator && { gender: profileData?.gender || "" }),
+    ...(!isEducator && { siretNumber: profileData?.siretNumber || "" }),
     address: isEducator
       ? profileData?.fullAddress || ""
       : profileData?.officeAddress || "",
-    bio: isEducator ? profileData?.bio : undefined,
+    city: profileData?.city || "",
+    country: profileData?.country || "",
+    ...(isEducator && { bio: profileData?.bio || "" }),
   };
 
   const [userData, dispatch] = useReducer(reducer, initialState);
@@ -125,10 +125,10 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                 {isEducator ? "Full Name" : "Organization Name"}
               </Typography>
               <TextField
-                value={userData.name}
+                value={userData.fullName}
                 placeholder={isEducator ? "John Doe" : "My Institute"}
                 fullWidth
-                onChange={(e) => handleChange("name", e.target.value)}
+                onChange={(e) => handleChange("fullName", e.target.value)}
                 sx={{
                   width: "100%",
                   "& .MuiOutlinedInput-root": {
@@ -137,6 +137,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                     "& fieldset": { border: "none" },
                   },
                 }}
+                inputProps={{ readOnly: true }}
               />
             </Box>
 
