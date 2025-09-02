@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { useTheme, Theme } from "@mui/material/styles";
 import {
   VisibilityOffOutlined as VisibilityOffIcon,
   VisibilityOutlined as VisibilityIcon,
@@ -15,10 +13,13 @@ import {
   CardContent,
   Button,
 } from "@mui/material";
+import React, { useState } from "react";
 import { useCustomMutation } from "@refinedev/core";
+import { useTheme, Theme } from "@mui/material/styles";
+
 import { useUserContext } from "#context";
 
-export const Password = () => {
+export const Password = React.memo(() => {
   const theme = useTheme<Theme>();
 
   const { user } = useUserContext();
@@ -241,4 +242,4 @@ export const Password = () => {
       </Box>
     </Box>
   );
-};
+});

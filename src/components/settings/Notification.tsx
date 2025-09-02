@@ -1,10 +1,11 @@
-import { Box, Typography, Switch } from "@mui/material";
-import { useTheme, Theme } from "@mui/material/styles";
-import { useUserContext } from "#context";
-import { useEffect, useState } from "react";
 import { useUpdate } from "@refinedev/core";
+import React, { useEffect, useState } from "react";
+import { useTheme, Theme } from "@mui/material/styles";
+import { Box, Typography, Switch } from "@mui/material";
 
-export const Notification = () => {
+import { useUserContext } from "#context";
+
+export const Notification = React.memo(() => {
   const theme = useTheme<Theme>();
 
   const { user, setUser } = useUserContext();
@@ -131,4 +132,4 @@ export const Notification = () => {
       </Box>
     </Box>
   );
-};
+});

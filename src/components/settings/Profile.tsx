@@ -4,16 +4,12 @@ import {
   Select,
   TextField,
   Typography,
-  IconButton,
   Button,
 } from "@mui/material";
-import {
-  Upload as UploadIcon,
-  Delete as DeleteIcon,
-} from "@mui/icons-material";
+import React, { useReducer } from "react";
 import { useTheme, Theme } from "@mui/material/styles";
-import { useReducer } from "react";
-import { cities, countries } from "#constants/data";
+
+import { cities, countries } from "#constants";
 
 const reducer = (state: any, action: any) => {
   switch (action.type) {
@@ -26,7 +22,7 @@ const reducer = (state: any, action: any) => {
   }
 };
 
-export const Profile = ({ profileData }: { profileData: any }) => {
+export const Profile = React.memo(({ profileData }: { profileData: any }) => {
   const theme = useTheme<Theme>();
 
   const isEducator = profileData?.user?.role === "educator";
@@ -120,72 +116,6 @@ export const Profile = ({ profileData }: { profileData: any }) => {
             sx={{
               width: "50%",
               display: "flex",
-              justifyContent: "center",
-              position: "relative",
-              height: 150,
-            }}
-          >
-            <Box
-              component="img"
-              src={userData.avatar}
-              sx={{
-                width: 150,
-                height: 150,
-                borderRadius: "50%",
-                objectFit: "cover",
-              }}
-              alt="profile image"
-            />
-            {/* Upload Icon */}
-            <IconButton
-              component="label"
-              sx={{
-                position: "absolute",
-                bottom: 0,
-                left: 120,
-                backgroundColor: theme.palette.primary.main,
-                color: theme.palette.primary.contrastText,
-                width: theme.spacing(4),
-                height: theme.spacing(4),
-                borderRadius: "50%",
-                "&:hover": { backgroundColor: theme.palette.primary.dark },
-              }}
-            >
-              <UploadIcon fontSize="small" />
-              <input
-                type="file"
-                hidden
-                accept="image/*"
-                onChange={(e) =>
-                  e.target.files?.[0] && handleImageChange(e.target.files[0])
-                }
-              />
-            </IconButton>
-            {/* Delete Icon */}
-            {userData.avatar && (
-              <IconButton
-                onClick={() => handleChange("avatar", "")}
-                sx={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 240,
-                  backgroundColor: theme.palette.error.main,
-                  color: theme.palette.error.contrastText,
-                  width: theme.spacing(4),
-                  height: theme.spacing(4),
-                  borderRadius: "50%",
-                  "&:hover": { backgroundColor: theme.palette.error.dark },
-                }}
-              >
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            )}
-          </Box>
-
-          <Box
-            sx={{
-              width: "50%",
-              display: "flex",
               flexDirection: "column",
               gap: theme.spacing(2),
             }}
@@ -229,6 +159,59 @@ export const Profile = ({ profileData }: { profileData: any }) => {
                 }}
               />
             </Box>
+          </Box>
+
+          <Box
+            sx={{
+              width: "50%",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              height: 150,
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                gap: theme.spacing(2),
+              }}
+            >
+              {/* Upload Icon */}
+              <Button variant="outlined" component="label">
+                Change Image
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={(e) =>
+                    e.target.files?.[0] && handleImageChange(e.target.files[0])
+                  }
+                />
+              </Button>
+              {/* Delete Icon */}
+              {userData.avatar && (
+                <Button
+                  variant="outlined"
+                  onClick={() => handleChange("avatar", "")}
+                  color="error"
+                  sx={{ border: "none", textDecoration: "underline" }}
+                >
+                  Remove Image
+                </Button>
+              )}
+            </Box>
+
+            <Box
+              component="img"
+              src={userData.avatar}
+              sx={{
+                width: 150,
+                height: 150,
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}
+              alt="profile image"
+            />
           </Box>
         </Box>
 
@@ -455,4 +438,4 @@ export const Profile = ({ profileData }: { profileData: any }) => {
       </Box>
     </Box>
   );
-};
+});

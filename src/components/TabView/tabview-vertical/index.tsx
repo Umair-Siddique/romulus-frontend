@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
 import { Box } from "@mui/material";
+import React, { useCallback, useState } from "react";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import { TabBar } from "./tab-bar";
@@ -12,7 +12,7 @@ export const TabViewVertical = ({
     id: string;
     label: string;
     icon: any;
-    component: React.ReactNode;
+    component: () => React.ReactNode;
     show: boolean;
   }[];
 }) => {
@@ -30,19 +30,15 @@ export const TabViewVertical = ({
     icon,
   }));
 
-  const tabContents = tabs.map(({ component }) => component);
-
-  const selectedTabContent = tabContents.find(
-    (_, index) => tabTitles[index].id === selectedTabId
-  );
+  const selectedTabContent = tabs
+    .find((tab) => tab.id === selectedTabId)
+    ?.component();
 
   return (
     <Box
       sx={{
         display: "flex",
-        border: `1px solid ${theme.palette.divider}`,
-        borderRadius: theme.shape.borderRadius,
-        mt: 3,
+        flexDirection: "row",
       }}
     >
       {/* Tab Navigation */}

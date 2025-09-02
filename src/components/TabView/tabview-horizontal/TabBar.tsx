@@ -7,11 +7,11 @@ export const TabBar = React.memo(
   ({
     tabTitles,
     selectedTabId,
-    handleTabChange,
+    onTabChange,
   }: {
     tabTitles: { id: string; label: string; icon: any }[];
-    selectedTabId: number;
-    handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
+    selectedTabId: string;
+    onTabChange: (id: string) => void;
   }) => {
     const theme = useTheme<Theme>();
 
@@ -19,7 +19,6 @@ export const TabBar = React.memo(
       <Box sx={{ mt: 4, borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={selectedTabId}
-          onChange={handleTabChange}
           sx={{
             "& .MuiTabs-indicator": {
               backgroundColor: theme.palette.primary.main,
@@ -45,6 +44,7 @@ export const TabBar = React.memo(
                 label={label}
                 icon={<Icon />}
                 iconPosition="start"
+                onClick={() => onTabChange(id)}
               />
             );
           })}

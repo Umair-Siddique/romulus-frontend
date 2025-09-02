@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react";
 import { Box } from "@mui/material";
+import React, { useCallback, useState } from "react";
 
 import { TabBar } from "./TabBar";
 import { Main } from "./Main";
@@ -9,27 +9,33 @@ export const TabViewHorizontal = ({
 }: {
   tabs: { id: string; label: string; icon: any; component: React.ReactNode }[];
 }) => {
-  const [selectedTabId, setSelectedTabId] = useState(0);
+  const [selectedTabId, setSelectedTabId] = useState(tabs[0].id);
 
   const handleTabChange = useCallback(
-    (event: React.SyntheticEvent, newValue: number) => {
-      setSelectedTabId(newValue);
+    (id: string) => {
+      setSelectedTabId(id);
     },
     [] // no dependencies except setSelectedTabId, which is stable
   );
 
   const tabTitles = tabs.map(({ id, label, icon }) => ({ id, label, icon }));
-  const tabContents = tabs.map(({ id, component }) => ({ id, component }));
 
-  const selectedTabContent = tabContents[selectedTabId]?.component ?? null;
+  const selectedTabContent = tabs.find(
+    (tab) => tab.id === selectedTabId
+  )?.component;
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       {/* Tab Navigation */}
       <TabBar
         tabTitles={tabTitles}
         selectedTabId={selectedTabId}
-        handleTabChange={handleTabChange}
+        onTabChange={handleTabChange}
       />
 
       {/* Tab Content */}

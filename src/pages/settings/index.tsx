@@ -3,6 +3,7 @@ import {
   LockOutlined as LockIcon,
   NotificationsNoneOutlined as NotificationIcon,
 } from "@mui/icons-material";
+import { useTheme, Theme } from "@mui/material/styles";
 
 import { useUserContext } from "#context";
 import {
@@ -12,8 +13,10 @@ import {
   Password,
   Notification,
 } from "#components";
+import { Box } from "@mui/material";
 
 export const Settings = () => {
+  const theme = useTheme<Theme>();
   const { user, userProfile } = useUserContext();
 
   const { role } = user || {};
@@ -23,21 +26,23 @@ export const Settings = () => {
       id: "profile",
       label: "Profile",
       icon: PersonIcon,
-      component: <Profile profileData={userProfile} key={userProfile?._id} />,
+      component: () => (
+        <Profile profileData={userProfile} key={userProfile?._id} />
+      ),
       show: role !== "admin",
     },
     {
       id: "notifications",
       label: "Notifications",
       icon: NotificationIcon,
-      component: <Notification />,
+      component: () => <Notification />,
       show: role !== "admin",
     },
     {
       id: "password",
       label: "Password",
       icon: LockIcon,
-      component: <Password />,
+      component: () => <Password />,
       show: true,
     },
   ];
@@ -45,12 +50,20 @@ export const Settings = () => {
   const visibleTabs = tabs.filter((tab) => tab.show);
 
   return (
-    <>
+    <Box>
       <PageMeta
         title="Account Settings"
         description="Manage your account settings here"
       />
-      <TabViewVertical tabs={visibleTabs} />
-    </>
+      <Box
+        sx={{
+          border: `1px solid ${theme.palette.divider}`,
+          borderRadius: theme.shape.borderRadius,
+          mt: 3,
+        }}
+      >
+        <TabViewVertical tabs={visibleTabs} />
+      </Box>
+    </Box>
   );
 };
