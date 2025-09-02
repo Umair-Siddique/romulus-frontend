@@ -6,7 +6,7 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import React, { useReducer } from "react";
+import React, { useCallback, useReducer } from "react";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import { cities, countries } from "#constants";
@@ -27,34 +27,27 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
 
   const isEducator = profileData?.user?.role === "educator";
 
-  // ✅ Flattened + consistent initial state
-  const initialState = {
-    avatar: profileData?.avatar || "",
-    fullName: isEducator
-      ? `${profileData?.firstName || ""} ${profileData?.lastName || ""}`.trim()
-      : profileData?.organizationName || "",
-    email: profileData?.user?.email || "",
-    date: isEducator
-      ? profileData?.dateOfBirth || ""
-      : profileData?.foundedYear || "",
-    phone: isEducator
-      ? profileData?.user?.phone || ""
-      : profileData?.phone || "",
-    ...(isEducator && { gender: profileData?.gender || "" }),
-    ...(!isEducator && { siretNumber: profileData?.siretNumber || "" }),
-    address: isEducator
-      ? profileData?.fullAddress || ""
-      : profileData?.officeAddress || "",
-    city: profileData?.city || "",
-    country: profileData?.country || "",
-    ...(isEducator && { bio: profileData?.bio || "" }),
+  const initialState = (data: any) => {
+    const isEducator = data?.user?.role === "educator";
+
+    return {
+      avatar: data?.avatar || "",
+      fullName: isEducator
+        ? `${data?.firstName || ""} ${data?.lastName || ""}`.trim()
+        : data?.organizationName || "",
+      email: data?.user?.email || "",
+      date: isEducator ? data?.dateOfBirth || "" : data?.foundedYear || "",
+      phone: isEducator ? data?.user?.phone || "" : data?.phone || "",
+      ...(isEducator && { gender: data?.gender || "" }),
+      ...(!isEducator && { siretNumber: data?.siretNumber || "" }),
+      address: isEducator ? data?.fullAddress || "" : data?.officeAddress || "",
+      city: data?.city || "",
+      country: data?.country || "",
+      ...(isEducator && { bio: data?.bio || "" }),
+    };
   };
 
-  const [userData, dispatch] = useReducer(reducer, initialState);
-
-  const handleChange = (field: string, value: any) => {
-    dispatch({ type: "UPDATE_FIELD", field, value });
-  };
+  const [userData, dispatch] = useReducer(reducer, profileData, initialState);
 
   const handleImageChange = (file: File | null) => {
     if (!file) {
@@ -73,12 +66,20 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
   const formatDateForInput = (dateString: string) => {
     if (!dateString) return "";
     const date = new Date(dateString);
-    return date.toISOString().split("T")[0]; // ✅ YYYY-MM-DD
+    return date.toISOString().split("T")[0];
   };
 
-  const handleSubmit = () => {
-    console.log(userData);
-  };
+  const handleChange = useCallback((field: string, value: any) => {
+    dispatch({ type: "UPDATE_FIELD", field, value });
+  }, []);
+
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      console.log(userData);
+    },
+    [userData]
+  );
 
   return (
     <Box>
@@ -122,11 +123,11 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
           >
             <Box sx={{ width: "100%" }}>
               <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                {isEducator ? "Full Name" : "Organization Name"}
+                Full Name
               </Typography>
               <TextField
                 value={userData.fullName}
-                placeholder={isEducator ? "John Doe" : "My Institute"}
+                placeholder="John Doe"
                 fullWidth
                 onChange={(e) => handleChange("fullName", e.target.value)}
                 sx={{
