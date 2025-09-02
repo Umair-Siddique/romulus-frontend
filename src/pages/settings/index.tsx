@@ -23,7 +23,7 @@ export const Settings = () => {
       id: "profile",
       label: "Profile",
       icon: PersonIcon,
-      component: <Profile profileData={userProfile} />,
+      component: <Profile profileData={userProfile} key={userProfile?._id} />,
       show: role !== "admin",
     },
     {
