@@ -3,7 +3,7 @@ import { Box, Typography, Theme } from "@mui/material";
 import { Circle as CircleIcon } from "@mui/icons-material";
 
 import { useUserContext } from "#context";
-import { truncateWithEllipsis } from "#utils";
+import { truncateWithEllipsis } from "#lib";
 
 export const ChatItem = ({
   chat,

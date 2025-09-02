@@ -13,7 +13,7 @@ import {
   Description as DescriptionIcon,
   SaveAlt as SaveAltIcon,
 } from "@mui/icons-material";
-import { handleDownload } from "#utils";
+import { handleDownload } from "#lib";
 
 export const ReportEvidence = ({ reportDetails }: { reportDetails: any }) => {
   const theme = useTheme();

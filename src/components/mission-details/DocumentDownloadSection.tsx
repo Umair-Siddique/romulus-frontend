@@ -1,4 +1,4 @@
-import { handleDownload } from "#utils";
+import { handleDownload } from "#lib";
 import { Description, Download } from "@mui/icons-material";
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";

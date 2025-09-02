@@ -15,7 +15,7 @@ import { Box } from "@mui/material";
 import { KpiItem } from "#types";
 import { KpiCards, PageMeta, ToolBarComponent } from "#components";
 import { useList } from "@refinedev/core";
-import { formatDate } from "#utils";
+import { formatDate } from "#lib";
 import { TableComponent } from "#components";
 
 export const Educators = () => {

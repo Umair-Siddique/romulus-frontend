@@ -19,7 +19,7 @@ import {
 } from "#components";
 import { useList } from "@refinedev/core";
 import { Box } from "@mui/material";
-import { formatDate } from "#utils";
+import { formatDate } from "#lib";
 
 export const Organizations = () => {
   const { user } = useUserContext();

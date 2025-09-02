@@ -16,7 +16,7 @@ import { useTheme } from "@mui/material/styles";
 
 import { MissionsModalProps } from "#types";
 import { useNavigate } from "react-router";
-import { getStatusColor } from "#utils";
+import { getStatusColor } from "#lib";
 
 export const MissionsModal = ({
   open,
@@ -172,7 +172,9 @@ export const MissionsModal = ({
                 <Button
                   variant="text"
                   endIcon={<ArrowForwardIcon sx={{ fontSize: 16 }} />}
-                  onClick={() => navigate(`/missions/${mission.id ?? mission._id}`)}
+                  onClick={() =>
+                    navigate(`/missions/${mission.id ?? mission._id}`)
+                  }
                   sx={{
                     color: "primary.main",
                     textTransform: "none",

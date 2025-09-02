@@ -13,7 +13,7 @@ import {
 import { Theme, useTheme } from "@mui/material/styles";
 import { RemoveRedEye as EyeIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import { formatDate, getStatusColor } from "#utils";
+import { formatDate, getStatusColor } from "#lib";
 import TableHeader from "./TableHeader";
 
 // Fixed column widths

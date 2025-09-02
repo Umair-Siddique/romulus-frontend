@@ -3,7 +3,7 @@ import {
   Person as PersonIcon,
 } from "@mui/icons-material";
 
-import { validationRules } from "#constants";
+import { validationRules } from "#lib";
 
 export const getFormFields = (
   form: any,

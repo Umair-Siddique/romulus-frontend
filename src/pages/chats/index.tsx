@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useUserContext } from "#context";
 import { useLocation, useNavigate } from "react-router";
-import { socket } from "#utils/socket";
+import { socket } from "#lib";
 import { Box } from "@mui/material";
 import { useCreate, useList, useUpdate } from "@refinedev/core";
 import { useTheme } from "@mui/material/styles";

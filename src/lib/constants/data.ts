@@ -57,3 +57,42 @@ export const cities = [
   "Ajman",
   "Fujairah",
 ];
+
+export const professions = [
+  "Job",
+  "Educator",
+  "Head of educational service",
+  "Animator",
+  "Integration advisor",
+  "Social worker",
+  "ESF Advisor",
+  "ISF Technician",
+  "Judicial agent",
+  "Nurse",
+  "Caregiver",
+  "Medical-psychological help",
+  "Educational support",
+  "Childcare nurse",
+  "Doctor",
+  "Psychologist",
+  "Physiotherapist",
+  "Occupational therapist",
+  "Speech therapist",
+  "Psychomotor therapist",
+  "Orthoptist",
+  "Midwife",
+  "Hospital worker",
+  "Dietitian",
+  "Medical-social transporter",
+  "Other",
+];
+
+export const education = [
+  "Bachelor's Degree",
+  "Master's Degree",
+  "PhD",
+  "Professional Certification",
+  "Other",
+];
+
+export const availability = ["Available", "Not Available"];

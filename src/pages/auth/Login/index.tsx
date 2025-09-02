@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import AuthBg from "/images/auth-bg.jpg";
 import { useUserContext } from "#context";
-import { validationRules } from "#constants";
+import { validationRules } from "#lib";
 import { formFields as getStaticFields } from "../formFields";
 import { AuthBackground, AuthForm, TextLink } from "#components";
 

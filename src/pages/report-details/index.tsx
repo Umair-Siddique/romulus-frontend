@@ -6,7 +6,7 @@ import { Box, Chip, Theme, Typography, useTheme } from "@mui/material";
 import { OrganizationDetails } from "#pages/organization-details";
 import { ReportInfo, ReportEvidence } from "#components/report-details";
 import { useOne } from "@refinedev/core";
-import { getStatusColor } from "#utils";
+import { getStatusColor } from "#lib";
 import { EducatorDetails } from "#pages/educator-details";
 import { MissionDetails } from "#pages/mission-details";
 

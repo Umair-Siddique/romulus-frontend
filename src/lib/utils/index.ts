@@ -1,3 +1,4 @@
+import { io } from "socket.io-client";
 import axios, { AxiosRequestConfig, Method } from "axios";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -125,6 +126,16 @@ const convertToISO = (dateString: string) => {
   return date.toISOString();
 };
 
+const formatDateForInput = (dateString: string) => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  return date.toISOString().split("T")[0];
+};
+
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
+
+const socket = io(SOCKET_URL);
+
 export {
   requestAPI,
   getStatusColor,
@@ -134,4 +145,6 @@ export {
   handleDownload,
   truncateWithEllipsis,
   convertToISO,
+  formatDateForInput,
+  socket,
 };

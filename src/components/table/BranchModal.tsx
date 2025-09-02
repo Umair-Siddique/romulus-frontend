@@ -16,7 +16,7 @@ import {
   CloudUpload as CloudUploadIcon,
 } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
-import { truncateWithEllipsis } from "#utils";
+import { truncateWithEllipsis } from "#lib";
 
 export const BranchModal = ({
   open,

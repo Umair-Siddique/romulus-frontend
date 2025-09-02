@@ -2,7 +2,7 @@ import { Box, Rating, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { memo } from "react";
 
-import { getElapsedTime } from "#utils";
+import { getElapsedTime } from "#lib";
 
 export const Reviews = memo(({ feedback }: { feedback?: any }) => {
   const theme = useTheme();

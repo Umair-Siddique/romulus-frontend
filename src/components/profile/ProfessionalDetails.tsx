@@ -20,7 +20,7 @@ import {
   SaveAlt as SaveAltIcon,
 } from "@mui/icons-material";
 import { useUserContext } from "#context";
-import { handleDownload } from "#utils";
+import { handleDownload } from "#lib";
 
 export const ProfessionalDetails = ({
   educatorData,

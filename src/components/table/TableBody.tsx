@@ -17,7 +17,7 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 
-import { formatDate, getStatusColor, truncateWithEllipsis } from "#utils";
+import { formatDate, getStatusColor, truncateWithEllipsis } from "#lib";
 import { useState } from "react";
 import { useUpdate } from "@refinedev/core";
 import { useUserContext } from "#context";

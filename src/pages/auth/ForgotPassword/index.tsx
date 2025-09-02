@@ -5,7 +5,7 @@ import { useForgotPassword } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
 
 import AuthBg from "/images/auth-bg.jpg";
-import { validationRules } from "#constants";
+import { validationRules } from "#lib";
 import { Modal, AuthBackground, AuthForm } from "#components";
 import { formFields as getStaticFields } from "../formFields";
 

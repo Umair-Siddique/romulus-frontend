@@ -30,12 +30,6 @@
       "#components/*": [
         "src/components/*"
       ],
-      "#constants": [
-        "src/constants/index.ts"
-      ],
-      "#constants/*": [
-        "src/constants/*"
-      ],
       "#context": [
         "src/context/index.ts"
       ],
@@ -60,11 +54,11 @@
       "#types/*": [
         "src/types/*"
       ],
-      "#utils": [
-        "src/utils/index.ts"
+      "#lib": [
+        "src/lib/index.ts"
       ],
-      "#utils/*": [
-        "src/utils/*"
+      "#lib/*": [
+        "src/lib/*"
       ],
     }
   },

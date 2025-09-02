@@ -19,7 +19,7 @@ import {
   LocationOn as LocationOnIcon,
   Business as BusinessIcon,
 } from "@mui/icons-material";
-import { handleDownload } from "#utils";
+import { handleDownload } from "#lib";
 
 export const Branches = ({ organizationData }: { organizationData: any }) => {
   const theme = useTheme();

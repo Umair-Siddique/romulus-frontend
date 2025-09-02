@@ -6,7 +6,7 @@ import { useMemo, useCallback, useState, useEffect } from "react";
 import { CheckCircle, Cancel } from "@mui/icons-material";
 
 import { Modal } from "../Modal";
-import { formatDate, formatTime } from "#utils";
+import { formatDate, formatTime } from "#lib";
 import { useNavigate } from "react-router";
 
 interface ProfileHeaderProps {

@@ -6,7 +6,7 @@ import { useForm } from "@refinedev/react-hook-form";
 import { GridCheckCircleIcon } from "@mui/x-data-grid";
 
 import AuthBg from "/images/auth-bg.jpg";
-import { validationRules } from "#constants";
+import { validationRules } from "#lib";
 import { Modal, AuthBackground, AuthForm } from "#components";
 import { formFields as getStaticFields } from "../formFields";
 

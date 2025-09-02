@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useUserContext } from "#context";
 import { Box } from "@mui/material";
 import { PageMeta, TableComponent, ToolBarComponent } from "#components";
-import { formatDate } from "#utils";
+import { formatDate } from "#lib";
 
 export const Branches = () => {
   const { user, userProfile } = useUserContext();

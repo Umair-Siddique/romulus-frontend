@@ -17,7 +17,7 @@ import {
   Modal,
 } from "#components";
 import { useUserContext } from "#context";
-import { formatDate, formatTime, getStatusColor } from "#utils";
+import { formatDate, formatTime, getStatusColor } from "#lib";
 
 export const MissionDetails = ({
   missionIdProp,

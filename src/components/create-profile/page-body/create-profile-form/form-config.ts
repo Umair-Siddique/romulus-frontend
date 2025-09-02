@@ -1,4 +1,4 @@
-import { cities, countries } from "#constants/data";
+import { cities, countries, professions } from "#lib";
 
 export const educatorStepsConfig = {
   "Profile Setup": [
@@ -91,34 +91,7 @@ export const educatorStepsConfig = {
       name: "profession",
       label: "Profession",
       type: "select",
-      options: [
-        "Job",
-        "Educator",
-        "Head of educational service",
-        "Animator",
-        "Integration advisor",
-        "Social worker",
-        "ESF Advisor",
-        "ISF Technician",
-        "Judicial agent",
-        "Nurse",
-        "Caregiver",
-        "Medical-psychological help",
-        "Educational support",
-        "Childcare nurse",
-        "Doctor",
-        "Psychologist",
-        "Physiotherapist",
-        "Occupational therapist",
-        "Speech therapist",
-        "Psychomotor therapist",
-        "Orthoptist",
-        "Midwife",
-        "Hospital worker",
-        "Dietitian",
-        "Medical-social transporter",
-        "Other",
-      ],
+      options: professions,
       required: true,
     },
     {
