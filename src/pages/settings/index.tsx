@@ -3,6 +3,7 @@ import {
   LockOutlined as LockIcon,
   NotificationsNoneOutlined as NotificationIcon,
 } from "@mui/icons-material";
+import { Box } from "@mui/material";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import { useUserContext } from "#context";
@@ -13,7 +14,6 @@ import {
   Password,
   Notification,
 } from "#components";
-import { Box } from "@mui/material";
 
 export const Settings = () => {
   const theme = useTheme<Theme>();
