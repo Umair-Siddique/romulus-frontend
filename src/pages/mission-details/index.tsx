@@ -1,9 +1,9 @@
-import { Box, TextField, Typography } from "@mui/material";
 import { useParams } from "react-router";
-import { useOne, useUpdate } from "@refinedev/core";
-import { useUserContext } from "#context";
-import { useTheme, Theme } from "@mui/material/styles";
 import { useState, useEffect } from "react";
+import { useOne, useUpdate } from "@refinedev/core";
+import { useTheme, Theme } from "@mui/material/styles";
+import { Box, TextField, Typography } from "@mui/material";
+import { Person as PersonIcon } from "@mui/icons-material";
 
 import {
   MissionHeader,
@@ -16,6 +16,7 @@ import {
   Reviews,
   Modal,
 } from "#components";
+import { useUserContext } from "#context";
 import { formatDate, formatTime, getStatusColor } from "#utils";
 
 export const MissionDetails = ({
@@ -207,23 +208,32 @@ export const MissionDetails = ({
   const showEducatorReviews =
     role === "educator" && missionData.hasEducatorsFeedbacks;
 
-  const tabsData = {
-    tabsTitles: ["Invited Educators", "Hired Educators"],
-    tabsContent: [
-      <EducatorTable
-        key="invited"
-        educators={missionData.invitedEducators}
-        missionId={missionData.id}
-        tableType="invited"
-      />,
-      <EducatorTable
-        key="hired"
-        educators={missionData.hiredEducators}
-        missionId={missionData.id}
-        tableType="hired"
-      />,
-    ],
-  };
+  const tabs = [
+    {
+      id: "invited-educators",
+      label: "Invited Educators",
+      icon: PersonIcon,
+      component: (
+        <EducatorTable
+          educators={missionData.invitedEducators}
+          missionId={missionData.id}
+          tableType="invited"
+        />
+      ),
+    },
+    {
+      id: "hired-educators",
+      label: "Hired Educators",
+      icon: PersonIcon,
+      component: (
+        <EducatorTable
+          educators={missionData.hiredEducators}
+          missionId={missionData.id}
+          tableType="hired"
+        />
+      ),
+    },
+  ];
 
   return (
     <Box
@@ -291,10 +301,7 @@ export const MissionDetails = ({
         ))}
 
       {role === "organization" && parentComponent !== "reports" && (
-        <TabViewHorizontal
-          tabsTitles={tabsData.tabsTitles}
-          tabsContent={tabsData.tabsContent}
-        />
+        <TabViewHorizontal tabs={tabs} />
       )}
 
       {/* Feedback Modal */}

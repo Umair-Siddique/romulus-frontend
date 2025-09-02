@@ -1,8 +1,9 @@
+import { useOne } from "@refinedev/core";
+import { Box, Divider } from "@mui/material";
 import { useLocation, useParams } from "react-router";
 import { useTheme, Theme } from "@mui/material/styles";
+import { AssignmentOutlined as AssignmentIcon } from "@mui/icons-material";
 
-import { useUserContext } from "#context";
-import { Box, Divider } from "@mui/material";
 import {
   ProfileHeader,
   ProfileCard,
@@ -12,7 +13,7 @@ import {
   TabViewHorizontal,
   MissionsList,
 } from "#components";
-import { useOne } from "@refinedev/core";
+import { useUserContext } from "#context";
 
 export const EducatorDetails = ({
   educatorIdProp,
@@ -59,10 +60,14 @@ export const EducatorDetails = ({
 
   const organizationFeedbacks = educatorData?.data?.organizationsFeedbacks;
 
-  const tabsData = {
-    tabsTitles: ["Missions"],
-    tabsContent: [<MissionsList missions={missions} />],
-  };
+  const tabs = [
+    {
+      id: "missions",
+      label: "Missions",
+      icon: AssignmentIcon,
+      component: <MissionsList missions={missions} />,
+    },
+  ];
 
   return (
     <Box
@@ -118,10 +123,7 @@ export const EducatorDetails = ({
 
       {role === "admin" && parentComponent !== "reports" && (
         <Box sx={{ mb: theme.spacing(2) }}>
-          <TabViewHorizontal
-            tabsTitles={tabsData.tabsTitles}
-            tabsContent={tabsData.tabsContent}
-          />
+          <TabViewHorizontal tabs={tabs} />
         </Box>
       )}
 

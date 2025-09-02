@@ -1,9 +1,10 @@
 import { useList } from "@refinedev/core";
 import {
-  Assignment as AssignmentIcon,
-  AssignmentTurnedIn as AssignmentTurnedInIcon,
-  HourglassBottom as HourglassBottomIcon,
-  HourglassTop as HourglassTopIcon,
+  AssignmentOutlined as AssignmentIcon,
+  AssignmentTurnedInOutlined as AssignmentTurnedInIcon,
+  HourglassBottomOutlined as HourglassBottomIcon,
+  HourglassTopOutlined as HourglassTopIcon,
+  CalendarTodayOutlined as CalendarIcon,
 } from "@mui/icons-material";
 
 import { KpiCards, PageMeta, TabViewHorizontal } from "#components";
@@ -162,20 +163,27 @@ export const Dashboard = () => {
 
   const missionsTabMissions = role === "educator" ? uniqueMissions : missions;
 
-  const tabsContent = [
-    <CalendarTab calendarTabProps={calendarTabMissions} />,
-    <MissionsTab
-      missionsTabProps={{
-        missions: missionsTabMissions,
-        refetchMissions: refetchMissionsData,
-      }}
-    />,
+  const tabs = [
+    {
+      id: "calendar",
+      label: "Calendar",
+      icon: CalendarIcon,
+      component: <CalendarTab calendarTabProps={calendarTabMissions} />,
+    },
+    {
+      id: "missions",
+      label: "Missions",
+      icon: AssignmentIcon,
+      component: (
+        <MissionsTab
+          missionsTabProps={{
+            missions: missionsTabMissions,
+            refetchMissions: refetchMissionsData,
+          }}
+        />
+      ),
+    },
   ];
-
-  const tabsData = {
-    tabsTitles: ["Calendar", "Missions"],
-    tabsContent: tabsContent,
-  };
 
   return (
     <>
@@ -184,10 +192,7 @@ export const Dashboard = () => {
         description="Manage all missions here."
       />
       <KpiCards kpiCardsData={kpis} />
-      <TabViewHorizontal
-        tabsTitles={tabsData.tabsTitles}
-        tabsContent={tabsData.tabsContent}
-      />
+      <TabViewHorizontal tabs={tabs} />
     </>
   );
 };

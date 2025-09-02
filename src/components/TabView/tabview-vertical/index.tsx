@@ -7,10 +7,10 @@ import { Main } from "./Main";
 
 export const TabViewVertical = ({
   tabsTitles,
-  tabsContent,
+  tabContents,
 }: {
-  tabsTitles: any[];
-  tabsContent: React.ReactNode[];
+  tabsTitles: { id: string; label: string; icon: any }[];
+  tabContents: React.ReactNode[];
 }) => {
   const theme = useTheme<Theme>();
 
@@ -23,7 +23,7 @@ export const TabViewVertical = ({
     [] // no dependencies except setSelectedTab, which is stable
   );
 
-  const selectedTabContent = tabsContent.find(
+  const selectedTabContent = tabContents.find(
     (_, index) => tabsTitles[index].id === selectedTab
   );
 

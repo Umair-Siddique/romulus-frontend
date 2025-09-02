@@ -18,29 +18,39 @@ export const Settings = () => {
 
   const { role } = user || {};
 
-  const tabsData = {
-    tabsTitles: [
-      ...(role !== "admin"
-        ? [{ id: "profile", label: "Profile", icon: PersonIcon }]
-        : []),
-      ...(role !== "admin"
-        ? [
-            {
-              id: "notifications",
-              label: "Notifications",
-              icon: NotificationIcon,
-            },
-          ]
-        : []),
-      { id: "password", label: "Password", icon: LockIcon },
-    ].filter((tab) => !!tab),
+  const tabs = [
+    {
+      id: "profile",
+      label: "Profile",
+      icon: PersonIcon,
+      component: <Profile profileData={userProfile} />,
+      show: role !== "admin",
+    },
+    {
+      id: "notifications",
+      label: "Notifications",
+      icon: NotificationIcon,
+      component: <Notification />,
+      show: role !== "admin",
+    },
+    {
+      id: "password",
+      label: "Password",
+      icon: LockIcon,
+      component: <Password />,
+      show: true,
+    },
+  ];
 
-    tabsContent: [
-      ...(role !== "admin" ? [<Profile profileData={userProfile} />] : []),
-      ...(role !== "admin" ? [<Notification />] : []),
-      <Password />,
-    ].filter((content) => !!content),
-  };
+  const visibleTabs = tabs.filter((tab) => tab.show);
+
+  const tabsTitles = visibleTabs.map(({ id, label, icon }) => ({
+    id,
+    label,
+    icon,
+  }));
+
+  const tabContents = visibleTabs.map(({ component }) => component);
 
   return (
     <>
@@ -48,10 +58,7 @@ export const Settings = () => {
         title="Account Settings"
         description="Manage your account settings here"
       />
-      <TabViewVertical
-        tabsTitles={tabsData.tabsTitles}
-        tabsContent={tabsData.tabsContent}
-      />
+      <TabViewVertical tabsTitles={tabsTitles} tabContents={tabContents} />
     </>
   );
 };

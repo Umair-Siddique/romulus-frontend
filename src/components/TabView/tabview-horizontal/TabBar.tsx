@@ -9,7 +9,7 @@ export const TabBar = React.memo(
     selectedTab,
     handleTabChange,
   }: {
-    tabsTitles: string[];
+    tabsTitles: { id: string; label: string; icon: any }[];
     selectedTab: number;
     handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
   }) => {
@@ -37,9 +37,17 @@ export const TabBar = React.memo(
             },
           }}
         >
-          {tabsTitles.map((title, index) => (
-            <Tab key={index} label={title} />
-          ))}
+          {tabsTitles.map(({ id, label, icon }) => {
+            const Icon = icon;
+            return (
+              <Tab
+                key={id}
+                label={label}
+                icon={<Icon />}
+                iconPosition="start"
+              />
+            );
+          })}
         </Tabs>
       </Box>
     );

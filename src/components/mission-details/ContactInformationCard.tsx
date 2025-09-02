@@ -1,8 +1,9 @@
-import { Email, Message, Phone } from "@mui/icons-material";
-import { Box, Button, Stack, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { memo } from "react";
 import { useNavigate } from "react-router";
+import { useTheme } from "@mui/material/styles";
+import { Email, Message, Phone } from "@mui/icons-material";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import { useUserContext } from "#context";
 
 const ContactItem = memo(
   ({
@@ -58,10 +59,13 @@ export const ContactInformationCard = memo(
     };
   }) => {
     const theme = useTheme();
+    const { user } = useUserContext();
+
+    const { role } = user || {};
 
     const navigate = useNavigate();
 
-    const handlehandleSendMessaage = () => {
+    const handleSendMessage = () => {
       navigate("/chats", {
         state: {
           recipient: {
@@ -109,31 +113,33 @@ export const ContactInformationCard = memo(
             value={organizationContact.email}
           />
         </Stack>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            mt: theme.spacing(2),
-          }}
-        >
-          <Button
-            variant="contained"
-            startIcon={<Message />}
-            onClick={handlehandleSendMessaage}
+        {role !== "admin" && (
+          <Box
             sx={{
-              borderRadius: theme.shape.borderRadius,
-              color: theme.palette.common.black,
-              backgroundColor: theme.palette.background.default,
-              fontWeight: theme.typography.fontWeightMedium,
-              textTransform: "none",
-              "&:hover": {
-                backgroundColor: theme.palette.grey[100],
-              },
+              display: "flex",
+              justifyContent: "flex-end",
+              mt: theme.spacing(2),
             }}
           >
-            Send Message
-          </Button>
-        </Box>
+            <Button
+              variant="contained"
+              startIcon={<Message />}
+              onClick={handleSendMessage}
+              sx={{
+                borderRadius: theme.shape.borderRadius,
+                color: theme.palette.common.black,
+                backgroundColor: theme.palette.background.default,
+                fontWeight: theme.typography.fontWeightMedium,
+                textTransform: "none",
+                "&:hover": {
+                  backgroundColor: theme.palette.grey[100],
+                },
+              }}
+            >
+              Send Message
+            </Button>
+          </Box>
+        )}
       </Box>
     );
   }

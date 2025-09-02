@@ -5,11 +5,9 @@ import { TabBar } from "./TabBar";
 import { Main } from "./Main";
 
 export const TabViewHorizontal = ({
-  tabsTitles,
-  tabsContent,
+  tabs,
 }: {
-  tabsTitles: string[];
-  tabsContent: React.ReactNode[];
+  tabs: { id: string; label: string; icon: any; component: React.ReactNode }[];
 }) => {
   const [selectedTab, setSelectedTab] = useState(0);
 
@@ -20,19 +18,22 @@ export const TabViewHorizontal = ({
     [] // no dependencies except setSelectedTab, which is stable
   );
 
-  const selectedTabContent = tabsContent[selectedTab] ?? null;
+  const tabTitles = tabs.map(({ id, label, icon }) => ({ id, label, icon }));
+  const tabContents = tabs.map(({ id, component }) => ({ id, component }));
+
+  const selectedTabContent = tabContents[selectedTab]?.component ?? null;
 
   return (
     <Box>
       {/* Tab Navigation */}
       <TabBar
-        tabsTitles={tabsTitles}
+        tabsTitles={tabTitles}
         selectedTab={selectedTab}
         handleTabChange={handleTabChange}
       />
 
       {/* Tab Content */}
-      <Main selectedTabContent={selectedTabContent ?? null} />
+      <Main selectedTabContent={selectedTabContent ?? null} key={selectedTab} />
     </Box>
   );
 };

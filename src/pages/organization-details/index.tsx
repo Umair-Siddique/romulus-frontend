@@ -1,8 +1,9 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
-
-import { useUserContext } from "#context";
+import { useOne } from "@refinedev/core";
 import { Box, Divider, Theme, useTheme } from "@mui/material";
+import { useLocation, useNavigate, useParams } from "react-router";
+import { AssignmentOutlined as AssignmentIcon } from "@mui/icons-material";
+
 import {
   Branches,
   MissionsList,
@@ -10,7 +11,7 @@ import {
   ProfileHeader,
   TabViewHorizontal,
 } from "#components";
-import { useOne } from "@refinedev/core";
+import { useUserContext } from "#context";
 import { ReportsList } from "#components/profile/ReportsList";
 
 export const OrganizationDetails = ({
@@ -71,11 +72,26 @@ export const OrganizationDetails = ({
 
   const tabsData = {
     tabsTitles: ["Missions", "Reports"],
-    tabsContent: [
+    tabContents: [
       <MissionsList missions={missions} />,
       <ReportsList reportsData={reports} />,
     ],
   };
+
+  const tabs = [
+    {
+      id: "missions",
+      label: "Missions",
+      icon: AssignmentIcon,
+      component: <MissionsList missions={missions} />,
+    },
+    {
+      id: "reports",
+      label: "Reports",
+      icon: AssignmentIcon,
+      component: <ReportsList reportsData={reports} />,
+    },
+  ];
 
   return (
     <Box
@@ -121,10 +137,7 @@ export const OrganizationDetails = ({
 
       {role === "admin" && parentComponent !== "reports" && (
         <Box sx={{ mb: theme.spacing(2) }}>
-          <TabViewHorizontal
-            tabsTitles={tabsData.tabsTitles}
-            tabsContent={tabsData.tabsContent}
-          />
+          <TabViewHorizontal tabs={tabs} />
         </Box>
       )}
     </Box>
