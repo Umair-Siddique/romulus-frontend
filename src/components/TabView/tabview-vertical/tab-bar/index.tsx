@@ -6,12 +6,12 @@ import { TabList } from "./TabList";
 
 export const TabBar = React.memo(
   ({
-    tabsTitles,
-    selectedTab,
+    tabTitles,
+    selectedTabId,
     onTabChange,
   }: {
-    tabsTitles: any[];
-    selectedTab: string;
+    tabTitles: any[];
+    selectedTabId: string;
     onTabChange: (id: string) => void;
   }) => {
     return (
@@ -25,9 +25,9 @@ export const TabBar = React.memo(
         }}
       >
         <TabList
-          tabsTitles={tabsTitles}
+          tabTitles={tabTitles}
           onTabChange={onTabChange}
-          selectedTab={selectedTab}
+          selectedTabId={selectedTabId}
         />
       </Box>
     );

@@ -6,25 +6,34 @@ import { TabBar } from "./tab-bar";
 import { Main } from "./Main";
 
 export const TabViewVertical = ({
-  tabsTitles,
-  tabContents,
+  tabs,
 }: {
-  tabsTitles: { id: string; label: string; icon: any }[];
-  tabContents: React.ReactNode[];
+  tabs: {
+    id: string;
+    label: string;
+    icon: any;
+    component: React.ReactNode;
+    show: boolean;
+  }[];
 }) => {
   const theme = useTheme<Theme>();
 
-  const [selectedTab, setSelectedTab] = useState(tabsTitles[0].id);
+  const [selectedTabId, setSelectedTabId] = useState(tabs[0].id);
 
-  const handleTabChange = useCallback(
-    (id: string) => {
-      setSelectedTab(id);
-    },
-    [] // no dependencies except setSelectedTab, which is stable
-  );
+  const handleTabChange = useCallback((id: string) => {
+    setSelectedTabId(id);
+  }, []);
+
+  const tabTitles = tabs.map(({ id, label, icon }) => ({
+    id,
+    label,
+    icon,
+  }));
+
+  const tabContents = tabs.map(({ component }) => component);
 
   const selectedTabContent = tabContents.find(
-    (_, index) => tabsTitles[index].id === selectedTab
+    (_, index) => tabTitles[index].id === selectedTabId
   );
 
   return (
@@ -38,8 +47,8 @@ export const TabViewVertical = ({
     >
       {/* Tab Navigation */}
       <TabBar
-        tabsTitles={tabsTitles}
-        selectedTab={selectedTab}
+        tabTitles={tabTitles}
+        selectedTabId={selectedTabId}
         onTabChange={handleTabChange}
       />
 
@@ -47,7 +56,10 @@ export const TabViewVertical = ({
       <Box sx={{ borderLeft: `1px solid ${theme.palette.divider}` }} />
 
       {/* Tab Content */}
-      <Main selectedTabContent={selectedTabContent ?? null} key={selectedTab} />
+      <Main
+        selectedTabContent={selectedTabContent ?? null}
+        key={selectedTabId}
+      />
     </Box>
   );
 };

@@ -5,12 +5,12 @@ import { useTheme, Theme } from "@mui/material/styles";
 
 export const TabBar = React.memo(
   ({
-    tabsTitles,
-    selectedTab,
+    tabTitles,
+    selectedTabId,
     handleTabChange,
   }: {
-    tabsTitles: { id: string; label: string; icon: any }[];
-    selectedTab: number;
+    tabTitles: { id: string; label: string; icon: any }[];
+    selectedTabId: number;
     handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
   }) => {
     const theme = useTheme<Theme>();
@@ -18,7 +18,7 @@ export const TabBar = React.memo(
     return (
       <Box sx={{ mt: 4, borderBottom: 1, borderColor: "divider" }}>
         <Tabs
-          value={selectedTab}
+          value={selectedTabId}
           onChange={handleTabChange}
           sx={{
             "& .MuiTabs-indicator": {
@@ -37,7 +37,7 @@ export const TabBar = React.memo(
             },
           }}
         >
-          {tabsTitles.map(({ id, label, icon }) => {
+          {tabTitles.map(({ id, label, icon }) => {
             const Icon = icon;
             return (
               <Tab

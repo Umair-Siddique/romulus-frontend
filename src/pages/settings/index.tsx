@@ -44,21 +44,13 @@ export const Settings = () => {
 
   const visibleTabs = tabs.filter((tab) => tab.show);
 
-  const tabsTitles = visibleTabs.map(({ id, label, icon }) => ({
-    id,
-    label,
-    icon,
-  }));
-
-  const tabContents = visibleTabs.map(({ component }) => component);
-
   return (
     <>
       <PageMeta
         title="Account Settings"
         description="Manage your account settings here"
       />
-      <TabViewVertical tabsTitles={tabsTitles} tabContents={tabContents} />
+      <TabViewVertical tabs={visibleTabs} />
     </>
   );
 };
