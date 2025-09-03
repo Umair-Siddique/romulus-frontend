@@ -16,7 +16,7 @@ import {
   CloudUpload as CloudUploadIcon,
 } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
-import { truncateWithEllipsis } from "#lib";
+import { cities, countries, truncateWithEllipsis } from "#lib";
 
 export const BranchModal = ({
   open,
@@ -114,66 +114,6 @@ export const BranchModal = ({
     const file = event.target.files?.[0];
     handleChange("residenceGuidelines", file);
   };
-
-  const branchCityOptions = [
-    "Paris",
-    "Marseille",
-    "Lyon",
-    "Toulouse",
-    "Nice",
-    "Berlin",
-    "Munich",
-    "Hambourg",
-    "Francfort",
-    "Cologne",
-    "Oslo",
-    "Bergen",
-    "Trondheim",
-    "Stavanger",
-    "Drammen",
-    "Stockholm",
-    "Gothenburg",
-    "Malmö",
-    "Uppsala",
-    "Västerås",
-    "Toronto",
-    "Vancouver",
-    "Montréal",
-    "Calgary",
-    "Ottawa",
-    "Amsterdam",
-    "Rotterdam",
-    "La Haye",
-    "Utrecht",
-    "Eindhoven",
-    "Copenhague",
-    "Aarhus",
-    "Odense",
-    "Aalborg",
-    "Esbjerg",
-    "Londres",
-    "Manchester",
-    "Birmingham",
-    "Édimbourg",
-    "Glasgow",
-    "Dubaï",
-    "Abou Dabi",
-    "Charjah",
-    "Ajman",
-    "Fujairah",
-  ];
-
-  const branchCountryOptions = [
-    "France",
-    "Allemagne",
-    "Norvège",
-    "Suède",
-    "Canada",
-    "Pays-Bas",
-    "Danemark",
-    "Royaume-Uni",
-    "Émirats Arabes Unis (UAE)",
-  ];
 
   const isEditing = editBranch && editIndex !== undefined;
 
@@ -317,7 +257,7 @@ export const BranchModal = ({
                   <MenuItem value="" disabled>
                     Select a country
                   </MenuItem>
-                  {branchCountryOptions.map((country) => (
+                  {countries.map((country) => (
                     <MenuItem key={country} value={country}>
                       {country}
                     </MenuItem>
@@ -351,7 +291,7 @@ export const BranchModal = ({
                   <MenuItem value="" disabled>
                     Select a city
                   </MenuItem>
-                  {branchCityOptions.map((city) => (
+                  {cities.map((city) => (
                     <MenuItem key={city} value={city}>
                       {city}
                     </MenuItem>
