@@ -8,9 +8,10 @@ import {
   InputAdornment,
   Chip,
 } from "@mui/material";
+import { useUpdate } from "@refinedev/core";
+import { Add as AddIcon } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
 import React, { useCallback, useReducer } from "react";
-import { Add as AddIcon } from "@mui/icons-material";
 
 import {
   cities,
@@ -20,16 +21,56 @@ import {
   availability,
   formatDateForInput,
 } from "#lib";
+import { FileCard } from "./FileCard";
 
 const reducer = (state: any, action: any) => {
   switch (action.type) {
     case "UPDATE_FIELD":
       return { ...state, [action.field]: action.value };
-    case "RESET":
-      return { ...action.payload };
     default:
       return state;
   }
+};
+
+const initialState = (data: any) => {
+  const isEducator = data?.user?.role === "educator";
+
+  return {
+    ...(isEducator && {
+      firstName: data?.firstName || "",
+      lastName: data?.lastName || "",
+      email: data?.user?.email || "",
+      avatar: data?.avatar || "",
+      dateOfBirth: data?.dateOfBirth || "",
+      phone: data?.user?.phone || "",
+      gender: data?.gender || "",
+      fullAddress: data?.fullAddress || "",
+      city: data?.city || "",
+      country: data?.country || "",
+      profession: data?.profession || "",
+      education: data?.education || "",
+      availableForHiring: data?.availableForHiring || false,
+      hourlyRate: data?.hourlyRate || "",
+      skills: data?.skills || [],
+      bio: data?.bio || "",
+      certificateOfHonor: data?.certificateOfHonor || "",
+      criminalRecord: data?.criminalRecord || "",
+      diploma: data?.diploma || "",
+      identityProof: data?.identityProof || "",
+    }),
+
+    ...(!isEducator && {
+      avatar: data?.avatar || "",
+      email: data?.user?.email || "",
+      city: data?.city || "",
+      country: data?.country || "",
+      siretNumber: data?.siretNumber || "",
+      officeAddress: data?.officeAddress || "",
+      phone: data?.phone || "",
+      foundedYear: data?.foundedYear || "",
+      fullName: data?.organizationName || "",
+    }),
+  };
 };
 
 export const Profile = React.memo(({ profileData }: { profileData: any }) => {
@@ -37,53 +78,8 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
 
   const isEducator = profileData?.user?.role === "educator";
 
-  const initialState = (data: any) => {
-    const isEducator = data?.user?.role === "educator";
-    console.log("data:", data);
-
-    return {
-      avatar: data?.avatar || "",
-      email: data?.user?.email || "",
-      city: data?.city || "",
-      country: data?.country || "",
-
-      fullName: isEducator
-        ? `${data?.firstName || ""} ${data?.lastName || ""}`.trim()
-        : data?.organizationName || "",
-      date: isEducator ? data?.dateOfBirth || "" : data?.foundedYear || "",
-      address: isEducator ? data?.fullAddress || "" : data?.officeAddress || "",
-      phone: isEducator ? data?.user?.phone || "" : data?.phone || "",
-
-      ...(isEducator && {
-        gender: data?.gender || "",
-        education: data?.education || "",
-        bio: data?.bio || "",
-        profession: data?.profession || "",
-        hourlyRate: data?.hourlyRate || "",
-        skills: data?.skills || "",
-        availableForHiring: data?.availableForHiring || false,
-      }),
-
-      ...(!isEducator && { siretNumber: data?.siretNumber || "" }),
-    };
-  };
-
   const [userData, dispatch] = useReducer(reducer, profileData, initialState);
   const [newSkill, setNewSkill] = React.useState("");
-
-  const handleImageChange = (file: File | null) => {
-    if (!file) {
-      handleChange("avatar", "");
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      if (e.target?.result) {
-        handleChange("avatar", e.target.result.toString());
-      }
-    };
-    reader.readAsDataURL(file);
-  };
 
   const handleAddSkill = () => {
     if (newSkill.trim() && !userData.skills.includes(newSkill.trim())) {
@@ -96,12 +92,52 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
     dispatch({ type: "UPDATE_FIELD", field, value });
   }, []);
 
+  const handleFileChange = useCallback(
+    (field: string, file: File | null) => {
+      handleChange(field, file ?? "");
+    },
+    [handleChange]
+  );
+
+  const { mutate } = useUpdate({
+    resource: isEducator ? "educators" : "organizations",
+  });
+
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      console.log(userData);
+
+      const formData = new FormData();
+
+      Object.entries(userData).forEach(([key, value]) => {
+        if (value === null || value === undefined) return;
+
+        if (value instanceof File) {
+          // Append raw file, FormData handles it natively
+          formData.append(key, value);
+        } else if (Array.isArray(value)) {
+          // Handle arrays (e.g. skills[])
+          value.forEach((item, idx) => {
+            formData.append(`${key}[${idx}]`, String(item));
+          });
+        } else {
+          // Numbers, strings, booleans
+          formData.append(key, String(value));
+        }
+      });
+
+      // Debug check: log key/value pairs
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+
+      mutate({
+        id: profileData._id,
+        values: formData,
+        meta: { headers: { "Content-Type": "multipart/form-data" } },
+      });
     },
-    [userData]
+    [userData, mutate, profileData._id]
   );
 
   const textFieldStyle = {
@@ -122,6 +158,13 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
       color: theme.palette.text.secondary,
     },
   };
+
+  const documentFields = [
+    { field: "certificateOfHonor", label: "Certificate of Honorability" },
+    { field: "criminalRecord", label: "Criminal Record" },
+    { field: "diploma", label: "Diploma" },
+    { field: "identityProof", label: "Identity Proof" },
+  ];
 
   return (
     <Box>
@@ -163,21 +206,64 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               gap: theme.spacing(2),
             }}
           >
-            <Box sx={{ width: "100%" }}>
-              <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                Full Name
-              </Typography>
-              <TextField
-                value={userData.fullName}
-                placeholder="John Doe"
-                fullWidth
-                onChange={(e) => handleChange("fullName", e.target.value)}
-                sx={{
-                  width: "100%",
-                  ...textFieldStyle,
-                }}
-                inputProps={{ readOnly: true }}
-              />
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: theme.spacing(2),
+              }}
+            >
+              {isEducator ? (
+                <>
+                  <Box sx={{ width: "50%" }}>
+                    <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
+                      First Name
+                    </Typography>
+                    <TextField
+                      value={userData.firstName}
+                      fullWidth
+                      onChange={(e) =>
+                        handleChange("firstName", e.target.value)
+                      }
+                      sx={{
+                        width: "100%",
+                        ...textFieldStyle,
+                      }}
+                    />
+                  </Box>
+                  <Box sx={{ width: "50%" }}>
+                    <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
+                      Last Name
+                    </Typography>
+                    <TextField
+                      value={userData.lastName}
+                      fullWidth
+                      onChange={(e) => handleChange("lastName", e.target.value)}
+                      sx={{
+                        width: "100%",
+                        ...textFieldStyle,
+                      }}
+                    />
+                  </Box>
+                </>
+              ) : (
+                <Box sx={{ width: "100%" }}>
+                  <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
+                    Full Name
+                  </Typography>
+                  <TextField
+                    value={userData.fullName}
+                    fullWidth
+                    onChange={(e) => handleChange("fullName", e.target.value)}
+                    sx={{
+                      width: "100%",
+                      ...textFieldStyle,
+                    }}
+                  />
+                </Box>
+              )}
             </Box>
 
             <Box sx={{ width: "100%" }}>
@@ -209,7 +295,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
             <Box
               sx={{
                 display: "flex",
-                gap: theme.spacing(2),
+                gap: theme.spacing(1),
               }}
             >
               {/* Upload Icon */}
@@ -220,26 +306,30 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                   hidden
                   accept="image/*"
                   onChange={(e) =>
-                    e.target.files?.[0] && handleImageChange(e.target.files[0])
+                    e.target.files?.[0] &&
+                    handleFileChange("avatar", e.target.files[0])
                   }
                 />
               </Button>
               {/* Delete Icon */}
-              {userData.avatar && (
-                <Button
-                  variant="outlined"
-                  onClick={() => handleChange("avatar", "")}
-                  color="error"
-                  sx={{ border: "none", textDecoration: "underline" }}
-                >
-                  Remove Image
-                </Button>
-              )}
+              <Button
+                variant="outlined"
+                onClick={() => handleChange("avatar", "")}
+                color="error"
+                sx={{ border: "none", textDecoration: "underline" }}
+                disabled={!userData.avatar}
+              >
+                Remove Image
+              </Button>
             </Box>
 
             <Box
               component="img"
-              src={userData.avatar}
+              src={
+                userData.avatar instanceof File
+                  ? URL.createObjectURL(userData.avatar)
+                  : userData.avatar
+              }
               sx={{
                 width: 150,
                 height: 150,
@@ -267,8 +357,21 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
             <TextField
               fullWidth
               type="date"
-              value={userData.date ? formatDateForInput(userData.date) : ""}
-              onChange={(e) => handleChange("date", e.target.value)}
+              value={
+                isEducator
+                  ? userData.dateOfBirth
+                    ? formatDateForInput(userData.dateOfBirth)
+                    : ""
+                  : userData.foundedYear
+                  ? formatDateForInput(userData.foundedYear)
+                  : ""
+              }
+              onChange={(e) =>
+                handleChange(
+                  isEducator ? "dateOfBirth" : "foundedYear",
+                  e.target.value
+                )
+              }
               sx={{
                 width: "100%",
                 ...textFieldStyle,
@@ -280,10 +383,14 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               Phone
             </Typography>
             <TextField
-              value={userData.phone}
+              value={userData.phone.slice(1)}
               type="tel"
-              placeholder="1234567890"
-              onChange={(e) => handleChange("phone", e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, ""); // keep only digits
+                if (value.length <= 14) {
+                  handleChange("phone", value);
+                }
+              }}
               sx={{
                 width: "100%",
                 ...textFieldStyle,
@@ -329,8 +436,12 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               <TextField
                 value={userData.siretNumber}
                 type="text"
-                placeholder="1234567890123"
-                onChange={(e) => handleChange("siretNumber", e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, ""); // keep only digits
+                  if (value.length <= 14) {
+                    handleChange("siretNumber", value);
+                  }
+                }}
                 sx={{
                   width: "100%",
                   ...textFieldStyle,
@@ -344,9 +455,14 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               Address
             </Typography>
             <TextField
-              value={userData.address}
+              value={isEducator ? userData.fullAddress : userData.officeAddress}
               type="text"
-              onChange={(e) => handleChange("address", e.target.value)}
+              onChange={(e) =>
+                handleChange(
+                  isEducator ? "fullAddress" : "officeAddress",
+                  e.target.value
+                )
+              }
               sx={{
                 width: "100%",
                 ...textFieldStyle,
@@ -413,6 +529,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
 
         {isEducator && (
           <>
+            {/* Profession & Education */}
             <Box
               sx={{
                 width: "100%",
@@ -468,6 +585,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               </Box>
             </Box>
 
+            {/* Availability */}
             <Box
               sx={{
                 width: "100%",
@@ -527,6 +645,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               </Box>
             </Box>
 
+            {/* Skills */}
             <Box sx={{ width: "100%" }}>
               <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
                 Skills
@@ -593,6 +712,22 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                 }}
               />
             </Box>
+
+            {isEducator && (
+              <>
+                {documentFields.map(({ field, label }) => (
+                  <FileCard
+                    key={field}
+                    label={label}
+                    field={field}
+                    value={userData[field]}
+                    handleChange={handleChange}
+                    handleFileChange={handleFileChange}
+                    theme={theme}
+                  />
+                ))}
+              </>
+            )}
           </>
         )}
         {/* Submit Button */}

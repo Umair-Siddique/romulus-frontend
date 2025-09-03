@@ -15,7 +15,6 @@ import {
   Paper,
 } from "@mui/material";
 import {
-  Edit as EditIcon,
   Description as DescriptionIcon,
   SaveAlt as SaveAltIcon,
 } from "@mui/icons-material";
@@ -80,23 +79,6 @@ export const ProfessionalDetails = ({
       >
         {title}
       </Typography>
-      {/* {role === "admin" && (
-        <Button
-          startIcon={<EditIcon />}
-          onClick={onEdit}
-          sx={{
-            color: theme.palette.text.secondary,
-            textTransform: "none",
-            fontSize: theme.typography.pxToRem(14),
-            fontWeight: theme.typography.fontWeightRegular,
-            "&:hover": {
-              backgroundColor: theme.palette.grey[50],
-            },
-          }}
-        >
-          Edit
-        </Button>
-      )} */}
     </Box>
   );
 

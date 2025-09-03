@@ -105,16 +105,19 @@ export const dataProvider: DataProvider = {
     resource,
     id,
     variables,
+    meta,
   }: {
     resource: string;
     id: any;
     variables: any;
+    meta?: any;
   }) => {
     try {
       const { data } = await requestAPI(
         "PATCH",
         `/${resource}/${id}`,
-        variables
+        variables,
+        meta
       );
 
       return {
