@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { useUserContext } from "#context";
 import { Box } from "@mui/material";
-import { PageMeta, TableComponent, ToolBarComponent } from "#components";
+import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { useTheme, Theme } from "@mui/material/styles";
+
 import { formatDate } from "#lib";
+import { useUserContext } from "#context";
+import { PageMeta, TableComponent, ToolBarComponent } from "#components";
 
 export const Branches = () => {
+  const theme = useTheme<Theme>();
+
   const { user, userProfile } = useUserContext();
 
   const role = user?.role;
@@ -143,12 +147,18 @@ export const Branches = () => {
 
   return (
     <>
-      {" "}
       <PageMeta
         title="Manage & Monitor Branches"
         description="Manage all branches here"
       />
-      <Box sx={{ mt: 3 }}>
+      <Box
+        sx={{
+          border: `1px solid ${theme.palette.divider}`,
+          borderRadius: theme.shape.borderRadius,
+          mt: 3,
+          p: 2,
+        }}
+      >
         <ToolBarComponent
           availableStatuses={availableStatuses}
           selectedStatus={selectedStatus}
@@ -157,7 +167,6 @@ export const Branches = () => {
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
-
         <TableComponent
           tableData={branchesArray}
           columnWidths={columnWidths}

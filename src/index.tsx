@@ -5,7 +5,6 @@ import App from "./App";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { Analytics } from "@vercel/analytics/react";
 
 import { UserProvider } from "#context";
 
@@ -22,7 +21,6 @@ root.render(
   <React.StrictMode>
     <React.Suspense>
       <UserProvider>
-        <Analytics />
         <App />
       </UserProvider>
     </React.Suspense>

@@ -50,7 +50,7 @@ export const Settings = () => {
   const visibleTabs = tabs.filter((tab) => tab.show);
 
   return (
-    <Box>
+    <>
       <PageMeta
         title="Account Settings"
         description="Manage your account settings here"
@@ -64,6 +64,6 @@ export const Settings = () => {
       >
         <TabViewVertical tabs={visibleTabs} />
       </Box>
-    </Box>
+    </>
   );
 };

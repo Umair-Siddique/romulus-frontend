@@ -1,5 +1,6 @@
-import { useTheme, Theme } from "@mui/material/styles";
+import Markdown from "react-markdown";
 import { Typography } from "@mui/material";
+import { useTheme, Theme } from "@mui/material/styles";
 
 import { PageDescriptionProps } from "#types";
 
@@ -17,7 +18,7 @@ export const PageDescription = ({ description }: PageDescriptionProps) => {
         fontFamily: theme.typography.body1.fontFamily,
       }}
     >
-      {description}
+      <Markdown>{description}</Markdown>
     </Typography>
   );
 };

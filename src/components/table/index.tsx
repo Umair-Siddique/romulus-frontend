@@ -1,5 +1,5 @@
 import { useTheme, Theme } from "@mui/material/styles";
-import { Box, TableContainer, Paper, Table } from "@mui/material";
+import { TableContainer, Paper, Table } from "@mui/material";
 
 import TableHeaderComponent from "./TableHeader";
 import TableBodyComponent from "./TableBody";
@@ -20,32 +20,31 @@ export const TableComponent = ({
   const theme = useTheme<Theme>();
 
   return (
-    <>
-      <Box
-        sx={{
-          width: "100%",
-          backgroundColor: theme.palette.background.default,
-          borderRadius: theme.shape.borderRadius,
-          overflow: "hidden",
-        }}
-      >
-        <TableContainer component={Paper} elevation={0}>
-          <Table sx={{ width: "100%", tableLayout: "fixed" }}>
-            <TableHeaderComponent
-              headerData={headerData}
-              columnWidths={columnWidths}
-              theme={theme}
-            />
-            <TableBodyComponent
-              bodyData={tableData}
-              columnWidths={columnWidths}
-              theme={theme}
-              navigateTo={navigateTo}
-              menuOptions={menuOptions}
-            />
-          </Table>
-        </TableContainer>
-      </Box>
-    </>
+    <TableContainer
+      component={Paper}
+      elevation={0}
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+        borderRadius: theme.shape.borderRadius,
+        border: `1px solid ${theme.palette.divider}`,
+        backgroundColor: theme.palette.background.default,
+      }}
+    >
+      <Table sx={{ width: "100%", tableLayout: "fixed" }}>
+        <TableHeaderComponent
+          headerData={headerData}
+          columnWidths={columnWidths}
+          theme={theme}
+        />
+        <TableBodyComponent
+          bodyData={tableData}
+          columnWidths={columnWidths}
+          theme={theme}
+          navigateTo={navigateTo}
+          menuOptions={menuOptions}
+        />
+      </Table>
+    </TableContainer>
   );
 };
