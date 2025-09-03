@@ -7,6 +7,7 @@ import {
   Button,
   InputAdornment,
   Chip,
+  Avatar,
 } from "@mui/material";
 import { useUpdate } from "@refinedev/core";
 import { Add as AddIcon } from "@mui/icons-material";
@@ -323,12 +324,13 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               </Button>
             </Box>
 
-            <Box
-              component="img"
+            <Avatar
               src={
                 userData.avatar instanceof File
                   ? URL.createObjectURL(userData.avatar)
                   : userData.avatar
+                  ? userData.avatar
+                  : "https://via.placeholder.com/150"
               }
               sx={{
                 width: 150,
