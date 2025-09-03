@@ -1,18 +1,19 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Box, Button, Theme, Typography, useTheme } from "@mui/material";
-import { PlayCircle as PlayCircleOutlineIcon } from "@mui/icons-material";
+import {
+  PlayCircle as PlayCircleIcon,
+  Quiz as QuizIcon,
+  Timeline as TimelineIcon,
+} from "@mui/icons-material";
 
 import { PageMeta } from "#components";
 import { useUserContext } from "#context";
 
 export const Training = () => {
   const theme = useTheme<Theme>();
-
   const { user } = useUserContext();
-
   const role = user?.role;
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,26 +28,20 @@ export const Training = () => {
       title: "Watch Training Videos",
       description:
         "Watch easy-to-follow video tutorials that teach you essential skills.",
-      icon: (
-        <PlayCircleOutlineIcon sx={{ color: theme.palette.primary.main }} />
-      ),
+      icon: <PlayCircleIcon sx={{ color: theme.palette.primary.main }} />,
     },
     {
       id: 2,
       title: "Complete Quizzes",
-      description: "Test your knowledge with quizzes after watching video.",
-      icon: (
-        <PlayCircleOutlineIcon sx={{ color: theme.palette.primary.main }} />
-      ),
+      description: "Test your knowledge with quizzes after watching videos.",
+      icon: <QuizIcon sx={{ color: theme.palette.primary.main }} />,
     },
     {
       id: 3,
       title: "Track Your Progress",
       description:
         "Keep track of your completed modules and unlock new missions as you go.",
-      icon: (
-        <PlayCircleOutlineIcon sx={{ color: theme.palette.primary.main }} />
-      ),
+      icon: <TimelineIcon sx={{ color: theme.palette.primary.main }} />,
     },
   ];
 
