@@ -98,11 +98,22 @@ const TableBodyComponent = ({
   };
 
   const handleBranchUpdate = (branchData: any) => {
+    const formData = new FormData();
+
+    Object.keys(branchData).forEach((key) => {
+      formData.append(key, branchData[key]);
+    });
+
     updateOrganization({
       id: organizationId,
       values: {
         branchId: menuId,
-        ...branchData,
+        ...Object.fromEntries(formData.entries()),
+      },
+      meta: {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       },
     });
   };
@@ -398,6 +409,8 @@ const TableBodyComponent = ({
           onClose={() => setShowBranchMenu(false)}
           onSave={handleBranchUpdate}
           existingData={selectedBranch}
+          editBranch={selectedBranch}
+          editIndex={selectedBranch?.id}
         />
       )}
     </>

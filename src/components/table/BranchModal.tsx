@@ -97,8 +97,21 @@ export const BranchModal = ({
   };
 
   const handleSave = () => {
+    if (
+      !branchData.branchName ||
+      !branchData.branchEmail ||
+      !branchData.branchPhone ||
+      !branchData.branchCity ||
+      !branchData.branchCountry ||
+      !branchData.branchAddress
+    ) {
+      return;
+    }
+
     onSave(branchData, editIndex || 0);
+
     onClose();
+
     setBranchData({
       branchName: "",
       branchEmail: "",
@@ -310,7 +323,6 @@ export const BranchModal = ({
             </Typography>
             <TextField
               fullWidth
-              placeholder="e.g., Alexanderplatz 4, 10178 Berlin"
               value={branchData.branchAddress}
               onChange={(e) => handleChange("branchAddress", e.target.value)}
               sx={{

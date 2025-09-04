@@ -1,11 +1,14 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { useTheme, Theme } from "@mui/material/styles";
+import { Add as AddIcon } from "@mui/icons-material";
 
 import { formatDate } from "#lib";
 import { useUserContext } from "#context";
 import { PageMeta, TableComponent, ToolBarComponent } from "#components";
+import { BranchModal } from "#components/table/BranchModal";
+import { useUpdate } from "@refinedev/core";
 
 export const Branches = () => {
   const theme = useTheme<Theme>();
@@ -27,9 +30,11 @@ export const Branches = () => {
   const availableStatuses = ["All", "Active", "Inactive"];
   const availableDates = ["Today", "This Week", "This Month", "All Time"];
 
+  const [showBranchMenu, setShowBranchMenu] = useState(false);
+
   // Filters States
-  const [selectedStatus, setSelectedStatus] = useState("All");
   const [selectedDate, setSelectedDate] = useState("Date");
+  const [selectedStatus, setSelectedStatus] = useState("All");
 
   // Filtered Branches
   const [filteredBranches, setFilteredBranches] = useState<any>([]);
@@ -114,6 +119,32 @@ export const Branches = () => {
     );
   }
 
+  const { mutate: updateOrganization } = useUpdate({
+    resource: "organizations",
+  });
+
+  const { organizationId } = user;
+
+  const handleAddBranch = (branchData: any) => {
+    const formData = new FormData();
+
+    Object.keys(branchData).forEach((key) => {
+      formData.append(key, branchData[key]);
+    });
+
+    updateOrganization({
+      id: organizationId,
+      values: {
+        ...Object.fromEntries(formData.entries()),
+      },
+      meta: {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    });
+  };
+
   const branchesArray = filteredBranches?.map((branch: any) => ({
     id: branch?._id,
     name: branch?.branchName || "N/A",
@@ -147,10 +178,25 @@ export const Branches = () => {
 
   return (
     <>
-      <PageMeta
-        title="Manage & Monitor Branches"
-        description="Manage all branches here"
-      />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <PageMeta
+          title="Manage & Monitor Branches"
+          description="Manage all branches here"
+        />
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => setShowBranchMenu(true)}
+        >
+          Add Branch
+        </Button>
+      </Box>
       <Box
         sx={{
           border: `1px solid ${theme.palette.divider}`,
@@ -174,6 +220,14 @@ export const Branches = () => {
           menuOptions={["Edit Branch", "Inactive Branch"]}
         />
       </Box>
+
+      {showBranchMenu && (
+        <BranchModal
+          open={showBranchMenu}
+          onClose={() => setShowBranchMenu(false)}
+          onSave={handleAddBranch}
+        />
+      )}
     </>
   );
 };

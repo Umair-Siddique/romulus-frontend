@@ -1,8 +1,8 @@
 import { useTheme, Theme } from "@mui/material/styles";
 import { TableContainer, Paper, Table } from "@mui/material";
 
-import TableHeaderComponent from "./TableHeader";
 import TableBodyComponent from "./TableBody";
+import TableHeaderComponent from "./TableHeader";
 
 export const TableComponent = ({
   tableData,

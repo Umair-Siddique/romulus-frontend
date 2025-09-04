@@ -129,36 +129,37 @@ export const Training = () => {
               </Box>
             ))}
           </Box>
-          <Box sx={{ mt: theme.spacing(2) }}>
-            <Typography
-              variant="h5"
-              sx={{
-                fontWeight: theme.typography.h4.fontWeight,
-                mb: theme.spacing(1),
-                color: theme.palette.text.primary,
-                fontSize: "1.8rem",
-                fontFamily: theme.typography.h5.fontFamily,
-              }}
-            >
-              Ready to start?
-            </Typography>
-
-            <Button
-              variant="contained"
-              sx={{
-                mt: theme.spacing(2),
-              }}
-            >
-              Start Training
-            </Button>
-          </Box>
         </Box>
+
         <Box
           component="img"
           src="/images/training.png"
-          width={400}
-          height={400}
+          width={300}
+          height={300}
         />
+      </Box>
+      <Box sx={{ mt: theme.spacing(2) }}>
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: theme.typography.h4.fontWeight,
+            mb: theme.spacing(1),
+            color: theme.palette.text.primary,
+            fontSize: "1.8rem",
+            fontFamily: theme.typography.h5.fontFamily,
+          }}
+        >
+          Ready to start?
+        </Typography>
+
+        <Button
+          variant="contained"
+          sx={{
+            mt: theme.spacing(1),
+          }}
+        >
+          Start Training
+        </Button>
       </Box>
     </>
   );
