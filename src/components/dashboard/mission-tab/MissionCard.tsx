@@ -19,12 +19,14 @@ import {
   CalendarToday as CalendarTodayIcon,
   MoreVert as MoreVertIcon,
 } from "@mui/icons-material";
-import { useTheme, Theme } from "@mui/material/styles";
-
-import { useUserContext } from "#context";
 import { useNavigate } from "react-router";
-import { formatDate, formatTime, getStatusColor } from "#lib";
 import { useDelete } from "@refinedev/core";
+import { useTheme, Theme } from "@mui/material/styles";
+import { Lock as LockIcon } from "@mui/icons-material";
+
+import { Modal } from "#components/Modal";
+import { useUserContext } from "#context";
+import { formatDate, formatTime, getStatusColor } from "#lib";
 
 export const MissionCard = React.memo(
   ({ mission, refetch }: { mission: any; refetch: any }) => {
@@ -41,16 +43,26 @@ export const MissionCard = React.memo(
 
     const theme = useTheme<Theme>();
 
-    const { user } = useUserContext();
+    const { user, userProfile } = useUserContext();
 
     const role = user?.role;
+    const { trainingStatus } = userProfile || {};
 
     const { mutate: deleteMission } = useDelete();
 
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+    const [openTrainingModal, setOpenTrainingModal] = useState(false);
     const open = Boolean(anchorEl);
 
     const navigate = useNavigate();
+
+    const handleViewDetails = () => {
+      if (trainingStatus === "pending" || trainingStatus === "ongoing") {
+        setOpenTrainingModal(true);
+        return;
+      }
+      navigate(`/missions/${_id}`);
+    };
 
     const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
       setAnchorEl(event.currentTarget);
@@ -83,186 +95,201 @@ export const MissionCard = React.memo(
     };
 
     return (
-      <Card
-        sx={{
-          width: "48%",
-          height: "auto",
-          borderRadius: theme.shape.borderRadius,
-          border: `1px solid ${theme.palette.divider}`,
-          position: "relative",
-          backgroundColor: theme.palette.background.default,
-          p: theme.spacing(1),
-        }}
-      >
-        <Box
+      <>
+        <Card
           sx={{
-            position: "absolute",
-            top: theme.spacing(2),
-            right: theme.spacing(2),
+            width: "48%",
+            height: "auto",
+            borderRadius: theme.shape.borderRadius,
+            border: `1px solid ${theme.palette.divider}`,
+            position: "relative",
+            backgroundColor: theme.palette.background.default,
+            p: theme.spacing(1),
           }}
         >
-          <Chip
-            label={status}
-            sx={{
-              ...getStatusColor(status), // Use utility function to get status color
-              fontWeight: theme.typography.fontWeightMedium,
-              fontSize: theme.typography.caption.fontSize,
-            }}
-          />
-        </Box>
-
-        <CardContent sx={{ pt: theme.spacing(1) }}>
-          <Typography
-            variant="h5"
-            component="h5"
-            sx={{
-              fontWeight: theme.typography.fontWeightMedium,
-              mb: theme.spacing(1),
-              pr: theme.spacing(8),
-              color: theme.palette.text.primary,
-              textAlign: "left",
-              fontFamily: theme.typography.fontFamily,
-            }}
-          >
-            {title}
-          </Typography>
-
-          <Stack spacing={theme.spacing(2)}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: theme.spacing(1.5),
-              }}
-            >
-              <BusinessIcon
-                sx={{ color: theme.palette.text.secondary, fontSize: 22 }}
-              />
-              <Typography variant="body1" color="text.secondary">
-                {organizationName}
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: theme.spacing(1.5),
-              }}
-            >
-              <ApartmentIcon
-                sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
-              />
-              <Typography variant="body2" color="text.secondary">
-                {branchName}
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: theme.spacing(1.5),
-              }}
-            >
-              <CalendarTodayIcon
-                sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
-              />
-              <Typography variant="body2" color="text.secondary">
-                {formatDate(date)}
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: theme.spacing(1.5),
-              }}
-            >
-              <ScheduleIcon
-                sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
-              />
-              <Typography variant="body2" color="text.secondary">
-                {formatTime(time?.split("-")[0]?.trim())} to{" "}
-                {formatTime(time?.split("-")[1]?.trim())}
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: theme.spacing(1.5),
-              }}
-            >
-              <LocationOnIcon
-                sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
-              />
-              <Typography variant="body2" color="text.secondary">
-                {branchAddress}
-              </Typography>
-            </Box>
-          </Stack>
-
           <Box
             sx={{
-              display: "flex",
-              gap: theme.spacing(1),
-              mt: theme.spacing(3),
+              position: "absolute",
+              top: theme.spacing(2),
+              right: theme.spacing(2),
             }}
           >
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => navigate(`/missions/${_id}`)}
+            <Chip
+              label={status}
               sx={{
-                borderRadius: theme.shape.borderRadius,
-                textTransform: "none",
+                ...getStatusColor(status), // Use utility function to get status color
                 fontWeight: theme.typography.fontWeightMedium,
-                borderColor: theme.palette.primary.main,
-                color: theme.palette.primary.main,
-                "&:hover": {
-                  borderColor: theme.palette.primary.dark,
-                  backgroundColor: theme.palette.primary.light,
-                },
+                fontSize: theme.typography.caption.fontSize,
+              }}
+            />
+          </Box>
+
+          <CardContent sx={{ pt: theme.spacing(1) }}>
+            <Typography
+              variant="h5"
+              component="h5"
+              sx={{
+                fontWeight: theme.typography.fontWeightMedium,
+                mb: theme.spacing(1),
+                pr: theme.spacing(8),
+                color: theme.palette.text.primary,
+                textAlign: "left",
+                fontFamily: theme.typography.fontFamily,
               }}
             >
-              View Details
-            </Button>
+              {title}
+            </Typography>
 
-            {role !== "educator" && (
-              <>
-                <IconButton
-                  onClick={handleMenuClick}
-                  sx={{
-                    border: `1px solid ${theme.palette.primary.main}`,
-                    borderRadius: theme.shape.borderRadius,
-                    color: theme.palette.primary.main,
-                    "&:hover": {
-                      borderColor: theme.palette.primary.dark,
-                      backgroundColor: theme.palette.primary.light,
-                    },
-                  }}
-                >
-                  <MoreVertIcon />
-                </IconButton>
+            <Stack spacing={theme.spacing(2)}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: theme.spacing(1.5),
+                }}
+              >
+                <BusinessIcon
+                  sx={{ color: theme.palette.text.secondary, fontSize: 22 }}
+                />
+                <Typography variant="body1" color="text.secondary">
+                  {organizationName}
+                </Typography>
+              </Box>
 
-                <Menu
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleMenuClose}
-                  MenuListProps={{
-                    "aria-labelledby": "basic-button",
-                  }}
-                >
-                  <MenuItem onClick={handleDeleteMission}>Delete</MenuItem>
-                </Menu>
-              </>
-            )}
-          </Box>
-        </CardContent>
-      </Card>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: theme.spacing(1.5),
+                }}
+              >
+                <ApartmentIcon
+                  sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
+                />
+                <Typography variant="body2" color="text.secondary">
+                  {branchName}
+                </Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: theme.spacing(1.5),
+                }}
+              >
+                <CalendarTodayIcon
+                  sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
+                />
+                <Typography variant="body2" color="text.secondary">
+                  {formatDate(date)}
+                </Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: theme.spacing(1.5),
+                }}
+              >
+                <ScheduleIcon
+                  sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
+                />
+                <Typography variant="body2" color="text.secondary">
+                  {formatTime(time?.split("-")[0]?.trim())} to{" "}
+                  {formatTime(time?.split("-")[1]?.trim())}
+                </Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: theme.spacing(1.5),
+                }}
+              >
+                <LocationOnIcon
+                  sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
+                />
+                <Typography variant="body2" color="text.secondary">
+                  {branchAddress}
+                </Typography>
+              </Box>
+            </Stack>
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: theme.spacing(1),
+                mt: theme.spacing(3),
+              }}
+            >
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={handleViewDetails}
+                sx={{
+                  borderRadius: theme.shape.borderRadius,
+                  textTransform: "none",
+                  fontWeight: theme.typography.fontWeightMedium,
+                  borderColor: theme.palette.primary.main,
+                  color: theme.palette.primary.main,
+                  "&:hover": {
+                    borderColor: theme.palette.primary.dark,
+                    backgroundColor: theme.palette.primary.light,
+                  },
+                }}
+              >
+                View Details
+              </Button>
+
+              {role !== "educator" && (
+                <>
+                  <IconButton
+                    onClick={handleMenuClick}
+                    sx={{
+                      border: `1px solid ${theme.palette.primary.main}`,
+                      borderRadius: theme.shape.borderRadius,
+                      color: theme.palette.primary.main,
+                      "&:hover": {
+                        borderColor: theme.palette.primary.dark,
+                        backgroundColor: theme.palette.primary.light,
+                      },
+                    }}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleMenuClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                  >
+                    <MenuItem onClick={handleDeleteMission}>Delete</MenuItem>
+                  </Menu>
+                </>
+              )}
+            </Box>
+          </CardContent>
+        </Card>
+        <Modal
+          open={openTrainingModal}
+          onClose={() => setOpenTrainingModal(false)}
+          title="Missions Locked"
+          description="You need to complete your training before you can view or accept missions. Training helps you understand how the mission system works and prepares you to work with partner organizations."
+          hasButton={true}
+          hasButton1={true}
+          onSubmit={() => setOpenTrainingModal(false)}
+          button1OnClick={() => navigate("/training")}
+          buttonText="Close"
+          button1Text="Start Training"
+          icon={<LockIcon />}
+        />
+      </>
     );
   }
 );

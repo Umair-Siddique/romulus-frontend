@@ -1,19 +1,29 @@
-// Calendar Tab - Updated with Organization Filter
-
-import { useState, useMemo } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
+import { Box } from "@mui/material";
+import { useState, useMemo } from "react";
+import { useNavigate } from "react-router";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import { Lock as LockIcon } from "@mui/icons-material";
+
 import "moment/locale/en-gb";
 
 import { Toolbar } from "./Toolbar";
+import { useUserContext } from "#context";
 import { MissionsModal } from "./MissionsModal";
-import { Box } from "@mui/material";
+import { Modal } from "#components/Modal";
 
 moment.locale("en-GB");
 
+const localizer = momentLocalizer(moment);
+
 export const CalendarTab = ({ calendarTabProps }: any) => {
-  const localizer = momentLocalizer(moment);
-  const [open, setOpen] = useState(false);
+  const { userProfile } = useUserContext();
+  const navigate = useNavigate();
+
+  const { trainingStatus } = userProfile || {};
+
+  const [openMissionsModal, setOpenMissionsModal] = useState(false);
+  const [openTrainingModal, setOpenTrainingModal] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDateMissions, setSelectedDateMissions] = useState<any[]>([]);
   const [selectedBranch, setSelectedBranch] = useState("All Branches");
@@ -121,8 +131,12 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
     });
 
   const handleMissionSelect = (event: any) => {
+    if (trainingStatus === "pending" || trainingStatus === "ongoing") {
+      setOpenTrainingModal(true);
+      return;
+    }
     setSelectedDateMissions(event.missions);
-    setOpen(true);
+    setOpenMissionsModal(true);
   };
 
   // Reset branch filter when organization changes
@@ -167,14 +181,27 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
         }}
       />
       <MissionsModal
-        open={open}
-        onClose={() => setOpen(false)}
+        open={openMissionsModal}
+        onClose={() => setOpenMissionsModal(false)}
         date={
           selectedDateMissions.length > 0
             ? moment(selectedDateMissions[0].date).format("MMMM D, YYYY")
             : ""
         }
         missions={selectedDateMissions}
+      />
+      <Modal
+        open={openTrainingModal}
+        onClose={() => setOpenTrainingModal(false)}
+        title="Missions Locked"
+        description="You need to complete your training before you can view or accept missions. Training helps you understand how the mission system works and prepares you to work with partner organizations."
+        hasButton={true}
+        hasButton1={true}
+        onSubmit={() => setOpenTrainingModal(false)}
+        button1OnClick={() => navigate("/training")}
+        buttonText="Close"
+        button1Text="Start Training"
+        icon={<LockIcon />}
       />
     </Box>
   );
