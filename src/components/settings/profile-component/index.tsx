@@ -127,11 +127,6 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
         }
       });
 
-      // Debug check: log key/value pairs
-      for (let [key, value] of formData.entries()) {
-        console.log(key, value);
-      }
-
       mutate({
         id: profileData._id,
         values: formData,
