@@ -188,8 +188,6 @@ export const MissionsList = ({ missions }: { missions: any }) => {
     status: mission.status,
   }));
 
-  console.log("MissionsList.tsx -> missionsTableData:", missionsTableData);
-
   return (
     <Box sx={{ m: theme.spacing(2) }}>
       <ToolBarComponent

@@ -36,8 +36,6 @@ const TableBodyComponent = ({
 }) => {
   const theme = useTheme<Theme>();
 
-  console.log("TableBodyComponent.tsx -> bodyData:", bodyData);
-
   const navigate = useNavigate();
 
   const { user } = useUserContext();
