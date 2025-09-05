@@ -220,7 +220,7 @@ export const MissionsTab = ({
     hiredEducator:
       mission?.hiredEducators && mission?.hiredEducators.length > 0
         ? mission?.hiredEducators[0]
-        : null,
+        : [],
     status: mission?.status,
   }));
 
