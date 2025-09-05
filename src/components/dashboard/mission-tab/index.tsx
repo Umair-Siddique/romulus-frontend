@@ -169,16 +169,16 @@ export const MissionsTab = ({
   }
 
   const cardData = filteredMissions?.map((mission: any, index: number) => ({
-    _id: mission._id,
-    title: mission.title,
-    organizationName: mission.organization?.organizationName,
-    branchName: mission.branch,
-    date: mission.start,
-    time: mission.start,
-    branchAddress: mission.organization?.branches?.find(
-      (branch: any) => branch.branchName === mission.branch
+    _id: mission?._id,
+    title: mission?.title,
+    organizationName: mission?.organization?.organizationName,
+    branchName: mission?.branch,
+    date: mission?.start,
+    time: mission?.start,
+    branchAddress: mission?.organization?.branches?.find(
+      (branch: any) => branch.branchName === mission?.branch
     )?.branchAddress,
-    status: mission.status,
+    status: mission?.status,
   }));
 
   return (
