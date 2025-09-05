@@ -1,9 +1,43 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 
 import { MissionCard } from "./MissionCard";
 import { MissionsTabsDataProps } from "#types";
 import { ToolBarComponent } from "#components";
+import { useCustomMutation } from "@refinedev/core";
+import { useUserContext } from "#context";
+
+const convertToCSV = (jsonArray: any[]) => {
+  if (!jsonArray || jsonArray.length === 0) return "";
+
+  const keys = Object.keys(jsonArray[0]);
+  const header = keys.join(",");
+
+  const rows = jsonArray.map((row) =>
+    keys
+      .map((key) => {
+        const val = row[key] ?? "";
+        return `"${String(val).replace(/"/g, '""')}"`; // escape quotes
+      })
+      .join(",")
+  );
+
+  return [header, ...rows].join("\n");
+};
+
+// --- Download Utility
+const downloadCSV = (jsonArray: any[], filename = "invoices.csv") => {
+  const csv = convertToCSV(jsonArray);
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 
 export const MissionsTab = ({
   missionsTabProps,
@@ -11,6 +45,10 @@ export const MissionsTab = ({
   missionsTabProps: any;
 }) => {
   const { missions, refetchMissions } = missionsTabProps;
+
+  const { user } = useUserContext();
+
+  const { role } = user || {};
 
   // Available Filters
   const availableStatuses = ["All", "Pending", "Ongoing", "Completed"];
@@ -168,7 +206,7 @@ export const MissionsTab = ({
     return missions.filter((mission: any) => mission.branch === selectedBranch);
   }
 
-  const cardData = filteredMissions?.map((mission: any, index: number) => ({
+  const missionsData = filteredMissions?.map((mission: any, index: number) => ({
     _id: mission?._id,
     title: mission?.title,
     organizationName: mission?.organization?.organizationName,
@@ -178,26 +216,65 @@ export const MissionsTab = ({
     branchAddress: mission?.organization?.branches?.find(
       (branch: any) => branch.branchName === mission?.branch
     )?.branchAddress,
+    hiredEducator: mission?.hiredEducators[0],
     status: mission?.status,
   }));
 
+  const { mutateAsync, data } = useCustomMutation();
+
+  const generateInvoice = () => {
+    mutateAsync({
+      url: "invoices/generate",
+      method: "post",
+      values: { missionsData },
+    });
+  };
+
+  useEffect(() => {
+    if (data?.data && Array.isArray(data.data) && data.data.length > 0) {
+      downloadCSV(data.data, "invoices.csv");
+    }
+  }, [data?.data]);
+
   return (
     <Box sx={{ m: 2 }}>
-      {/* Toolbar */}
-      <ToolBarComponent
-        availableStatuses={availableStatuses}
-        selectedStatus={selectedStatus}
-        setSelectedStatus={setSelectedStatus}
-        availableDates={availableDates}
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-        availableOrganizations={availableOrganizations}
-        selectedOrganization={selectedOrganization}
-        setSelectedOrganization={setSelectedOrganization}
-        availableBranches={availableBranches}
-        selectedBranch={selectedBranch}
-        setSelectedBranch={setSelectedBranch}
-      />
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <ToolBarComponent
+          availableStatuses={availableStatuses}
+          selectedStatus={selectedStatus}
+          setSelectedStatus={setSelectedStatus}
+          availableDates={availableDates}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          availableOrganizations={availableOrganizations}
+          selectedOrganization={selectedOrganization}
+          setSelectedOrganization={setSelectedOrganization}
+          availableBranches={availableBranches}
+          selectedBranch={selectedBranch}
+          setSelectedBranch={setSelectedBranch}
+        />
+        {role === "admin" && (
+          <Button
+            variant="contained"
+            onClick={generateInvoice}
+            sx={{
+              ml: 2,
+              mb: 3,
+              width: "180px",
+              textTransform: "none",
+            }}
+          >
+            Generate Invoice
+          </Button>
+        )}
+      </Box>
       <Box
         sx={{
           display: "flex",
@@ -206,11 +283,11 @@ export const MissionsTab = ({
         }}
       >
         {/* Mission Cards */}
-        {cardData?.map((mission: any, index) => (
+        {missionsData?.map((mission: any, index) => (
           <MissionCard
             key={index}
             mission={mission}
-            refetch={refetchMissions}
+            refetch={() => refetchMissions(filteredMissions)}
           />
         ))}
       </Box>
