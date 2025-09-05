@@ -13,7 +13,6 @@ export * from "./settings";
 export * from "./sider";
 export * from "./table-component";
 export * from "./Header";
-export * from "./LogoComponent";
 export * from "./Modal";
 export * from "./Reviews";
 export * from "./tabs-component";

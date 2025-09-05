@@ -12,7 +12,6 @@ import { TextLink } from "../../TextLink";
 import AuthFormField from "./auth-form-field";
 import AuthFormHeader from "./AuthFormHeader";
 import AuthSubmitButton from "./AuthSubmitButton";
-import { LogoComponent } from "../../LogoComponent";
 
 import { AuthFormProps } from "#types";
 
@@ -118,8 +117,7 @@ export const AuthForm = ({
         backgroundColor: theme.palette.background.default,
       }}
     >
-      {/* LogoComponent - Fixed to top */}
-      <LogoComponent logoImage={logoImage} width={115} />
+      <Box component="img" src={logoImage} width={115} />
 
       {/* Content Container - Centered vertically in remaining space */}
       <Box

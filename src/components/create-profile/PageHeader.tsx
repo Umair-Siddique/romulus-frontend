@@ -15,7 +15,6 @@ import {
 } from "@mui/icons-material";
 
 import logoImage from "/images/logo.png"; // Adjust the path as necessary
-import { LogoComponent } from "../LogoComponent";
 import { useNavigate } from "react-router";
 import { useUserContext } from "#context";
 
@@ -60,8 +59,7 @@ export const PageHeader = () => {
     >
       <Toolbar sx={{ justifyContent: "space-between", py: theme.spacing(1) }}>
         <Box sx={{ textAlign: "center" }}>
-          {/* LogoComponent */}
-          <LogoComponent logoImage={logoImage} width={50} />
+          <Box component="img" src={logoImage} width={50} />
         </Box>
 
         {/* Profile Dropdown */}

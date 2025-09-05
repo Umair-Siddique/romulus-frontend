@@ -106,13 +106,6 @@ export interface AuthFormHeaderProps {
   description: string;
 }
 
-type WidthVariant = string | number;
-
-export interface LogoComponentProps {
-  logoImage: string;
-  width: WidthVariant;
-}
-
 type UserVariant = any | null;
 
 export interface PageBodyProps {
