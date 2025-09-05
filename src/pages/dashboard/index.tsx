@@ -7,7 +7,7 @@ import {
   CalendarTodayOutlined as CalendarIcon,
 } from "@mui/icons-material";
 
-import { KpiCards, PageMeta, TabViewHorizontal } from "#components";
+import { KpiCards, PageMeta, TabsHorizontal } from "#components";
 
 import { KpiItem } from "#types";
 import { useUserContext } from "#context";
@@ -192,7 +192,7 @@ export const Dashboard = () => {
         description="Manage all missions here."
       />
       <KpiCards kpiCardsData={kpis} />
-      <TabViewHorizontal tabs={tabs} />
+      <TabsHorizontal tabs={tabs} />
     </>
   );
 };

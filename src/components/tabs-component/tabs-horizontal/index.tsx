@@ -4,7 +4,7 @@ import React, { useCallback, useState } from "react";
 import { TabBar } from "./TabBar";
 import { Main } from "./Main";
 
-export const TabViewHorizontal = ({
+export const TabsHorizontal = ({
   tabs,
 }: {
   tabs: { id: string; label: string; icon: any; component: React.ReactNode }[];

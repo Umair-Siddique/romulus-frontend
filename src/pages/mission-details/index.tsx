@@ -11,7 +11,7 @@ import {
   DocumentDownloadSection,
   ContactInformationCard,
   MissionDescriptionCard,
-  TabViewHorizontal,
+  TabsHorizontal,
   EducatorTable,
   Reviews,
   Modal,
@@ -301,7 +301,7 @@ export const MissionDetails = ({
         ))}
 
       {role === "organization" && parentComponent !== "reports" && (
-        <TabViewHorizontal tabs={tabs} />
+        <TabsHorizontal tabs={tabs} />
       )}
 
       {/* Feedback Modal */}

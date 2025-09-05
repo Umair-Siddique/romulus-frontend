@@ -5,7 +5,7 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { TabBar } from "./tab-bar";
 import { Main } from "./Main";
 
-export const TabViewVertical = ({
+export const TabsVertical = ({
   tabs,
 }: {
   tabs: {

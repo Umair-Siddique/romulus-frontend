@@ -7,7 +7,7 @@ import { Add as AddIcon } from "@mui/icons-material";
 import { formatDate } from "#lib";
 import { useUserContext } from "#context";
 import { PageMeta, TableComponent, ToolBarComponent } from "#components";
-import { BranchModal } from "#components/table/BranchModal";
+import { BranchModal } from "#components/table-component/BranchModal";
 import { useUpdate } from "@refinedev/core";
 
 export const Branches = () => {

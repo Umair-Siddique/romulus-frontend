@@ -10,7 +10,7 @@ import {
   UserBio,
   ProfessionalDetails,
   Reviews,
-  TabViewHorizontal,
+  TabsHorizontal,
   MissionsList,
 } from "#components";
 import { useUserContext } from "#context";
@@ -123,7 +123,7 @@ export const EducatorDetails = ({
 
       {role === "admin" && parentComponent !== "reports" && (
         <Box sx={{ mb: theme.spacing(2) }}>
-          <TabViewHorizontal tabs={tabs} />
+          <TabsHorizontal tabs={tabs} />
         </Box>
       )}
 

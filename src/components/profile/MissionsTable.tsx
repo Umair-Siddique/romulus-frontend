@@ -52,7 +52,7 @@ export const MissionsTable = ({ missions }: { missions: any[] }) => {
             <TableBody>
               {missions?.map((mission: any) => (
                 <TableRow
-                  key={mission._id}
+                  key={mission?._id}
                   hover
                   sx={{
                     backgroundColor: theme.palette.background.default,
@@ -71,7 +71,7 @@ export const MissionsTable = ({ missions }: { missions: any[] }) => {
                       variant="body2"
                       sx={{ color: theme.palette.text.secondary }}
                     >
-                      {mission.title}
+                      {mission?.title}
                     </Typography>
                   </TableCell>
                   <TableCell
@@ -86,7 +86,7 @@ export const MissionsTable = ({ missions }: { missions: any[] }) => {
                       variant="body2"
                       sx={{ color: theme.palette.text.secondary }}
                     >
-                      {formatDate(mission.createdAt)}
+                      {formatDate(mission?.createdAt)}
                     </Typography>
                   </TableCell>
                   <TableCell
@@ -101,7 +101,7 @@ export const MissionsTable = ({ missions }: { missions: any[] }) => {
                       variant="body2"
                       sx={{ color: theme.palette.text.secondary }}
                     >
-                      {mission.organization.organizationName}
+                      {mission?.organization?.organizationName}
                     </Typography>
                   </TableCell>
                   <TableCell
@@ -116,7 +116,7 @@ export const MissionsTable = ({ missions }: { missions: any[] }) => {
                       variant="body2"
                       sx={{ color: theme.palette.text.secondary }}
                     >
-                      {mission.branch}
+                      {mission?.branch}
                     </Typography>
                   </TableCell>
                   <TableCell
@@ -128,10 +128,10 @@ export const MissionsTable = ({ missions }: { missions: any[] }) => {
                     }}
                   >
                     <Chip
-                      label={mission.status}
+                      label={mission?.status}
                       size="small"
                       sx={{
-                        ...getStatusColor(mission.status),
+                        ...getStatusColor(mission?.status),
                         fontWeight: theme.typography.fontWeightMedium,
                       }}
                     />
@@ -146,7 +146,7 @@ export const MissionsTable = ({ missions }: { missions: any[] }) => {
                   >
                     <IconButton
                       size="small"
-                      onClick={() => handleViewMission(mission._id)}
+                      onClick={() => handleViewMission(mission?._id)}
                       sx={{
                         color: theme.palette.text.secondary,
                         "&:hover": {

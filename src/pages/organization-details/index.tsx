@@ -9,7 +9,7 @@ import {
   MissionsList,
   ProfileCard,
   ProfileHeader,
-  TabViewHorizontal,
+  TabsHorizontal,
 } from "#components";
 import { useUserContext } from "#context";
 import { ReportsList } from "#components/profile/ReportsList";
@@ -137,7 +137,7 @@ export const OrganizationDetails = ({
 
       {role === "admin" && parentComponent !== "reports" && (
         <Box sx={{ mb: theme.spacing(2) }}>
-          <TabViewHorizontal tabs={tabs} />
+          <TabsHorizontal tabs={tabs} />
         </Box>
       )}
     </Box>

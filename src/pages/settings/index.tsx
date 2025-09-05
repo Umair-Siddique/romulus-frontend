@@ -9,7 +9,7 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { useUserContext } from "#context";
 import {
   PageMeta,
-  TabViewVertical,
+  TabsVertical,
   Profile,
   Password,
   Notification,
@@ -62,7 +62,7 @@ export const Settings = () => {
           mt: 3,
         }}
       >
-        <TabViewVertical tabs={visibleTabs} />
+        <TabsVertical tabs={visibleTabs} />
       </Box>
     </>
   );

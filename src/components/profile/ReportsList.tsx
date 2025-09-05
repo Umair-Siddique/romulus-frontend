@@ -1,4 +1,4 @@
-import { TableComponent } from "#components/table";
+import { TableComponent } from "#components/table-component";
 import { ToolBarComponent } from "#components/ToolBarComponent";
 import { useUserContext } from "#context";
 import { Box } from "@mui/material";
