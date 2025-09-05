@@ -6,6 +6,7 @@ import { MissionsTabsDataProps } from "#types";
 import { ToolBarComponent } from "#components";
 import { useCustomMutation } from "@refinedev/core";
 import { useUserContext } from "#context";
+import { formatDate, formatTime } from "#lib";
 
 const convertToCSV = (jsonArray: any[]) => {
   if (!jsonArray || jsonArray.length === 0) return "";
@@ -223,10 +224,17 @@ export const MissionsTab = ({
   const { mutateAsync, data } = useCustomMutation();
 
   const generateInvoice = () => {
+    const rawInvoiceData = missionsData?.map((mission) => ({
+      ...mission,
+      time: `${formatTime(
+        mission?.time?.split("-")[0]?.trim()
+      )} to ${formatTime(mission?.time?.split("-")[1]?.trim())}`,
+      date: formatDate(mission?.date),
+    }));
     mutateAsync({
       url: "invoices/generate",
       method: "post",
-      values: { missionsData },
+      values: { missionsData: rawInvoiceData },
     });
   };
 
@@ -260,7 +268,7 @@ export const MissionsTab = ({
           selectedBranch={selectedBranch}
           setSelectedBranch={setSelectedBranch}
         />
-        {role === "admin" && (
+        {role === "admin" && selectedStatus === "Completed" && (
           <Button
             variant="contained"
             onClick={generateInvoice}
