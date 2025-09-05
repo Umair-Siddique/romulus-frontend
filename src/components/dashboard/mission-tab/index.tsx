@@ -217,7 +217,10 @@ export const MissionsTab = ({
     branchAddress: mission?.organization?.branches?.find(
       (branch: any) => branch.branchName === mission?.branch
     )?.branchAddress,
-    hiredEducator: mission?.hiredEducators[0],
+    hiredEducator:
+      mission?.hiredEducators && mission?.hiredEducators.length > 0
+        ? mission?.hiredEducators[0]
+        : null,
     status: mission?.status,
   }));
 
