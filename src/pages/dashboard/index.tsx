@@ -157,8 +157,6 @@ export const Dashboard = () => {
       []),
   ];
 
-  console.log("mergedMissions", mergedMissions);
-
   const uniqueMissions = Array.from(
     new Map(mergedMissions.map((m) => [m?._id, m])).values()
   );
