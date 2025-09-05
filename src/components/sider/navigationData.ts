@@ -1,5 +1,4 @@
 import {
-  AssignmentOutlined as MissionsIcon,
   SchoolOutlined as TrainingIcon,
   ChatOutlined as ChatsIcon,
   SettingsOutlined as SettingsIcon,

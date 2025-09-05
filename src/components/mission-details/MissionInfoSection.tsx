@@ -4,13 +4,7 @@ import { MissionDetails } from "./MissionDetails";
 import { PreferredEducatorCard } from "./PreferredEducatorCard";
 
 export const MissionInfoSection = memo(
-  ({
-    missionData,
-    getStatusColor,
-  }: {
-    missionData: any;
-    getStatusColor: (status: string) => any;
-  }) => {
+  ({ missionData }: { missionData: any }) => {
     return (
       <Box
         sx={{
@@ -20,10 +14,7 @@ export const MissionInfoSection = memo(
           justifyContent: "space-between",
         }}
       >
-        <MissionDetails
-          missionData={missionData}
-          getStatusColor={getStatusColor}
-        />
+        <MissionDetails missionData={missionData} />
 
         {missionData.hasPreferredEducator && (
           <PreferredEducatorCard

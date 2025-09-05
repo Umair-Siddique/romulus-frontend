@@ -1,12 +1,17 @@
 import {
-  AccessTime,
-  Business,
-  CalendarToday,
-  LocationOn,
+  BusinessOutlined as OrganizationIcon, // Organization
+  CalendarTodayOutlined as DateIcon, // Date
+  AccessTimeOutlined as TimeIcon, // Time
+  AccountTreeOutlined as BranchIcon, // Branch Name
+  LocationOnOutlined as LocationIcon, // Location
+  LabelOutlined as StatusIcon, // Status (generic tag icon)
 } from "@mui/icons-material";
-import { Box, Chip, Stack, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+
 import { memo } from "react";
+import { useTheme } from "@mui/material/styles";
+import { Box, Chip, Stack, Typography } from "@mui/material";
+
+import { getStatusColor } from "#lib";
 
 const MissionDetailItem = memo(
   ({
@@ -39,9 +44,20 @@ const MissionDetailItem = memo(
         >
           {label}:
         </Typography>
-        <Typography variant="body1" color="text.primary">
-          {value}
-        </Typography>
+        {label === "Status" ? (
+          <Chip
+            label={value}
+            size="small"
+            sx={{
+              fontWeight: theme.typography.fontWeightMedium,
+              ...getStatusColor(value),
+            }}
+          />
+        ) : (
+          <Typography variant="body1" color="text.primary">
+            {value}
+          </Typography>
+        )}
       </Box>
     );
   }
@@ -49,92 +65,69 @@ const MissionDetailItem = memo(
 
 MissionDetailItem.displayName = "MissionDetailItem";
 
-export const MissionDetails = memo(
-  ({
-    missionData,
-    getStatusColor,
-  }: {
-    missionData: any;
-    getStatusColor: (status: string) => any;
-  }) => {
-    const theme = useTheme();
+export const MissionDetails = memo(({ missionData }: { missionData: any }) => {
+  const theme = useTheme();
 
-    return (
-      <Box>
-        <Typography
-          variant="h5"
-          component="h2"
-          sx={{
-            fontWeight: theme.typography.fontWeightMedium,
-            color: theme.palette.text.primary,
-            mb: theme.spacing(2),
-          }}
-        >
-          {missionData.missionTitle}
-        </Typography>
+  const displayData = [
+    {
+      id: 1,
+      icon: OrganizationIcon,
+      label: "Organization",
+      value: missionData.organizationName,
+    },
+    {
+      id: 2,
+      icon: DateIcon,
+      label: "Date",
+      value: missionData.missionDate,
+    },
+    { id: 3, icon: TimeIcon, label: "Time", value: missionData.missionTime },
+    {
+      id: 4,
+      icon: BranchIcon,
+      label: "Branch Name",
+      value: missionData.branchName,
+    },
+    {
+      id: 5,
+      icon: LocationIcon,
+      label: "Location",
+      value: missionData.missionLocation,
+    },
+    {
+      id: 6,
+      icon: StatusIcon,
+      label: "Status",
+      value: missionData.missionStatus,
+    },
+  ];
 
-        <Stack spacing={theme.spacing(1.5)}>
-          <MissionDetailItem
-            icon={Business}
-            label="Organization"
-            value={missionData.organizationName}
-          />
-          <MissionDetailItem
-            icon={CalendarToday}
-            label="Date"
-            value={missionData.missionDate}
-          />
-          <MissionDetailItem
-            icon={AccessTime}
-            label="Time"
-            value={missionData.missionTime}
-          />
-          <MissionDetailItem
-            icon={Business}
-            label="Branch Name"
-            value={missionData.branchName}
-          />
-          <MissionDetailItem
-            icon={LocationOn}
-            label="Location"
-            value={missionData.missionLocation}
-          />
-          <MissionDetailItem
-            icon={LocationOn}
-            label="Address"
-            value={missionData.branchAddress}
-          />
+  return (
+    <Box>
+      <Typography
+        variant="h5"
+        component="h2"
+        sx={{
+          fontWeight: theme.typography.fontWeightMedium,
+          color: theme.palette.text.primary,
+          mb: theme.spacing(2),
+        }}
+      >
+        {missionData.missionTitle}
+      </Typography>
 
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: theme.spacing(2),
-            }}
-          >
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{
-                width: "140px",
-                fontWeight: theme.typography.fontWeightMedium,
-              }}
-            >
-              Status:
-            </Typography>
-            <Chip
-              label={missionData.missionStatus}
-              size="small"
-              sx={{
-                fontWeight: theme.typography.fontWeightMedium,
-                ...getStatusColor(missionData.missionStatus),
-              }}
-            />
-          </Box>
-        </Stack>
-      </Box>
-    );
-  }
-);
+      <Stack spacing={theme.spacing(1.5)}>
+        {displayData.map((item) => (
+          <MissionDetailItem
+            key={item.id}
+            icon={item.icon}
+            label={item.label}
+            value={item.value}
+          />
+        ))}
+      </Stack>
+    </Box>
+  );
+});
 
 MissionDetails.displayName = "MissionDetails";

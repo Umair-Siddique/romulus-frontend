@@ -258,10 +258,7 @@ export const MissionDetails = ({
       </Box>
 
       <Box sx={{ mb: theme.spacing(2) }}>
-        <MissionInfoSection
-          missionData={missionData}
-          getStatusColor={getStatusColor}
-        />
+        <MissionInfoSection missionData={missionData} />
       </Box>
 
       {missionData.hasResidenceGuidelines &&
