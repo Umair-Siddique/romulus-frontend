@@ -145,21 +145,8 @@ export const Branches = () => {
     });
   };
 
-  const branchesArray = filteredBranches?.map((branch: any) => ({
-    id: branch?._id,
-    name: branch?.branchName || "N/A",
-    createdAt: formatDate(branch?.createdAt),
-    email: branch?.branchEmail || "N/A",
-    phone: branch?.branchPhone || "N/A",
-    city: branch?.branchCity || "N/A",
-    country: branch?.branchCountry || "N/A",
-    address: branch?.branchAddress || "N/A",
-    residenceGuidelines: branch?.residenceGuidelines || "N/A",
-    status: branch?.branchStatus || "N/A",
-  }));
-
   const columnWidths = {
-    name: "20%",
+    branchName: "20%",
     createdAt: "20%",
     email: "20%",
     phone: "20%",
@@ -168,13 +155,26 @@ export const Branches = () => {
   };
 
   const headerData = [
-    { id: "name", label: "Name" },
+    { id: "branchName", label: "Branch" },
     { id: "createdAt", label: "Registered On" },
     { id: "email", label: "Email" },
     { id: "phone", label: "Phone" },
     { id: "status", label: "Status" },
     { id: "actions", label: "Actions" },
   ];
+
+  const branchesArray = filteredBranches?.map((branch: any) => ({
+    id: branch?._id,
+    branchName: branch?.branchName || "N/A",
+    createdAt: branch?.createdAt,
+    email: branch?.branchEmail || "N/A",
+    phone: branch?.branchPhone || "N/A",
+    city: branch?.branchCity || "N/A",
+    country: branch?.branchCountry || "N/A",
+    address: branch?.branchAddress || "N/A",
+    residenceGuidelines: branch?.residenceGuidelines || "N/A",
+    status: branch?.branchStatus || "N/A",
+  }));
 
   return (
     <>

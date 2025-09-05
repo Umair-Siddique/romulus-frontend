@@ -1,8 +1,7 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 
-import { MissionsTable } from "./MissionsTable";
-import { ToolBarComponent } from "#components";
+import { TableComponent, ToolBarComponent } from "#components";
 import { useTheme, Theme } from "@mui/material/styles";
 
 export const MissionsList = ({ missions }: { missions: any }) => {
@@ -162,6 +161,35 @@ export const MissionsList = ({ missions }: { missions: any }) => {
     return missions.filter((mission: any) => mission.branch === selectedBranch);
   }
 
+  const columnWidths = {
+    missionTitle: 200,
+    createdAt: 200,
+    organizationName: 200,
+    branchName: 200,
+    status: 150,
+    actions: 150,
+  };
+
+  const headerData = [
+    { id: "missionTitle", label: "Mission" },
+    { id: "createdAt", label: "Created At" },
+    { id: "organizationName", label: "Organization" },
+    { id: "branchName", label: "Branch" },
+    { id: "status", label: "Status" },
+    { id: "actions", label: "Actions" },
+  ];
+
+  const missionsTableData = filteredMissions?.map((mission: any) => ({
+    id: mission._id,
+    missionTitle: mission.title,
+    createdAt: mission.createdAt,
+    organizationName: mission.organization?.organizationName,
+    branchName: mission.branch,
+    status: mission.status,
+  }));
+
+  console.log("MissionsList.tsx -> missionsTableData:", missionsTableData);
+
   return (
     <Box sx={{ m: theme.spacing(2) }}>
       <ToolBarComponent
@@ -178,7 +206,12 @@ export const MissionsList = ({ missions }: { missions: any }) => {
         selectedBranch={selectedBranch}
         setSelectedBranch={setSelectedBranch}
       />
-      <MissionsTable missions={filteredMissions} />
+      <TableComponent
+        tableData={missionsTableData}
+        columnWidths={columnWidths}
+        headerData={headerData}
+        navigateTo="missions"
+      />
     </Box>
   );
 };

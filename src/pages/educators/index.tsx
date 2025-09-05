@@ -133,16 +133,6 @@ export const Educators = () => {
     );
   }
 
-  const educatorsArray = filteredEducators?.map((educator: any) => ({
-    id: educator?._id,
-    avatar: educator?.avatar || "N/A",
-    name: `${educator?.firstName} ${educator?.lastName}` || "N/A",
-    createdAt: formatDate(educator?.createdAt),
-    email: educator?.user?.email || "N/A",
-    phone: educator?.user?.phone || "N/A",
-    status: educator?.status || "N/A",
-  }));
-
   const kpis: KpiItem[] = [
     {
       title: "Total",
@@ -194,6 +184,16 @@ export const Educators = () => {
     { id: "actions", label: "Actions" },
   ];
 
+  const educatorsTableData = filteredEducators?.map((educator: any) => ({
+    id: educator?._id,
+    avatar: educator?.avatar || "N/A",
+    name: `${educator?.firstName} ${educator?.lastName}` || "N/A",
+    createdAt: formatDate(educator?.createdAt),
+    email: educator?.user?.email || "N/A",
+    phone: educator?.user?.phone || "N/A",
+    status: educator?.status || "N/A",
+  }));
+
   return (
     <>
       <PageMeta
@@ -212,7 +212,7 @@ export const Educators = () => {
         />
 
         <TableComponent
-          tableData={educatorsArray}
+          tableData={educatorsTableData}
           columnWidths={columnWidths}
           headerData={headerData}
           navigateTo="educators"

@@ -1,14 +1,15 @@
-import { TableHead, TableRow, TableCell, Theme } from "@mui/material";
+import { Theme, useTheme } from "@mui/material/styles";
+import { TableHead, TableRow, TableCell } from "@mui/material";
 
 const TableHeaderComponent = ({
   headerData,
   columnWidths,
-  theme,
 }: {
   headerData: any;
   columnWidths: any;
-  theme: Theme;
 }) => {
+  const theme = useTheme<Theme>();
+
   return (
     <TableHead>
       <TableRow

@@ -35,12 +35,10 @@ export const TableComponent = ({
         <TableHeaderComponent
           headerData={headerData}
           columnWidths={columnWidths}
-          theme={theme}
         />
         <TableBodyComponent
           bodyData={tableData}
           columnWidths={columnWidths}
-          theme={theme}
           navigateTo={navigateTo}
           menuOptions={menuOptions}
         />

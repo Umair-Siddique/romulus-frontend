@@ -1,4 +1,3 @@
-import { Theme } from "@mui/material/styles";
 import {
   Avatar,
   Box,
@@ -16,6 +15,7 @@ import {
   MoreVert as MoreVertIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router";
+import { Theme, useTheme } from "@mui/material/styles";
 
 import { formatDate, getStatusColor, truncateWithEllipsis } from "#lib";
 import { useState } from "react";
@@ -26,26 +26,28 @@ import { BranchModal } from "./BranchModal";
 const TableBodyComponent = ({
   bodyData,
   columnWidths,
-  theme,
   navigateTo,
   menuOptions,
 }: {
   bodyData: any;
   columnWidths: any;
-  theme: Theme;
   navigateTo?: string;
   menuOptions?: string[];
 }) => {
+  const theme = useTheme<Theme>();
+
+  console.log("TableBodyComponent.tsx -> bodyData:", bodyData);
+
   const navigate = useNavigate();
 
   const { user } = useUserContext();
 
   const { organizationId } = user;
 
-  const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
   const [menuId, setMenuId] = useState<string>("");
   const [showBranchMenu, setShowBranchMenu] = useState(false);
   const [selectedBranch, setSelectedBranch] = useState<any>(null);
+  const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
 
   const { mutate: updateOrganization } = useUpdate({
     resource: "organizations",
@@ -131,6 +133,7 @@ const TableBodyComponent = ({
               borderBottom: `1px solid ${theme.palette.divider}`,
             }}
           >
+            {/* Name */}
             {item.name && (
               <TableCell
                 align="left"
@@ -183,6 +186,8 @@ const TableBodyComponent = ({
                 </Box>
               </TableCell>
             )}
+
+            {/* Reported By */}
             {item.reportedBy && (
               <TableCell
                 align="center"
@@ -200,13 +205,34 @@ const TableBodyComponent = ({
                 </Typography>
               </TableCell>
             )}
+
+            {/* Mission Title */}
+            {item.missionTitle && (
+              <TableCell
+                align="center"
+                sx={{
+                  padding: theme.spacing(2),
+                  width: columnWidths.missionTitle,
+                  minWidth: columnWidths.missionTitle,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{ color: theme.palette.text.secondary }}
+                >
+                  {item.missionTitle}
+                </Typography>
+              </TableCell>
+            )}
+
+            {/* Created At */}
             {item.createdAt && (
               <TableCell
                 align="center"
                 sx={{
                   padding: theme.spacing(2),
-                  width: columnWidths.registeredOn,
-                  minWidth: columnWidths.registeredOn,
+                  width: columnWidths.createdAt,
+                  minWidth: columnWidths.createdAt,
                 }}
               >
                 <Typography
@@ -217,6 +243,46 @@ const TableBodyComponent = ({
                 </Typography>
               </TableCell>
             )}
+
+            {/* Organization Name */}
+            {item.organizationName && (
+              <TableCell
+                align="center"
+                sx={{
+                  padding: theme.spacing(2),
+                  width: columnWidths.organizationName,
+                  minWidth: columnWidths.organizationName,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{ color: theme.palette.text.secondary }}
+                >
+                  {item.organizationName}
+                </Typography>
+              </TableCell>
+            )}
+
+            {/* Branch Name */}
+            {item.branchName && (
+              <TableCell
+                align="center"
+                sx={{
+                  padding: theme.spacing(2),
+                  width: columnWidths.branchName,
+                  minWidth: columnWidths.branchName,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{ color: theme.palette.text.secondary }}
+                >
+                  {item.branchName}
+                </Typography>
+              </TableCell>
+            )}
+
+            {/* Reported Educator */}
             {item.reportedEducator && (
               <TableCell
                 align="center"
@@ -234,6 +300,8 @@ const TableBodyComponent = ({
                 </Typography>
               </TableCell>
             )}
+
+            {/* Report Reason */}
             {item.reportReason && (
               <TableCell
                 align="center"
@@ -251,6 +319,8 @@ const TableBodyComponent = ({
                 </Typography>
               </TableCell>
             )}
+
+            {/* Siret Number */}
             {item.siretNumber && (
               <TableCell
                 align="center"
@@ -268,6 +338,8 @@ const TableBodyComponent = ({
                 </Typography>
               </TableCell>
             )}
+
+            {/* Email */}
             {item.email && (
               <TableCell
                 align="center"
@@ -285,13 +357,15 @@ const TableBodyComponent = ({
                 </Typography>
               </TableCell>
             )}
+
+            {/* Phone */}
             {item.phone && (
               <TableCell
                 align="center"
                 sx={{
                   padding: theme.spacing(2),
                   width: columnWidths.phone,
-                  minWidth: columnWidths.email,
+                  minWidth: columnWidths.phone,
                 }}
               >
                 <Typography
@@ -302,6 +376,8 @@ const TableBodyComponent = ({
                 </Typography>
               </TableCell>
             )}
+
+            {/* Branches */}
             {item.branches && (
               <TableCell
                 align="center"
@@ -319,6 +395,8 @@ const TableBodyComponent = ({
                 </Typography>
               </TableCell>
             )}
+
+            {/* Status */}
             {item.status && (
               <TableCell
                 align="center"
@@ -338,6 +416,8 @@ const TableBodyComponent = ({
                 />
               </TableCell>
             )}
+
+            {/* Actions */}
             {item.id && (
               <TableCell
                 align="center"
