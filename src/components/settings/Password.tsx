@@ -32,6 +32,7 @@ export const Password = React.memo(() => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const { mutate: updatePassword } = useCustomMutation();
 
@@ -81,14 +82,24 @@ export const Password = React.memo(() => {
       return;
     }
 
-    updatePassword({
-      url: "auth/update-password",
-      method: "patch",
-      values: {
-        userId,
-        password: newPassword,
+    updatePassword(
+      {
+        url: "auth/update-password",
+        method: "patch",
+        values: {
+          userId,
+          password: newPassword,
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          setError("");
+          setNewPassword("");
+          setConfirmPassword("");
+          setSuccess("Password updated successfully");
+        },
+      }
+    );
   };
 
   return (
@@ -131,6 +142,7 @@ export const Password = React.memo(() => {
                 fullWidth
                 placeholder="Enter your new password"
                 type={showPassword ? "text" : "password"}
+                value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 sx={{
                   width: theme.spacing(56.25),
@@ -167,6 +179,7 @@ export const Password = React.memo(() => {
                 fullWidth
                 placeholder="Enter your password"
                 type={showConfirmPassword ? "text" : "password"}
+                value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 sx={{
                   width: theme.spacing(56.25),
@@ -210,6 +223,21 @@ export const Password = React.memo(() => {
               }}
             >
               {error}
+            </Typography>
+          )}
+
+          {success && (
+            <Typography
+              variant="body2"
+              sx={{
+                mt: theme.spacing(1),
+                color: theme.palette.success.main,
+                fontWeight: theme.typography.body2.fontWeight,
+                fontSize: "0.875rem",
+                fontFamily: theme.typography.body2.fontFamily,
+              }}
+            >
+              {success}
             </Typography>
           )}
         </Box>
