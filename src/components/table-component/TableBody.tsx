@@ -89,6 +89,14 @@ const TableBodyComponent = ({
           status: "inactive",
         },
       });
+    } else if (option === "Activate Branch") {
+      updateOrganization({
+        id: organizationId,
+        values: {
+          branchId: menuId,
+          status: "active",
+        },
+      });
     } else if (option === "Edit Branch") {
       setShowBranchMenu(true);
 

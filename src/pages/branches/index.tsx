@@ -1,14 +1,13 @@
-import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
-import { useTheme, Theme } from "@mui/material/styles";
-import { Add as AddIcon } from "@mui/icons-material";
-
-import { formatDate } from "#lib";
-import { useUserContext } from "#context";
-import { PageMeta, TableComponent, ToolBarComponent } from "#components";
-import { BranchModal } from "#components/table-component/BranchModal";
+import { Box, Button } from "@mui/material";
 import { useUpdate } from "@refinedev/core";
+import { useEffect, useState } from "react";
+import { Add as AddIcon } from "@mui/icons-material";
+import { useTheme, Theme } from "@mui/material/styles";
+
+import { useUserContext } from "#context";
+import { BranchModal } from "#components/table-component/BranchModal";
+import { PageMeta, TableComponent, ToolBarComponent } from "#components";
 
 export const Branches = () => {
   const theme = useTheme<Theme>();
@@ -217,7 +216,7 @@ export const Branches = () => {
           tableData={branchesArray}
           columnWidths={columnWidths}
           headerData={headerData}
-          menuOptions={["Edit Branch", "Inactive Branch"]}
+          menuOptions={["Edit Branch", "Inactive Branch", "Activate Branch"]}
         />
       </Box>
 
