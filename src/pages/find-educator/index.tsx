@@ -1,18 +1,15 @@
-import { useEffect, useState } from "react";
-import { LatLngTuple } from "leaflet";
-import { useCreate, useCustom, useList } from "@refinedev/core";
-import { useNavigate } from "react-router";
-import { Box, Button, CircularProgress, Menu, MenuItem } from "@mui/material";
-import { useTheme, Theme } from "@mui/material/styles";
 import {
   CheckCircle as CheckCircleIcon,
-  MyLocation as MyLocationIcon,
-  ExpandMore as ExpandMoreIcon,
   Info as InfoIcon,
   HelpOutline as HelpOutlineIcon,
 } from "@mui/icons-material";
+import { LatLngTuple } from "leaflet";
+import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { useTheme, Theme } from "@mui/material/styles";
+import { Box, Button, CircularProgress } from "@mui/material";
+import { useCreate, useCustom, useList } from "@refinedev/core";
 
-import { useUserContext } from "#context";
 import {
   ContactAdmin,
   CreateMissionModal,
@@ -20,6 +17,7 @@ import {
   Modal,
   RadiusSlider,
 } from "#components";
+import { useUserContext } from "#context";
 
 export const FindEducator = () => {
   const theme = useTheme<Theme>();
@@ -43,13 +41,11 @@ export const FindEducator = () => {
 
   // Dropdown menu state
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const dropdownOpen = Boolean(anchorEl);
 
   const {
     mutate: createMission,
     data: missionsData,
     isLoading: isMissionLoading,
-    isError: isMissionError,
   } = useCreate({
     resource: "missions",
     successNotification: false,

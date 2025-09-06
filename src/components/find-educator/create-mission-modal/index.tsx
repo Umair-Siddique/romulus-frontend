@@ -82,10 +82,12 @@ export const CreateMissionModal = ({
   const organizationId = userProfile?._id;
   const watchedValues = watch();
 
-  const branches = userProfile?.branches?.map((branch: any) => ({
-    name: branch.branchName,
-    coordinates: branch.branchAddressCoordinates.coordinates,
-  }));
+  const branches = userProfile?.branches
+    ?.filter((branch: any) => branch.branchStatus === "active")
+    ?.map((branch: any) => ({
+      name: branch.branchName,
+      coordinates: branch.branchAddressCoordinates.coordinates,
+    }));
 
   const preferredEducators: any[] | undefined = data?.data?.map(
     (educator: any) => ({
