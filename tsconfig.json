@@ -30,6 +30,12 @@
       "#components/*": [
         "src/components/*"
       ],
+      "#constants": [
+        "src/constants/index.tsx"
+      ],
+      "#constants/*": [
+        "src/constants/*"
+      ],
       "#context": [
         "src/context/index.ts"
       ],

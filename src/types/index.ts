@@ -492,3 +492,15 @@ export interface MarkerProps {
   name: string;
   skills: string[];
 }
+
+export interface Option {
+  id: number;
+  option: string;
+  points: number;
+}
+
+export interface MCQType {
+  id: number;
+  question: string;
+  options: Option[];
+}

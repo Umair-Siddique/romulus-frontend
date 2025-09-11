@@ -16,5 +16,6 @@ export * from "./Header";
 export * from "./Modal";
 export * from "./Reviews";
 export * from "./tabs-component";
+export * from "./training";
 export * from "./TextLink";
 export * from "./ToolBarComponent";

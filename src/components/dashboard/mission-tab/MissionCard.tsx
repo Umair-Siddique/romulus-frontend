@@ -57,7 +57,7 @@ export const MissionCard = React.memo(
     const navigate = useNavigate();
 
     const handleViewDetails = () => {
-      if (trainingStatus === "pending" || trainingStatus === "ongoing") {
+      if (trainingStatus === "pending") {
         setOpenTrainingModal(true);
         return;
       }
