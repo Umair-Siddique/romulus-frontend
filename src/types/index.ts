@@ -504,3 +504,11 @@ export interface MCQType {
   question: string;
   options: Option[];
 }
+
+export interface Video {
+  id: number;
+  title: string;
+  description: string;
+  url: string;
+  duration: string;
+}

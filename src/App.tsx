@@ -40,6 +40,8 @@ import {
   UpdatePasswordPage,
   AssignEducator,
 } from "#pages";
+import { TrainingVideos } from "#components/training/training-videos";
+import { TrainingQuiz } from "#components/training/training-quiz";
 
 const App = () => {
   const customTitleHandler = () => {
@@ -104,6 +106,8 @@ const App = () => {
                 <Route path="/chats" element={<Chats />} />
 
                 <Route path="/training" element={<Training />} />
+                <Route path="/training/videos" element={<TrainingVideos />} />
+                <Route path="/training/quiz" element={<TrainingQuiz />} />
 
                 <Route path="/settings" element={<Settings />} />
               </Route>
