@@ -1,23 +1,16 @@
+import { Card, CardContent, Typography, Stack, useTheme } from "@mui/material";
 import {
-  Card,
-  CardContent,
-  Typography,
-  LinearProgress,
-  Stack,
-  Button,
-  useTheme,
-} from "@mui/material";
-import {
-  CheckCircle as CheckIcon,
   RadioButtonUnchecked as UncheckedIcon,
+  RadioButtonChecked as CheckedIcon,
 } from "@mui/icons-material";
+
+import { useUserContext } from "#context";
 
 export const TrainingProgressCard = () => {
   const theme = useTheme();
+  const { userProfile } = useUserContext();
 
-  const progress = 50;
-  const totalVideos = 4;
-  const completedVideos = 2;
+  const trainingStatus = userProfile?.trainingStatus;
 
   return (
     <Card
@@ -43,65 +36,18 @@ export const TrainingProgressCard = () => {
 
           {/* Subtitle */}
           <Typography variant="caption" sx={{ lineHeight: 1.4 }}>
-            Complete training to unlock missions.
+            Take the quiz to unlock missions.
           </Typography>
-
-          {/* Progress Stats */}
-          <Stack direction="row" justifyContent="space-between">
-            <Typography variant="caption">{progress}%</Typography>
-            <Typography variant="caption">
-              {completedVideos} of {totalVideos} videos
-            </Typography>
-          </Stack>
-
-          {/* Progress Bar */}
-          <LinearProgress
-            variant="determinate"
-            value={progress}
-            sx={{
-              height: 6,
-              borderRadius: 4,
-              backgroundColor: "rgba(255, 255, 255, 0.3)",
-              "& .MuiLinearProgress-bar": {
-                backgroundColor: "#FFB800",
-              },
-            }}
-          />
-
-          {/* Video Completion Status */}
-          <Stack direction="row" alignItems="center" spacing={1} mt={1}>
-            <CheckIcon sx={{ fontSize: 16 }} />
-            <Typography variant="caption">
-              {completedVideos} of {totalVideos} videos completed
-            </Typography>
-          </Stack>
 
           {/* Quiz Status */}
           <Stack direction="row" alignItems="center" spacing={1}>
-            <UncheckedIcon sx={{ fontSize: 16 }} />
-            <Typography variant="caption">📝Quiz not attempted</Typography>
+            <Typography variant="caption">
+              📝Quiz{" "}
+              {trainingStatus === "completed"
+                ? "completed successfully"
+                : "not attempted"}
+            </Typography>
           </Stack>
-
-          {/* Resume Button */}
-          <Button
-            variant="contained"
-            sx={{
-              mt: 1.5,
-              backgroundColor: "white",
-              color: theme.palette.primary.main,
-              borderRadius: "999px",
-              fontWeight: theme.typography.h2.fontWeight,
-              fontSize: "0.75rem",
-              textTransform: "none",
-              py: 1,
-              "&:hover": {
-                backgroundColor: "#f0f0f0",
-              },
-            }}
-            fullWidth
-          >
-            Resume Training
-          </Button>
         </Stack>
       </CardContent>
     </Card>
