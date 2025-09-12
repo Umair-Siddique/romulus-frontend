@@ -46,7 +46,7 @@ export const VideoDisplay = ({
             {selectedVideo?.duration}
           </Typography>
         </Box>
-        <Typography>{selectedVideo?.description}</Typography>
+        <Typography variant="body2">{selectedVideo?.description}</Typography>
       </Box>
 
       <Button
