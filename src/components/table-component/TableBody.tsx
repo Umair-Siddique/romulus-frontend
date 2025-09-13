@@ -14,14 +14,14 @@ import {
   RemoveRedEye as EyeIcon,
   MoreVert as MoreVertIcon,
 } from "@mui/icons-material";
+import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useUpdate } from "@refinedev/core";
 import { Theme, useTheme } from "@mui/material/styles";
 
-import { formatDate, getStatusColor, truncateWithEllipsis } from "#lib";
-import { useState } from "react";
-import { useUpdate } from "@refinedev/core";
 import { useUserContext } from "#context";
 import { BranchModal } from "./BranchModal";
+import { formatDate, getStatusColor, truncateWithEllipsis } from "#lib";
 
 const TableBodyComponent = ({
   bodyData,
@@ -231,6 +231,25 @@ const TableBodyComponent = ({
               </TableCell>
             )}
 
+            {/* Branch Name */}
+            {item.branchName && (
+              <TableCell
+                align="center"
+                sx={{
+                  padding: theme.spacing(2),
+                  width: columnWidths.branchName,
+                  minWidth: columnWidths.branchName,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{ color: theme.palette.text.secondary }}
+                >
+                  {item.branchName}
+                </Typography>
+              </TableCell>
+            )}
+
             {/* Created At */}
             {item.createdAt && (
               <TableCell
@@ -265,25 +284,6 @@ const TableBodyComponent = ({
                   sx={{ color: theme.palette.text.secondary }}
                 >
                   {item.organizationName}
-                </Typography>
-              </TableCell>
-            )}
-
-            {/* Branch Name */}
-            {item.branchName && (
-              <TableCell
-                align="center"
-                sx={{
-                  padding: theme.spacing(2),
-                  width: columnWidths.branchName,
-                  minWidth: columnWidths.branchName,
-                }}
-              >
-                <Typography
-                  variant="body2"
-                  sx={{ color: theme.palette.text.secondary }}
-                >
-                  {item.branchName}
                 </Typography>
               </TableCell>
             )}

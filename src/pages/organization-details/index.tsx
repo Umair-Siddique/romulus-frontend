@@ -70,14 +70,6 @@ export const OrganizationDetails = ({
   const missions = missionsData?.data;
   const reports = reportsData?.data;
 
-  const tabsData = {
-    tabsTitles: ["Missions", "Reports"],
-    tabContents: [
-      <MissionsList missions={missions} />,
-      <ReportsList reportsData={reports} />,
-    ],
-  };
-
   const tabs = [
     {
       id: "missions",
