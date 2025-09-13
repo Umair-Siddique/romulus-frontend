@@ -131,7 +131,6 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
     });
 
   const handleMissionSelect = (event: any) => {
-    console.log(trainingStatus);
     if (trainingStatus === "pending") {
       setOpenTrainingModal(true);
       return;
