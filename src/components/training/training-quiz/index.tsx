@@ -8,7 +8,7 @@ import { MCQ } from "./MCQ";
 import { Option } from "#types";
 import { Modal, PageMeta } from "#components";
 import { QuizMeta } from "./QuizMeta";
-import { quizData, getQuizMetaConfig } from "#constants/index";
+import { quizData, getQuizMetaConfig } from "#lib";
 import { useUpdate } from "@refinedev/core";
 import { useUserContext } from "#context";
 

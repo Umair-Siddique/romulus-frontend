@@ -15,11 +15,11 @@ import { useTheme, Theme } from "@mui/material/styles";
 import React, { useCallback, useReducer } from "react";
 
 import {
-  cities,
-  education,
-  countries,
-  professions,
-  availability,
+  citiesData,
+  educationData,
+  countriesData,
+  professionsData,
+  availabilityStatus,
   formatDateForInput,
 } from "#lib";
 import { FileCard } from "./FileCard";
@@ -492,7 +492,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               <MenuItem value="" disabled>
                 Select City
               </MenuItem>
-              {cities.map((city) => (
+              {citiesData.map((city) => (
                 <MenuItem key={city} value={city}>
                   {city}
                 </MenuItem>
@@ -515,7 +515,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               <MenuItem value="" disabled>
                 Select Country
               </MenuItem>
-              {countries.map((country) => (
+              {countriesData.map((country) => (
                 <MenuItem key={country} value={country}>
                   {country}
                 </MenuItem>
@@ -550,7 +550,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                   <MenuItem value="" disabled>
                     Select Profession
                   </MenuItem>
-                  {professions.map((profession) => (
+                  {professionsData.map((profession) => (
                     <MenuItem key={profession} value={profession}>
                       {profession}
                     </MenuItem>
@@ -573,7 +573,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                   <MenuItem value="" disabled>
                     Select Education
                   </MenuItem>
-                  {education.map((education) => (
+                  {educationData.map((education) => (
                     <MenuItem key={education} value={education}>
                       {education}
                     </MenuItem>
@@ -613,7 +613,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                   <MenuItem value="" disabled>
                     Select Availability
                   </MenuItem>
-                  {availability.map((availability) => (
+                  {availabilityStatus.map((availability) => (
                     <MenuItem key={availability} value={availability}>
                       {availability}
                     </MenuItem>

@@ -3,9 +3,9 @@ import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import { Video } from "#types";
+import { videosData } from "#lib";
 import { VideoDisplay } from "./VideoDisplay";
 import { VideosNavigation } from "./VideosNavigation";
-import { videosData } from "#constants";
 
 const videosNavigationData = videosData.map(({ id, title, duration }) => ({
   id,

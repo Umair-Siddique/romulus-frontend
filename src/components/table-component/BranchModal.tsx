@@ -16,7 +16,7 @@ import {
   CloudUpload as CloudUploadIcon,
 } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
-import { cities, countries, truncateWithEllipsis } from "#lib";
+import { citiesData, countriesData, truncateWithEllipsis } from "#lib";
 
 export const BranchModal = ({
   open,
@@ -270,7 +270,7 @@ export const BranchModal = ({
                   <MenuItem value="" disabled>
                     Select a country
                   </MenuItem>
-                  {countries.map((country) => (
+                  {countriesData.map((country) => (
                     <MenuItem key={country} value={country}>
                       {country}
                     </MenuItem>
@@ -304,7 +304,7 @@ export const BranchModal = ({
                   <MenuItem value="" disabled>
                     Select a city
                   </MenuItem>
-                  {cities.map((city) => (
+                  {citiesData.map((city) => (
                     <MenuItem key={city} value={city}>
                       {city}
                     </MenuItem>

@@ -1,4 +1,4 @@
-import { cities, countries, professions } from "#lib";
+import { citiesData, countriesData, professionsData } from "#lib";
 
 export const educatorStepsConfig = {
   "Profile Setup": [
@@ -43,14 +43,14 @@ export const educatorStepsConfig = {
       name: "country",
       label: "Country",
       type: "select",
-      options: countries,
+      options: countriesData,
       required: true,
     },
     {
       name: "city",
       label: "City",
       type: "select",
-      options: cities,
+      options: citiesData,
       required: true,
     },
     {
@@ -91,7 +91,7 @@ export const educatorStepsConfig = {
       name: "profession",
       label: "Profession",
       type: "select",
-      options: professions,
+      options: professionsData,
       required: true,
     },
     {
