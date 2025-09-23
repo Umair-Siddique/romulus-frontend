@@ -75,23 +75,48 @@ export const AuthForm = ({
   };
 
   const handleVerifyOtp = async () => {
-    const result = await verifyOtp();
+    try {
+      const result = await verifyOtp();
 
-    if (result) {
-      setVerificationCode([]);
-      setModalConfig({
-        open: true,
-        icon: <GridCheckCircleIcon />,
-        title: "OTP verified successfully!",
-        description: "You're all set. You can now log in to your account.",
-        buttonText: "Go to Login",
-        hasButton: true,
-        onSubmit: () => {
-          closeModal();
-          navigate("/login");
-        },
-      });
-    } else {
+      console.log(result);
+
+      if ((result as any)?.data?.error) {
+        setVerificationCode([]);
+        setModalConfig({
+          open: true,
+          icon: <CancelIcon color="error" fontSize="inherit" />,
+          title: "OTP verification failed",
+          description: "Please check your OTP and try again.",
+          buttonText: "Retry",
+          hasButton: true,
+          onSubmit: closeModal,
+        });
+      } else if (result) {
+        setVerificationCode([]);
+        setModalConfig({
+          open: true,
+          icon: <GridCheckCircleIcon />,
+          title: "OTP verified successfully!",
+          description: "You're all set. You can now log in to your account.",
+          buttonText: "Go to Login",
+          hasButton: true,
+          onSubmit: () => {
+            closeModal();
+            navigate("/login");
+          },
+        });
+      } else {
+        setModalConfig({
+          open: true,
+          icon: <CancelIcon color="error" fontSize="inherit" />,
+          title: "OTP verification failed",
+          description: "Please check your OTP and try again.",
+          buttonText: "Retry",
+          hasButton: true,
+          onSubmit: closeModal,
+        });
+      }
+    } catch (error) {
       setModalConfig({
         open: true,
         icon: <CancelIcon color="error" fontSize="inherit" />,

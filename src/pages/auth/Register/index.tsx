@@ -61,7 +61,7 @@ export const RegisterPage = () => {
           if (response.error) {
             form.reset();
             setPhoneNumber(data.phone || "");
-            setShowModal(true);
+            // setShowModal(true);
             return;
           }
           if (!!response.success) {
