@@ -207,6 +207,8 @@ export const MissionsTab = ({
     return missions.filter((mission: any) => mission.branch === selectedBranch);
   }
 
+  console.log("filteredMissions", filteredMissions);
+
   const missionsData = filteredMissions?.map((mission: any, index: number) => ({
     _id: mission?._id,
     title: mission?.title,

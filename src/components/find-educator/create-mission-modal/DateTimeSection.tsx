@@ -120,15 +120,15 @@ export const DateTimeSection = ({
               control={control}
               rules={{
                 required: "End time is required",
-                validate: (value) => {
-                  if (
-                    watchedValues.startTime &&
-                    value <= watchedValues.startTime
-                  ) {
-                    return "End time must be after start time.";
-                  }
-                  return true;
-                },
+                // validate: (value) => {
+                //   if (
+                //     watchedValues.startTime &&
+                //     value <= watchedValues.startTime
+                //   ) {
+                //     return "End time must be after start time.";
+                //   }
+                //   return true;
+                // },
               }}
               render={({ field }) => (
                 <TimePicker
