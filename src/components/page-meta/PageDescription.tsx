@@ -9,6 +9,7 @@ export const PageDescription = ({ description }: PageDescriptionProps) => {
 
   return (
     <Typography
+      component="div"
       variant="body1"
       sx={{
         color: theme.palette.text.secondary,

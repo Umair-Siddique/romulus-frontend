@@ -78,8 +78,6 @@ export const AuthForm = ({
     try {
       const result = await verifyOtp();
 
-      console.log(result);
-
       if ((result as any)?.data?.error) {
         setVerificationCode([]);
         setModalConfig({

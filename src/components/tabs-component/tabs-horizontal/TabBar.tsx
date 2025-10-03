@@ -9,9 +9,9 @@ export const TabBar = React.memo(
     selectedTabId,
     onTabChange,
   }: {
-    tabTitles: { id: string; label: string; icon: any }[];
-    selectedTabId: string;
-    onTabChange: (id: string) => void;
+    tabTitles: { id: number; label: string; icon: any }[];
+    selectedTabId: number;
+    onTabChange: (id: number) => void;
   }) => {
     const theme = useTheme<Theme>();
 

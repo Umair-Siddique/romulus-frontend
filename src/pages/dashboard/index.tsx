@@ -165,13 +165,13 @@ export const Dashboard = () => {
 
   const tabs = [
     {
-      id: "calendar",
+      id: 0,
       label: "Calendar",
       icon: CalendarIcon,
       component: <CalendarTab calendarTabProps={calendarTabMissions} />,
     },
     {
-      id: "missions",
+      id: 1,
       label: "Missions",
       icon: AssignmentIcon,
       component: (

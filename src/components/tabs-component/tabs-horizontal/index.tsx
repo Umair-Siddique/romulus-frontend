@@ -7,12 +7,12 @@ import { Main } from "./Main";
 export const TabsHorizontal = ({
   tabs,
 }: {
-  tabs: { id: string; label: string; icon: any; component: React.ReactNode }[];
+  tabs: { id: number; label: string; icon: any; component: React.ReactNode }[];
 }) => {
   const [selectedTabId, setSelectedTabId] = useState(tabs[0].id);
 
   const handleTabChange = useCallback(
-    (id: string) => {
+    (id: number) => {
       setSelectedTabId(id);
     },
     [] // no dependencies except setSelectedTabId, which is stable
