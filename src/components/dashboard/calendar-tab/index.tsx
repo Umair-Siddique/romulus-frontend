@@ -38,7 +38,7 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
         title: mission?.title,
         organizationName: mission?.organization?.organizationName,
         branchName: mission?.branch,
-        date: mission?.date,
+        date: mission?.start,
         status: mission?.status,
       })) || [],
     [calendarTabProps]

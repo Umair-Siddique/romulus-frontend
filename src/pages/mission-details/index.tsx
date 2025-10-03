@@ -210,7 +210,7 @@ export const MissionDetails = ({
 
   const tabs = [
     {
-      id: "invited-educators",
+      id: 0,
       label: "Invited Educators",
       icon: PersonIcon,
       component: (
@@ -222,7 +222,7 @@ export const MissionDetails = ({
       ),
     },
     {
-      id: "hired-educators",
+      id: 1,
       label: "Hired Educators",
       icon: PersonIcon,
       component: (

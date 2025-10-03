@@ -197,8 +197,7 @@ export const MissionCard = React.memo(
                   sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
                 />
                 <Typography variant="body2" color="text.secondary">
-                  {formatTime(time?.split("-")[0]?.trim())} to{" "}
-                  {formatTime(time?.split("-")[1]?.trim())}
+                  {time}
                 </Typography>
               </Box>
 

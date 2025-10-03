@@ -213,7 +213,16 @@ export const MissionsTab = ({
     organizationName: mission?.organization?.organizationName,
     branchName: mission?.branch,
     date: mission?.start,
-    time: mission?.start,
+    time:
+      `${formatTime(
+        `${mission?.start?.split("T")[1].split(":")[0]}:${
+          mission?.start?.split("T")[1].split(":")[1]
+        }`
+      )} to ${formatTime(
+        `${mission?.end?.split("T")[1].split(":")[0]}:${
+          mission?.end?.split("T")[1].split(":")[1]
+        }`
+      )}` || "N/A",
     branchAddress: mission?.organization?.branches?.find(
       (branch: any) => branch.branchName === mission?.branch
     )?.branchAddress,
@@ -223,6 +232,8 @@ export const MissionsTab = ({
         : [],
     status: mission?.status,
   }));
+
+  console.log("filteredMissions", filteredMissions);
 
   const { mutateAsync, data } = useCustomMutation();
 
