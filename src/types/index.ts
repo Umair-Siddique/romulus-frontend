@@ -137,8 +137,8 @@ interface FieldConfig {
 export interface FormFieldProps {
   field: FieldConfig;
   value: any;
+  cities?: string[];
   onChange: (name: string, value: any) => void;
-  formData?: Record<string, any>; // Add formData to access other field values
 }
 
 export interface BranchModalProps {

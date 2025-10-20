@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTheme, Theme } from "@mui/material/styles";
 import { Box, Paper } from "@mui/material";
 import {
@@ -22,12 +22,13 @@ export const CreateProfileForm = ({
   role,
   user,
 }: CreateProfileFormProps) => {
+  const theme = useTheme<Theme>();
+
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormDataProps>({});
-  const [config, setConfig] = useState<Record<string, any[]>>({});
   const { mutate: logout } = useLogout();
 
   const { mutate } = useCreate({
@@ -54,15 +55,10 @@ export const CreateProfileForm = ({
     },
   });
 
-  const theme = useTheme<Theme>();
-
-  useEffect(() => {
-    if (role === "educator") {
-      setConfig(educatorStepsConfig);
-    } else if (role === "organization") {
-      setConfig(organizationStepsConfig);
-    }
-  }, [role]);
+  const config = useMemo(
+    () => (role === "educator" ? educatorStepsConfig : organizationStepsConfig),
+    [role]
+  );
 
   const handleFieldChange = (name: string, value: any) => {
     setFormData((prev) => ({
@@ -251,7 +247,7 @@ export const CreateProfileForm = ({
           formData={formData}
           onFieldChange={handleFieldChange}
           stepConfig={config}
-          role={role} // Add this line
+          role={role}
         />
       );
     }
@@ -262,7 +258,7 @@ export const CreateProfileForm = ({
         fields={fields}
         formData={formData}
         onFieldChange={handleFieldChange}
-        role={role} // Add this line
+        role={role}
       />
     );
   };

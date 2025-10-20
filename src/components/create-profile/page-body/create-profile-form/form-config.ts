@@ -1,6 +1,6 @@
 import { citiesData, countriesData, professionsData } from "#lib";
 
-export const educatorStepsConfig = {
+export const educatorStepsConfig: Record<string, any[]> = {
   "Profile Setup": [
     {
       name: "avatar",
@@ -127,7 +127,7 @@ export const educatorStepsConfig = {
   ],
 };
 
-export const organizationStepsConfig = {
+export const organizationStepsConfig: Record<string, any[]> = {
   "Profile Setup": [
     {
       name: "avatar",

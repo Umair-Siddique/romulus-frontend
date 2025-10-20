@@ -1,9 +1,9 @@
 import { Box, Alert } from "@mui/material";
 import { Info as InfoIcon } from "@mui/icons-material";
-
 import { FormField } from "./form-field";
-
 import { FormStepProps } from "#types";
+import { useEffect, useState } from "react";
+import { countriesCities } from "#lib/constants/data/countriesCities";
 
 export const FormStep = ({
   title,
@@ -12,13 +12,23 @@ export const FormStep = ({
   onFieldChange,
   role,
 }: FormStepProps) => {
+  const [correspondingCities, setCorrespondingCities] = useState<string[]>([]);
+
+  // Only update when the selected country changes
+  useEffect(() => {
+    const countryName = formData.country;
+    if (countryName && countriesCities[countryName]) {
+      setCorrespondingCities(countriesCities[countryName]);
+    } else {
+      setCorrespondingCities([]);
+    }
+  }, [formData.country]);
+
   const renderFields = () => {
-    // Handle Profile Setup step with specific layout
     if (title === "Profile Setup") {
       const avatarField = fields.find((f) => f.name === "avatar");
 
       if (role === "educator") {
-        // Educator layout: two-column for specific fields
         const twoColumnFields = fields.filter((f) =>
           [
             "firstName",
@@ -35,7 +45,6 @@ export const FormStep = ({
 
         return (
           <Box>
-            {/* Profile Picture */}
             {avatarField && (
               <FormField
                 field={avatarField}
@@ -44,7 +53,6 @@ export const FormStep = ({
               />
             )}
 
-            {/* Two-column fields (first 6 fields) */}
             <Box
               sx={{
                 display: "grid",
@@ -59,11 +67,11 @@ export const FormStep = ({
                   field={field}
                   value={formData[field.name]}
                   onChange={onFieldChange}
+                  cities={correspondingCities}
                 />
               ))}
             </Box>
 
-            {/* Full-width fields (fullAddress and bio) */}
             {fullWidthFields.map((field) => (
               <FormField
                 key={field.name}
@@ -75,12 +83,10 @@ export const FormStep = ({
           </Box>
         );
       } else if (role === "organization") {
-        // Organization layout: single column for most fields
         const otherFields = fields.filter((f) => f.name !== "avatar");
 
         return (
           <Box>
-            {/* Profile Picture */}
             {avatarField && (
               <FormField
                 field={avatarField}
@@ -89,7 +95,6 @@ export const FormStep = ({
               />
             )}
 
-            {/* All other fields in single column */}
             {otherFields.map((field) => (
               <FormField
                 key={field.name}
@@ -103,7 +108,6 @@ export const FormStep = ({
       }
     }
 
-    // Default single column layout for all other steps
     return (
       <Box>
         {fields.map((field) => (
@@ -122,7 +126,6 @@ export const FormStep = ({
     <Box>
       {renderFields()}
 
-      {/* Security notice for Identity step */}
       {title === "Identity" && (
         <Alert
           icon={<InfoIcon />}
