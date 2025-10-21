@@ -233,8 +233,6 @@ export const MissionsTab = ({
     status: mission?.status,
   }));
 
-  console.log("filteredMissions", filteredMissions);
-
   const { mutateAsync, data } = useCustomMutation();
 
   const generateInvoice = () => {
