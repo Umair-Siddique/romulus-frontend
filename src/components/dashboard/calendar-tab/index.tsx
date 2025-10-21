@@ -11,6 +11,7 @@ import { Toolbar } from "./Toolbar";
 import { useUserContext } from "#context";
 import { MissionsModal } from "./MissionsModal";
 import { Modal } from "#components/Modal";
+import { formatTime } from "#lib";
 
 moment.locale("en-GB");
 
@@ -39,6 +40,16 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
         organizationName: mission?.organization?.organizationName,
         branchName: mission?.branch,
         date: mission?.start,
+        time:
+          `${formatTime(
+            `${mission?.start?.split("T")[1].split(":")[0]}:${
+              mission?.start?.split("T")[1].split(":")[1]
+            }`
+          )} to ${formatTime(
+            `${mission?.end?.split("T")[1].split(":")[0]}:${
+              mission?.end?.split("T")[1].split(":")[1]
+            }`
+          )}` || "N/A",
         status: mission?.status,
       })) || [],
     [calendarTabProps]

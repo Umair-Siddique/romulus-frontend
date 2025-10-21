@@ -26,7 +26,7 @@ import { Lock as LockIcon } from "@mui/icons-material";
 
 import { Modal } from "#components/Modal";
 import { useUserContext } from "#context";
-import { formatDate, formatTime, getStatusColor } from "#lib";
+import { formatDate, getStatusColor } from "#lib";
 
 export const MissionCard = React.memo(
   ({ mission, refetch }: { mission: any; refetch: any }) => {

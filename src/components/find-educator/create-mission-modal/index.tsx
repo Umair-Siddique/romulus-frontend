@@ -21,7 +21,7 @@ import { CreateMissionModalProps, FormDataProps } from "#types";
 import { MissionTitleField } from "./MissionTitleField";
 import { BranchSelection } from "./BranchSelection";
 import { PreferredEducatorSelection } from "./PreferredEducatorSelection";
-import { SkillsSection } from "./SkillsSection";
+// import { SkillsSection } from "./SkillsSection";
 import { DateTimeSection } from "./DateTimeSection";
 import { DescriptionField } from "./DescriptionField";
 import { FileUploadSection } from "./FileUploadSection";
@@ -45,7 +45,7 @@ export const CreateMissionModal = ({
 }: CreateMissionModalProps) => {
   const theme = useTheme<Theme>();
   const { userProfile } = useUserContext();
-  const [newSkill, setNewSkill] = useState("");
+  // const [newSkill, setNewSkill] = useState("");
   const [skillsArray, setSkillsArray] = useState<string[]>([]);
   const [selectedDocument, setSelectedDocument] = useState<File | null>(null);
 
@@ -60,7 +60,6 @@ export const CreateMissionModal = ({
     register,
     handleSubmit,
     formState: { errors, isValid },
-    setValue,
     watch,
     reset,
     control,
@@ -72,7 +71,7 @@ export const CreateMissionModal = ({
       startDate: "",
       startTime: "",
       endTime: "",
-      skills: "",
+      // skills: "",
       branch: "",
       preferredEducator: "",
       technicalDocument: undefined,
@@ -110,7 +109,7 @@ export const CreateMissionModal = ({
       formData.append("endDate", data.startDate);
       formData.append("startTime", data.startTime);
       formData.append("endTime", data.endTime);
-      formData.append("skills", data.skills);
+      // formData.append("skills", data.skills);
       formData.append("branch", data.branch);
       formData.append("preferredEducator", data.preferredEducator);
       formData.append("organization", organizationId || "");
@@ -140,7 +139,7 @@ export const CreateMissionModal = ({
     watchedValues.startDate &&
     watchedValues.startTime &&
     watchedValues.endTime &&
-    skillsArray.length > 0 &&
+    // skillsArray.length > 0 &&
     watchedValues.branch;
 
   // Updated handleFileUpload function
@@ -154,7 +153,7 @@ export const CreateMissionModal = ({
   const handleClose = () => {
     onClose();
     reset();
-    setNewSkill("");
+    // setNewSkill("");
     setSkillsArray([]);
   };
 
@@ -189,7 +188,7 @@ export const CreateMissionModal = ({
               control={control}
             />
 
-            <SkillsSection
+            {/* <SkillsSection
               register={register}
               errors={errors}
               setValue={setValue}
@@ -197,7 +196,7 @@ export const CreateMissionModal = ({
               setNewSkill={setNewSkill}
               skillsArray={skillsArray}
               setSkillsArray={setSkillsArray}
-            />
+            /> */}
 
             <BranchSelection
               errors={errors}

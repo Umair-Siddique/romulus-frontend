@@ -167,6 +167,15 @@ export const MissionsModal = ({
                     >
                       Mission: {mission.title}
                     </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: "text.secondary",
+                        fontSize: "0.875rem",
+                      }}
+                    >
+                      Time: {mission.time}
+                    </Typography>
                   </Box>
                 </Box>
                 <Button

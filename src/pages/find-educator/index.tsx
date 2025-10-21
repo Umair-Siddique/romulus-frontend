@@ -65,17 +65,17 @@ export const FindEducator = () => {
         operator: "eq",
         value: findEducatorData?.coordinates?.join(","),
       },
-      {
-        field: "skills",
-        operator: "eq",
-        value: findEducatorData?.skills?.join(","),
-      },
+      // {
+      //   field: "skills",
+      //   operator: "eq",
+      //   value: findEducatorData?.skills?.join(","),
+      // },
       { field: "distance", operator: "eq", value: distance },
     ],
     queryOptions: {
       enabled: !!(
         findEducatorData?.coordinates.length &&
-        findEducatorData?.skills.length &&
+        // findEducatorData?.skills.length &&
         missionCreated
       ),
     },

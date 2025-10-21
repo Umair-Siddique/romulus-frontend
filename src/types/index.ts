@@ -448,6 +448,7 @@ interface Mission {
   organizationName: string;
   branchName: string;
   date: string;
+  time: string;
   status: string;
 }
 
