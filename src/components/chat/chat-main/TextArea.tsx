@@ -26,6 +26,12 @@ export const TextArea = ({
         placeholder="Enter message"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            onSendMessage();
+          }
+        }}
         sx={{
           height: "100%",
           flex: 1,
