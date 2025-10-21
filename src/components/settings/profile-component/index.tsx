@@ -12,7 +12,7 @@ import {
 import { useUpdate } from "@refinedev/core";
 import { Add as AddIcon } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
-import React, { useCallback, useReducer } from "react";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
 
 import {
   citiesData,
@@ -23,6 +23,7 @@ import {
   formatDateForInput,
 } from "#lib";
 import { FileCard } from "./FileCard";
+import { countriesCities } from "#lib/constants/data/countriesCities";
 
 const reducer = (state: any, action: any) => {
   switch (action.type) {
@@ -79,8 +80,19 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
 
   const isEducator = profileData?.user?.role === "educator";
 
+  const [correspondingCities, setCorrespondingCities] = useState<string[]>([]);
   const [userData, dispatch] = useReducer(reducer, profileData, initialState);
   const [newSkill, setNewSkill] = React.useState("");
+
+  // Only update when the selected country changes
+  useEffect(() => {
+    const countryName = userData.country;
+    if (countryName && countriesCities[countryName]) {
+      setCorrespondingCities(countriesCities[countryName]);
+    } else {
+      setCorrespondingCities([]);
+    }
+  }, [userData.country]);
 
   const handleAddSkill = () => {
     if (newSkill.trim() && !userData.skills.includes(newSkill.trim())) {
@@ -479,29 +491,6 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
         >
           <Box sx={{ width: "50%" }}>
             <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-              City
-            </Typography>
-            <Select
-              value={userData.city}
-              onChange={(e) => handleChange("city", e.target.value)}
-              sx={{
-                width: "100%",
-                ...selectFieldStyle,
-              }}
-            >
-              <MenuItem value="" disabled>
-                Select City
-              </MenuItem>
-              {citiesData.map((city) => (
-                <MenuItem key={city} value={city}>
-                  {city}
-                </MenuItem>
-              ))}
-            </Select>
-          </Box>
-
-          <Box sx={{ width: "50%" }}>
-            <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
               Country
             </Typography>
             <Select
@@ -518,6 +507,29 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               {countriesData.map((country) => (
                 <MenuItem key={country} value={country}>
                   {country}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+
+          <Box sx={{ width: "50%" }}>
+            <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
+              City
+            </Typography>
+            <Select
+              value={userData.city}
+              onChange={(e) => handleChange("city", e.target.value)}
+              sx={{
+                width: "100%",
+                ...selectFieldStyle,
+              }}
+            >
+              <MenuItem value="" disabled>
+                Select City
+              </MenuItem>
+              {correspondingCities.map((city) => (
+                <MenuItem key={city} value={city}>
+                  {city}
                 </MenuItem>
               ))}
             </Select>

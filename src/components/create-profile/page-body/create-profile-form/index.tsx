@@ -15,6 +15,51 @@ import { educatorStepsConfig, organizationStepsConfig } from "./form-config";
 
 import { CreateProfileFormProps, FormDataProps } from "#types";
 
+// Compress image function
+const compressImage = (
+  file: File,
+  maxWidth: number = 800,
+  quality: number = 0.7
+): Promise<File> => {
+  return new Promise((resolve) => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d")!;
+    const img = new Image();
+
+    img.onload = () => {
+      // Calculate new dimensions
+      const ratio = Math.min(maxWidth / img.width, maxWidth / img.height);
+      const newWidth = img.width * ratio;
+      const newHeight = img.height * ratio;
+
+      // Set canvas dimensions
+      canvas.width = newWidth;
+      canvas.height = newHeight;
+
+      // Draw and compress
+      ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            const compressedFile = new File([blob], file.name, {
+              type: file.type,
+              lastModified: Date.now(),
+            });
+            resolve(compressedFile);
+          } else {
+            resolve(file);
+          }
+        },
+        file.type,
+        quality
+      );
+    };
+
+    img.src = URL.createObjectURL(file);
+  });
+};
+
 export const CreateProfileForm = ({
   activeStep,
   setActiveStep,
@@ -65,51 +110,6 @@ export const CreateProfileForm = ({
       ...prev,
       [name]: value,
     }));
-  };
-
-  // Compress image function
-  const compressImage = (
-    file: File,
-    maxWidth: number = 800,
-    quality: number = 0.7
-  ): Promise<File> => {
-    return new Promise((resolve) => {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d")!;
-      const img = new Image();
-
-      img.onload = () => {
-        // Calculate new dimensions
-        const ratio = Math.min(maxWidth / img.width, maxWidth / img.height);
-        const newWidth = img.width * ratio;
-        const newHeight = img.height * ratio;
-
-        // Set canvas dimensions
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-
-        // Draw and compress
-        ctx.drawImage(img, 0, 0, newWidth, newHeight);
-
-        canvas.toBlob(
-          (blob) => {
-            if (blob) {
-              const compressedFile = new File([blob], file.name, {
-                type: file.type,
-                lastModified: Date.now(),
-              });
-              resolve(compressedFile);
-            } else {
-              resolve(file);
-            }
-          },
-          file.type,
-          quality
-        );
-      };
-
-      img.src = URL.createObjectURL(file);
-    });
   };
 
   const handleSubmit = async () => {
