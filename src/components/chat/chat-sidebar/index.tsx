@@ -1,7 +1,8 @@
+import { useMemo, useState } from "react";
 import { Box } from "@mui/material";
+import { useMany } from "@refinedev/core";
 
 import { ChatList } from "./ChatList";
-import { useState } from "react";
 import { useUserContext } from "#context";
 import { SearchBox } from "./SearchBox";
 
@@ -12,9 +13,66 @@ export const ChatSidebar = ({
   chatList: any;
   onChatSelection: (chat: any) => void;
 }) => {
-  const { user } = useUserContext();
+  const { user, userProfile } = useUserContext();
 
-  const { userId } = user || {};
+  const { userId, role } = user || {};
+
+  const { data } = useMany({
+    resource: role === "educator" ? "organizations" : "educators",
+    ids:
+      role === "educator"
+        ? userProfile?.pastOrganizations
+        : userProfile?.pastEducators, // array of user IDs you want to fetch
+  });
+
+  const existingContacts = useMemo(() => {
+    if (!Array.isArray(chatList?.data)) return [];
+
+    const recipients = chatList.data.map((chat: any) => chat?.recipient?.name);
+    const senders = chatList.data.map((chat: any) => chat?.sender?.name);
+
+    return [...recipients, ...senders].filter(Boolean);
+  }, [chatList]);
+
+  const newContacts = useMemo(() => {
+    return (
+      data?.data
+        ?.map((contact: any) => ({
+          _id: contact?.user?._id,
+          createdAt: "",
+          hasRead: true,
+          message: "",
+          recipient: {
+            id: contact?.user?._id,
+            name:
+              contact?.organizationName ||
+              `${contact?.firstName || ""} ${contact?.lastName || ""}`.trim(),
+            avatar: contact?.avatar,
+          },
+          sender: {
+            id: userId,
+            name:
+              role === "organization"
+                ? userProfile?.organizationName
+                : `${userProfile?.firstName || ""} ${
+                    userProfile?.lastName || ""
+                  }`.trim(),
+            avatar: userProfile?.avatar,
+          },
+          time: new Date().toISOString(),
+        }))
+        .filter(
+          (contact: any) => !existingContacts.includes(contact?.recipient?.name)
+        ) || []
+    );
+  }, [data, role, userId, userProfile, chatList]);
+
+  const combinedList = useMemo(() => {
+    return {
+      data: [...(chatList?.data || []), ...newContacts],
+      total: (chatList?.data?.length || 0) + newContacts.length,
+    };
+  }, [chatList, newContacts]);
 
   const [filteredChatList, setFilteredChatList] = useState<any>({
     data: [],
@@ -32,7 +90,7 @@ export const ChatSidebar = ({
       return;
     }
 
-    const filtered = chatList?.data?.filter((chat: any) => {
+    const filtered = combinedList?.data?.filter((chat: any) => {
       const userName = (
         chat?.recipient?.id === userId
           ? chat?.sender?.name
@@ -62,7 +120,7 @@ export const ChatSidebar = ({
       <ChatList
         chatList={
           !searchValue
-            ? chatList // no search → show all
+            ? combinedList // no search → show all
             : filteredChatList // search active → show filtered (even if empty)
         }
         onChatSelection={onChatSelection}

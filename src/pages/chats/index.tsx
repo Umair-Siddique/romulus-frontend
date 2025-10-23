@@ -128,7 +128,10 @@ export const Chats = () => {
       userId === chat?.recipient?.id ? chat?.sender : chat?.recipient
     );
 
-    if (chat?.hasRead) return;
+    if (chat?.hasRead) {
+      setMessages([]);
+      return;
+    }
 
     updateMessage({
       id: chat?._id,

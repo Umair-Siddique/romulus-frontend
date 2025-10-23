@@ -162,10 +162,10 @@ export const ProfileHeader = ({
     (status: "hired" | "rejected") => {
       updateMission({
         id: missionId,
-        values: { hireStatus: status, educatorId },
+        values: { hireStatus: status, educatorId, organizationId },
       });
     },
-    [updateMission, missionId, educatorId]
+    [updateMission, missionId, educatorId, organizationId]
   );
 
   const handleActivationStatusChange = useCallback(
@@ -244,7 +244,7 @@ export const ProfileHeader = ({
         return {
           icon: <CheckCircle color="success" fontSize="inherit" />,
           title: "Hire Educator",
-          description: `You're about to officailly hire **${educatorData?.firstName} ${educatorData?.lastName}** for the mission **"${missionData?.data?.title}"** on **${now.date}** at **${now.time}**. Once confirmed, this educator will be notified and the mission status will be updated.`,
+          description: `You're about to officially hire **${educatorData?.firstName} ${educatorData?.lastName}** for the mission **"${missionData?.data?.title}"** on **${now.date}** at **${now.time}**. Once confirmed, this educator will be notified and the mission status will be updated.`,
           buttonText: "Hire",
         };
       case "rejected":

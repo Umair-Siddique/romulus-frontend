@@ -136,18 +136,24 @@ export const Modal = React.memo(
             </Typography>
 
             {/* Description */}
-            <Typography
-              variant="body1"
-              sx={{
-                color: theme.palette.text.secondary,
-                ...(!hasRating ? { mb: theme.spacing(4) } : {}),
-                lineHeight: theme.typography.body1.lineHeight,
-                maxWidth: theme.spacing(50),
-                fontFamily: theme.typography.body1.fontFamily,
+            <Markdown
+              components={{
+                p: ({ node, ...props }) => (
+                  <p
+                    style={{
+                      color: theme.palette.text.secondary,
+                      ...(!hasRating ? { marginBottom: theme.spacing(4) } : {}),
+                      lineHeight: theme.typography.body1.lineHeight,
+                      maxWidth: theme.spacing(50),
+                      fontFamily: theme.typography.body1.fontFamily,
+                    }}
+                    {...props}
+                  />
+                ),
               }}
             >
-              <Markdown>{description}</Markdown>
-            </Typography>
+              {description}
+            </Markdown>
 
             {/* Rating */}
             {hasRating && (

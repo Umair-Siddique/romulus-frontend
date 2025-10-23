@@ -165,11 +165,12 @@ export const CreateMissionModal = ({
           justifyContent: "space-between",
           alignItems: "center",
           pb: 2,
+          fontSize: theme.typography.h3.fontSize,
+          fontWeight: theme.typography.h3.fontWeight,
+          fontFamily: theme.typography.h3.fontFamily,
         }}
       >
-        <Typography variant="h5" fontWeight={600}>
-          Create Mission
-        </Typography>
+        Create Mission
         <IconButton onClick={handleClose} size="small">
           <CloseIcon />
         </IconButton>

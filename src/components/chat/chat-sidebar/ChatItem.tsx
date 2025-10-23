@@ -89,7 +89,7 @@ export const ChatItem = ({
               color: theme.palette.text.secondary,
             }}
           >
-            {chat?.time.split("T")[1].split(".")[0].slice(0, 5)}
+            {chat?.time?.split("T")[1].split(".")[0].slice(0, 5) ?? ""}
           </Typography>
           {chat?.sender?.id !== userId && !chat?.hasRead && (
             <CircleIcon

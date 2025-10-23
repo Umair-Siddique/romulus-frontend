@@ -1,4 +1,4 @@
-import { Theme, Typography, useTheme } from "@mui/material";
+import { Box, Theme, Typography, useTheme } from "@mui/material";
 
 import { TextLink } from "#components";
 
@@ -7,7 +7,7 @@ export const GetFormConfig = (
   requestOtpAgain: () => void
 ) => {
   const theme = useTheme<Theme>();
-  
+
   if (formStep === 1) {
     return {
       title: "Select Your User Type",
@@ -53,22 +53,21 @@ export const GetFormConfig = (
         }}
       >
         Didn't receive a code?{" "}
-        <Typography
+        <Box
+          component="span"
           sx={{
             color: "#A1B7AF",
             textDecoration: "none",
             fontWeight: theme.typography.h2.fontWeight,
             cursor: "pointer",
-            border: "none",
             background: "none",
-            padding: 0,
             fontFamily: "montserrat, sans-serif",
             fontSize: "14px",
           }}
           onClick={requestOtpAgain}
         >
           Request again.
-        </Typography>
+        </Box>
       </Typography>
     ),
   };
