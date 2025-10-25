@@ -1,39 +1,29 @@
-import { useEffect, useState } from "react";
-import { useUserContext } from "#context";
-import { useLocation, useNavigate } from "react-router";
-import { socket } from "#lib";
 import { Box } from "@mui/material";
-import { useCreate, useList, useUpdate } from "@refinedev/core";
+import { useLocation } from "react-router";
+import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
+import { useCreate, useList, useUpdate } from "@refinedev/core";
+
+import { socket } from "#lib";
+import { useUserContext } from "#context";
 import { ChatSidebar, ChatMain } from "#components";
 
 export const Chats = () => {
+  const theme = useTheme();
+  const { state } = useLocation();
   const { user, userProfile } = useUserContext();
 
-  const { userId, role, isMessagesAllowed } = user || {};
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (role === "admin") {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [user, navigate]);
+  const { recipient } = state || {};
+  const { userId, isMessagesAllowed, role } = user || {};
+  const { firstName, lastName, organizationName, avatar } = userProfile || {};
 
   const [message, setMessage] = useState<string>("");
   const [messages, setMessages] = useState<any[]>([]);
   const [selectedSender, setSelectedSender] = useState<any>(null);
   const [selectedRecipient, setSelectedRecipient] = useState<any>(null);
 
-  const theme = useTheme();
-
-  const { firstName, lastName, organizationName, avatar } = userProfile || {};
-
-  const userName = organizationName || `${firstName} ${lastName}`;
-
-  const { state } = useLocation();
-
-  const { recipient } = state || {};
+  const userName =
+    role === "admin" ? "Admin" : organizationName || `${firstName} ${lastName}`;
 
   const { mutate: sendMessage } = useCreate({
     resource: "chats/send-message",
@@ -128,8 +118,11 @@ export const Chats = () => {
       userId === chat?.recipient?.id ? chat?.sender : chat?.recipient
     );
 
+    setMessages((prevMessages) =>
+      chatMessages?.total === 0 ? [] : [...prevMessages]
+    );
+
     if (chat?.hasRead) {
-      setMessages([]);
       return;
     }
 
@@ -154,8 +147,6 @@ export const Chats = () => {
       time: new Date(),
     };
 
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
-
     sendMessage({
       values: newMessage,
     });
@@ -172,7 +163,12 @@ export const Chats = () => {
         height: "calc(100dvh - 150px)",
       }}
     >
-      <ChatSidebar chatList={chatList} onChatSelection={handleChatSelection} />
+      <ChatSidebar
+        chatList={chatList}
+        onChatSelection={handleChatSelection}
+        setSelectedSender={setSelectedSender}
+        setSelectedRecipient={setSelectedRecipient}
+      />
       <Box sx={{ borderLeft: `1px solid ${theme.palette.divider}` }} />
       <ChatMain
         selectedRecipient={selectedRecipient}

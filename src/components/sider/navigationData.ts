@@ -12,90 +12,43 @@ import {
 
 import { NavigationItem } from "#types";
 
+const baseItems = {
+  dashboard: { text: "Dashboard", to: "/dashboard", icon: DashboardIcon },
+  training: { text: "Training", to: "/training", icon: TrainingIcon },
+  chats: { text: "Chats", to: "/chats", icon: ChatsIcon },
+  settings: { text: "Settings", to: "/settings", icon: SettingsIcon },
+  findEducator: {
+    text: "Find Educator",
+    to: "/find-educator",
+    icon: FindEducatorIcon,
+  },
+  branches: { text: "Branches", to: "/branches", icon: BranchesIcon },
+  organizations: {
+    text: "Organizations",
+    to: "/organizations",
+    icon: OrganizationsIcon,
+  },
+  educators: { text: "Educators", to: "/educators", icon: EducatorsIcon },
+  reports: { text: "Reports", to: "/reports", icon: ReportsIcon },
+};
+
+const roleMenus: Record<string, (keyof typeof baseItems)[]> = {
+  educator: ["dashboard", "training", "chats", "settings"],
+  organization: ["dashboard", "findEducator", "branches", "chats", "settings"],
+  admin: [
+    "dashboard",
+    "organizations",
+    "educators",
+    "reports",
+    "chats",
+    "settings",
+  ],
+};
+
 export const getNavigationItems = (role: string | null): NavigationItem[] => {
-  switch (role) {
-    case "educator":
-      return [
-        {
-          text: "Dashboard",
-          to: "/dashboard",
-          icon: DashboardIcon,
-          active: true,
-        },
-        {
-          text: "Training",
-          to: "/training",
-          icon: TrainingIcon,
-          active: false,
-        },
-        { text: "Chats", to: "/chats", icon: ChatsIcon, active: false },
-        {
-          text: "Settings",
-          to: "/settings",
-          icon: SettingsIcon,
-          active: false,
-        },
-      ];
-
-    case "organization":
-      return [
-        {
-          text: "Dashboard",
-          to: "/dashboard",
-          icon: DashboardIcon,
-          active: true,
-        },
-        {
-          text: "Find Educator",
-          to: "/find-educator",
-          icon: FindEducatorIcon,
-          active: false,
-        },
-        {
-          text: "Branches",
-          to: "/branches",
-          icon: BranchesIcon,
-          active: false,
-        },
-        { text: "Chats", to: "/chats", icon: ChatsIcon, active: false },
-        {
-          text: "Settings",
-          to: "/settings",
-          icon: SettingsIcon,
-          active: false,
-        },
-      ];
-
-    case "admin":
-      return [
-        {
-          text: "Dashboard",
-          to: "/dashboard",
-          icon: DashboardIcon,
-          active: true,
-        },
-        {
-          text: "Organizations",
-          to: "/organizations",
-          icon: OrganizationsIcon,
-          active: false,
-        },
-        {
-          text: "Educators",
-          to: "/educators",
-          icon: EducatorsIcon,
-          active: false,
-        },
-        { text: "Reports", to: "/reports", icon: ReportsIcon, active: false },
-        {
-          text: "Settings",
-          to: "/settings",
-          icon: SettingsIcon,
-          active: false,
-        },
-      ];
-
-    default:
-      return [];
-  }
+  const menuKeys = roleMenus[role || ""] || [];
+  return menuKeys.map((key, index) => ({
+    ...baseItems[key],
+    active: index === 0,
+  }));
 };
