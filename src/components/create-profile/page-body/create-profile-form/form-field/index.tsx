@@ -13,12 +13,7 @@ import {
 
 import { FormFieldProps } from "#types";
 
-export const FormField = ({
-  field,
-  value,
-  onChange,
-  cities,
-}: FormFieldProps) => {
+export const FormField = ({ field, value, onChange }: FormFieldProps) => {
   const renderField = () => {
     // Profile Picture Upload
     if (field.name === "avatar") {
@@ -72,10 +67,10 @@ export const FormField = ({
           value={value}
           onChange={(newValue: string) => onChange(field.name, newValue)}
           options={
-            field.name === "city"
-              ? cities ?? []
-              : Array.isArray(field.options)
+            Array.isArray(field.options)
               ? field.options
+              : field.options
+              ? Object.values(field.options as Record<string, string[]>).flat()
               : []
           }
           required={field.required}

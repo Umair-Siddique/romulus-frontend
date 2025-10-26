@@ -1,8 +1,9 @@
 import { Box, Alert } from "@mui/material";
 import { Info as InfoIcon } from "@mui/icons-material";
-import { FormField } from "./form-field";
+import { useEffect, useMemo } from "react";
+
 import { FormStepProps } from "#types";
-import { useEffect, useState } from "react";
+import { FormField } from "./form-field";
 import { countriesCities } from "#lib/constants/data/countriesCities";
 
 export const FormStep = ({
@@ -12,15 +13,22 @@ export const FormStep = ({
   onFieldChange,
   role,
 }: FormStepProps) => {
-  const [correspondingCities, setCorrespondingCities] = useState<string[]>([]);
+  const correspondingCities = useMemo(() => {
+    const countryName = formData.country?.trim().toLowerCase();
+    const matchedKey = countryName
+      ? Object.keys(countriesCities).find(
+          (key) => key.trim().toLowerCase() === countryName
+        )
+      : null;
 
-  // Only update when the selected country changes
+    return matchedKey && countriesCities[matchedKey]
+      ? countriesCities[matchedKey]
+      : [];
+  }, [formData.country]);
+
   useEffect(() => {
-    const countryName = formData.country;
-    if (countryName && countriesCities[countryName]) {
-      setCorrespondingCities(countriesCities[countryName]);
-    } else {
-      setCorrespondingCities([]);
+    if (formData.city && !correspondingCities.includes(formData.city)) {
+      onFieldChange("city", "");
     }
   }, [formData.country]);
 
@@ -28,8 +36,15 @@ export const FormStep = ({
     if (title === "Profile Setup") {
       const avatarField = fields.find((f) => f.name === "avatar");
 
+      // Inject dynamic city options for all roles
+      const processedFields = fields.map((field) =>
+        field.name === "city"
+          ? { ...field, options: correspondingCities }
+          : field
+      );
+
       if (role === "educator") {
-        const twoColumnFields = fields.filter((f) =>
+        const twoColumnFields = processedFields.filter((f) =>
           [
             "firstName",
             "lastName",
@@ -39,7 +54,8 @@ export const FormStep = ({
             "country",
           ].includes(f.name)
         );
-        const fullWidthFields = fields.filter((f) =>
+
+        const fullWidthFields = processedFields.filter((f) =>
           ["fullAddress", "bio"].includes(f.name)
         );
 
@@ -67,7 +83,6 @@ export const FormStep = ({
                   field={field}
                   value={formData[field.name]}
                   onChange={onFieldChange}
-                  cities={correspondingCities}
                 />
               ))}
             </Box>
@@ -82,8 +97,10 @@ export const FormStep = ({
             ))}
           </Box>
         );
-      } else if (role === "organization") {
-        const otherFields = fields.filter((f) => f.name !== "avatar");
+      }
+
+      if (role === "organization") {
+        const otherFields = processedFields.filter((f) => f.name !== "avatar");
 
         return (
           <Box>
@@ -108,12 +125,17 @@ export const FormStep = ({
       }
     }
 
+    // Default fallback for other steps
     return (
       <Box>
         {fields.map((field) => (
           <FormField
             key={field.name}
-            field={field}
+            field={
+              field.name === "city"
+                ? { ...field, options: correspondingCities }
+                : field
+            }
             value={formData[field.name]}
             onChange={onFieldChange}
           />

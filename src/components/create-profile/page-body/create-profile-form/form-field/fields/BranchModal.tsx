@@ -10,12 +10,13 @@ import {
   MenuItem,
   FormControl,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   Close as CloseIcon,
   CloudUpload as CloudUploadIcon,
 } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
+import { StandaloneSearchBox } from "@react-google-maps/api";
 
 import { BranchModalProps } from "#types";
 
@@ -27,26 +28,20 @@ export const BranchModal = ({
   editIndex,
 }: BranchModalProps) => {
   const theme = useTheme<Theme>();
+  const searchBoxRef = useRef<google.maps.places.SearchBox | null>(null);
 
-  const [branchData, setBranchData] = useState<{
-    branchName: string;
-    branchEmail: string;
-    branchPhone: string;
-    branchCity: string;
-    branchCountry: string;
-    branchAddress: string;
-    residenceGuidelines: File | null;
-  }>({
+  const [branchData, setBranchData] = useState({
     branchName: "",
     branchEmail: "",
     branchPhone: "",
     branchCity: "",
     branchCountry: "",
     branchAddress: "",
-    residenceGuidelines: null,
+    residenceGuidelines: null as File | null,
   });
 
-  // Pre-populate form when editing
+  const [correspondingCities, setCorrespondingCities] = useState<string[]>([]);
+
   useEffect(() => {
     if (editBranch && open) {
       setBranchData({
@@ -59,7 +54,6 @@ export const BranchModal = ({
         residenceGuidelines: editBranch.residenceGuidelines || null,
       });
     } else if (!editBranch && open) {
-      // Reset form for adding new branch
       setBranchData({
         branchName: "",
         branchEmail: "",
@@ -69,15 +63,54 @@ export const BranchModal = ({
         branchAddress: "",
         residenceGuidelines: null,
       });
+      setCorrespondingCities([]);
     }
   }, [editBranch, open]);
 
   const handleChange = (field: string, value: any) => {
     setBranchData((prev) => ({ ...prev, [field]: value }));
+
+    if (field === "branchCountry") {
+      const citiesMap: Record<string, string[]> = {
+        France: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice"],
+        Allemagne: ["Berlin", "Munich", "Hambourg", "Francfort", "Cologne"],
+        Norvège: ["Oslo", "Bergen", "Trondheim", "Stavanger", "Drammen"],
+        Suède: ["Stockholm", "Gothenburg", "Malmö", "Uppsala", "Västerås"],
+        Canada: ["Toronto", "Vancouver", "Montréal", "Calgary", "Ottawa"],
+        "Pays-Bas": [
+          "Amsterdam",
+          "Rotterdam",
+          "La Haye",
+          "Utrecht",
+          "Eindhoven",
+        ],
+        Danemark: ["Copenhague", "Aarhus", "Odense", "Aalborg", "Esbjerg"],
+        "Royaume-Uni": [
+          "Londres",
+          "Manchester",
+          "Birmingham",
+          "Édimbourg",
+          "Glasgow",
+        ],
+        "Émirats Arabes Unis (UAE)": [
+          "Dubaï",
+          "Abou Dabi",
+          "Charjah",
+          "Ajman",
+          "Fujairah",
+        ],
+      };
+
+      const newCities = citiesMap[value] || [];
+      setCorrespondingCities(newCities);
+
+      if (!newCities.includes(branchData.branchCity)) {
+        setBranchData((prev) => ({ ...prev, branchCity: "" }));
+      }
+    }
   };
 
   const handleSave = () => {
-    // Pass the editIndex to the parent component so it knows whether to update or create
     onSave(branchData, editIndex);
     setBranchData({
       branchName: "",
@@ -88,6 +121,7 @@ export const BranchModal = ({
       branchAddress: "",
       residenceGuidelines: null,
     });
+    setCorrespondingCities([]);
   };
 
   const handleFileChange = (event: any) => {
@@ -95,55 +129,17 @@ export const BranchModal = ({
     handleChange("residenceGuidelines", file);
   };
 
-  const branchCityOptions = [
-    "Paris",
-    "Marseille",
-    "Lyon",
-    "Toulouse",
-    "Nice",
-    "Berlin",
-    "Munich",
-    "Hambourg",
-    "Francfort",
-    "Cologne",
-    "Oslo",
-    "Bergen",
-    "Trondheim",
-    "Stavanger",
-    "Drammen",
-    "Stockholm",
-    "Gothenburg",
-    "Malmö",
-    "Uppsala",
-    "Västerås",
-    "Toronto",
-    "Vancouver",
-    "Montréal",
-    "Calgary",
-    "Ottawa",
-    "Amsterdam",
-    "Rotterdam",
-    "La Haye",
-    "Utrecht",
-    "Eindhoven",
-    "Copenhague",
-    "Aarhus",
-    "Odense",
-    "Aalborg",
-    "Esbjerg",
-    "Londres",
-    "Manchester",
-    "Birmingham",
-    "Édimbourg",
-    "Glasgow",
-    "Dubaï",
-    "Abou Dabi",
-    "Charjah",
-    "Ajman",
-    "Fujairah",
-  ];
+  const isEditing = editBranch && editIndex !== undefined;
 
-  const branchCountryOptions = [
+  const handlePlacesChanged = useCallback(() => {
+    const places = searchBoxRef.current?.getPlaces();
+    if (places && places.length > 0) {
+      const address = places[0].formatted_address || "";
+      setBranchData((prev) => ({ ...prev, branchAddress: address }));
+    }
+  }, []);
+
+  const branchCountryKeys = [
     "France",
     "Allemagne",
     "Norvège",
@@ -154,8 +150,6 @@ export const BranchModal = ({
     "Royaume-Uni",
     "Émirats Arabes Unis (UAE)",
   ];
-
-  const isEditing = editBranch && editIndex !== undefined;
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
@@ -187,7 +181,7 @@ export const BranchModal = ({
             </IconButton>
           </Box>
 
-          {/* Form Fields */}
+          {/* Branch Name */}
           <Box sx={{ mb: 2 }}>
             <Typography
               variant="body2"
@@ -200,18 +194,10 @@ export const BranchModal = ({
               placeholder="e.g., Berlin Support Center"
               value={branchData.branchName}
               onChange={(e) => handleChange("branchName", e.target.value)}
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                backgroundColor: theme.palette.background.paper,
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.divider,
-                  },
-                },
-              }}
             />
           </Box>
 
+          {/* Branch Email */}
           <Box sx={{ mb: 2 }}>
             <Typography
               variant="body2"
@@ -225,18 +211,10 @@ export const BranchModal = ({
               placeholder="e.g., example@gmail.com"
               value={branchData.branchEmail}
               onChange={(e) => handleChange("branchEmail", e.target.value)}
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                backgroundColor: theme.palette.background.paper,
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.divider,
-                  },
-                },
-              }}
             />
           </Box>
 
+          {/* Branch Phone */}
           <Box sx={{ mb: 2 }}>
             <Typography
               variant="body2"
@@ -250,18 +228,10 @@ export const BranchModal = ({
               placeholder="e.g., +971 4 332 8788"
               value={branchData.branchPhone}
               onChange={(e) => handleChange("branchPhone", e.target.value)}
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                backgroundColor: theme.palette.background.paper,
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.divider,
-                  },
-                },
-              }}
             />
           </Box>
 
+          {/* Country & City */}
           <Box
             sx={{
               display: "grid",
@@ -284,20 +254,11 @@ export const BranchModal = ({
                     handleChange("branchCountry", e.target.value)
                   }
                   displayEmpty
-                  sx={{
-                    borderRadius: theme.shape.borderRadius,
-                    backgroundColor: theme.palette.background.paper,
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: theme.palette.divider,
-                      },
-                    },
-                  }}
                 >
                   <MenuItem value="" disabled>
                     Select a country
                   </MenuItem>
-                  {branchCountryOptions.map((country) => (
+                  {branchCountryKeys.map((country) => (
                     <MenuItem key={country} value={country}>
                       {country}
                     </MenuItem>
@@ -318,20 +279,14 @@ export const BranchModal = ({
                   value={branchData.branchCity}
                   onChange={(e) => handleChange("branchCity", e.target.value)}
                   displayEmpty
-                  sx={{
-                    borderRadius: theme.shape.borderRadius,
-                    backgroundColor: theme.palette.background.paper,
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: theme.palette.divider,
-                      },
-                    },
-                  }}
+                  disabled={!branchData.branchCountry}
                 >
                   <MenuItem value="" disabled>
-                    Select a city
+                    {branchData.branchCountry
+                      ? "Select a city"
+                      : "Select country first"}
                   </MenuItem>
-                  {branchCityOptions.map((city) => (
+                  {correspondingCities.map((city) => (
                     <MenuItem key={city} value={city}>
                       {city}
                     </MenuItem>
@@ -341,6 +296,7 @@ export const BranchModal = ({
             </Box>
           </Box>
 
+          {/* Full Address */}
           <Box sx={{ mb: 3 }}>
             <Typography
               variant="body2"
@@ -348,24 +304,25 @@ export const BranchModal = ({
             >
               Full Address
             </Typography>
-            <TextField
-              fullWidth
-              placeholder="e.g., Alexanderplatz 4, 10178 Berlin"
-              value={branchData.branchAddress}
-              onChange={(e) => handleChange("branchAddress", e.target.value)}
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                backgroundColor: theme.palette.background.paper,
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.divider,
-                  },
-                },
-              }}
-            />
+
+            <StandaloneSearchBox
+              key={open ? "searchbox-open" : "searchbox-closed"}
+              onLoad={(ref) => (searchBoxRef.current = ref)}
+              onPlacesChanged={handlePlacesChanged}
+            >
+              <TextField
+                fullWidth
+                type="text"
+                value={branchData.branchAddress}
+                name="branchAddress"
+                onChange={(e) => handleChange("branchAddress", e.target.value)}
+                placeholder="e.g., 221B Baker Street, London"
+                multiline={true}
+              />
+            </StandaloneSearchBox>
           </Box>
 
-          {/* File Upload */}
+          {/* Upload Residence Guidelines */}
           <Box sx={{ mb: 3 }}>
             <Typography
               variant="body2"
@@ -373,7 +330,6 @@ export const BranchModal = ({
             >
               Upload Residence Guide
             </Typography>
-
             {branchData.residenceGuidelines ? (
               <Box
                 sx={{

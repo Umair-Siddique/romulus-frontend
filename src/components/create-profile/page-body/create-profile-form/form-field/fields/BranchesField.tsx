@@ -15,9 +15,16 @@ import { Box, Typography, Button, IconButton } from "@mui/material";
 import { BranchModal } from "./BranchModal";
 
 import { Branch, BranchesFieldProps } from "#types";
+import { useJsApiLoader } from "@react-google-maps/api";
 
 export const BranchesField = ({ value, onChange }: BranchesFieldProps) => {
   const theme = useTheme<Theme>();
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+    libraries: ["places"],
+  });
+
   const [showBranchModal, setShowBranchModal] = useState(false);
   const [editingBranch, setEditingBranch] = useState<Branch | null>(null);
   const [editingIndex, setEditingIndex] = useState<number | undefined>(
@@ -309,13 +316,15 @@ export const BranchesField = ({ value, onChange }: BranchesFieldProps) => {
         Add a Branch
       </Button>
 
-      <BranchModal
-        open={showBranchModal}
-        onClose={handleCloseModal}
-        onSave={addBranch}
-        editBranch={editingBranch}
-        editIndex={editingIndex}
-      />
+      {isLoaded && (
+        <BranchModal
+          open={showBranchModal}
+          onClose={handleCloseModal}
+          onSave={addBranch}
+          editBranch={editingBranch}
+          editIndex={editingIndex}
+        />
+      )}
     </Box>
   );
 };

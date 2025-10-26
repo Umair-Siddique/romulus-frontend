@@ -21,20 +21,17 @@ export const PageBody = ({ user }: PageBodyProps) => {
   }, [user]);
 
   useEffect(() => {
-    const educatorSteps = [
-      "Profile Setup",
-      "Identity",
-      "Profession",
-      "Review & Submit",
-    ];
-    const organizationSteps = ["Profile Setup", "Review & Submit"];
+    const formSteps = {
+      educator: ["Profile Setup", "Identity", "Profession", "Review & Submit"],
+      organization: ["Profile Setup", "Review & Submit"],
+    };
 
     switch (role) {
       case "educator":
-        setSteps(educatorSteps);
+        setSteps(formSteps.educator);
         break;
       case "organization":
-        setSteps(organizationSteps);
+        setSteps(formSteps.organization);
         break;
       default:
         setSteps([]);

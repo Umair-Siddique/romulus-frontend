@@ -1,11 +1,9 @@
 export const countriesData: string[] = [
   "France",
-  "Allemagne",
-  "Norvège",
-  "Suède",
+  "Germany",
+  "Norway",
+  "Sweden",
   "Canada",
   "Pays-Bas",
   "Danemark",
-  "Royaume-Uni",
-  "Émirats Arabes Unis (UAE)",
 ];
