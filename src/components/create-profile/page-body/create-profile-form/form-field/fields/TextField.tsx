@@ -6,6 +6,7 @@ import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { TextFieldComponentProps } from "#types";
 
 const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+const libraries: "places"[] = ["places"];
 
 export const TextFieldComponent = ({
   fieldName,
@@ -23,7 +24,7 @@ export const TextFieldComponent = ({
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey,
-    libraries: ["places"],
+    libraries, // ✅ static reference
   });
 
   const handleChange = useCallback(
@@ -41,8 +42,8 @@ export const TextFieldComponent = ({
     }
   }, [onChange]);
 
-  const isMultiline = fieldName === "bio" || fieldName === "fullAddress";
-  const rows = fieldName === "bio" ? 4 : fieldName === "fullAddress" ? 2 : 1;
+  const isMultiline = fieldName === "bio";
+  const rows = isMultiline ? 4 : 1;
 
   const getPlaceholder = () => {
     if (placeholder) return placeholder;

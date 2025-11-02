@@ -16,9 +16,13 @@ import {
   CloudUpload as CloudUploadIcon,
 } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
-import { StandaloneSearchBox } from "@react-google-maps/api";
+import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 
 import { BranchModalProps } from "#types";
+import { countriesCities } from "#lib/constants/data/countriesCities";
+
+const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+const libraries: "places"[] = ["places"];
 
 export const BranchModal = ({
   open,
@@ -27,6 +31,12 @@ export const BranchModal = ({
   editBranch,
   editIndex,
 }: BranchModalProps) => {
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey,
+    libraries, // ✅ static reference
+  });
+
   const theme = useTheme<Theme>();
   const searchBoxRef = useRef<google.maps.places.SearchBox | null>(null);
 
@@ -71,35 +81,7 @@ export const BranchModal = ({
     setBranchData((prev) => ({ ...prev, [field]: value }));
 
     if (field === "branchCountry") {
-      const citiesMap: Record<string, string[]> = {
-        France: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice"],
-        Allemagne: ["Berlin", "Munich", "Hambourg", "Francfort", "Cologne"],
-        Norvège: ["Oslo", "Bergen", "Trondheim", "Stavanger", "Drammen"],
-        Suède: ["Stockholm", "Gothenburg", "Malmö", "Uppsala", "Västerås"],
-        Canada: ["Toronto", "Vancouver", "Montréal", "Calgary", "Ottawa"],
-        "Pays-Bas": [
-          "Amsterdam",
-          "Rotterdam",
-          "La Haye",
-          "Utrecht",
-          "Eindhoven",
-        ],
-        Danemark: ["Copenhague", "Aarhus", "Odense", "Aalborg", "Esbjerg"],
-        "Royaume-Uni": [
-          "Londres",
-          "Manchester",
-          "Birmingham",
-          "Édimbourg",
-          "Glasgow",
-        ],
-        "Émirats Arabes Unis (UAE)": [
-          "Dubaï",
-          "Abou Dabi",
-          "Charjah",
-          "Ajman",
-          "Fujairah",
-        ],
-      };
+      const citiesMap: Record<string, string[]> = countriesCities;
 
       const newCities = citiesMap[value] || [];
       setCorrespondingCities(newCities);
@@ -141,18 +123,22 @@ export const BranchModal = ({
 
   const branchCountryKeys = [
     "France",
-    "Allemagne",
-    "Norvège",
-    "Suède",
+    "Germany",
+    "Norway",
+    "Sweden",
     "Canada",
     "Pays-Bas",
     "Danemark",
-    "Royaume-Uni",
-    "Émirats Arabes Unis (UAE)",
   ];
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="md"
+      fullWidth
+      sx={{ zIndex: 10 }}
+    >
       <DialogContent
         sx={{
           p: 0,
@@ -305,21 +291,24 @@ export const BranchModal = ({
               Full Address
             </Typography>
 
-            <StandaloneSearchBox
-              key={open ? "searchbox-open" : "searchbox-closed"}
-              onLoad={(ref) => (searchBoxRef.current = ref)}
-              onPlacesChanged={handlePlacesChanged}
-            >
-              <TextField
-                fullWidth
-                type="text"
-                value={branchData.branchAddress}
-                name="branchAddress"
-                onChange={(e) => handleChange("branchAddress", e.target.value)}
-                placeholder="e.g., 221B Baker Street, London"
-                multiline={true}
-              />
-            </StandaloneSearchBox>
+            {isLoaded && (
+              <StandaloneSearchBox
+                key={open ? "searchbox-open" : "searchbox-closed"}
+                onLoad={(ref) => (searchBoxRef.current = ref)}
+                onPlacesChanged={handlePlacesChanged}
+              >
+                <TextField
+                  fullWidth
+                  type="text"
+                  value={branchData.branchAddress}
+                  name="branchAddress"
+                  onChange={(e) =>
+                    handleChange("branchAddress", e.target.value)
+                  }
+                  placeholder="e.g., 221B Baker Street, London"
+                />
+              </StandaloneSearchBox>
+            )}
           </Box>
 
           {/* Upload Residence Guidelines */}
