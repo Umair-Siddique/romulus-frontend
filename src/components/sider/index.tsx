@@ -42,6 +42,7 @@ export const Sider = () => {
       sx={{
         width: 280,
         flexShrink: 0,
+        zIndex: 0,
         border: "none",
         borderRadius: theme.shape.borderRadius,
         [`& .MuiDrawer-paper`]: {
@@ -49,7 +50,7 @@ export const Sider = () => {
           boxSizing: "border-box",
           border: "none",
           backgroundColor: theme.palette.grey[50],
-          borderRadius: theme.shape.borderRadius
+          borderRadius: theme.shape.borderRadius,
         },
       }}
     >

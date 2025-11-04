@@ -10,13 +10,16 @@ import {
   MenuItem,
   FormControl,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import {
   Close as CloseIcon,
   CloudUpload as CloudUploadIcon,
 } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
+import { StandaloneSearchBox } from "@react-google-maps/api";
+
 import { citiesData, countriesData, truncateWithEllipsis } from "#lib";
+import { countriesCities } from "#lib/constants/data/countriesCities";
 
 export const BranchModal = ({
   open,
@@ -34,6 +37,7 @@ export const BranchModal = ({
   existingData?: any;
 }) => {
   const theme = useTheme<Theme>();
+  const searchBoxRef = useRef<google.maps.places.SearchBox | null>(null);
 
   const [branchData, setBranchData] = useState<{
     branchName: string;
@@ -53,7 +57,27 @@ export const BranchModal = ({
     residenceGuidelines: null,
   });
 
-  // Pre-populate form when editing
+  const handlePlacesChanged = useCallback(() => {
+    const places = searchBoxRef.current?.getPlaces();
+    if (places && places.length > 0) {
+      const address = places[0].formatted_address || "";
+      setBranchData((prev) => ({ ...prev, branchAddress: address }));
+    }
+  }, []);
+
+  const correspondingCities = useMemo(() => {
+    const countryName = branchData.branchCountry?.trim().toLowerCase();
+    const matchedKey = countryName
+      ? Object.keys(countriesCities).find(
+          (key) => key.trim().toLowerCase() === countryName
+        )
+      : null;
+
+    return matchedKey && countriesCities[matchedKey]
+      ? countriesCities[matchedKey]
+      : [];
+  }, [branchData.branchCountry]);
+
   useEffect(() => {
     if (editBranch && open) {
       setBranchData({
@@ -91,6 +115,15 @@ export const BranchModal = ({
       });
     }
   }, [editBranch, open]);
+
+  useEffect(() => {
+    if (
+      branchData.branchCity &&
+      !correspondingCities.includes(branchData.branchCity)
+    ) {
+      handleChange("branchCity", "");
+    }
+  }, [branchData.branchCountry, correspondingCities]);
 
   const handleChange = (field: string, value: any) => {
     setBranchData((prev) => ({ ...prev, [field]: value }));
@@ -131,7 +164,13 @@ export const BranchModal = ({
   const isEditing = editBranch && editIndex !== undefined;
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="md"
+      fullWidth
+      sx={{ zIndex: 10 }}
+    >
       <DialogContent
         sx={{
           p: 0,
@@ -291,6 +330,10 @@ export const BranchModal = ({
                   value={branchData.branchCity}
                   onChange={(e) => handleChange("branchCity", e.target.value)}
                   displayEmpty
+                  disabled={
+                    !branchData.branchCountry ||
+                    correspondingCities.length === 0
+                  }
                   sx={{
                     borderRadius: theme.shape.borderRadius,
                     backgroundColor: theme.palette.background.paper,
@@ -304,7 +347,7 @@ export const BranchModal = ({
                   <MenuItem value="" disabled>
                     Sélectionner une ville
                   </MenuItem>
-                  {citiesData.map((city) => (
+                  {correspondingCities.map((city) => (
                     <MenuItem key={city} value={city}>
                       {city}
                     </MenuItem>
@@ -317,24 +360,37 @@ export const BranchModal = ({
           <Box sx={{ mb: 3 }}>
             <Typography
               variant="body2"
-              sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
+              sx={{
+                mb: 1,
+                fontWeight: theme.typography.h3.fontWeight,
+                zIndex: 999,
+              }}
             >
               Adresse complète
             </Typography>
-            <TextField
-              fullWidth
-              value={branchData.branchAddress}
-              onChange={(e) => handleChange("branchAddress", e.target.value)}
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                backgroundColor: theme.palette.background.paper,
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: theme.palette.divider,
+
+            <StandaloneSearchBox
+              key={open ? "searchbox-open" : "searchbox-closed"}
+              onLoad={(ref) => (searchBoxRef.current = ref)}
+              onPlacesChanged={handlePlacesChanged}
+            >
+              <TextField
+                fullWidth
+                type="text"
+                name="branchAddress"
+                value={branchData.branchAddress}
+                onChange={(e) => handleChange("branchAddress", e.target.value)}
+                sx={{
+                  borderRadius: theme.shape.borderRadius,
+                  backgroundColor: theme.palette.background.paper,
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: theme.palette.divider,
+                    },
                   },
-                },
-              }}
-            />
+                }}
+              />
+            </StandaloneSearchBox>
           </Box>
 
           {/* File Upload */}

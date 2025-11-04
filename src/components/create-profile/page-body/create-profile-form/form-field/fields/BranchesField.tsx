@@ -11,11 +11,10 @@ import {
   Description as DescriptionIcon,
 } from "@mui/icons-material";
 import { Box, Typography, Button, IconButton } from "@mui/material";
+import { useJsApiLoader } from "@react-google-maps/api";
 
 import { BranchModal } from "./BranchModal";
-
 import { Branch, BranchesFieldProps } from "#types";
-import { useJsApiLoader } from "@react-google-maps/api";
 
 export const BranchesField = ({ value, onChange }: BranchesFieldProps) => {
   const theme = useTheme<Theme>();

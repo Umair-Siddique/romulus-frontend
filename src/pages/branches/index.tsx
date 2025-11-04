@@ -4,6 +4,7 @@ import { useUpdate } from "@refinedev/core";
 import { useEffect, useState } from "react";
 import { Add as AddIcon } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
+import { useJsApiLoader } from "@react-google-maps/api";
 
 import { useUserContext } from "#context";
 import { BranchModal } from "#components/table-component/BranchModal";
@@ -11,6 +12,11 @@ import { PageMeta, TableComponent, ToolBarComponent } from "#components";
 
 export const Branches = () => {
   const theme = useTheme<Theme>();
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+    libraries: ["places"],
+  });
 
   const { user, userProfile } = useUserContext();
 
@@ -220,7 +226,7 @@ export const Branches = () => {
         />
       </Box>
 
-      {showBranchMenu && (
+      {isLoaded && (
         <BranchModal
           open={showBranchMenu}
           onClose={() => setShowBranchMenu(false)}

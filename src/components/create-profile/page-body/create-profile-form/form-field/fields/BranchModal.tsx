@@ -16,13 +16,10 @@ import {
   CloudUpload as CloudUploadIcon,
 } from "@mui/icons-material";
 import { useTheme, Theme } from "@mui/material/styles";
-import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
+import { StandaloneSearchBox } from "@react-google-maps/api";
 
 import { BranchModalProps } from "#types";
 import { countriesCities } from "#lib/constants/data/countriesCities";
-
-const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-const libraries: "places"[] = ["places"];
 
 export const BranchModal = ({
   open,
@@ -31,12 +28,6 @@ export const BranchModal = ({
   editBranch,
   editIndex,
 }: BranchModalProps) => {
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey,
-    libraries, // ✅ static reference
-  });
-
   const theme = useTheme<Theme>();
   const searchBoxRef = useRef<google.maps.places.SearchBox | null>(null);
 
@@ -291,24 +282,20 @@ export const BranchModal = ({
               Adresse complète
             </Typography>
 
-            {isLoaded && (
-              <StandaloneSearchBox
-                key={open ? "searchbox-open" : "searchbox-closed"}
-                onLoad={(ref) => (searchBoxRef.current = ref)}
-                onPlacesChanged={handlePlacesChanged}
-              >
-                <TextField
-                  fullWidth
-                  type="text"
-                  value={branchData.branchAddress}
-                  name="branchAddress"
-                  onChange={(e) =>
-                    handleChange("branchAddress", e.target.value)
-                  }
-                  placeholder="e.g., 221B Baker Street, London"
-                />
-              </StandaloneSearchBox>
-            )}
+            <StandaloneSearchBox
+              key={open ? "searchbox-open" : "searchbox-closed"}
+              onLoad={(ref) => (searchBoxRef.current = ref)}
+              onPlacesChanged={handlePlacesChanged}
+            >
+              <TextField
+                fullWidth
+                type="text"
+                value={branchData.branchAddress}
+                name="branchAddress"
+                onChange={(e) => handleChange("branchAddress", e.target.value)}
+                placeholder="e.g., 221B Baker Street, London"
+              />
+            </StandaloneSearchBox>
           </Box>
 
           {/* Upload Residence Guidelines */}
