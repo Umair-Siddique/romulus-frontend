@@ -35,12 +35,12 @@ export const SkillsField = ({
           color: theme.palette.text.primary,
         }}
       >
-        Add Skills {required && "*"}
+        Ajouter des compétences {required && "*"}
       </Typography>
       <Box sx={{ display: "flex", alignItems: "center", mb: theme.spacing(2) }}>
         <TextField
           fullWidth
-          placeholder="Add your skills (e.g., calmness, patience, concentration, report writing, teaching, sports practice)"
+          placeholder="Ajoutez vos compétences (par exemple, calme, patience, concentration, rédaction de rapports, enseignement, pratique sportive, etc.)"
           value={skillInput}
           onChange={(e) => setSkillInput(e.target.value)}
           onKeyPress={(e) => e.key === "Enter" && handleSkillAdd()}

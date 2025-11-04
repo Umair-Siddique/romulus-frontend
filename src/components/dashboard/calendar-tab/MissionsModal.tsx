@@ -65,7 +65,7 @@ export const MissionsModal = ({
               color: "text.primary",
             }}
           >
-            Missions on {date}
+            Missions le {date}
           </Typography>
           <IconButton
             onClick={onClose}
@@ -174,7 +174,7 @@ export const MissionsModal = ({
                         fontSize: "0.875rem",
                       }}
                     >
-                      Time: {mission.time}
+                      Heure: {mission.time}
                     </Typography>
                   </Box>
                 </Box>
@@ -201,7 +201,7 @@ export const MissionsModal = ({
                     },
                   }}
                 >
-                  View Details
+                  Voir les détails
                 </Button>
               </Box>
               {index < missions.length - 1 && <Divider sx={{ mx: 3 }} />}

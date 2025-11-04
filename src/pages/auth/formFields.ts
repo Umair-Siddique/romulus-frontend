@@ -6,13 +6,13 @@ export const formFields = (formType: string) => {
           label: "Email",
           type: "email",
           name: "email",
-          placeholder: "Enter your email address",
+          placeholder: "Entrez votre adresse e-mail",
         },
         {
           label: "Password",
           type: "password",
           name: "password",
-          placeholder: "Enter your password",
+          placeholder: "Entrez votre mot de passe",
         },
       ];
     case "forgotPassword":
@@ -21,7 +21,7 @@ export const formFields = (formType: string) => {
           label: "Email",
           type: "email",
           name: "email",
-          placeholder: "Enter your email address",
+          placeholder: "Entrez votre adresse e-mail",
         },
       ];
 
@@ -31,13 +31,13 @@ export const formFields = (formType: string) => {
           label: "Password",
           type: "password",
           name: "password",
-          placeholder: "Enter your password",
+          placeholder: "Entrez votre mot de passe",
         },
         {
           label: "Confirm Password",
           type: "password",
           name: "confirmPassword",
-          placeholder: "Re-enter your password",
+          placeholder: "Ressaisissez votre mot de passe",
         },
       ];
 

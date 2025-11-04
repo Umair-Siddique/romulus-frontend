@@ -188,8 +188,8 @@ export const Dashboard = () => {
   return (
     <>
       <PageMeta
-        title="Manage & Monitor Missions"
-        description="Manage all missions here."
+        title="Gérer et surveiller les missions"
+        description="Gérer toutes les missions ici."
       />
       <KpiCards kpiCardsData={kpis} />
       <TabsHorizontal tabs={tabs} />

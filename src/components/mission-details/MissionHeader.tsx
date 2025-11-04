@@ -94,7 +94,7 @@ export const MissionHeader = memo(
             variant="outlined"
             onClick={() => navigate(`/missions/${missionData.id}`)}
           >
-            View Details
+            Voir les détails
           </Button>
         );
       }
@@ -125,7 +125,7 @@ export const MissionHeader = memo(
                     },
                   }}
                 >
-                  Decline Mission
+                  écliner la mission
                 </Button>
                 <Button
                   variant="contained"
@@ -166,7 +166,7 @@ export const MissionHeader = memo(
                   },
                 }}
               >
-                Mark as Completed
+                Marquer comme terminé
               </Button>
             )
           );
@@ -224,7 +224,7 @@ export const MissionHeader = memo(
                 fontSize: theme.typography.h5.fontSize,
               }}
             >
-              Mission Info
+              Informations sur la mission
             </Typography>
           ) : (
             <Typography
@@ -238,7 +238,7 @@ export const MissionHeader = memo(
                 alignItems: "center",
               }}
             >
-              Mission Overview
+              Vue d'ensemble de la mission
             </Typography>
           )}
 
@@ -251,12 +251,12 @@ export const MissionHeader = memo(
           onSubmit={handleModalClose}
           button1OnClick={handleMarkAsCompleted}
           icon={<CheckCircle />}
-          title="Confirm Mission Completion"
-          description="Are you sure you want to mark this mission as completed?"
+          title="Confirmer l'achèvement de la mission"
+          description="Etes-vous sur de vouloir marquer cette mission comme achevée ?"
           hasButton={true}
           hasButton1={true}
-          buttonText="Close"
-          button1Text="Complete Mission"
+          buttonText="Fermer"
+          button1Text="Terminer la mission"
         />
       </>
     );

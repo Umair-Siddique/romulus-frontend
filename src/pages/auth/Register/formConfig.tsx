@@ -10,14 +10,14 @@ export const GetFormConfig = (
 
   if (formStep === 1) {
     return {
-      title: "Select Your User Type",
+      title: "Sélectionnez votre type d'utilisateur",
       description:
-        "Choose your role to proceed with the registration or login process.",
+        "Choisissez votre rôle pour continuer le processus d'inscription ou de connexion.",
     };
   } else if (formStep === 2) {
     return {
-      title: "Create Your Account",
-      description: "Fill in your details to sign up.",
+      title: "Créer votre compte",
+      description: "Remplissez vos informations pour vous inscrire.",
       bottomContent: (
         <Typography
           variant="body2"
@@ -29,18 +29,18 @@ export const GetFormConfig = (
             fontFamily: "inter, sans-serif",
           }}
         >
-          Already have an account? <TextLink to="/login" label="Login" />
+          Déjà un compte ? <TextLink to="/login" label="Se connecter" />
         </Typography>
       ),
-      submitLoadingText: "Signing up...",
-      submitLabel: "Sign Up",
+      submitLoadingText: "Inscription en cours...",
+      submitLabel: "S'inscrire",
     };
   }
 
   return {
-    title: "Check your WhatsApp number",
+    title: "Vérifiez votre numéro WhatsApp",
     description:
-      "Enter the 6-digit code sent to your WhatsApp (+92 3XXXXXXXXX) to verify your number.",
+      "Entrez le code à 6 chiffres envoyé à votre WhatsApp (+92 3XXXXXXXXX) pour vérifier votre numéro.",
     bottomContent: (
       <Typography
         variant="body2"
@@ -52,7 +52,7 @@ export const GetFormConfig = (
           fontFamily: "inter, sans-serif",
         }}
       >
-        Didn't receive a code?{" "}
+        Vous n'avez pas reçu de code ?{" "}
         <Box
           component="span"
           sx={{
@@ -66,7 +66,7 @@ export const GetFormConfig = (
           }}
           onClick={requestOtpAgain}
         >
-          Request again.
+          Demander à nouveau.
         </Box>
       </Typography>
     ),

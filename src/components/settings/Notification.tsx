@@ -81,7 +81,7 @@ export const Notification = React.memo(() => {
           color: theme.palette.text.primary,
         }}
       >
-        Configure Notifications
+        Configurer les notifications
       </Typography>
       <Box
         sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(2) }}
@@ -97,9 +97,9 @@ export const Notification = React.memo(() => {
           }}
         >
           <Box>
-            <Typography>Account Alerts</Typography>
+            <Typography>Alertes de compte</Typography>
             <Typography>
-              Receive notifications for mission-related events
+              Recevez des notifications pour les événements liés aux missions
             </Typography>
           </Box>
           <Switch
@@ -122,8 +122,8 @@ export const Notification = React.memo(() => {
             <Box>
               <Typography>Messages</Typography>
               <Typography>
-                Receive messages from{" "}
-                {role === "educator" ? "organizations" : "educators"}
+                Recevez des messages de{" "}
+                {role === "educator" ? "organisations" : "éducateurs"}
               </Typography>
             </Box>
             <Switch checked={messagesAllowed} onChange={handleMessagesChange} />

@@ -154,11 +154,11 @@ export const Branches = () => {
   };
 
   const headerData = [
-    { id: "branchName", label: "Branch" },
-    { id: "createdAt", label: "Registered On" },
+    { id: "branchName", label: "Branche" },
+    { id: "createdAt", label: "Enregistré le" },
     { id: "email", label: "Email" },
-    { id: "phone", label: "Phone" },
-    { id: "status", label: "Status" },
+    { id: "phone", label: "Téléphone" },
+    { id: "status", label: "Statut" },
     { id: "actions", label: "Actions" },
   ];
 
@@ -193,7 +193,7 @@ export const Branches = () => {
           startIcon={<AddIcon />}
           onClick={() => setShowBranchMenu(true)}
         >
-          Add Branch
+          Ajouter une branche
         </Button>
       </Box>
       <Box

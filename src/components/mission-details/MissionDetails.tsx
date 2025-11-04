@@ -63,8 +63,6 @@ const MissionDetailItem = memo(
   }
 );
 
-MissionDetailItem.displayName = "MissionDetailItem";
-
 export const MissionDetails = memo(({ missionData }: { missionData: any }) => {
   const theme = useTheme();
 
@@ -72,7 +70,7 @@ export const MissionDetails = memo(({ missionData }: { missionData: any }) => {
     {
       id: 1,
       icon: OrganizationIcon,
-      label: "Organization",
+      label: "Organisation",
       value: missionData.organizationName,
     },
     {
@@ -81,23 +79,23 @@ export const MissionDetails = memo(({ missionData }: { missionData: any }) => {
       label: "Date",
       value: missionData.missionDate,
     },
-    { id: 3, icon: TimeIcon, label: "Time", value: missionData.missionTime },
+    { id: 3, icon: TimeIcon, label: "Heure", value: missionData.missionTime },
     {
       id: 4,
       icon: BranchIcon,
-      label: "Branch Name",
+      label: "Nom de la Branche",
       value: missionData.branchName,
     },
     {
       id: 5,
       icon: LocationIcon,
-      label: "Location",
+      label: "Emplacement",
       value: missionData.missionLocation,
     },
     {
       id: 6,
       icon: StatusIcon,
-      label: "Status",
+      label: "Statut",
       value: missionData.missionStatus,
     },
   ];

@@ -35,7 +35,7 @@ export const ProfileSection = ({ formData, role }: ProfileSectionProps) => {
             >
               {formData.firstName && formData.lastName
                 ? `${formData.firstName} ${formData.lastName}`
-                : "Name not provided"}
+                : "Nom non fourni"}
             </Typography>
             <Typography
               variant="body2"
@@ -44,16 +44,16 @@ export const ProfileSection = ({ formData, role }: ProfileSectionProps) => {
                 fontSize: "0.875rem",
               }}
             >
-              {formData.gender || "Gender not specified"}
+              {formData.gender || "Genre non spécifié"}
             </Typography>
           </Box>
         </Box>
 
         <Box sx={{ ml: 0 }}>
-          <InfoRow label="Date of Birth" value={formData.dateOfBirth} />
-          <InfoRow label="City" value={formData.city} />
-          <InfoRow label="Country" value={formData.country} />
-          <InfoRow label="Address" value={formData.fullAddress} />
+          <InfoRow label="Date de naissance" value={formData.dateOfBirth} />
+          <InfoRow label="Ville" value={formData.city} />
+          <InfoRow label="Pays" value={formData.country} />
+          <InfoRow label="Adresse" value={formData.fullAddress} />
         </Box>
 
         {formData.bio && (
@@ -122,8 +122,8 @@ export const ProfileSection = ({ formData, role }: ProfileSectionProps) => {
               }}
             >
               {formData.foundedYear
-                ? `Founded: ${formData.foundedYear}`
-                : "Founded year not specified"}
+                ? `Fondée: ${formData.foundedYear}`
+                : "Année de création non spécifiée"}
             </Typography>
           </Box>
         </Box>

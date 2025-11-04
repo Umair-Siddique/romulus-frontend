@@ -71,7 +71,7 @@ export const DocumentDownloadSection = memo(
                 },
               }}
             >
-              Download
+              Télécharger
             </Button>
           </Box>
         </Paper>

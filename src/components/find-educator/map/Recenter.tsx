@@ -8,6 +8,7 @@ function Recenter({ center }: { center: LatLngTuple }) {
   useEffect(() => {
     map.setView(center);
   }, [center, map]);
+
   return null;
 }
 

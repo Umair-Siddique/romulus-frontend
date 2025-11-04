@@ -1,4 +1,11 @@
-import { Box, Typography, TextField, IconButton, Chip, useTheme } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  IconButton,
+  Chip,
+  useTheme,
+} from "@mui/material";
 import { Add as AddIcon, Close as CloseIcon } from "@mui/icons-material";
 import { UseFormRegister, FieldErrors, UseFormSetValue } from "react-hook-form";
 import { FormDataProps } from "#types";
@@ -33,7 +40,9 @@ export const SkillsSection = ({
   };
 
   const handleSkillRemove = (skillToRemove: string) => {
-    const updatedSkills = skillsArray.filter((skill) => skill !== skillToRemove);
+    const updatedSkills = skillsArray.filter(
+      (skill) => skill !== skillToRemove
+    );
     setSkillsArray(updatedSkills);
     setValue("skills", updatedSkills.join(", "), { shouldValidate: true });
   };
@@ -48,12 +57,12 @@ export const SkillsSection = ({
           color: theme.palette.text.primary,
         }}
       >
-        Add Skills *
+        Ajouter des compétences *
       </Typography>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
         <TextField
           fullWidth
-          placeholder="Add your skills (e.g., calmness, patience, concentration, report writing, teaching, sports practice)"
+          placeholder="Ajoutez vos compétences (par exemple, calme, patience, concentration, rédaction de rapports, enseignement, pratique sportive)."
           value={newSkill}
           onChange={(e) => setNewSkill(e.target.value)}
           onKeyPress={(e) => e.key === "Enter" && handleAddSkill()}

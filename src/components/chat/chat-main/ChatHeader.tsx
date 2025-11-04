@@ -27,7 +27,7 @@ export const ChatHeader = ({
           height: 50,
           borderRadius: "50%",
         }}
-        alt="recipient image"
+        alt="image du destinataire"
       />
       <Typography
         sx={{

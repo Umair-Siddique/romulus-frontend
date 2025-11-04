@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
@@ -24,7 +23,7 @@ export const ReportInfo = ({ reportDetails }: { reportDetails: any }) => {
           color: theme.palette.text.primary,
         }}
       >
-        Reason
+        Raison
       </Typography>
       <Typography
         variant="body1"

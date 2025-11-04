@@ -5,8 +5,6 @@ import { useNavigate } from "react-router";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import { Lock as LockIcon } from "@mui/icons-material";
 
-import "moment/locale/en-gb";
-
 import { Toolbar } from "./Toolbar";
 import { useUserContext } from "#context";
 import { MissionsModal } from "./MissionsModal";
@@ -204,14 +202,14 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
       <Modal
         open={openTrainingModal}
         onClose={() => setOpenTrainingModal(false)}
-        title="Missions Locked"
-        description="You need to complete your training before you can view or accept missions. Training helps you understand how the mission system works and prepares you to work with partner organizations."
+        title="Missions Verrouillées"
+        description="Vous devez compléter votre formation avant de pouvoir voir ou accepter des missions. La formation vous aide à comprendre comment fonctionne le système de mission et vous prépare à travailler avec des organisations partenaires."
         hasButton={true}
         hasButton1={true}
         onSubmit={() => setOpenTrainingModal(false)}
         button1OnClick={() => navigate("/training")}
-        buttonText="Close"
-        button1Text="Start Training"
+        buttonText="Fermer"
+        button1Text="Commencer la formation"
         icon={<LockIcon />}
       />
     </Box>

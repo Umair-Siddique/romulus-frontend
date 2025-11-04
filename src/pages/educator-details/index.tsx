@@ -62,7 +62,7 @@ export const EducatorDetails = ({
 
   const tabs = [
     {
-      id: "missions",
+      id: 1,
       label: "Missions",
       icon: AssignmentIcon,
       component: <MissionsList missions={missions} />,

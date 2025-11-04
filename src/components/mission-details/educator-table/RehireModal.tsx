@@ -90,7 +90,7 @@ const RehireModal: React.FC<RehireModalProps> = ({
             fontFamily: theme.typography.h5.fontFamily,
           }}
         >
-          Rehire Educator
+          Réembaucher l'éducateur
         </Typography>
         <IconButton
           onClick={handleCloseRehireModal}
@@ -115,7 +115,7 @@ const RehireModal: React.FC<RehireModalProps> = ({
             fontFamily: theme.typography.h5.fontFamily,
           }}
         >
-          Rehire Educator for New Mission
+          Réembaucher l'éducateur pour une nouvelle mission
         </Typography>
 
         <Typography
@@ -127,7 +127,8 @@ const RehireModal: React.FC<RehireModalProps> = ({
             fontFamily: theme.typography.body1.fontFamily,
           }}
         >
-          You are about to rehire {educatorName} for a new mission.
+          Vous êtes sur le point de réembaucher {educatorName} pour une nouvelle
+          mission.
         </Typography>
 
         <Box sx={{ marginY: theme.spacing(2) }}>
@@ -139,7 +140,7 @@ const RehireModal: React.FC<RehireModalProps> = ({
               color: theme.palette.text.primary,
             }}
           >
-            Select Mission
+            Sélectionner une mission
           </Typography>
 
           <FormControl fullWidth>
@@ -156,7 +157,7 @@ const RehireModal: React.FC<RehireModalProps> = ({
             >
               <MenuItem value="" disabled>
                 <Typography sx={{ color: theme.palette.text.secondary }}>
-                  Select Mission
+                  Sélectionner une mission
                 </Typography>
               </MenuItem>
               {pendingMissions.map((mission) => (
@@ -184,7 +185,7 @@ const RehireModal: React.FC<RehireModalProps> = ({
             },
           }}
         >
-          Create New Mission
+          Créer une nouvelle mission
         </Button>
       </DialogContent>
 
@@ -209,7 +210,7 @@ const RehireModal: React.FC<RehireModalProps> = ({
             },
           }}
         >
-          Cancel
+          Annuler
         </Button>
         <Button
           onClick={handleSubmitRehire}
@@ -228,7 +229,7 @@ const RehireModal: React.FC<RehireModalProps> = ({
             },
           }}
         >
-          Re-Hire Educator
+          Réembaucher l'éducateur
         </Button>
       </DialogActions>
     </Dialog>

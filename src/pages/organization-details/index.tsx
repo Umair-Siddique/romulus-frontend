@@ -72,14 +72,14 @@ export const OrganizationDetails = ({
 
   const tabs = [
     {
-      id: "missions",
+      id: 0,
       label: "Missions",
       icon: AssignmentIcon,
       component: <MissionsList missions={missions} />,
     },
     {
-      id: "reports",
-      label: "Reports",
+      id: 1,
+      label: "Rapports",
       icon: AssignmentIcon,
       component: <ReportsList reportsData={reports} />,
     },

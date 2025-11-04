@@ -33,7 +33,7 @@ export const BranchSelection = ({
           color: theme.palette.text.primary,
         }}
       >
-        Branch *
+        Branche *
       </Typography>
       <FormControl
         fullWidth
@@ -65,7 +65,7 @@ export const BranchSelection = ({
         <Controller
           name="branch"
           control={control}
-          rules={{ required: "Branch selection is required" }}
+          rules={{ required: "La sélection de la branche est requise" }}
           render={({ field }) => (
             <Select
               {...field}
@@ -74,10 +74,14 @@ export const BranchSelection = ({
               renderValue={(selected) => {
                 if (!selected) {
                   return (
-                    <Typography color="text.disabled">Select branch</Typography>
+                    <Typography color="text.disabled">
+                      Sélectionner une branche
+                    </Typography>
                   );
                 }
-                return typeof selected === "string" ? selected : String(selected);
+                return typeof selected === "string"
+                  ? selected
+                  : String(selected);
               }}
             >
               {branches?.map((branch: any) => (

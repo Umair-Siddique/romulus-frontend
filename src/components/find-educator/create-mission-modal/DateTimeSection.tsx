@@ -38,7 +38,7 @@ export const DateTimeSection = ({
             <Controller
               name="startDate"
               control={control}
-              rules={{ required: "Start date is required" }}
+              rules={{ required: "La date de début est requise" }}
               render={({ field }) => (
                 <DatePicker
                   {...field}
@@ -49,7 +49,7 @@ export const DateTimeSection = ({
                   slotProps={{
                     textField: {
                       fullWidth: true,
-                      placeholder: "Select date",
+                      placeholder: "Sélectionner une date",
                       error: !!errors.startDate,
                       helperText:
                         typeof errors.startDate?.message === "string"
@@ -76,12 +76,12 @@ export const DateTimeSection = ({
                 color: theme.palette.text.primary,
               }}
             >
-              Start Time *
+              Heure de début *
             </Typography>
             <Controller
               name="startTime"
               control={control}
-              rules={{ required: "Start time is required" }}
+              rules={{ required: "L'heure de début est requise" }}
               render={({ field }) => (
                 <TimePicker
                   {...field}
@@ -92,7 +92,7 @@ export const DateTimeSection = ({
                   slotProps={{
                     textField: {
                       fullWidth: true,
-                      placeholder: "Select start time",
+                      placeholder: "Sélectionner l'heure de début",
                       error: !!errors.startTime,
                       helperText:
                         typeof errors.startTime?.message === "string"
@@ -113,13 +113,13 @@ export const DateTimeSection = ({
                 color: theme.palette.text.primary,
               }}
             >
-              End Time *
+              Heure de fin *
             </Typography>
             <Controller
               name="endTime"
               control={control}
               rules={{
-                required: "End time is required",
+                required: "L'heure de fin est requise",
                 // validate: (value) => {
                 //   if (
                 //     watchedValues.startTime &&
@@ -140,7 +140,7 @@ export const DateTimeSection = ({
                   slotProps={{
                     textField: {
                       fullWidth: true,
-                      placeholder: "Select end time",
+                      placeholder: "Sélectionner l'heure de fin",
                       error: !!errors.endTime,
                       helperText:
                         typeof errors.endTime?.message === "string"

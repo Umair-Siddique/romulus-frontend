@@ -90,7 +90,7 @@ export const AuthBackground = ({ backgroundImage }: AuthBackgroundProps) => {
             margin: "0 auto",
           }}
         >
-          Connecting Educators to Meaningful Missions
+          Mettre en relation les éducateurs avec des missions significatives
         </Typography>
         <Typography
           variant="h6"
@@ -106,8 +106,9 @@ export const AuthBackground = ({ backgroundImage }: AuthBackgroundProps) => {
             fontFamily: theme.typography.h6.fontFamily,
           }}
         >
-          Find your next task, collaborate with others, and make an impact. Join
-          the community today.
+          Trouvez votre prochaine mission, collaborez avec d'autres et
+          contribuez à un changement positif. Rejoignez la communauté dès
+          aujourd'hui.
         </Typography>
       </Box>
     </Box>

@@ -27,7 +27,7 @@ export const LogoutButton = () => {
       }}
       onClick={handleLogout}
     >
-      Log Out
+      Se déconnecter
     </Button>
   );
 };

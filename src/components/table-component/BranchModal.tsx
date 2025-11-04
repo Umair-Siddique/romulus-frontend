@@ -153,7 +153,7 @@ export const BranchModal = ({
               variant="h6"
               sx={{ fontWeight: theme.typography.h2.fontWeight }}
             >
-              {isEditing ? "Edit Branch" : "Add a Branch"}
+              {isEditing ? "Modifier la branche" : "Ajouter une branche"}
             </Typography>
             <IconButton onClick={onClose}>
               <CloseIcon />
@@ -166,7 +166,7 @@ export const BranchModal = ({
               variant="body2"
               sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
             >
-              Branch Name
+              Nom de la branche
             </Typography>
             <TextField
               fullWidth
@@ -190,7 +190,7 @@ export const BranchModal = ({
               variant="body2"
               sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
             >
-              Branch Email
+              Email de la branche
             </Typography>
             <TextField
               fullWidth
@@ -215,7 +215,7 @@ export const BranchModal = ({
               variant="body2"
               sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
             >
-              Branch Phone Number
+              Numéro de téléphone de la branche
             </Typography>
             <TextField
               fullWidth
@@ -248,7 +248,7 @@ export const BranchModal = ({
                 variant="body2"
                 sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
               >
-                Country
+                Pays
               </Typography>
               <FormControl fullWidth>
                 <Select
@@ -268,7 +268,7 @@ export const BranchModal = ({
                   }}
                 >
                   <MenuItem value="" disabled>
-                    Select a country
+                    Sélectionner un pays
                   </MenuItem>
                   {countriesData.map((country) => (
                     <MenuItem key={country} value={country}>
@@ -284,7 +284,7 @@ export const BranchModal = ({
                 variant="body2"
                 sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
               >
-                City
+                Ville
               </Typography>
               <FormControl fullWidth>
                 <Select
@@ -302,7 +302,7 @@ export const BranchModal = ({
                   }}
                 >
                   <MenuItem value="" disabled>
-                    Select a city
+                    Sélectionner une ville
                   </MenuItem>
                   {citiesData.map((city) => (
                     <MenuItem key={city} value={city}>
@@ -319,7 +319,7 @@ export const BranchModal = ({
               variant="body2"
               sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
             >
-              Full Address
+              Adresse complète
             </Typography>
             <TextField
               fullWidth
@@ -343,7 +343,7 @@ export const BranchModal = ({
               variant="body2"
               sx={{ mb: 1, fontWeight: theme.typography.h3.fontWeight }}
             >
-              Upload Residence Guide
+              Télécharger le guide de résidence
             </Typography>
 
             {branchData.residenceGuidelines ? (
@@ -382,10 +382,10 @@ export const BranchModal = ({
                   sx={{ fontSize: 40, color: "#7A8B84", mb: 1 }}
                 />
                 <Typography variant="body2" sx={{ color: "#3B4B44", mb: 0.5 }}>
-                  Upload Residence Guide
+                  Télécharger le guide de résidence
                 </Typography>
                 <Typography variant="caption" sx={{ color: "#7A8B84" }}>
-                  Accepted formats: JPG, PNG, PDF (Max: 5MB)
+                  Formats acceptés : JPG, PNG, PDF (Max : 5 Mo)
                 </Typography>
                 <input
                   type="file"
@@ -406,7 +406,7 @@ export const BranchModal = ({
               onClick={onClose}
               sx={{ flex: 1, color: "#666", borderColor: "#E0E0E0" }}
             >
-              Cancel
+              Annuler
             </Button>
             <Button
               variant="contained"
@@ -417,7 +417,9 @@ export const BranchModal = ({
                 "&:hover": { backgroundColor: "#8A9D95" },
               }}
             >
-              {isEditing ? "Update Branch" : "Add a Branch"}
+              {isEditing
+                ? "Mettre à jour la succursale"
+                : "Ajouter une succursale"}
             </Button>
           </Box>
         </Box>

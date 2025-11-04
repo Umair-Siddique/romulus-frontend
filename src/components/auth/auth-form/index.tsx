@@ -83,9 +83,9 @@ export const AuthForm = ({
         setModalConfig({
           open: true,
           icon: <CancelIcon color="error" fontSize="inherit" />,
-          title: "OTP verification failed",
-          description: "Please check your OTP and try again.",
-          buttonText: "Retry",
+          title: "La vérification du code OTP a échoué",
+          description: "Veuillez vérifier votre code OTP et réessayer.",
+          buttonText: "Réessayer",
           hasButton: true,
           onSubmit: closeModal,
         });
@@ -94,9 +94,10 @@ export const AuthForm = ({
         setModalConfig({
           open: true,
           icon: <GridCheckCircleIcon />,
-          title: "OTP verified successfully!",
-          description: "You're all set. You can now log in to your account.",
-          buttonText: "Go to Login",
+          title: "OTP vérifié avec succès !",
+          description:
+            "Vous êtes prêt. Vous pouvez maintenant vous connecter à votre compte.",
+          buttonText: "Aller à la connexion",
           hasButton: true,
           onSubmit: () => {
             closeModal();
@@ -107,9 +108,9 @@ export const AuthForm = ({
         setModalConfig({
           open: true,
           icon: <CancelIcon color="error" fontSize="inherit" />,
-          title: "OTP verification failed",
-          description: "Please check your OTP and try again.",
-          buttonText: "Retry",
+          title: "La vérification du code OTP a échoué",
+          description: "Veuillez vérifier votre code OTP et réessayer.",
+          buttonText: "réessayer",
           hasButton: true,
           onSubmit: closeModal,
         });
@@ -118,9 +119,9 @@ export const AuthForm = ({
       setModalConfig({
         open: true,
         icon: <CancelIcon color="error" fontSize="inherit" />,
-        title: "OTP verification failed",
-        description: "Please check your OTP and try again.",
-        buttonText: "Retry",
+        title: "La vérification du code OTP a échoué",
+        description: "Veuillez vérifier votre code OTP et réessayer.",
+        buttonText: "réessayer",
         hasButton: true,
         onSubmit: closeModal,
       });
@@ -201,7 +202,7 @@ export const AuthForm = ({
                 mb: theme.spacing(3),
               }}
             >
-              <TextLink to="/forgot-password" label="Forgot Password" />
+              <TextLink to="/forgot-password" label="Mot de passe oublié" />
             </Box>
           )}
 
@@ -226,9 +227,11 @@ export const AuthForm = ({
                 isDisabled={isButtonDisabled}
                 isLoading={isLoading}
                 loadingText={
-                  formStep === 3 ? "Verifying..." : submitLoadingText
+                  formStep === 3 ? "Vérification..." : submitLoadingText
                 }
-                loadedText={formStep === 3 ? "Verify OTP" : submitLabel}
+                loadedText={
+                  formStep === 3 ? "Vérifier le code OTP" : submitLabel
+                }
               />
             </Box>
           )}
@@ -251,5 +254,3 @@ export const AuthForm = ({
     </Box>
   );
 };
-
-AuthForm.displayName = "AuthForm";

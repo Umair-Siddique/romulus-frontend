@@ -1,101 +1,113 @@
 export const validationRules = {
   firstName: {
-    required: "First name is required",
+    required: "Le prénom est requis",
     minLength: {
       value: 2,
-      message: "First name must be at least 2 characters",
+      message: "Le prénom doit comporter au moins 2 caractères",
     },
     maxLength: {
       value: 50,
-      message: "First name cannot exceed 50 characters",
+      message: "Le prénom ne peut pas dépasser 50 caractères",
     },
   },
   lastName: {
-    required: "Last name is required",
+    required: "Le nom de famille est requis",
     minLength: {
       value: 2,
-      message: "Last name must be at least 2 characters",
+      message: "Le nom de famille doit comporter au moins 2 caractères",
     },
     maxLength: {
       value: 50,
-      message: "Last name cannot exceed 50 characters",
+      message: "Le nom de famille ne peut pas dépasser 50 caractères",
     },
   },
   email: {
-    required: "Email is required",
+    required: "L'email est requis",
     pattern: {
       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-      message: "Invalid email address",
+      message: "Adresse email invalide",
     },
   },
   password: {
-    required: "Password is required",
-    minLength: { value: 8, message: "Password must be at least 8 characters" },
-    maxLength: { value: 32, message: "Password must be at most 32 characters" },
-    pattern: {
-      value:
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/,
-      message:
-        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-    },
-  },
-  confirmPassword: {
-    required: "Confirm password is required",
+    required: "Le mot de passe est requis",
     minLength: {
       value: 8,
-      message: "Confirm password must be at least 8 characters",
+      message: "Le mot de passe doit comporter au moins 8 caractères",
     },
     maxLength: {
       value: 32,
-      message: "Confirm password must be at most 32 characters",
+      message: "Le mot de passe ne peut pas dépasser 32 caractères",
     },
     pattern: {
       value:
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/,
       message:
-        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+        "Le mot de passe doit comporter au moins 8 caractères et contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial",
+    },
+  },
+  confirmPassword: {
+    required: "La confirmation du mot de passe est requise",
+    minLength: {
+      value: 8,
+      message:
+        "La confirmation du mot de passe doit comporter au moins 8 caractères",
+    },
+    maxLength: {
+      value: 32,
+      message:
+        "La confirmation du mot de passe doit comporter au plus 32 caractères",
+    },
+    pattern: {
+      value:
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/,
+      message:
+        "La confirmation du mot de passe doit comporter au moins 8 caractères et contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial",
     },
     validate: (value: string, formValues: any) => {
-      return value === formValues.password || "Passwords do not match";
+      return (
+        value === formValues.password ||
+        "Les mots de passe ne correspondent pas"
+      );
     },
   },
   role: {
-    required: "Role is required",
+    required: "Le rôle est requis",
     minLength: {
       value: 2,
-      message: "Role must be at least 2 characters",
+      message: "Le rôle doit comporter au moins 2 caractères",
     },
     maxLength: {
       value: 50,
-      message: "Role cannot exceed 50 characters",
+      message: "Le rôle ne peut pas dépasser 50 caractères",
     },
   },
   required: {
-    required: "This field is required",
+    required: "Ce champ est requis",
   },
   phone: {
-    required: "WhatsApp number is required",
+    required: "Le numéro WhatsApp est requis",
     pattern: {
       value: /^\+\d{1,3}\s?\d{1,14}$/,
-      message: "Please enter a valid WhatsApp number with country code",
+      message:
+        "Veuillez entrer un numéro WhatsApp valide avec l'indicatif du pays",
     },
     minLength: {
       value: 10,
-      message: "Phone number must be at least 10 digits",
+      message: "Le numéro de téléphone doit comporter au moins 10 chiffres",
     },
   },
   toc: {
-    required: "You must agree to the Terms and Conditions",
+    required: "Vous devez accepter les termes et conditions",
     pattern: {
       value: /^true$/,
-      message: "You must agree to the Terms and Conditions",
+      message: "Vous devez accepter les termes et conditions",
     },
   },
   verificationCode: {
-    required: "Verification code is required",
+    required: "Le code de vérification est requis",
     pattern: {
       value: /^\d{6}$/,
-      message: "Verification code must be a 6-digit number",
+      message: "Le code de vérification doit être un numéro à 6 chiffres",
     },
   },
 };

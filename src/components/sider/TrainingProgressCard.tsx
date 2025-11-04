@@ -1,8 +1,4 @@
 import { Card, CardContent, Typography, Stack, useTheme } from "@mui/material";
-import {
-  RadioButtonUnchecked as UncheckedIcon,
-  RadioButtonChecked as CheckedIcon,
-} from "@mui/icons-material";
 
 import { useUserContext } from "#context";
 
@@ -31,12 +27,12 @@ export const TrainingProgressCard = () => {
             variant="subtitle1"
             sx={{ fontWeight: theme.typography.h2.fontWeight }}
           >
-            Training Progress
+            Progression de la formation
           </Typography>
 
           {/* Subtitle */}
           <Typography variant="caption" sx={{ lineHeight: 1.4 }}>
-            Take the quiz to unlock missions.
+            Passez le quiz pour débloquer des missions.
           </Typography>
 
           {/* Quiz Status */}
@@ -44,8 +40,8 @@ export const TrainingProgressCard = () => {
             <Typography variant="caption">
               📝Quiz{" "}
               {trainingStatus === "completed"
-                ? "completed successfully"
-                : "not attempted"}
+                ? "terminé avec succès"
+                : "non tenté"}
             </Typography>
           </Stack>
         </Stack>

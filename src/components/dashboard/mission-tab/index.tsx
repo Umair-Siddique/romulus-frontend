@@ -291,7 +291,7 @@ export const MissionsTab = ({
               textTransform: "none",
             }}
           >
-            Generate Invoice
+            Générer la facture
           </Button>
         )}
       </Box>

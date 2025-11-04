@@ -243,44 +243,44 @@ export const ProfileHeader = ({
       case "hired":
         return {
           icon: <CheckCircle color="success" fontSize="inherit" />,
-          title: "Hire Educator",
-          description: `You're about to officially hire **${educatorData?.firstName} ${educatorData?.lastName}** for the mission **"${missionData?.data?.title}"** on **${now.date}** at **${now.time}**. Once confirmed, this educator will be notified and the mission status will be updated.`,
-          buttonText: "Hire",
+          title: "Embaucher un éducateur",
+          description: `Vous êtes sur le point d'embaucher officiellement **${educatorData?.firstName} ${educatorData?.lastName}** pour la mission **"${missionData?.data?.title}"** le **${now.date}** à **${now.time}**. Une fois confirmé, cet éducateur sera notifié et le statut de la mission sera mis à jour.`,
+          buttonText: "Embaucher",
         };
       case "rejected":
         return {
           icon: <Cancel color="error" fontSize="inherit" />,
-          title: "Reject Educator",
-          description: "Are you sure you want to reject this educator?",
-          buttonText: "Reject",
+          title: "Rejeter l'éducateur",
+          description: "Êtes-vous sûr de vouloir rejeter cet éducateur?",
+          buttonText: "Rejeter",
         };
       case "active":
         return {
           icon: <CheckCircle color="success" fontSize="inherit" />,
-          title: "Active Educator",
-          description: `Are you sure you want to active this educator?`,
-          buttonText: "Active",
+          title: "Activer l'éducateur",
+          description: `Êtes-vous sûr de vouloir activer cet éducateur?`,
+          buttonText: "Activer",
         };
       case "inactive":
         return {
           icon: <Cancel color="error" fontSize="inherit" />,
-          title: "Inactive Educator",
-          description: `Are you sure you want to inactive this educator?`,
-          buttonText: "Inactive",
+          title: "Désactiver l'éducateur",
+          description: `Êtes-vous sûr de vouloir désactiver cet éducateur?`,
+          buttonText: "Désactiver",
         };
       case "resolved":
         return {
           icon: <CheckCircle color="success" fontSize="inherit" />,
-          title: "Resolved Report",
-          description: `Are you sure you want to resolve this report?`,
-          buttonText: "Resolve",
+          title: "Rapport Résolu",
+          description: `Êtes-vous sûr de vouloir résoudre ce rapport?`,
+          buttonText: "Résoudre",
         };
       case "dismissed":
         return {
           icon: <Cancel color="error" fontSize="inherit" />,
-          title: "Dismissed Report",
-          description: `Are you sure you want to dismiss this report?`,
-          buttonText: "Dismiss",
+          title: "Rapport Rejeté",
+          description: `Êtes-vous sûr de vouloir rejeter ce rapport?`,
+          buttonText: "Rejeter",
         };
       default:
         return {
@@ -314,7 +314,7 @@ export const ProfileHeader = ({
             onClick={() => openModal("rejected")}
             sx={{ ...buttonStyles.base, ...buttonStyles.error }}
           >
-            Reject Educator
+            Rejeter l'éducateur
           </Button>
           <Button
             variant="contained"
@@ -322,7 +322,7 @@ export const ProfileHeader = ({
             onClick={() => openModal("hired")}
             sx={{ ...buttonStyles.base, ...buttonStyles.primary }}
           >
-            Hire Educator
+            Embaucher l'éducateur
           </Button>
         </Box>
       );
@@ -346,7 +346,7 @@ export const ProfileHeader = ({
             onClick={() => openModal("active")}
             disabled={activationStatus === "active"}
           >
-            Active
+            Activer
           </Button>
           <Button
             variant="outlined"
@@ -355,7 +355,7 @@ export const ProfileHeader = ({
             sx={{ ...buttonStyles.base, ...buttonStyles.error }}
             disabled={activationStatus === "inactive"}
           >
-            Inactive
+            Désactiver
           </Button>
         </Box>
       );
@@ -377,7 +377,7 @@ export const ProfileHeader = ({
             onClick={() => openModal("resolved")}
             disabled={activationStatus === "resolved"}
           >
-            Resolve
+            Résoudre
           </Button>
           <Button
             variant="outlined"
@@ -386,7 +386,7 @@ export const ProfileHeader = ({
             sx={{ ...buttonStyles.base, ...buttonStyles.error }}
             disabled={activationStatus === "dismissed"}
           >
-            Dismiss
+            Rejeter
           </Button>
         </Box>
       );
@@ -398,7 +398,7 @@ export const ProfileHeader = ({
           variant="outlined"
           onClick={() => navigate(`/educators/${educatorId}`)}
         >
-          View Details
+          Voir les détails
         </Button>
       );
     }
@@ -435,8 +435,8 @@ export const ProfileHeader = ({
           }}
         >
           {parentComponent === "reports" && educatorId
-            ? "Educator Info"
-            : "Organization Info"}
+            ? "Informations sur l'éducateur"
+            : "Informations sur l'organisation"}
         </Typography>
 
         {renderActionButtons()}

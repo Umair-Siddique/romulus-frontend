@@ -13,23 +13,23 @@ import {
 import { NavigationItem } from "#types";
 
 const baseItems = {
-  dashboard: { text: "Dashboard", to: "/dashboard", icon: DashboardIcon },
-  training: { text: "Training", to: "/training", icon: TrainingIcon },
-  chats: { text: "Chats", to: "/chats", icon: ChatsIcon },
-  settings: { text: "Settings", to: "/settings", icon: SettingsIcon },
+  dashboard: { text: "Tableau de bord", to: "/dashboard", icon: DashboardIcon },
+  training: { text: "Formation", to: "/training", icon: TrainingIcon },
+  chats: { text: "Discussions", to: "/chats", icon: ChatsIcon },
+  settings: { text: "Paramètres", to: "/settings", icon: SettingsIcon },
   findEducator: {
-    text: "Find Educator",
+    text: "Trouver un éducateur",
     to: "/find-educator",
     icon: FindEducatorIcon,
   },
   branches: { text: "Branches", to: "/branches", icon: BranchesIcon },
   organizations: {
-    text: "Organizations",
+    text: "Organisations",
     to: "/organizations",
     icon: OrganizationsIcon,
   },
-  educators: { text: "Educators", to: "/educators", icon: EducatorsIcon },
-  reports: { text: "Reports", to: "/reports", icon: ReportsIcon },
+  educators: { text: "Éducateurs", to: "/educators", icon: EducatorsIcon },
+  reports: { text: "Rapports", to: "/reports", icon: ReportsIcon },
 };
 
 const roleMenus: Record<string, (keyof typeof baseItems)[]> = {

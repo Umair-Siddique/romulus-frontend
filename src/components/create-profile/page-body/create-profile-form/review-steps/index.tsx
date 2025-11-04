@@ -10,10 +10,7 @@ import { BranchesSection } from "./branches-section";
 import { IdentitySection } from "./IdentitySection";
 import { ProfessionSection } from "./ProfessionSection";
 
-import {
-  FormDataProps,
-  ReviewStepProps,
-} from "#types";
+import { FormDataProps, ReviewStepProps } from "#types";
 
 export const ReviewStep = ({
   formData,
@@ -54,13 +51,13 @@ export const ReviewStep = ({
   const getIdentityFields = () => [
     {
       name: "identityProof",
-      label: "Identity Proof",
+      label: "Justificatif d'identité",
       type: "file" as const,
       required: true,
     },
     {
       name: "criminalRecord",
-      label: "Criminal Record B3",
+      label: "Extrait de casier judiciaire B3",
       type: "file" as const,
       required: true,
     },
@@ -76,31 +73,31 @@ export const ReviewStep = ({
     },
     {
       name: "hourlyRate",
-      label: "Hourly Rate (€)",
+      label: "Taux horaire (€)",
       type: "number" as const,
       required: true,
     },
     {
       name: "skills",
-      label: "Skills",
+      label: "Compétences",
       type: "text" as const,
       required: false,
     },
     {
       name: "education",
-      label: "Education",
+      label: "Éducation",
       type: "text" as const,
       required: true,
     },
     {
       name: "certificateOfHonor",
-      label: "Certificate of Honorability",
+      label: "Certificat d'honorabilité",
       type: "file" as const,
       required: false,
     },
     {
       name: "diploma",
-      label: "Certificate/Diploma",
+      label: "Certificat/Diplôme",
       type: "file" as const,
       required: false,
     },
@@ -167,7 +164,7 @@ export const ReviewStep = ({
                   },
                 }}
               >
-                Cancel
+                Annuler
               </Button>
               <Button
                 variant="contained"
@@ -180,7 +177,7 @@ export const ReviewStep = ({
                   },
                 }}
               >
-                Save Changes
+                Enregistrer les modifications
               </Button>
             </Box>
           </>
@@ -195,12 +192,12 @@ export const ReviewStep = ({
     switch (sectionName) {
       case "profile":
         return role === "educator"
-          ? "Personal Information"
-          : "Organization Information";
+          ? "Informations personnelles"
+          : "Informations sur l'organisation";
       case "branches":
         return "Branches";
       case "identity":
-        return "Identity Proof";
+        return "Justificatif d'identité";
       case "profession":
         return "Profession & Skills";
       default:

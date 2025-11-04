@@ -74,7 +74,7 @@ const ReportModal = ({
             mb: 1,
           }}
         >
-          Report {reportingEducatorName}
+          Signaler {reportingEducatorName}
         </Typography>
 
         {/* Description */}
@@ -88,10 +88,10 @@ const ReportModal = ({
             lineHeight: 1.5,
           }}
         >
-          You are reporting {reportingEducatorName} for an issue that occurred
-          during a session. Please describe clearly what happened and attach any
-          relevant evidence. This report will be reviewed by the Romulus admin
-          team and kept confidential.
+          Vous signalez {reportingEducatorName} pour un problème survenu lors
+          d'une session. Veuillez décrire clairement ce qui s'est passé et
+          joindre toute preuve pertinente. Ce rapport sera examiné par l'équipe
+          d'administration de Romulus et restera confidentiel.
         </Typography>
 
         {/* Add Reason Label */}
@@ -102,7 +102,7 @@ const ReportModal = ({
             fontWeight: "medium",
           }}
         >
-          Add Reason*
+          Ajouter une raisonq*
         </Typography>
 
         {/* Reason TextField */}
@@ -129,7 +129,7 @@ const ReportModal = ({
             fontWeight: "medium",
           }}
         >
-          Upload Evidence
+          Télécharger une preuve
         </Typography>
 
         {/* Upload Area */}
@@ -173,7 +173,7 @@ const ReportModal = ({
             {reportEvidence ? reportEvidence.name : "Upload"}
           </Typography>
           <Typography variant="caption" color="text.secondary">
-            Accepted formats: JPG, PNG, PDF (Max: 5MB)
+            Formats acceptés : JPG, PNG, PDF (Max : 5 Mo)
           </Typography>
         </Box>
 
@@ -187,7 +187,7 @@ const ReportModal = ({
               color: theme.palette.primary.main,
             }}
           >
-            Cancel
+            Annuler
           </Button>
           <Button
             variant="contained"
@@ -201,7 +201,7 @@ const ReportModal = ({
               },
             }}
           >
-            Submit Report
+            Soumettre le rapport
           </Button>
         </Stack>
       </Box>

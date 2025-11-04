@@ -27,27 +27,30 @@ export const FileUploadField = ({
     switch (fieldName) {
       case "identityProof":
         return {
-          title: "Upload government-issued ID",
-          subtitle: "(Passport, Driver's License, National ID Card)",
+          title:
+            "Télécharger une pièce d'identité délivrée par le gouvernement",
+          subtitle:
+            "(Passeport, permis de conduire, carte d'identité nationale)",
         };
       case "criminalRecord":
         return {
-          title: "Upload your Criminal Record B3",
-          subtitle: "(Police clearance or background check document)",
+          title: "Télécharger votre extrait de casier judiciaire B3",
+          subtitle:
+            "(Certificat de police ou document de vérification des antécédents)",
         };
       case "certificateOfHonor":
         return {
-          title: "Upload Certificate of Honorability",
+          title: "Télécharger le certificat d'honorabilité",
           subtitle: "",
         };
       case "diploma":
         return {
-          title: "Upload Certificate/Diploma",
+          title: "Télécharger le certificat/diplôme le plus élevé obtenu",
           subtitle: "",
         };
       default:
         return {
-          title: `Upload ${label}`,
+          title: `Télécharger ${label}`,
           subtitle: "",
         };
     }
@@ -184,7 +187,7 @@ export const FileUploadField = ({
               display: "block",
             }}
           >
-            Accepted formats: JPG, PNG, PDF (Max: 5MB)
+            Formats acceptés : JPG, PNG, PDF (Max : 5 Mo)
           </Typography>
         </Box>
       )}

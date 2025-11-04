@@ -31,7 +31,7 @@ export const VideoDisplay = ({
       <Box>
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
           <Typography variant="h5" sx={{ fontWeight: 600 }}>
-            Overview
+            Vue d'ensemble
           </Typography>
           <Typography
             variant="body2"
@@ -55,7 +55,7 @@ export const VideoDisplay = ({
         variant="contained"
         sx={{ mt: 2 }}
       >
-        Next Video
+        Vidéo Suivante
       </Button>
     </Box>
   );

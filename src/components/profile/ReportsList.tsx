@@ -138,11 +138,11 @@ export const ReportsList = ({ reportsData }: { reportsData: any }) => {
   };
 
   const headerData = [
-    { id: "reportedBy", label: "Reported By" },
-    { id: "createdAt", label: "Reported On" },
-    { id: "reportedEducator", label: "Reported Educator" },
-    { id: "reportReason", label: "Report Reason" },
-    { id: "status", label: "Status" },
+    { id: "reportedBy", label: "Signalé par" },
+    { id: "createdAt", label: "Signalé le" },
+    { id: "reportedEducator", label: "Éducateur signalé" },
+    { id: "reportReason", label: "Raison du signalement" },
+    { id: "status", label: "Statut" },
     { id: "actions", label: "Actions" },
   ];
 

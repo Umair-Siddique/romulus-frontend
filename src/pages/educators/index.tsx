@@ -176,11 +176,11 @@ export const Educators = () => {
   };
 
   const headerData = [
-    { id: "name", label: "Name" },
-    { id: "createdAt", label: "Registered On" },
+    { id: "name", label: "Nom" },
+    { id: "createdAt", label: "Date d'inscription" },
     { id: "email", label: "Email" },
-    { id: "phone", label: "Phone" },
-    { id: "status", label: "Status" },
+    { id: "phone", label: "Téléphone" },
+    { id: "status", label: "Statut" },
     { id: "actions", label: "Actions" },
   ];
 
@@ -197,8 +197,8 @@ export const Educators = () => {
   return (
     <>
       <PageMeta
-        title="Manage & Monitor Educators"
-        description="Manage all educators here"
+        title="Gérer et surveiller les éducateurs"
+        description="Gérer tous les éducateurs ici"
       />
       <KpiCards kpiCardsData={kpis} />
       <Box sx={{ mt: 3 }}>

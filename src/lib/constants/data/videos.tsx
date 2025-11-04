@@ -3,33 +3,33 @@ import { Video } from "#types";
 export const videosData: Video[] = [
   {
     id: 1,
-    title: "Introduction to the Training Program",
+    title: "Introduction au programme de formation",
     description:
-      "Get an overview of the training series, its objectives, and how each module will help you build a strong foundation step by step.",
+      "Obtenez un aperçu de la série de formation, de ses objectifs et de la manière dont chaque module vous aidera à construire une base solide étape par étape.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1757688620/training_1_i3y40t.mp4",
     duration: "05:42",
   },
   {
     id: 2,
-    title: "Core Concepts Explained",
+    title: "Concepts de base expliqués en pratique",
     description:
-      "Dive deeper into the essential concepts with practical examples. This session builds the knowledge you’ll need for the next modules.",
+      "Plongez plus profondément dans les concepts essentiels avec des exemples pratiques. Cette session renforce les connaissances dont vous aurez besoin pour les modules suivants.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1757688623/training_2_tusbdb.mp4",
     duration: "12:18",
   },
   {
     id: 3,
-    title: "Hands-On Walkthrough",
+    title: "Démonstration pratique et meilleures pratiques",
     description:
-      "Follow along with a step-by-step walkthrough of applying the core concepts in a real-world scenario with best practices.",
+      "Suivez un guide étape par étape pour appliquer les concepts de base dans un scénario réel avec les meilleures pratiques.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1757688620/training_3_upjps9.mp4",
     duration: "15:27",
   },
   {
     id: 4,
-    title: "Advanced Tips and Next Steps",
+    title: "Conseils avancés et prochaines étapes",
     description:
-      "Learn advanced techniques, performance optimizations, and recommended next steps to continue growing your skills after this training.",
+      "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1757688625/training_4_aehxgg.mp4",
     duration: "09:55",
   },

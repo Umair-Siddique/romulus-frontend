@@ -303,7 +303,7 @@ export const FindEducator = () => {
               fontSize: theme.typography.body2.fontSize,
             }}
           >
-            Create Mission
+            Créer une mission
           </Button>
         </>
       ) : (
@@ -323,7 +323,7 @@ export const FindEducator = () => {
               fontSize: theme.typography.body2.fontSize,
             }}
           >
-            Send Invitations
+            Envoyer des invitations
           </Button>
         </>
       )}
@@ -370,16 +370,16 @@ export const FindEducator = () => {
           navigate(`/missions/${missionsData?.data?._id}`, { replace: true })
         }
         icon={<CheckCircleIcon />}
-        title="Invitations Sent Successfully!"
-        description={`Invitations have been sent to ${
+        title="Invitations envoyées avec succès !"
+        description={`Les invitations ont été envoyées à ${
           invitees.length
-        } educator${
+        } éducateur${
           invitees.length !== 1 ? "s" : ""
-        }. You'll be notified as soon as they respond.`}
+        }. Vous serez informé dès qu'ils répondront.`}
         hasButton={true}
         hasButton1={true}
-        buttonText="Close"
-        button1Text="View Invitation Status"
+        buttonText="Fermer"
+        button1Text="Voir le statut de l'invitation"
         hasAdditionalElements={false}
       />
 
@@ -390,12 +390,12 @@ export const FindEducator = () => {
         onSubmit={handleContactAdmin}
         button1OnClick={handleExpandRadius}
         icon={<InfoIcon sx={{ color: "#FFA726" }} />}
-        title="No Educators Found Nearby"
-        description="No educators are available in your current search radius. You can try expanding the radius to reach more educators or contact our admin team for assistance."
+        title="Aucun éducateur trouvé à proximité"
+        description="Aucun éducateur n'est disponible dans votre rayon de recherche actuel. Vous pouvez essayer d'élargir le rayon pour atteindre plus d'éducateurs ou contacter notre équipe d'administration pour obtenir de l'aide."
         hasButton={true}
         hasButton1={true}
-        buttonText="Contact Admin"
-        button1Text="Expand Radius"
+        buttonText="Contacter l'administration"
+        button1Text="Élargir le rayon"
         hasAdditionalElements={false}
       />
 
@@ -405,11 +405,11 @@ export const FindEducator = () => {
         onClose={handleSuccessModalClose}
         onSubmit={handleContactAdminModalClose}
         icon={<HelpOutlineIcon />}
-        title="Need Help Finding Educators?"
-        description="Contact admin team directly for assistance with your mission, educator availability, or technical questions."
+        title="Besoin d'aide pour trouver des éducateurs ?"
+        description="Contactez directement l'équipe d'administration pour obtenir de l'aide concernant votre mission, la disponibilité des éducateurs ou des questions techniques."
         hasButton={true}
         hasButton1={false}
-        buttonText="Close"
+        buttonText="Fermer"
         additionalElements={<ContactAdmin />}
         hasAdditionalElements={true}
       />

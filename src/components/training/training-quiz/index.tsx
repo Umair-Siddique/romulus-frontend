@@ -109,8 +109,8 @@ export const TrainingQuiz = () => {
   return (
     <>
       <PageMeta
-        title="Knowledge Quiz – Test Your Skills"
-        description="Challenge yourself with our interactive quiz, earn points, and unlock new missions as you progress."
+        title="Quiz de Connaissances – Testez Vos Compétences"
+        description="Mettez-vous au défi avec notre quiz interactif, gagnez des points et débloquez de nouvelles missions au fur et à mesure de votre progression."
       />
       {/* Quiz Overview / Result Card */}
       <QuizMeta quizMetaConfig={currentQuizMetaConfig} />
@@ -134,7 +134,7 @@ export const TrainingQuiz = () => {
             disabled={currentPage === 0}
             onClick={() => setCurrentPage((p) => p - 1)}
           >
-            Previous
+            Précédent
           </Button>
 
           {currentPage < totalPages - 1 ? (
@@ -144,7 +144,7 @@ export const TrainingQuiz = () => {
               sx={{ backgroundColor: theme.palette.primary.main }}
               disabled={!currentPageAnswered} // ✅ must answer all 6
             >
-              Next
+              Suivant
             </Button>
           ) : (
             <Button
@@ -153,7 +153,7 @@ export const TrainingQuiz = () => {
               onClick={handleSubmit}
               disabled={!currentPageAnswered} // ✅ must answer last page too
             >
-              Submit
+              Soumettre
             </Button>
           )}
         </Stack>
@@ -167,18 +167,18 @@ export const TrainingQuiz = () => {
               onClick={handleGoToMissions}
               sx={{ backgroundColor: theme.palette.primary.main }}
             >
-              Go to Missions
+              Aller aux Missions
             </Button>
           ) : (
             <Button variant="outlined" color="error" onClick={handleRetake}>
-              Retake Quiz
+              Reprendre le Quiz
             </Button>
           )}
         </Stack>
       )}
       {showValidationError && (
         <Alert severity="warning" sx={{ mt: 2 }}>
-          Please answer all questions before submitting.
+          Veuillez répondre à toutes les questions avant de soumettre.
         </Alert>
       )}
       {/* Progress indicator */}
@@ -193,12 +193,12 @@ export const TrainingQuiz = () => {
         open={showSuccessModal}
         onClose={() => setShowSuccessModal(false)}
         onSubmit={() => setShowSuccessModal(false)}
-        title="🎉 Congratulations, Champion!"
-        description="You’ve successfully completed the quiz with flying colors. Your knowledge unlocks the path to new missions — let’s keep the momentum going!"
+        title="🎉 Félicitations, Champion!"
+        description="Vous avez réussi le quiz avec brio. Vos connaissances ouvrent la voie à de nouvelles missions - continuons sur cette lancée!"
         icon={<CheckCircleOutlineIcon color="success" sx={{ fontSize: 52 }} />}
         hasButton={false}
         hasButton1={true}
-        button1Text="Go to Missions"
+        button1Text="Aller aux Missions"
         button1OnClick={handleGoToMissions}
       />
     </>

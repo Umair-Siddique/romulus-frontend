@@ -56,7 +56,7 @@ export const SelectField = ({
         }}
       >
         <MenuItem value="" disabled>
-          Select {label.toLowerCase()}
+          Sélectionnez {label.toLowerCase()}
         </MenuItem>
         {options.map((option) => (
           <MenuItem key={option} value={option}>

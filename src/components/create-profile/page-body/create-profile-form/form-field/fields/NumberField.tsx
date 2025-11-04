@@ -28,9 +28,9 @@ export const NumberField = ({
   const getFieldSpecificProps = () => {
     if (fieldName === "hourlyRate") {
       return {
-        label: "Your Hourly Rate",
+        label: "Votre tarif horaire en euros",
         startAdornment: "€",
-        placeholder: placeholder || "Enter your hourly rate",
+        placeholder: placeholder || "Entrez votre tarif horaire",
       };
     }
 
@@ -38,7 +38,7 @@ export const NumberField = ({
       label,
       startAdornment,
       endAdornment,
-      placeholder: placeholder || `Enter ${label.toLowerCase()}`,
+      placeholder: placeholder || `Entrez ${label.toLowerCase()}`,
     };
   };
 

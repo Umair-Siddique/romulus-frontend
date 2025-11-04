@@ -15,7 +15,6 @@ import { useTheme, Theme } from "@mui/material/styles";
 import React, { useCallback, useEffect, useReducer, useState } from "react";
 
 import {
-  citiesData,
   educationData,
   countriesData,
   professionsData,
@@ -168,10 +167,10 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
   };
 
   const documentFields = [
-    { field: "certificateOfHonor", label: "Certificate of Honorability" },
-    { field: "criminalRecord", label: "Criminal Record" },
-    { field: "diploma", label: "Diploma" },
-    { field: "identityProof", label: "Identity Proof" },
+    { field: "certificateOfHonor", label: "Certificat d'honorabilité" },
+    { field: "criminalRecord", label: "Casier judiciaire" },
+    { field: "diploma", label: "Diplôme" },
+    { field: "identityProof", label: "Justificatif d'identité" },
   ];
 
   return (
@@ -185,7 +184,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
           color: theme.palette.text.primary,
         }}
       >
-        Manage Profile
+        Gérer le profil
       </Typography>
 
       <Box
@@ -308,7 +307,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
             >
               {/* Upload Icon */}
               <Button variant="outlined" component="label">
-                Change Image
+                Changer d'image
                 <input
                   type="file"
                   hidden
@@ -327,7 +326,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                 sx={{ border: "none", textDecoration: "underline" }}
                 disabled={!userData.avatar}
               >
-                Remove Image
+                Supprimer l'image
               </Button>
             </Box>
 
@@ -389,7 +388,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
           </Box>
           <Box sx={{ width: "50%" }}>
             <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-              Phone
+              Téléphone
             </Typography>
             <TextField
               value={userData.phone.slice(1)}
@@ -431,16 +430,16 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                 }}
               >
                 <MenuItem value="" disabled>
-                  Select Gender
+                  Sélectionner le genre
                 </MenuItem>
-                <MenuItem value="male">Male</MenuItem>
-                <MenuItem value="female">Female</MenuItem>
+                <MenuItem value="male">Homme</MenuItem>
+                <MenuItem value="female">Femme</MenuItem>
               </Select>
             </Box>
           ) : (
             <Box sx={{ width: "50%" }}>
               <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                SIRET Number
+                Numéro SIRET
               </Typography>
               <TextField
                 value={userData.siretNumber}
@@ -461,7 +460,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
 
           <Box sx={{ width: "50%" }}>
             <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-              Address
+              Adresse
             </Typography>
             <TextField
               value={isEducator ? userData.fullAddress : userData.officeAddress}
@@ -491,7 +490,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
         >
           <Box sx={{ width: "50%" }}>
             <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-              Country
+              Pays
             </Typography>
             <Select
               value={userData.country}
@@ -502,7 +501,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               }}
             >
               <MenuItem value="" disabled>
-                Select Country
+                Sélectionner le pays
               </MenuItem>
               {countriesData.map((country) => (
                 <MenuItem key={country} value={country}>
@@ -514,7 +513,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
 
           <Box sx={{ width: "50%" }}>
             <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-              City
+              Ville
             </Typography>
             <Select
               value={userData.city}
@@ -525,7 +524,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               }}
             >
               <MenuItem value="" disabled>
-                Select City
+                Sélectionner la ville
               </MenuItem>
               {correspondingCities.map((city) => (
                 <MenuItem key={city} value={city}>
@@ -560,7 +559,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                   }}
                 >
                   <MenuItem value="" disabled>
-                    Select Profession
+                    Sélectionner la profession
                   </MenuItem>
                   {professionsData.map((profession) => (
                     <MenuItem key={profession} value={profession}>
@@ -572,7 +571,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
 
               <Box sx={{ width: "50%" }}>
                 <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                  Education
+                  Éducation
                 </Typography>
                 <Select
                   value={userData.education}
@@ -583,7 +582,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                   }}
                 >
                   <MenuItem value="" disabled>
-                    Select Education
+                    Sélectionner l'éducation
                   </MenuItem>
                   {educationData.map((education) => (
                     <MenuItem key={education} value={education}>
@@ -605,7 +604,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
             >
               <Box sx={{ width: "50%" }}>
                 <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                  Availability
+                  Disponibilité
                 </Typography>
                 <Select
                   value={
@@ -623,7 +622,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                   }}
                 >
                   <MenuItem value="" disabled>
-                    Select Availability
+                    Sélectionner la disponibilité
                   </MenuItem>
                   {availabilityStatus.map((availability) => (
                     <MenuItem key={availability} value={availability}>
@@ -635,7 +634,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
 
               <Box sx={{ width: "50%" }}>
                 <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                  Hourly Rate
+                  Taux horaire
                 </Typography>
                 <TextField
                   value={userData.hourlyRate}
@@ -657,7 +656,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
             {/* Skills */}
             <Box sx={{ width: "100%" }}>
               <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                Skills
+                Compétences
               </Typography>
               <Box sx={{ display: "flex", gap: 1 }}>
                 <TextField
@@ -742,7 +741,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
         {/* Submit Button */}
         <Box sx={{ width: "100%", mt: theme.spacing(2) }}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Save Changes
+            Enregistrer les modifications
           </Button>
         </Box>
       </Box>

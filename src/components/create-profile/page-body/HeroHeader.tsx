@@ -16,14 +16,14 @@ export const HeroHeader = ({ userRole }: HeroHeaderProps) => {
         fontWeight={theme.typography.h3.fontWeight} // Using theme's h3 fontWeight (600)
         sx={{ fontFamily: theme.typography.h3.fontFamily }} // Using theme's h3 fontFamily
       >
-        Welcome {user}!
+        Bienvenue {user}!
       </Typography>
       <Typography
         variant="h3"
         fontWeight={theme.typography.h3.fontWeight} // Using theme's h3 fontWeight (600)
         sx={{ fontFamily: theme.typography.h3.fontFamily }} // Using theme's h3 fontFamily
       >
-        Let's complete your profile
+        Complétons votre profil
       </Typography>
     </Box>
   );

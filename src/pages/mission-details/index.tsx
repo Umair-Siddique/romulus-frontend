@@ -17,7 +17,7 @@ import {
   Modal,
 } from "#components";
 import { useUserContext } from "#context";
-import { formatDate, formatTime, getStatusColor } from "#lib";
+import { formatDate, formatTime } from "#lib";
 
 export const MissionDetails = ({
   missionIdProp,
@@ -149,7 +149,7 @@ export const MissionDetails = ({
   // Handle feedback submission
   const handleFeedbackSubmit = () => {
     if (review.rating === 0) {
-      alert("Please provide a rating before submitting feedback.");
+      alert("Veuillez fournir une note avant de soumettre vos commentaires.");
       return;
     }
 
@@ -211,7 +211,7 @@ export const MissionDetails = ({
   const tabs = [
     {
       id: 0,
-      label: "Invited Educators",
+      label: "Éducateurs invités",
       icon: PersonIcon,
       component: (
         <EducatorTable
@@ -223,7 +223,7 @@ export const MissionDetails = ({
     },
     {
       id: 1,
-      label: "Hired Educators",
+      label: "Éducateurs embauchés",
       icon: PersonIcon,
       component: (
         <EducatorTable
@@ -310,17 +310,17 @@ export const MissionDetails = ({
         hasButton1={true}
         title={
           role === "organization"
-            ? "Give Feedback to This Educator"
-            : "Give Feedback to This Mission"
+            ? "Donner un retour à cet éducateur"
+            : "Donner un retour à cette mission"
         }
         description={
           role === "organization"
-            ? "How would you rate the experience with this educator?"
-            : "How would you rate the experience with this mission?"
+            ? "Comment évalueriez-vous l'expérience avec cet éducateur ?"
+            : "Comment évalueriez-vous l'expérience avec cette mission ?"
         }
         hasButton={true}
-        buttonText="Close"
-        button1Text="Submit Feedback"
+        buttonText="Fermer"
+        button1Text="Soumettre les commentaires"
         hasRating={true}
         rating={review.rating}
         onRatingChange={(rating) => setReview({ ...review, rating })}
@@ -335,7 +335,7 @@ export const MissionDetails = ({
                 textAlign: "left",
               }}
             >
-              Comment
+              Commentaire
             </Typography>
             <TextField
               value={review.feedback}
@@ -345,7 +345,7 @@ export const MissionDetails = ({
                   feedback: e.target.value,
                 })
               }
-              placeholder="Write here."
+              placeholder="Écrire ici."
               multiline
               rows={4}
               fullWidth

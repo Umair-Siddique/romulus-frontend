@@ -26,7 +26,7 @@ export const DescriptionField = ({
         Description *
       </Typography>
       <TextField
-        placeholder="Enter a detailed description of the mission"
+        placeholder="Entrez une description détaillée de la mission"
         fullWidth
         multiline
         rows={4}
@@ -37,10 +37,10 @@ export const DescriptionField = ({
             : undefined
         }
         {...register("description", {
-          required: "Description is required",
+          required: "La description est requise",
           minLength: {
             value: 10,
-            message: "Description must be at least 10 characters long",
+            message: "La description doit comporter au moins 10 caractères",
           },
         })}
         sx={{

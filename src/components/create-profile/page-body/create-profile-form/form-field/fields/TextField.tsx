@@ -49,11 +49,11 @@ export const TextFieldComponent = ({
     if (placeholder) return placeholder;
     switch (fieldName) {
       case "bio":
-        return "Tell us about yourself, your experience, and what makes you unique...";
+        return "Parlez-nous de vous, de votre expérience et de ce qui vous rend unique...";
       case "fullAddress":
-        return "Enter your complete address";
+        return "Entrez votre adresse complète";
       default:
-        return `Enter your ${label.toLowerCase()}`;
+        return `Entrez votre ${label.toLowerCase()}`;
     }
   };
 
@@ -114,7 +114,7 @@ export const TextFieldComponent = ({
           <TextField
             disabled
             fullWidth
-            placeholder="Loading address field..."
+            placeholder="Chargement du champ d'adresse..."
             sx={commonSx}
           />
         )

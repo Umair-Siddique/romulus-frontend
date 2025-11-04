@@ -35,7 +35,7 @@ export const FileUploadSection = ({
           color: theme.palette.text.primary,
         }}
       >
-        Upload Technical Document
+        Télécharger le document technique *
       </Typography>
       <UploadArea
         onClick={() => document.getElementById("file-upload")?.click()}
@@ -44,14 +44,14 @@ export const FileUploadSection = ({
           sx={{ fontSize: 48, color: theme.palette.grey[400], mb: 1 }}
         />
         <Typography variant="body2" color="text.secondary">
-          Upload Technical Document
+          Télécharger le document technique
         </Typography>
         <Typography variant="caption" color="text.disabled">
-          Accepted formats: JPG, PNG, PDF (Max: 5MB)
+          Formats acceptés : JPG, PNG, PDF (Max : 5 Mo)
         </Typography>
         {selectedDocument && (
           <Typography variant="body2" color="default" mt={1}>
-            Selected: {selectedDocument.name}
+            Sélectionné : {selectedDocument.name}
           </Typography>
         )}
       </UploadArea>

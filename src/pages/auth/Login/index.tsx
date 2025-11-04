@@ -74,8 +74,8 @@ export const LoginPage = () => {
       }}
     >
       <AuthForm
-        formTitle="Welcome Back!"
-        formDescription="Please log in to continue."
+        formTitle="Bienvenue à nouveau !"
+        formDescription="Veuillez vous connecter pour continuer."
         formFields={formFields}
         formType="login"
         isLoading={isLoading}
@@ -88,7 +88,8 @@ export const LoginPage = () => {
               mb: theme.spacing(2),
             }}
           >
-            Don't have an account? <TextLink to="/register" label="Sign Up" />
+            Vous n'avez pas de compte ?{" "}
+            <TextLink to="/register" label="S'inscrire" />
           </Typography>
         }
         submitLoadingText={getLoadingText()}

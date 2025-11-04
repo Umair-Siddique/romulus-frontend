@@ -26,7 +26,7 @@ const TableHeader = ({
           minWidth: COLUMN_WIDTHS.educator,
         }}
       >
-        Educator
+        Éducateur
       </TableCell>
       <TableCell
         align="center"
@@ -38,7 +38,7 @@ const TableHeader = ({
           minWidth: COLUMN_WIDTHS.responseTime,
         }}
       >
-        Response Time
+        Temps de réponse
       </TableCell>
       <TableCell
         align="center"
@@ -50,7 +50,7 @@ const TableHeader = ({
           minWidth: COLUMN_WIDTHS.status,
         }}
       >
-        Status
+        Statut
       </TableCell>
       <TableCell
         align="center"

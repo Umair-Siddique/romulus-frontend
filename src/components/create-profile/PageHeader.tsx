@@ -89,7 +89,7 @@ export const PageHeader = () => {
               horizontal: "right",
             }}
           >
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            <MenuItem onClick={handleLogout}>Déconnexion</MenuItem>
           </Menu>
         </Box>
       </Toolbar>

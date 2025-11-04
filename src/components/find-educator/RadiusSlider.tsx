@@ -60,7 +60,7 @@ export const RadiusSlider = ({
           color: theme.palette.text.secondary,
         }}
       >
-        Radius
+        Rayon
       </Button>
       <Menu
         anchorEl={anchorEl}

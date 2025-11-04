@@ -27,7 +27,7 @@ export const IdentitySection = ({ formData }: IdentitySectionProps) => {
             fontSize: "0.875rem",
           }}
         >
-          Identity Proof
+          Justificatif d'identité
         </Typography>
         <FileDisplay file={formData.identityProof} />
       </Box>
@@ -42,7 +42,7 @@ export const IdentitySection = ({ formData }: IdentitySectionProps) => {
             fontSize: "0.875rem",
           }}
         >
-          Criminal Record B3
+          Extrait de casier judiciaire B3
         </Typography>
         <FileDisplay file={formData.criminalRecord} />
       </Box>

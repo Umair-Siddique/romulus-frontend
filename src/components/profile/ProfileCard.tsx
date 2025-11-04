@@ -92,9 +92,9 @@ export const ProfileCard = ({
 
   const missionItems = [
     { label: "Total:", value: missions.total },
-    { label: "Pending:", value: missions.pending },
-    { label: "Ongoing:", value: missions.ongoing },
-    { label: "Completed:", value: missions.completed },
+    { label: "En attente:", value: missions.pending },
+    { label: "En cours:", value: missions.ongoing },
+    { label: "Terminé:", value: missions.completed },
   ];
 
   return (
@@ -179,7 +179,7 @@ export const ProfileCard = ({
               color="text.secondary"
               sx={{ width: 150 }}
             >
-              Status:
+              Statut:
             </Typography>
             <Chip
               label={userInfo.status}

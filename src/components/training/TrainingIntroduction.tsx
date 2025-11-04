@@ -16,31 +16,32 @@ export const TrainingIntroduction = ({
   const checkList = [
     {
       id: 1,
-      title: "Watch Training Videos",
+      title: "Regarder les vidéos de formation",
       description:
-        "Watch easy-to-follow video tutorials that teach you essential skills.",
+        "Regardez des tutoriels vidéo faciles à suivre qui vous enseignent des compétences essentielles.",
       icon: <PlayCircleIcon sx={{ color: theme.palette.primary.main }} />,
     },
     {
       id: 2,
-      title: "Complete Quizzes",
-      description: "Test your knowledge with quizzes after watching videos.",
+      title: "Compléter les quiz",
+      description:
+        "Testez vos connaissances avec des quiz après avoir regardé les vidéos.",
       icon: <QuizIcon sx={{ color: theme.palette.primary.main }} />,
     },
     {
       id: 3,
-      title: "Track Your Progress",
+      title: "Suivre vos progrès",
       description:
-        "Keep track of your completed modules and unlock new missions as you go.",
+        "Gardez une trace de vos modules complétés et débloquez de nouvelles missions au fur et à mesure.",
       icon: <TimelineIcon sx={{ color: theme.palette.primary.main }} />,
     },
   ];
   return (
     <>
       <PageMeta
-        title="Welcome to the Educator Training Portal"
-        description={`We’re excited to help you get started. This portal will guide you step by step through the training process,  
-        helping you unlock missions and build your skills.`}
+        title="Bienvenue sur le portail de formation des éducateurs"
+        description={`Nous sommes ravis de vous aider à commencer. Ce portail vous guidera étape par étape tout au long du processus de formation,
+        vous aidant à débloquer des missions et à développer vos compétences.`}
       />
       <Box
         sx={{
@@ -64,7 +65,7 @@ export const TrainingIntroduction = ({
                 fontFamily: theme.typography.h5.fontFamily,
               }}
             >
-              What's Next?
+              Quelles sont les prochaines étapes?
             </Typography>
             <Typography
               variant="body1"
@@ -76,7 +77,8 @@ export const TrainingIntroduction = ({
                 fontFamily: theme.typography.body1.fontFamily,
               }}
             >
-              Before you start, here's a quick overview of what you'll be doing:
+              Avant de commencer, voici un aperçu rapide de ce que vous allez
+              faire :
             </Typography>
           </Box>
           <Box
@@ -139,7 +141,7 @@ export const TrainingIntroduction = ({
             fontFamily: theme.typography.h5.fontFamily,
           }}
         >
-          Ready to start?
+          Prêt à commencer?
         </Typography>
 
         <Button
@@ -149,7 +151,7 @@ export const TrainingIntroduction = ({
           }}
           onClick={() => setStep(2)}
         >
-          Start Training
+          Démarrer la formation
         </Button>
       </Box>
     </>

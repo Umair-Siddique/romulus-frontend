@@ -40,12 +40,10 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 export const CreateMissionModal = ({
   open,
   onClose,
-  educatorId,
   setDataToSubmit,
 }: {
   open: boolean;
   onClose: () => void;
-  educatorId: number;
   setDataToSubmit: (data: FormDataProps) => void;
 }) => {
   const theme = useTheme<Theme>();
@@ -56,7 +54,7 @@ export const CreateMissionModal = ({
 
   const preferredEducatorsIds = userProfile?.preferredEducators;
 
-  const { data, isLoading, isError } = useMany({
+  const { data } = useMany({
     resource: "educators",
     ids: preferredEducatorsIds,
   });
@@ -166,7 +164,7 @@ export const CreateMissionModal = ({
         }}
       >
         <Typography variant="h5" fontWeight={600}>
-          Create Mission
+          Créer une mission
         </Typography>
         <IconButton onClick={handleClose} size="small">
           <CloseIcon />
@@ -232,7 +230,7 @@ export const CreateMissionModal = ({
                 },
               }}
             >
-              Create Mission
+              Créer une mission
             </Button>
           </Stack>
         </form>

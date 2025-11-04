@@ -46,7 +46,7 @@ export const SectionHeader = ({
         >
           <EditIcon sx={{ fontSize: 25, mr: theme.spacing(0.5) }} />
           <Typography variant="body2" sx={{ fontSize: "0.875rem" }}>
-            Edit
+            Modifier
           </Typography>
         </Box>
       )}

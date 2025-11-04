@@ -32,7 +32,7 @@ export const ProfessionSection = ({ formData }: ProfessionSectionProps) => {
               fontSize: "0.875rem",
             }}
           >
-            Skills:
+            Compétences:
           </Typography>
           <SkillChips skills={formData.skills} />
         </Box>
@@ -62,7 +62,7 @@ export const ProfessionSection = ({ formData }: ProfessionSectionProps) => {
                   fontSize: "0.875rem",
                 }}
               >
-                Certificate of Honorability
+                Certificat d'honorabilité
               </Typography>
               <FileDisplay file={formData.certificateOfHonor} />
             </Box>
@@ -79,7 +79,7 @@ export const ProfessionSection = ({ formData }: ProfessionSectionProps) => {
                   fontSize: "0.875rem",
                 }}
               >
-                Certificate/Diploma
+                Certificat/Diplôme
               </Typography>
               <FileDisplay file={formData.diploma} />
             </Box>

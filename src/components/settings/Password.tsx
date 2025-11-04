@@ -50,27 +50,29 @@ export const Password = React.memo(() => {
 
   const handleUpdatePassword = () => {
     if (!newPassword || !confirmPassword) {
-      setError("Please enter both new password and confirm password");
+      setError(
+        "Veuillez entrer à la fois un nouveau mot de passe et un mot de passe de confirmation"
+      );
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
+      setError("Les mots de passe ne correspondent pas");
       return;
     }
 
     if (newPassword.length < 8 || confirmPassword.length < 8) {
-      setError("Password must be at least 8 characters long");
+      setError("Le mot de passe doit comporter au moins 8 caractères");
       return;
     }
 
     if (!/[A-Z]/.test(newPassword) || !/[A-Z]/.test(confirmPassword)) {
-      setError("Password must contain at least one uppercase letter");
+      setError("Le mot de passe doit contenir au moins une lettre majuscule");
       return;
     }
 
     if (!/[0-9]/.test(newPassword) || !/[0-9]/.test(confirmPassword)) {
-      setError("Password must contain at least one number");
+      setError("Le mot de passe doit contenir au moins un chiffre");
       return;
     }
 
@@ -78,7 +80,7 @@ export const Password = React.memo(() => {
       !/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(newPassword) ||
       !/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(confirmPassword)
     ) {
-      setError("Password must contain at least one special character");
+      setError("Le mot de passe doit contenir au moins un caractère spécial");
       return;
     }
 
@@ -113,7 +115,7 @@ export const Password = React.memo(() => {
           color: theme.palette.text.primary,
         }}
       >
-        Change Password
+        Changer le mot de passe
       </Typography>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
@@ -135,12 +137,12 @@ export const Password = React.memo(() => {
                   fontFamily: theme.typography.body2.fontFamily,
                 }}
               >
-                New Password
+                Nouveau mot de passe
               </Typography>
 
               <TextField
                 fullWidth
-                placeholder="Enter your new password"
+                placeholder="Entrez votre nouveau mot de passe"
                 type={showPassword ? "text" : "password"}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
@@ -172,12 +174,12 @@ export const Password = React.memo(() => {
                   fontFamily: theme.typography.body2.fontFamily,
                 }}
               >
-                Confirm Password
+                Confirmer le mot de passe
               </Typography>
 
               <TextField
                 fullWidth
-                placeholder="Enter your password"
+                placeholder="Entrez votre mot de passe"
                 type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -209,7 +211,7 @@ export const Password = React.memo(() => {
               borderRadius: theme.shape.borderRadius,
             }}
           >
-            Update Password
+            Mettre à jour le mot de passe
           </Button>
           {error && (
             <Typography
@@ -255,15 +257,15 @@ export const Password = React.memo(() => {
               variant="body1"
               sx={{ fontWeight: theme.typography.h2.fontWeight }}
             >
-              Password Requirements
+              Exigences en matière de mot de passe
             </Typography>
             <Typography
               variant="body2"
               sx={{ fontWeight: theme.typography.body2.fontWeight }}
             >
-              Your new password must be at least 8 characters long and include
-              one uppercase letter, one number, and one special character (like
-              @, #, $, etc.).
+              Votre nouveau mot de passe doit comporter au moins 8 caractères et
+              inclure une lettre majuscule, un chiffre et un caractère spécial
+              (comme @, #, $, etc.).
             </Typography>
           </CardContent>
         </Card>

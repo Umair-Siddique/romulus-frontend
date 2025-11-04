@@ -19,20 +19,20 @@ export const getFormFields = (
     return [
       {
         name: "role",
-        label: "Role",
+        label: "Rôle",
         type: "radio",
         options: [
           {
-            title: "I'm Educator",
+            title: "Je suis un éducateur",
             description:
-              "I am an educator looking to join as a member of this platform to engage with tasks and missions.",
+              "Je suis un éducateur cherchant à rejoindre cette plateforme en tant que membre pour m'engager dans des tâches et des missions.",
             value: "educator",
             icon: <PersonIcon />,
           },
           {
-            title: "I'm Organization",
+            title: "Je suis une organisation",
             description:
-              "I am an organization that creates tasks and invites educators to participate in them.",
+              "Je suis une organisation qui crée des tâches et invite des éducateurs à y participer.",
             value: "organization",
             icon: <CorporateFareIcon />,
           },
@@ -47,7 +47,7 @@ export const getFormFields = (
         name: "email",
         label: "Email",
         type: "email",
-        placeholder: "Enter your email address",
+        placeholder: "Entrez votre adresse e-mail",
         validationRules: validationRules.email,
       },
     ];
@@ -55,9 +55,9 @@ export const getFormFields = (
     if (userRole === "educator") {
       baseFields.push({
         name: "phone",
-        label: "WhatsApp Number",
+        label: "Numéro WhatsApp",
         type: "tel",
-        placeholder: "Enter your WhatsApp number",
+        placeholder: "Entrez votre numéro WhatsApp",
         validationRules: validationRules.phone,
       });
     }
@@ -65,21 +65,21 @@ export const getFormFields = (
     baseFields.push(
       {
         name: "password",
-        label: "Password",
+        label: "Mot de passe",
         type: "password",
-        placeholder: "Enter your password",
+        placeholder: "Entrez votre mot de passe",
         validationRules: validationRules.password,
       },
       {
         name: "confirmPassword",
-        label: "Confirm Password",
+        label: "Confirmer le mot de passe",
         type: "password",
-        placeholder: "Re-enter your password",
+        placeholder: "Ressaisissez votre mot de passe",
         validationRules: validationRules.confirmPassword,
       },
       {
         name: "toc",
-        label: "I agree to the Terms and Conditions",
+        label: "J'accepte les termes et conditions",
         type: "checkbox",
         placeholder: "",
         validationRules: validationRules.toc,

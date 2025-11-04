@@ -46,7 +46,7 @@ export const PreferredEducatorCard = memo(({ preferredEducator }: any) => {
           mb: theme.spacing(2),
         }}
       >
-        Preferred Educator
+        Educateur Préféré
       </Typography>
 
       <Card
@@ -131,7 +131,7 @@ export const PreferredEducatorCard = memo(({ preferredEducator }: any) => {
             }}
             onClick={() => handleViewEducator(preferredEducator)}
           >
-            View Details
+            Voir les détails
           </Button>
         </CardContent>
       </Card>

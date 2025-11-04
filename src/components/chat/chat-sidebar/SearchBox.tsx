@@ -132,7 +132,7 @@ export const SearchBox = ({
                 color: theme.palette.text.secondary,
               }}
             >
-              No results found
+              Aucun résultat trouvé
             </Box>
           )}
         </Paper>

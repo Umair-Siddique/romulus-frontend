@@ -1,1 +1,1 @@
-export const availabilityStatus: string[] = ["Available", "Not Available"];
+export const availabilityStatus: string[] = ["Disponible", "Non disponible"];

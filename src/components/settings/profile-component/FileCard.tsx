@@ -67,7 +67,7 @@ export const FileCard: React.FC<FileCardProps> = ({
 
     <Box sx={{ display: "flex", gap: theme.spacing(2) }}>
       <Button variant="outlined" component="label">
-        Upload
+        Télécharger
         <input
           type="file"
           hidden
@@ -84,7 +84,7 @@ export const FileCard: React.FC<FileCardProps> = ({
         sx={{ border: "none", textDecoration: "underline" }}
         disabled={!value}
       >
-        Delete
+        Supprimer
       </Button>
     </Box>
   </Paper>

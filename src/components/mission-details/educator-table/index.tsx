@@ -57,13 +57,7 @@ export const EducatorTable = ({
   const organizationId = user?.organizationId;
   const organizationName = userProfile?.organizationName;
 
-  // ALL HOOKS MUST BE DECLARED AT THE TOP, BEFORE ANY CONDITIONAL LOGIC
-  const {
-    mutate: createMission,
-    data: missionsData,
-    isLoading: isMissionLoading,
-    isError: isMissionError,
-  } = useCreate({
+  const { mutate: createMission } = useCreate({
     resource: "missions",
     successNotification: false,
     errorNotification: false,
@@ -81,7 +75,7 @@ export const EducatorTable = ({
     resource: "educators",
   });
 
-  const { data: educatorsData, isLoading } = useMany({
+  const { data: educatorsData } = useMany({
     resource: "educators",
     ids: educators,
     queryOptions: {
@@ -201,14 +195,15 @@ export const EducatorTable = ({
     if (file) {
       // Check file size (5MB limit)
       if (file.size > 5 * 1024 * 1024) {
-        alert("File size must be less than 5MB");
+        alert("La taille du fichier doit être inférieure à 5 Mo");
+        event.target.value = "";
         return;
       }
 
       // Check file type
       const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
       if (!allowedTypes.includes(file.type)) {
-        alert("Only JPG, PNG, and PDF files are allowed");
+        alert("Seules les images JPG, PNG et les fichiers PDF sont autorisés");
         return;
       }
 
@@ -435,17 +430,17 @@ export const EducatorTable = ({
                           <MenuItem
                             onClick={() => handleViewEducator(educator.id)}
                           >
-                            View
+                            Voir
                           </MenuItem>
                           <MenuItem
                             onClick={() => handleRehireEducator(educator.id)}
                           >
-                            Re-hire
+                            Réembaucher
                           </MenuItem>
                           <MenuItem
                             onClick={() => handleReportEducator(educator.id)}
                           >
-                            Report
+                            Signaler
                           </MenuItem>
                         </Menu>
                       </>
@@ -489,7 +484,6 @@ export const EducatorTable = ({
         onClose={() => {
           setModalOpen(false);
         }}
-        educatorId={selectedEducatorId!}
         setDataToSubmit={setDataToSubmit}
       />
     </>

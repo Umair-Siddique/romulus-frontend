@@ -32,7 +32,7 @@ export const PreferredEducatorSelection = ({
           color: theme.palette.text.primary,
         }}
       >
-        Preferred Educator
+        Éducateur préféré
       </Typography>
       <FormControl
         fullWidth
@@ -74,7 +74,7 @@ export const PreferredEducatorSelection = ({
                 if (!selected) {
                   return (
                     <Typography color="text.disabled">
-                      Select preferred educator
+                      Sélectionner un éducateur préféré
                     </Typography>
                   );
                 }
@@ -85,7 +85,10 @@ export const PreferredEducatorSelection = ({
               }}
             >
               {preferredEducators?.map((preferredEducator: any) => (
-                <MenuItem key={preferredEducator.id} value={preferredEducator.id}>
+                <MenuItem
+                  key={preferredEducator.id}
+                  value={preferredEducator.id}
+                >
                   {preferredEducator.name}
                 </MenuItem>
               ))}

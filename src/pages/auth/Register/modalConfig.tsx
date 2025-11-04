@@ -17,10 +17,10 @@ export const getModalConfig = (
         icon: <GridCheckCircleIcon />,
         onClose: () => setShowModal(false),
         onSubmit: () => navigate("/login"),
-        title: "Account created successfully!",
+        title: "Compte créé avec succès!",
         description:
-          "You're almost there! Signin to complete your profile and upload your ID documents to get started.",
-        buttonText: "Sign In Now",
+          "Vous y êtes presque ! Connectez-vous pour compléter votre profil et télécharger vos documents d'identité pour commencer.",
+        buttonText: "Se connecter maintenant",
       };
     } else {
       return {
@@ -32,10 +32,10 @@ export const getModalConfig = (
           setShowModal(false);
           setFormStep(3);
         },
-        title: "Account created successfully!",
+        title: "Compte créé avec succès!",
         description:
-          "Your educator account is ready. Check your email for the verification link and WhatsApp for the code.",
-        buttonText: "Continue to enter code",
+          "Votre compte éducateur est prêt. Vérifiez votre e-mail pour le lien de vérification et WhatsApp pour le code.",
+        buttonText: "Continuer pour entrer le code",
       };
     }
   } else {

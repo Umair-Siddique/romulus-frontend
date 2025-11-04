@@ -23,10 +23,10 @@ export const MissionTitleField = ({
           color: theme.palette.text.primary,
         }}
       >
-        Title *
+        Titre *
       </Typography>
       <TextField
-        placeholder="Enter title for the mission"
+        placeholder="Entrez le titre de la mission"
         fullWidth
         error={!!errors.title}
         helperText={
@@ -35,10 +35,10 @@ export const MissionTitleField = ({
             : undefined
         }
         {...register("title", {
-          required: "Mission title is required",
+          required: "Le titre de la mission est requis",
           minLength: {
             value: 3,
-            message: "Title must be at least 3 characters long",
+            message: "Le titre doit comporter au moins 3 caractères",
           },
         })}
         sx={{

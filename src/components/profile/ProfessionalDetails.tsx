@@ -136,7 +136,7 @@ export const ProfessionalDetails = ({
               mb: theme.spacing(1.5),
             }}
           >
-            Skills
+            Compétences
           </Typography>
 
           <Box
@@ -170,7 +170,7 @@ export const ProfessionalDetails = ({
               mb: theme.spacing(1.5),
             }}
           >
-            Education
+            Éducation
           </Typography>
 
           <Typography
@@ -316,7 +316,7 @@ export const ProfessionalDetails = ({
                       },
                     }}
                   >
-                    Download
+                    Télécharger
                   </Button>
                 </Paper>
               ))}

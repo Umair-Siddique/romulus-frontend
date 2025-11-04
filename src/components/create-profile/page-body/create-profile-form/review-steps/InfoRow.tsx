@@ -26,7 +26,7 @@ export const InfoRow = ({ label, value }: InfoRowProps) => {
           fontSize: "0.875rem",
         }}
       >
-        {value || "Not provided"}
+        {value || "Non fourni"}
       </Typography>
     </Box>
   );

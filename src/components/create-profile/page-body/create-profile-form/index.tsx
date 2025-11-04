@@ -92,7 +92,7 @@ export const CreateProfileForm = ({
       },
       onError: (error) => {
         setErrorMessage(
-          "An unexpected error occurred. Please try again later."
+          "Une erreur inattendue s'est produite. Veuillez réessayer plus tard."
         );
         setShowErrorModal(true);
         setIsSubmitting(false);
@@ -240,7 +240,6 @@ export const CreateProfileForm = ({
   const getCurrentStepComponent = () => {
     const currentStepName = steps[activeStep];
 
-    // In CreateProfileForm component, update the ReviewStep call:
     if (currentStepName === "Review & Submit") {
       return (
         <ReviewStep
@@ -274,7 +273,7 @@ export const CreateProfileForm = ({
           } else {
             const missingFields = getMissingRequiredFields();
             alert(
-              `Please fill in all required fields before proceeding:\n\n• ${missingFields.join(
+              `Veuillez remplir tous les champs obligatoires avant de continuer :\n\n• ${missingFields.join(
                 "\n• "
               )}`
             );
@@ -319,7 +318,7 @@ export const CreateProfileForm = ({
       textColor: isNavigationDisabled("back")
         ? theme.palette.text.disabled
         : theme.palette.primary.contrastText,
-      label: "← Back",
+      label: "← Retour",
     },
     {
       navigateTo: "next",
@@ -333,9 +332,9 @@ export const CreateProfileForm = ({
       label:
         steps[activeStep] === "Review & Submit"
           ? isSubmitting
-            ? "Submitting..."
-            : "Submit"
-          : "Next →",
+            ? "Envoi..."
+            : "Soumettre"
+          : "Suivant →",
     },
   ];
 
@@ -379,14 +378,14 @@ export const CreateProfileForm = ({
         onClose={handleSuccessModalClose}
         onSubmit={handleSuccessModalSubmit}
         icon={<CheckCircleIcon />}
-        title="Submitted successfully!"
+        title="Soumis avec succès !"
         description={
           role === "educator"
-            ? "Your profile has been received and is now under review. After submission, your profile will be reviewed within 24-48 hours. You will be informed by email."
-            : "Your profile has been created successfully. You can now log in to your dashboard."
+            ? "Votre profil a été reçu et est maintenant en cours d'examen. Après soumission, votre profil sera examiné dans les 24 à 48 heures. Vous serez informé par e-mail."
+            : "Votre profil a été créé avec succès. Vous pouvez maintenant vous connecter à votre tableau de bord."
         }
         hasButton={true}
-        buttonText="Login and Continue"
+        buttonText="Se connecter et continuer"
         hasAdditionalElements={false}
       />
 
@@ -396,10 +395,10 @@ export const CreateProfileForm = ({
         onClose={handleErrorModalClose}
         onSubmit={handleErrorModalSubmit}
         icon={<CancelIcon sx={{ color: theme.palette.error.main }} />}
-        title="Submission Failed"
+        title="Échec de la soumission"
         description={errorMessage}
         hasButton={true}
-        buttonText="Try Again"
+        buttonText="Réessayer"
         hasAdditionalElements={false}
       />
     </>

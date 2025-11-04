@@ -4,13 +4,13 @@ export const educatorStepsConfig: Record<string, any[]> = {
   "Profile Setup": [
     {
       name: "avatar",
-      label: "Profile Picture",
+      label: "Photo de profil",
       type: "file",
       required: false,
     },
     {
       name: "firstName",
-      label: "First Name",
+      label: "Prénom",
       type: "text",
       pattern: "^[a-zA-ZÀ-ÿ]+(?:[-' ][a-zA-ZÀ-ÿ]+)*$",
       minlength: 2,
@@ -19,7 +19,7 @@ export const educatorStepsConfig: Record<string, any[]> = {
     },
     {
       name: "lastName",
-      label: "Last Name",
+      label: "Nom de famille",
       type: "text",
       pattern: "^[a-zA-ZÀ-ÿ]+(?:[-' ][a-zA-ZÀ-ÿ]+)*$",
       minlength: 2,
@@ -28,34 +28,34 @@ export const educatorStepsConfig: Record<string, any[]> = {
     },
     {
       name: "gender",
-      label: "Gender",
+      label: "Genre",
       type: "select",
-      options: ["Male", "Female", "Other"],
+      options: ["Homme", "Femme", "Autre", "Préférer ne pas dire"],
       required: true,
     },
     {
       name: "dateOfBirth",
-      label: "Date of Birth",
+      label: "Date de naissance",
       type: "date",
       required: true,
     },
     {
       name: "country",
-      label: "Country",
+      label: "Pays",
       type: "select",
       options: countriesData,
       required: true,
     },
     {
       name: "city",
-      label: "City",
+      label: "Ville",
       type: "select",
       options: citiesData,
       required: true,
     },
     {
       name: "fullAddress",
-      label: "Full Address",
+      label: "Adresse complète",
       type: "text",
       pattern: "^[a-zA-ZÀ-ÿ0-9 ,.'-]+$",
       minlength: 50,
@@ -75,13 +75,13 @@ export const educatorStepsConfig: Record<string, any[]> = {
   Identity: [
     {
       name: "identityProof",
-      label: "Identity Proof",
+      label: "Justificatif d'identité",
       type: "file",
       required: true,
     },
     {
       name: "criminalRecord",
-      label: "Criminal Record",
+      label: "Extrait de casier judiciaire",
       type: "file",
       required: true,
     },
@@ -96,34 +96,34 @@ export const educatorStepsConfig: Record<string, any[]> = {
     },
     {
       name: "hourlyRate",
-      label: "Hourly Rate",
+      label: "Taux horaire (€)",
       type: "number",
       step: 0.01,
       min: 0,
       max: 1000,
       required: true,
     },
-    { name: "skills", label: "Skills", type: "text", required: true },
+    { name: "skills", label: "Compétences", type: "text", required: true },
     {
       name: "education",
-      label: "Education",
+      label: "Éducation",
       type: "select",
       options: [
-        "Bachelor's Degree",
-        "Master's Degree",
-        "PhD",
-        "Professional Certification",
-        "Other",
+        "Licence",
+        "Master",
+        "Doctorat",
+        "Certification Professionnelle",
+        "Autre",
       ],
       required: true,
     },
     {
       name: "certificateOfHonor",
-      label: "Certificate Of Honor",
+      label: "Certificat d'honneurabilité",
       type: "file",
       required: false,
     },
-    { name: "diploma", label: "Diploma", type: "file", required: false },
+    { name: "diploma", label: "Diplôme", type: "file", required: false },
   ],
 };
 
@@ -131,13 +131,13 @@ export const organizationStepsConfig: Record<string, any[]> = {
   "Profile Setup": [
     {
       name: "avatar",
-      label: "Profile Picture",
+      label: "Photo de profil",
       type: "file",
       required: false,
     },
     {
       name: "organizationName",
-      label: "Organization Name",
+      label: "Nom de l'organisation",
       type: "text",
       pattern: "^[a-zA-ZÀ-ÿ0-9 ,.'-]+$",
       minlength: 2,
@@ -146,13 +146,13 @@ export const organizationStepsConfig: Record<string, any[]> = {
     },
     {
       name: "foundedYear",
-      label: "Founded Year",
+      label: "Année de création",
       type: "date",
       required: false,
     },
     {
       name: "phone",
-      label: "Contact Number",
+      label: "Numéro de contact",
       type: "tel",
       pattern: "^[0-9]{10,15}$",
       minlength: 10,
@@ -161,7 +161,7 @@ export const organizationStepsConfig: Record<string, any[]> = {
     },
     {
       name: "siretNumber",
-      label: "SIRET Number",
+      label: "Numéro SIRET",
       type: "text",
       pattern: "^[0-9]{14}$",
       minlength: 14,
@@ -170,7 +170,7 @@ export const organizationStepsConfig: Record<string, any[]> = {
     },
     {
       name: "country",
-      label: "Country",
+      label: "Pays",
       type: "select",
       options: [
         "France",
@@ -185,7 +185,7 @@ export const organizationStepsConfig: Record<string, any[]> = {
     },
     {
       name: "city",
-      label: "City",
+      label: "Ville",
       type: "select",
       options: [
         "Région parisienne",
@@ -808,7 +808,7 @@ export const organizationStepsConfig: Record<string, any[]> = {
     },
     {
       name: "officeAddress",
-      label: "Office Address",
+      label: "Adresse du bureau",
       type: "text",
       pattern: "^[a-zA-ZÀ-ÿ0-9 ,.'-]+$",
       minlength: 50,
@@ -817,7 +817,7 @@ export const organizationStepsConfig: Record<string, any[]> = {
     },
     {
       name: "branches",
-      label: "Add Branches",
+      label: "Ajouter des succursales",
       type: "branches",
       required: true,
     },

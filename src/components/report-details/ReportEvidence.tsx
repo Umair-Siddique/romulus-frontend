@@ -29,7 +29,7 @@ export const ReportEvidence = ({ reportDetails }: { reportDetails: any }) => {
           color: theme.palette.text.primary,
         }}
       >
-        Evidence
+        Preuve
       </Typography>
       <List disablePadding>
         <ListItem

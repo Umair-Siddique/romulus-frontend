@@ -172,10 +172,10 @@ export const MissionsList = ({ missions }: { missions: any }) => {
 
   const headerData = [
     { id: "missionTitle", label: "Mission" },
-    { id: "organizationName", label: "Organization" },
-    { id: "createdAt", label: "Created At" },
-    { id: "branchName", label: "Branch" },
-    { id: "status", label: "Status" },
+    { id: "organizationName", label: "Organisation" },
+    { id: "createdAt", label: "Créé À" },
+    { id: "branchName", label: "Branche" },
+    { id: "status", label: "Statut" },
     { id: "actions", label: "Actions" },
   ];
 

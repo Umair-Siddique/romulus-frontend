@@ -203,7 +203,7 @@ export const AssignEducator = () => {
               sx={{ width: "100%" }}
               onClick={() => navigate(`/educators/${educator.id}`)}
             >
-              View Details
+              Voir les détails
             </Button>
             <Button
               variant="contained"
@@ -211,7 +211,7 @@ export const AssignEducator = () => {
               sx={{ width: "100%" }}
               onClick={() => handleAssignEducator(educator)}
             >
-              Assign
+              Assigner
             </Button>
           </Box>
         </Box>

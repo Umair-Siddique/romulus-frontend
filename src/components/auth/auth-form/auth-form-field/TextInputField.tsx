@@ -52,7 +52,7 @@ export const TextInputField = ({
         endAdornment: (
           <InputAdornment position="end">
             <Tooltip
-              title="Please enter your WhatsApp number with country code. This will be used for important notifications and updates about your tasks and missions."
+              title="Veuillez saisir votre numéro WhatsApp avec l'indicatif du pays. Il sera utilisé pour les notifications et mises à jour importantes concernant vos tâches et missions."
               arrow
               placement="top"
               componentsProps={{

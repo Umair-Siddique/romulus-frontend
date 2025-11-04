@@ -240,7 +240,7 @@ export const MissionCard = React.memo(
                   },
                 }}
               >
-                View Details
+                Voir les détails
               </Button>
 
               {role !== "educator" && (
@@ -278,8 +278,8 @@ export const MissionCard = React.memo(
         <Modal
           open={openTrainingModal}
           onClose={() => setOpenTrainingModal(false)}
-          title="Missions Locked"
-          description="You need to complete your training before you can view or accept missions. Training helps you understand how the mission system works and prepares you to work with partner organizations."
+          title="Missions verrouillées"
+          description="Vous devez terminer votre formation avant de pouvoir consulter ou accepter des missions. La formation vous aide à comprendre comment fonctionne le système de mission et vous prépare à travailler avec des organisations partenaires."
           hasButton={true}
           hasButton1={true}
           onSubmit={() => setOpenTrainingModal(false)}

@@ -192,11 +192,11 @@ export const Reports = () => {
   };
 
   const headerData = [
-    { id: "reportedBy", label: "Reported By" },
-    { id: "createdAt", label: "Reported On" },
-    { id: "reportedEducator", label: "Reported Educator" },
-    { id: "reportReason", label: "Report Reason" },
-    { id: "status", label: "Status" },
+    { id: "reportedBy", label: "Signalé par" },
+    { id: "createdAt", label: "Signalé le" },
+    { id: "reportedEducator", label: "Éducateur signalé" },
+    { id: "reportReason", label: "Raison du signalement" },
+    { id: "status", label: "Statut" },
     { id: "actions", label: "Actions" },
   ];
 
@@ -215,8 +215,8 @@ export const Reports = () => {
   return (
     <>
       <PageMeta
-        title="Manage & Monitor Reports"
-        description="Manage all reports here"
+        title="Gérer et surveiller les rapports"
+        description="Gérer et surveiller les rapports"
       />
       <KpiCards kpiCardsData={kpis} />
       <Box sx={{ mt: 3 }}>

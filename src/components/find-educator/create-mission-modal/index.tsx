@@ -170,7 +170,7 @@ export const CreateMissionModal = ({
           fontFamily: theme.typography.h3.fontFamily,
         }}
       >
-        Create Mission
+        Créer une mission
         <IconButton onClick={handleClose} size="small">
           <CloseIcon />
         </IconButton>
@@ -235,7 +235,7 @@ export const CreateMissionModal = ({
                 },
               }}
             >
-              Find Educator
+              Trouver un éducateur
             </Button>
           </Stack>
         </form>

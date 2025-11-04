@@ -67,7 +67,7 @@ export const ReportDetails = () => {
               fontSize: theme.typography.h5.fontSize,
             }}
           >
-            Reason & Evidence
+            Raison & Preuve
           </Typography>
           <Chip
             label={reportDetails?.reportStatus}

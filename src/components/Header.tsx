@@ -380,7 +380,7 @@ export const Header = () => {
             }}
           >
             <MenuItem onClick={() => handleUserMenuClose("logout")}>
-              Logout
+              Déconnexion
             </MenuItem>
           </Menu>
         </Stack>

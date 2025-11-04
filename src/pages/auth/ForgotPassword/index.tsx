@@ -64,13 +64,13 @@ export const ForgotPasswordPage = () => {
       }}
     >
       <AuthForm
-        formTitle="Forgot Password?"
-        formDescription="Enter the email address associated with your account, and we'll send you a link to reset it."
+        formTitle="Mot de passe oublié ?"
+        formDescription="Entrez l'adresse e-mail associée à votre compte, et nous vous enverrons un lien pour le réinitialiser."
         formFields={formFields}
         formType="forgotPassword"
         isLoading={isLoading}
-        submitLoadingText="Sending Reset Link..."
-        submitLabel="Send Reset Link"
+        submitLoadingText="Envoi du lien de réinitialisation..."
+        submitLabel="Envoyer le lien de réinitialisation"
         handleSubmit={form.handleSubmit}
         onSubmit={onSubmit}
         isFormValid={form.formState.isValid}
@@ -88,8 +88,8 @@ export const ForgotPasswordPage = () => {
             setShowModal(false);
           }}
           icon={<EmailIcon color="warning" fontSize="inherit" />}
-          title="Check your email!"
-          description="We have sent a password reset link to your email address. Please check your inbox (and spam folder, just in case)."
+          title="Vérifiez votre e-mail !"
+          description="Nous avons envoyé un lien de réinitialisation de mot de passe à votre adresse e-mail. Veuillez vérifier votre boîte de réception (et votre dossier de spam, juste au cas où)."
           hasButton={false}
           hasAdditionalElements={false}
         />

@@ -44,8 +44,6 @@ const ContactItem = memo(
   }
 );
 
-ContactItem.displayName = "ContactItem";
-
 export const ContactInformationCard = memo(
   ({
     organizationContact,
@@ -100,7 +98,7 @@ export const ContactInformationCard = memo(
               color: theme.palette.text.primary,
             }}
           >
-            Organization Contact
+            Contact de l'organisation
           </Typography>
           <ContactItem
             icon={Phone}

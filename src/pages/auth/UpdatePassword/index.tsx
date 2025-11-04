@@ -65,13 +65,13 @@ export const UpdatePasswordPage = () => {
       }}
     >
       <AuthForm
-        formTitle="Reset your password"
-        formDescription="Choose a new password that is secure and easy to remember."
+        formTitle="Réinitialiser votre mot de passe"
+        formDescription="Choisissez un nouveau mot de passe qui est sécurisé et facile à retenir."
         formFields={formFields}
         formType="updatePassword"
         isLoading={isLoading}
-        submitLoadingText="Saving New Password..."
-        submitLabel="Save New Password"
+        submitLoadingText="Enregistrement du nouveau mot de passe..."
+        submitLabel="Enregistrer le nouveau mot de passe"
         handleSubmit={form.handleSubmit}
         onSubmit={onSubmit}
         isFormValid={form.formState.isValid}
@@ -90,9 +90,9 @@ export const UpdatePasswordPage = () => {
             navigate("/login");
           }}
           icon={<GridCheckCircleIcon />}
-          title="Password reset successfully!"
-          description="Your password has been updated. You can now log in with your new password."
-          buttonText="Go to login"
+          title="Réinitialisation du mot de passe réussie!"
+          description="Votre mot de passe a été mis à jour. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe."
+          buttonText="Aller à la connexion"
           hasButton={true}
           hasAdditionalElements={false}
         />

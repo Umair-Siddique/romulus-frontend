@@ -28,7 +28,7 @@ export const FormStep = ({
 
   useEffect(() => {
     if (formData.city && !correspondingCities.includes(formData.city)) {
-      onFieldChange("city", "");
+      onFieldChange("Ville", "");
     }
   }, [formData.country]);
 
@@ -159,9 +159,10 @@ export const FormStep = ({
             borderRadius: "8px",
           }}
         >
-          Your documents are encrypted and securely stored. We comply with all
-          data protection regulations and will only use these for verification
-          purposes.
+          Vos documents sont cryptés et stockés en toute sécurité. Nous
+          respectons toutes les réglementations en matière de protection des
+          données et n'utiliserons ces informations qu'à des fins de
+          vérification.
         </Alert>
       )}
     </Box>

@@ -92,7 +92,7 @@ export const BranchesField = ({ value, onChange }: BranchesFieldProps) => {
               mb: theme.spacing(2),
             }}
           >
-            Add Branches
+            Ajouter des branches
           </Typography>
           <Typography
             variant="body2"
@@ -102,8 +102,8 @@ export const BranchesField = ({ value, onChange }: BranchesFieldProps) => {
               lineHeight: 1.6,
             }}
           >
-            You can register all your branch locations here. If you only operate
-            in one location, feel free to skip this step.
+            Vous pouvez enregistrer ici tous vos établissements. Si vous n'avez
+            qu'un seul établissement, vous pouvez ignorer cette étape.
           </Typography>
 
           <Button
@@ -120,7 +120,7 @@ export const BranchesField = ({ value, onChange }: BranchesFieldProps) => {
               },
             }}
           >
-            Add a Branch
+            Ajouter une branche
           </Button>
         </Box>
 
@@ -195,7 +195,7 @@ export const BranchesField = ({ value, onChange }: BranchesFieldProps) => {
                   },
                 }}
               >
-                Edit
+                Modifier
               </Button>
             </Box>
           </Box>
@@ -214,7 +214,7 @@ export const BranchesField = ({ value, onChange }: BranchesFieldProps) => {
               variant="body2"
               sx={{ color: theme.palette.text.primary }}
             >
-              {branch.branchPhone || "+971 4 332 8789"}
+              {branch.branchPhone || "+11111111111"}
             </Typography>
           </Box>
 
@@ -313,7 +313,7 @@ export const BranchesField = ({ value, onChange }: BranchesFieldProps) => {
           },
         }}
       >
-        Add a Branch
+        Ajouter une branche
       </Button>
 
       {isLoaded && (

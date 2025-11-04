@@ -182,11 +182,11 @@ export const Organizations = () => {
   };
 
   const headerData = [
-    { id: "name", label: "Name" },
-    { id: "createdAt", label: "Registered On" },
-    { id: "siretNumber", label: "SIRET Number" },
+    { id: "name", label: "Nom" },
+    { id: "createdAt", label: "Date d'enregistrement" },
+    { id: "siretNumber", label: "Numéro SIRET" },
     { id: "branches", label: "Branches" },
-    { id: "status", label: "Status" },
+    { id: "status", label: "Statut" },
     { id: "actions", label: "Actions" },
   ];
 
@@ -205,8 +205,8 @@ export const Organizations = () => {
   return (
     <>
       <PageMeta
-        title="Manage & Monitor Organizations"
-        description="Manage all organizations here"
+        title="Gérer et surveiller les organisations"
+        description="Gérer toutes les organisations ici"
       />
       <KpiCards kpiCardsData={kpis} />
       <Box sx={{ mt: 3 }}>

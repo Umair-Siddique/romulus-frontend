@@ -24,7 +24,7 @@ export const Settings = () => {
   const tabs = [
     {
       id: "profile",
-      label: "Profile",
+      label: "Profil",
       icon: PersonIcon,
       component: () => (
         <Profile profileData={userProfile} key={userProfile?._id} />
@@ -40,7 +40,7 @@ export const Settings = () => {
     },
     {
       id: "password",
-      label: "Password",
+      label: "Mot de passe",
       icon: LockIcon,
       component: () => <Password />,
       show: true,
@@ -52,8 +52,8 @@ export const Settings = () => {
   return (
     <>
       <PageMeta
-        title="Account Settings"
-        description="Manage your account settings here"
+        title="Paramètres du compte"
+        description="Gérez les paramètres de votre compte ici"
       />
       <Box
         sx={{
