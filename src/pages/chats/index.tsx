@@ -147,6 +147,8 @@ export const Chats = () => {
       time: new Date(),
     };
 
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+
     sendMessage({
       values: newMessage,
     });
