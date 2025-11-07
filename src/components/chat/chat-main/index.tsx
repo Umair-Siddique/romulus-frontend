@@ -45,10 +45,11 @@ const EmptyChatWindow = () => (
     </Box>
 
     <Typography variant="h6" fontWeight={500} gutterBottom>
-      Welcome to your messages
+      Bienvenue dans vos messages
     </Typography>
     <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 300 }}>
-      Select a chat from the sidebar to start a conversation and stay connected.
+      Sélectionnez une conversation dans la barre latérale pour démarrer un
+      échange et rester en contact.
     </Typography>
   </Box>
 );
