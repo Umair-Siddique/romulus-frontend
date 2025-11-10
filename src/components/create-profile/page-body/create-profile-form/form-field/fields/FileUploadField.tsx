@@ -68,7 +68,7 @@ export const FileUploadField = ({
           color: theme.palette.text.primary,
         }}
       >
-        {label} {!required && "(Optional)"}
+        {label} {!required && "(Facultatif)"}
       </Typography>
 
       {value ? (

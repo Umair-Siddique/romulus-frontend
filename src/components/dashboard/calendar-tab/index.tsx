@@ -23,7 +23,9 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
   const [openTrainingModal, setOpenTrainingModal] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDateMissions, setSelectedDateMissions] = useState<any[]>([]);
-  const [selectedBranch, setSelectedBranch] = useState("All Branches");
+  const [selectedBranch, setSelectedBranch] = useState(
+    "Toutes les succursales"
+  );
   const [selectedOrganization, setSelectedOrganization] =
     useState("All Organizations");
 
@@ -81,7 +83,7 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
         )
       )
     );
-    return ["All Branches", ...branches.sort()];
+    return ["Toutes les succursales", ...branches.sort()];
   }, [calendarMissionList, selectedOrganization]);
 
   // Filter missions based on selected organization and branch
@@ -96,7 +98,7 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
     }
 
     // Apply branch filter
-    if (selectedBranch !== "All Branches") {
+    if (selectedBranch !== "Toutes les succursales") {
       filtered = filtered.filter(
         (mission: any) => mission.branchName === selectedBranch
       );
@@ -149,7 +151,7 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
   // Reset branch filter when organization changes
   const handleOrganizationChange = (organization: string) => {
     setSelectedOrganization(organization);
-    setSelectedBranch("All Branches"); // Reset branch when organization changes
+    setSelectedBranch("Toutes les succursales"); // Reset branch when organization changes
   };
 
   return (

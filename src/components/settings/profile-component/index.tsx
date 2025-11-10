@@ -419,7 +419,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
           {isEducator ? (
             <Box sx={{ width: "50%" }}>
               <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                Gender
+                Genre
               </Typography>
               <Select
                 value={userData.gender}
