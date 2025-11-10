@@ -49,7 +49,7 @@ export const SearchBox = ({
     <Box sx={{ position: "relative", mb: 2 }}>
       <Box
         component="input"
-        placeholder="Search users..."
+        placeholder="Rechercher des utilisateurs..."
         onChange={handleSearch}
         value={searchValue}
         sx={{

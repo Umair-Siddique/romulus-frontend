@@ -209,7 +209,7 @@ export const BranchModal = ({
             </Typography>
             <TextField
               fullWidth
-              placeholder="e.g., Berlin Support Center"
+              placeholder="e.g., Centre d'assistance de Berlin"
               value={branchData.branchName}
               onChange={(e) => handleChange("branchName", e.target.value)}
               sx={{

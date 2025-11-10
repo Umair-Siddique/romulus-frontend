@@ -23,7 +23,7 @@ export const TextArea = ({
     >
       <Box
         component="textarea"
-        placeholder="Enter message"
+        placeholder="Saisissez votre message"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => {

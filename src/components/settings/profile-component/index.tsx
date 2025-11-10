@@ -662,7 +662,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                 <TextField
                   value={newSkill}
                   onChange={(e) => setNewSkill(e.target.value)}
-                  placeholder="Add a skill"
+                  placeholder="Ajouter une compétence"
                   sx={{ flex: 1, ...textFieldStyle }}
                 />
                 <Button
