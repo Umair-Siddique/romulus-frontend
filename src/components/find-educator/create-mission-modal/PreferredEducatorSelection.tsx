@@ -74,7 +74,7 @@ export const PreferredEducatorSelection = ({
                 if (!selected) {
                   return (
                     <Typography color="text.disabled">
-                      Select preferred educator
+                      Sélectionnez l'éducateur préféré
                     </Typography>
                   );
                 }

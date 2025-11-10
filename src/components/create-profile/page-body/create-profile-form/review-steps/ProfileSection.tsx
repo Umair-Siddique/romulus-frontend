@@ -112,7 +112,7 @@ export const ProfileSection = ({ formData, role }: ProfileSectionProps) => {
                 fontSize: "1rem",
               }}
             >
-              {formData.organizationName || "Organization name not provided"}
+              {formData.organizationName || "Nom de l'organisation non fourni"}
             </Typography>
             <Typography
               variant="body2"

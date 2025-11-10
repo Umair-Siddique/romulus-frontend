@@ -226,7 +226,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                 <>
                   <Box sx={{ width: "50%" }}>
                     <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                      First Name
+                      Prénom
                     </Typography>
                     <TextField
                       value={userData.firstName}
@@ -242,7 +242,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                   </Box>
                   <Box sx={{ width: "50%" }}>
                     <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                      Last Name
+                      Nom de famille
                     </Typography>
                     <TextField
                       value={userData.lastName}
@@ -258,7 +258,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               ) : (
                 <Box sx={{ width: "100%" }}>
                   <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                    Full Name
+                    Nom et prénom
                   </Typography>
                   <TextField
                     value={userData.fullName}
@@ -275,7 +275,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
 
             <Box sx={{ width: "100%" }}>
               <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                Email
+                E-mail
               </Typography>
               <TextField
                 value={userData.email}
@@ -360,7 +360,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
         >
           <Box sx={{ width: "50%" }}>
             <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-              {isEducator ? "Date of Birth" : "Founded Year"}
+              {isEducator ? "Date de naissance" : "Année de fondation"}
             </Typography>
             <TextField
               fullWidth

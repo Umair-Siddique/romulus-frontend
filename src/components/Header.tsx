@@ -256,7 +256,7 @@ export const Header = () => {
           >
             {notifications.length === 0 ? (
               <MenuItem disabled>
-                <Typography variant="body2">No notifications</Typography>
+                <Typography variant="body2">Aucune notification</Typography>
               </MenuItem>
             ) : (
               notifications.map((notification: any, index: number) => (
