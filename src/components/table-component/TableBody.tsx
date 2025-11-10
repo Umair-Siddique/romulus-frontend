@@ -21,7 +21,12 @@ import { Theme, useTheme } from "@mui/material/styles";
 
 import { useUserContext } from "#context";
 import { BranchModal } from "./BranchModal";
-import { formatDate, getStatusColor, truncateWithEllipsis } from "#lib";
+import {
+  formatDate,
+  getStatusColor,
+  translateStatusLabel,
+  truncateWithEllipsis,
+} from "#lib";
 
 const TableBodyComponent = ({
   bodyData,
@@ -81,7 +86,7 @@ const TableBodyComponent = ({
   };
 
   const handleMenuItem = (option: string) => {
-    if (option === "Inactive Branch") {
+    if (option === "Désactiver la branche") {
       updateOrganization({
         id: organizationId,
         values: {
@@ -89,7 +94,7 @@ const TableBodyComponent = ({
           status: "inactive",
         },
       });
-    } else if (option === "Activate Branch") {
+    } else if (option === "Activer la branche") {
       updateOrganization({
         id: organizationId,
         values: {
@@ -97,7 +102,7 @@ const TableBodyComponent = ({
           status: "active",
         },
       });
-    } else if (option === "Edit Branch") {
+    } else if (option === "Modifier la branche") {
       setShowBranchMenu(true);
 
       const branch = bodyData.find((item: any) => item.id === menuId);
@@ -413,7 +418,7 @@ const TableBodyComponent = ({
                 }}
               >
                 <Chip
-                  label={item.status}
+                  label={translateStatusLabel(item.status)}
                   size="small"
                   sx={{
                     ...getStatusColor(item.status),

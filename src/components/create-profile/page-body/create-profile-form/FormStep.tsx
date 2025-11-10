@@ -125,7 +125,7 @@ export const FormStep = ({
       }
     }
 
-    // Default fallback for other steps
+    // Default fallback for autre steps
     return (
       <Box>
         {fields.map((field) => (

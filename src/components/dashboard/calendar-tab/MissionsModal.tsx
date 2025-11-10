@@ -16,7 +16,7 @@ import { useTheme } from "@mui/material/styles";
 
 import { MissionsModalProps } from "#types";
 import { useNavigate } from "react-router";
-import { getStatusColor } from "#lib";
+import { getStatusColor, translateStatusLabel } from "#lib";
 
 export const MissionsModal = ({
   open,
@@ -148,7 +148,7 @@ export const MissionsModal = ({
                         {mission.branchName}
                       </Typography>
                       <Chip
-                        label={mission.status}
+                        label={translateStatusLabel(mission.status)}
                         size="small"
                         sx={{
                           fontSize: "0.75rem",

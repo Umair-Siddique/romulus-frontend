@@ -20,6 +20,7 @@ import {
 } from "@mui/icons-material";
 
 import { useUserContext } from "#context";
+import { translatePageName } from "#lib";
 
 export const Header = () => {
   const theme = useTheme<Theme>();
@@ -88,10 +89,10 @@ export const Header = () => {
 
     if (isObjectIdPattern) {
       const detailNameMap: Record<string, string> = {
-        missions: "Mission Details",
-        educators: "Educator Details",
-        organizations: "Organization Details",
-        reports: "Report Details",
+        missions: "Détails de la mission",
+        educators: "Détails sur l'éducateur",
+        organizations: "Détails de l'organisation",
+        reports: "Détails du rapport",
       };
 
       const customName = detailNameMap[secondLastSegment];
@@ -99,7 +100,7 @@ export const Header = () => {
     } else {
       const fallbackName =
         lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1);
-      setPageName(fallbackName || "Dashboard");
+      setPageName(fallbackName || "Tableau de bord");
     }
   }, [location.pathname]);
 
@@ -213,7 +214,7 @@ export const Header = () => {
             </IconButton>
           )}
 
-          {pageName === "Admin" ? "Dashboard" : pageName}
+          {translatePageName(pageName)}
         </Box>
 
         {/* Right side - Notification and User */}

@@ -195,11 +195,11 @@ export const ReviewStep = ({
           ? "Informations personnelles"
           : "Informations sur l'organisation";
       case "branches":
-        return "Branches";
+        return "Succursales";
       case "identity":
         return "Justificatif d'identité";
       case "profession":
-        return "Profession & Skills";
+        return "Profession et compétences";
       default:
         return "";
     }

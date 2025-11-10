@@ -2,6 +2,7 @@ import { useTheme, Theme } from "@mui/material/styles";
 import { Box, Step, StepLabel, Stepper } from "@mui/material";
 
 import { ProgressStepperProps } from "#types";
+import { translateProgressStepperLabel } from "#lib";
 
 export const ProgressStepper = ({
   activeStep,
@@ -42,7 +43,7 @@ export const ProgressStepper = ({
                 },
               }}
             >
-              {label}
+              {translateProgressStepperLabel(label)}
             </StepLabel>
           </Step>
         ))}

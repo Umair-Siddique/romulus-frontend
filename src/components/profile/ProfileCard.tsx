@@ -1,5 +1,5 @@
 import { useUserContext } from "#context";
-import { formatDate, getStatusColor } from "#lib";
+import { formatDate, getStatusColor, translateStatusLabel } from "#lib";
 import { Avatar, Typography, Box, Chip, useTheme } from "@mui/material";
 import { useOne } from "@refinedev/core";
 
@@ -182,7 +182,7 @@ export const ProfileCard = ({
               Statut:
             </Typography>
             <Chip
-              label={userInfo.status}
+              label={translateStatusLabel(userInfo.status)}
               size="small"
               sx={{
                 ...getStatusColor(userInfo.status),

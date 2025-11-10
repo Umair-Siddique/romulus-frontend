@@ -191,8 +191,8 @@ export const Branches = () => {
         }}
       >
         <PageMeta
-          title="Manage & Monitor Branches"
-          description="Manage all branches here"
+          title="Gérer et superviser les succursales"
+          description="Gérez toutes les succursales ici"
         />
         <Button
           variant="contained"
@@ -222,7 +222,11 @@ export const Branches = () => {
           tableData={branchesArray}
           columnWidths={columnWidths}
           headerData={headerData}
-          menuOptions={["Edit Branch", "Inactive Branch", "Activate Branch"]}
+          menuOptions={[
+            "Modifier la branche",
+            "Désactiver la branche",
+            "Activer la branche",
+          ]}
         />
       </Box>
 

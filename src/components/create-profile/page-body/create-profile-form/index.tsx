@@ -153,7 +153,7 @@ export const CreateProfileForm = ({
             });
           });
         } else if (Array.isArray(value)) {
-          // Handle other arrays (like skills) - send as JSON string
+          // Handle autre arrays (like skills) - send as JSON string
           if (value.length > 0) {
             submitData.append(key, `${value}`);
           }

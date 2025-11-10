@@ -432,8 +432,8 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                 <MenuItem value="" disabled>
                   Sélectionner le genre
                 </MenuItem>
-                <MenuItem value="male">Homme</MenuItem>
-                <MenuItem value="female">Femme</MenuItem>
+                <MenuItem value="mâle">Homme</MenuItem>
+                <MenuItem value="femelle">Femme</MenuItem>
               </Select>
             </Box>
           ) : (

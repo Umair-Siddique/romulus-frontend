@@ -11,8 +11,6 @@ import { MissionsModal } from "./MissionsModal";
 import { Modal } from "#components/Modal";
 import { formatTime } from "#lib";
 
-moment.locale("en-GB");
-
 const localizer = momentLocalizer(moment);
 
 export const CalendarTab = ({ calendarTabProps }: any) => {
@@ -165,21 +163,38 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
         events={events}
         style={{ height: "100vh" }}
         onSelectEvent={handleMissionSelect}
-        onNavigate={(date) => {
-          setCurrentDate(date);
+        onNavigate={(date) => setCurrentDate(date)}
+        messages={{
+          date: "Date",
+          time: "Heure",
+          event: "Événement",
+          allDay: "Toute la journée",
+          week: "Semaine",
+          work_week: "Semaine de travail",
+          day: "Jour",
+          month: "Mois",
+          previous: "Précédent",
+          next: "Suivant",
+          yesterday: "Hier",
+          tomorrow: "Demain",
+          today: "Aujourd'hui",
+          agenda: "Agenda",
+          noEventsInRange: "Aucun événement pour cette période",
         }}
         components={{
-          toolbar: (toolbarProps) => (
-            <Toolbar
-              {...toolbarProps}
-              selectedBranch={selectedBranch}
-              setSelectedBranch={setSelectedBranch}
-              availableBranches={availableBranches}
-              selectedOrganization={selectedOrganization}
-              setSelectedOrganization={handleOrganizationChange}
-              availableOrganizations={availableOrganizations}
-            />
-          ),
+          toolbar: (toolbarProps) => {
+            return (
+              <Toolbar
+                {...toolbarProps}
+                selectedBranch={selectedBranch}
+                setSelectedBranch={setSelectedBranch}
+                availableBranches={availableBranches}
+                selectedOrganization={selectedOrganization}
+                setSelectedOrganization={handleOrganizationChange}
+                availableOrganizations={availableOrganizations}
+              />
+            );
+          },
           month: {
             event: (eventProps) => (
               <div className="event-box" tabIndex={0}>
@@ -189,6 +204,7 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
           },
         }}
       />
+
       <MissionsModal
         open={openMissionsModal}
         onClose={() => setOpenMissionsModal(false)}

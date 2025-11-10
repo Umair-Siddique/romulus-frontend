@@ -129,10 +129,10 @@ export const ProfileSection = ({ formData, role }: ProfileSectionProps) => {
         </Box>
 
         <Box sx={{ ml: 0 }}>
-          <InfoRow label="Phone" value={formData.phone} />
+          <InfoRow label="Téléphone" value={formData.phone} />
           <InfoRow label="SIRET" value={formData.siretNumber} />
-          <InfoRow label="Year Founded" value={formData.foundedYear} />
-          <InfoRow label="Address" value={formData.officeAddress} />
+          <InfoRow label="Année de création" value={formData.foundedYear} />
+          <InfoRow label="Adresse" value={formData.officeAddress} />
         </Box>
       </>
     );

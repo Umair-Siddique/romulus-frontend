@@ -24,5 +24,5 @@ export const professionsData: string[] = [
   "Hospital worker",
   "Dietitian",
   "Medical-social transporter",
-  "Other",
+  "Autre",
 ];

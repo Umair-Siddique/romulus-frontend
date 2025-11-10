@@ -1,22 +1,28 @@
 import React from "react";
+import moment from "moment";
 import { createRoot } from "react-dom/client";
-
-import App from "./App";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import { UserProvider } from "#context";
 
+import App from "./App";
+
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "leaflet/dist/leaflet.css";
+import "moment/locale/fr";
+
 import "./index.css";
+
+moment.locale("fr");
 
 dayjs.extend(relativeTime);
 
 const container = document.getElementById("root");
 
 const root = createRoot(container!);
+
 root.render(
   <React.StrictMode>
     <React.Suspense>

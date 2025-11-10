@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import axios, { AxiosRequestConfig, Method } from "axios";
+import axios, { all, AxiosRequestConfig, Method } from "axios";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
@@ -37,21 +37,41 @@ const requestAPI = <T = any>(
 
 const getStatusColor = (status: string) => {
   switch (status.toLowerCase()) {
+    // Ongoing / Open
     case "ongoing":
     case "open":
+    case "en cours": // French
+    case "ouvert": // French
       return { color: "#E65100", backgroundColor: "#FFF3E0" }; // Orange 800 / Orange 50
+
+    // Pending
     case "pending":
+    case "en attente": // French
       return { color: "#F9A825", backgroundColor: "#FFFDE7" }; // Amber 800 / Amber 50
+
+    // Completed / Hired / Active / Resolved
     case "completed":
     case "hired":
     case "active":
     case "resolved":
+    case "terminé": // French
+    case "embauché": // French
+    case "actif": // French
+    case "résolu": // French
       return { color: "#2E7D32", backgroundColor: "#E8F5E9" }; // Green 800 / Green 50
+
+    // Declined / Rejected / Inactive / Dismissed
     case "declined":
     case "rejected":
     case "inactive":
     case "dismissed":
+    case "refusé": // French
+    case "rejeté": // French
+    case "inactif": // French
+    case "licencié": // French
       return { color: "#C62828", backgroundColor: "#FFEBEE" }; // Red 800 / Red 50
+
+    // Default
     default:
       return { color: "#1565C0", backgroundColor: "#E3F2FD" }; // Blue 800 / Blue 50
   }
@@ -136,6 +156,100 @@ const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
 const socket = io(SOCKET_URL);
 
+const statusMap: Record<string, string> = {
+  All: "Tout",
+  Pending: "En attente",
+  Ongoing: "En cours",
+  Completed: "Terminé",
+  Open: "Ouverture",
+  Resolved: "Résolue",
+  Dismissed: "Dissuade",
+  Active: "Actif",
+  Inactive: "Inactif",
+  all: "Tout",
+  pending: "En attente",
+  ongoing: "En cours",
+  completed: "Terminé",
+  open: "Ouverture",
+  resolved: "Résolue",
+  dismissed: "Dissuade",
+  active: "Actif",
+  inactive: "Inactif",
+};
+
+const translateStatusLabel = (label: string) => {
+  const frenchStatus = statusMap[label];
+  return frenchStatus;
+};
+
+const monthMap: Record<string, string> = {
+  January: "Janvier",
+  February: "Février",
+  March: "Mars",
+  April: "Avril",
+  May: "Mai",
+  June: "Juin",
+  July: "Juillet",
+  August: "Août",
+  September: "Septembre",
+  October: "Octobre",
+  November: "Novembre",
+  December: "Décembre",
+};
+
+const translateMonthLabel = (label: string) => {
+  const [month, year] = label.split(" ");
+  const frenchMonth = monthMap[month] || month;
+  return `${frenchMonth} ${year}`;
+};
+
+const dateMap: Record<string, string> = {
+  Today: "Aujourd'hui",
+  "This Week": "Cette semaine",
+  "This Month": "Ce mois-ci",
+  "All Time": "Tout le temps",
+};
+
+const translateDateLabel = (label: string) => {
+  return dateMap[label] || label;
+};
+
+const progressStepperMap: Record<string, string> = {
+  "Profile Setup": "Configuration du profil",
+  Identity: "Identité",
+  Profession: "Profession",
+  "Review & Submit": "Vérifier et soumettre",
+};
+
+const translateProgressStepperLabel = (label: string) => {
+  return progressStepperMap[label] || label;
+};
+
+const pageNameMap: Record<string, string> = {
+  Dashboard: "Tableau de bord",
+  "Find-educator": "Trouver un enseignant",
+  Branches: "Branches",
+  Chats: "Discussions",
+  "Assign Educator": "Assign Educator",
+  "Educator Details": "Détails de l'enseignant",
+  Educators: "Enseignants",
+  "Find Educator": "Trouver un enseignant",
+  "Organization Details": "Détails de l'organisation",
+  Organizations: "Organisations",
+  Reports: "Rapports",
+  "Report Details": "Détails du rapport",
+  Settings: "Paramètres",
+  Training: "Formation",
+  "Create Profile": "Créer un profil",
+  "Update Profile": "Mettre à jour le profil",
+  "Update Educator": "Mettre à jour l'enseignant",
+  "Update Organization": "Mettre à jour l'organisation",
+};
+
+const translatePageName = (label: string) => {
+  return pageNameMap[label] || label;
+};
+
 export {
   requestAPI,
   getStatusColor,
@@ -146,5 +260,10 @@ export {
   truncateWithEllipsis,
   convertToISO,
   formatDateForInput,
+  translateStatusLabel,
+  translateMonthLabel,
+  translateDateLabel,
+  translateProgressStepperLabel,
+  translatePageName,
   socket,
 };
