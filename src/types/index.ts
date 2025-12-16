@@ -504,6 +504,7 @@ export interface MCQType {
   id: number;
   question: string;
   options: Option[];
+  category?: string; // Add category field
 }
 
 export interface Video {
