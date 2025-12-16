@@ -6,7 +6,7 @@ import { requestAPI } from "#lib";
 export const authProvider: AuthProvider = {
   login: async (params: any) => {
     try {
-      const { data } = await requestAPI("POST", "/auth/signin", params);
+      const { data } = await requestAPI("POST", "/api/v1/auth/signin", params);
       const { data: userData } = data;
       const { role, educatorId, organizationId, accessToken } = userData;
 
@@ -34,7 +34,7 @@ export const authProvider: AuthProvider = {
 
   register: async (params: any) => {
     try {
-      const { data } = await requestAPI("POST", "/auth/signup", params);
+      const { data } = await requestAPI("POST", "/api/v1/auth/signup", params);
 
       return {
         data: data.data,
@@ -58,7 +58,7 @@ export const authProvider: AuthProvider = {
     try {
       const { data } = await requestAPI(
         "PATCH",
-        "/auth/update-password",
+        "/api/v1/auth/update-password",
         params
       );
 
@@ -85,7 +85,7 @@ export const authProvider: AuthProvider = {
     try {
       const { data } = await requestAPI(
         "POST",
-        "/auth/forgot-password",
+        "/api/v1/auth/forgot-password",
         params
       );
 
@@ -110,7 +110,7 @@ export const authProvider: AuthProvider = {
 
   logout: async () => {
     try {
-      const { data } = await requestAPI("POST", "/auth/signout");
+      const { data } = await requestAPI("POST", "/api/v1/auth/signout");
       localStorage.clear();
       // window.location.reload();
 

@@ -13,6 +13,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "12 mois", points: 0 },
       { id: 4, option: "Jusqu'à la majorité", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 2,
@@ -28,6 +29,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Aide financière aux familles", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 3,
@@ -38,6 +40,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Chef de service", points: 0 },
       { id: 4, option: "Le maire de la commune", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 4,
@@ -48,6 +51,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Illimitée dans le temps", points: 10 },
       { id: 4, option: "5 ans", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 5,
@@ -63,6 +67,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Une fiche d'évaluation interne", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 6,
@@ -73,6 +78,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Créer les règlements des foyers", points: 0 },
       { id: 4, option: "Faire des expertises pénales", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 7,
@@ -83,6 +89,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "19 ans", points: 0 },
       { id: 4, option: "16 ans", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 8,
@@ -93,6 +100,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Police de la Jeunesse et des Juridictions", points: 0 },
       { id: 4, option: "Programme Jeunesse Jeunes", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 9,
@@ -107,6 +115,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "L'établissement d'accueil", points: 0 },
       { id: 4, option: "L'ASE", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 10,
@@ -121,6 +130,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "La Constitution", points: 0 },
       { id: 4, option: "Le Code Civil", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 11,
@@ -132,6 +142,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Seulement avec autorisation du juge", points: 0 },
       { id: 4, option: "Seulement s'il est émancipé", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 12,
@@ -142,6 +153,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "À l'enfant", points: 0 },
       { id: 4, option: "Au photographe", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 13,
@@ -157,6 +169,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Être gentil", points: 0 },
       { id: 4, option: "Ne jamais faire de réflexion à l'enfant", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 14,
@@ -171,6 +184,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Le QI de l'enfant", points: 0 },
       { id: 4, option: "Le rapport au corps", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 15,
@@ -185,6 +199,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Rédiger le projet du jeune", points: 0 },
       { id: 4, option: "Evaluer son caractère", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 16,
@@ -200,6 +215,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Oui, avec autorisation du juge", points: 0 },
       { id: 4, option: "Non, elle est toujours punie", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 17,
@@ -214,6 +230,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Recruter les éducateurs", points: 0 },
       { id: 4, option: "Organiser les formations", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 18,
@@ -225,6 +242,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Faire le tour des chambres", points: 0 },
       { id: 4, option: "Vérifier les stocks alimentaires", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 19,
@@ -249,6 +267,7 @@ export const quizData: MCQType[] = [
         points: 0,
       },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 20,
@@ -265,6 +284,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Appeler le chef de service", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 21,
@@ -281,6 +301,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Revenir au foyer chercher du renfort", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 22,
@@ -297,6 +318,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "J'appelle le parent", points: 0 },
       { id: 4, option: "J'attends la réunion d'équipe", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 23,
@@ -316,6 +338,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Je le remplace systématiquement", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 24,
@@ -331,6 +354,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Je le remets à l'enfant", points: 0 },
       { id: 4, option: "Je le donne à un collègue", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 25,
@@ -347,6 +371,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Je quitte le magasin", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 26,
@@ -363,6 +388,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "J'appelle la famille", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 27,
@@ -377,6 +403,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Dans la chambre du chef de service", points: 0 },
       { id: 4, option: "Au réfectoire", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 28,
@@ -387,6 +414,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Cahier des menus", points: 0 },
       { id: 4, option: "Liste des présences", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 29,
@@ -407,6 +435,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Je la renvoie dans sa chambre", points: 0 },
       { id: 4, option: "Je le dis à une autre jeune", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 30,
@@ -422,6 +451,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Faire une vidéo de la scène", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 31,
@@ -438,6 +468,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Je la lis à haute voix devant les jeunes", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 32,
@@ -453,6 +484,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Le médecin scolaire", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 33,
@@ -471,6 +503,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "En parler le lendemain", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 34,
@@ -489,6 +522,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Penché vers lui avec insistance", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 35,
@@ -505,6 +539,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Vous quittez la pièce", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 36,
@@ -521,6 +556,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Vous nettoyez en silence", points: 0 },
       { id: 4, option: "Vous l'ignorez", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 37,
@@ -549,6 +585,7 @@ export const quizData: MCQType[] = [
         points: 0,
       },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 38,
@@ -569,6 +606,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Vous le surveillez en cachette", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 39,
@@ -588,6 +626,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Vous le laissez partir sans rien dire", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 40,
@@ -604,6 +643,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Vous passez plus de temps seul avec lui", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 41,
@@ -619,6 +659,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Vous ignorez", points: 0 },
       { id: 4, option: "Vous le faites s'excuser de force", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 42,
@@ -639,6 +680,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Vous transférez un des jeunes ailleurs", points: 0 },
       { id: 4, option: "Vous prévenez les parents du harceleur", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 43,
@@ -663,6 +705,7 @@ export const quizData: MCQType[] = [
         points: 0,
       },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 44,
@@ -679,6 +722,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Vous le menacez de sanction", points: 0 },
       { id: 4, option: "Vous l'ignorez", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 45,
@@ -695,6 +739,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Vous en parlez aux autres jeunes", points: 0 },
       { id: 4, option: "Vous faites un post sur les réseaux", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 46,
@@ -711,6 +756,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Vous refusez de l'écouter", points: 0 },
       { id: 4, option: "Vous alertez les autres jeunes", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 47,
@@ -727,6 +773,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Vous transmettez à la direction par mail", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 48,
@@ -743,6 +790,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Vous l'ignorez jusqu'au déjeuner", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 49,
@@ -769,6 +817,7 @@ export const quizData: MCQType[] = [
       { id: 5, option: "Je me mets discrètement à l'écart", points: 0 },
       { id: 6, option: "Je Twerk", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 50,
@@ -799,6 +848,7 @@ export const quizData: MCQType[] = [
         points: 0,
       },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 51,
@@ -820,6 +870,7 @@ export const quizData: MCQType[] = [
         points: 0,
       },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 52,
@@ -846,6 +897,7 @@ export const quizData: MCQType[] = [
       },
       { id: 5, option: "J'appelle la police", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 53,
@@ -872,6 +924,7 @@ export const quizData: MCQType[] = [
       { id: 5, option: "J'appelle les autres éducateurs", points: 0 },
       { id: 6, option: "Je lui fais un cours sur la gravitation", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 54,
@@ -901,6 +954,7 @@ export const quizData: MCQType[] = [
         points: 0,
       },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 55,
@@ -938,6 +992,7 @@ export const quizData: MCQType[] = [
         points: 0,
       },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 56,
@@ -949,6 +1004,7 @@ export const quizData: MCQType[] = [
       { id: 4, option: "La réponse D", points: 0 },
       { id: 5, option: "Cela dépend des analyses de pratique", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 57,
@@ -963,6 +1019,7 @@ export const quizData: MCQType[] = [
         points: 0,
       },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 58,
@@ -978,6 +1035,7 @@ export const quizData: MCQType[] = [
       },
       { id: 5, option: "C'est le juge des enfants uniquement", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 59,
@@ -998,6 +1056,7 @@ export const quizData: MCQType[] = [
         points: 0,
       },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 60,
@@ -1008,6 +1067,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Médiation Educative et Crise Scolaire", points: 0 },
       { id: 4, option: "Module Educatif de Coordination Sociale", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 61,
@@ -1018,6 +1078,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Une fois par jour uniquement", points: 0 },
       { id: 4, option: "Lors des réunions d'équipe", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 62,
@@ -1038,6 +1099,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Je le laisse sortir sans rien dire", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 63,
@@ -1049,6 +1111,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Dire bonjour aux jeunes", points: 0 },
       { id: 4, option: "Boire un café et se mettre à jour", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 64,
@@ -1064,6 +1127,7 @@ export const quizData: MCQType[] = [
         points: 0,
       },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 65,
@@ -1079,6 +1143,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Si le chef de service vous y autorise", points: 0 },
       { id: 4, option: "Si le jeune vous le demande poliment", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 66,
@@ -1090,6 +1155,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "À égalité avec le chef de service", points: 0 },
       { id: 4, option: "Cela dépend de l'établissement", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 67,
@@ -1113,6 +1179,7 @@ export const quizData: MCQType[] = [
       },
       { id: 4, option: "Prévenir uniquement un collègue", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 68,
@@ -1123,6 +1190,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Action Solidaire Éducative", points: 0 },
       { id: 4, option: "Accompagnement des Services Educatifs", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 69,
@@ -1137,6 +1205,7 @@ export const quizData: MCQType[] = [
       { id: 6, option: "Si le jeune est au OPP", points: 0 },
       { id: 7, option: "Si le jeune est AP", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 70,
@@ -1148,6 +1217,7 @@ export const quizData: MCQType[] = [
       { id: 4, option: "Institut mère enfants", points: 0 },
       { id: 5, option: "Immersion en milieu éducatif", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 71,
@@ -1170,6 +1240,7 @@ export const quizData: MCQType[] = [
       { id: 6, option: "Au premier ministre", points: 0 },
       { id: 7, option: "À Bernard Montiel", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 72,
@@ -1194,6 +1265,7 @@ export const quizData: MCQType[] = [
       { id: 7, option: "L'ordonnance de placement", points: 0 },
       { id: 8, option: "Rien du tout, c'est une urgence", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 73,
@@ -1209,6 +1281,7 @@ export const quizData: MCQType[] = [
       { id: 2, option: "C'est une ordonnance de médecin", points: 0 },
       { id: 3, option: "C'est le placement du jeûne", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
   {
     id: 74,
@@ -1242,6 +1315,7 @@ export const quizData: MCQType[] = [
       },
       { id: 6, option: "C'est la visite d'un inspecteur", points: 0 },
     ],
+    category: "SENS PRATIQUE",
   },
   {
     id: 75,
@@ -1263,6 +1337,7 @@ export const quizData: MCQType[] = [
       { id: 5, option: "Je sors le jeune de la réunion", points: 5 },
       { id: 6, option: "Je danse la Macarena", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 76,
@@ -1275,6 +1350,7 @@ export const quizData: MCQType[] = [
       { id: 4, option: "Psychologue", points: 5 },
       { id: 5, option: "Éducateur sportif", points: 5 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 77,
@@ -1290,6 +1366,7 @@ export const quizData: MCQType[] = [
       { id: 3, option: "Avec le badge des éducateurs", points: 0 },
       { id: 4, option: "En lui demandant", points: 0 },
     ],
+    category: "CONNAISSANCES DE TERRAIN",
   },
   {
     id: 78,
@@ -1309,6 +1386,7 @@ export const quizData: MCQType[] = [
       { id: 6, option: "Un électricien uniquement", points: 8 },
       { id: 7, option: "Un jeune de moins de 18 ans ou un adulte", points: 0 },
     ],
+    category: "CONNAISSANCES THÉORIQUES",
   },
 ];
 
