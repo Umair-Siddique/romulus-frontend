@@ -110,7 +110,7 @@ const ReportModal = ({
           fullWidth
           multiline
           rows={4}
-          placeholder="Write here..."
+          placeholder="Écrivez ici..."
           value={reportReason}
           onChange={(e) => setReportReason(e.target.value)}
           sx={{

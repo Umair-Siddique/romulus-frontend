@@ -226,7 +226,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                 <>
                   <Box sx={{ width: "50%" }}>
                     <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                      First Name
+                      Prénom
                     </Typography>
                     <TextField
                       value={userData.firstName}
@@ -242,7 +242,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                   </Box>
                   <Box sx={{ width: "50%" }}>
                     <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                      Last Name
+                      Nom de famille
                     </Typography>
                     <TextField
                       value={userData.lastName}
@@ -258,7 +258,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
               ) : (
                 <Box sx={{ width: "100%" }}>
                   <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                    Full Name
+                    Nom et prénom
                   </Typography>
                   <TextField
                     value={userData.fullName}
@@ -275,7 +275,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
 
             <Box sx={{ width: "100%" }}>
               <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                Email
+                E-mail
               </Typography>
               <TextField
                 value={userData.email}
@@ -360,7 +360,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
         >
           <Box sx={{ width: "50%" }}>
             <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-              {isEducator ? "Date of Birth" : "Founded Year"}
+              {isEducator ? "Date de naissance" : "Année de fondation"}
             </Typography>
             <TextField
               fullWidth
@@ -419,7 +419,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
           {isEducator ? (
             <Box sx={{ width: "50%" }}>
               <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-                Gender
+                Genre
               </Typography>
               <Select
                 value={userData.gender}
@@ -432,8 +432,8 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                 <MenuItem value="" disabled>
                   Sélectionner le genre
                 </MenuItem>
-                <MenuItem value="male">Homme</MenuItem>
-                <MenuItem value="female">Femme</MenuItem>
+                <MenuItem value="mâle">Homme</MenuItem>
+                <MenuItem value="femelle">Femme</MenuItem>
               </Select>
             </Box>
           ) : (
@@ -662,7 +662,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
                 <TextField
                   value={newSkill}
                   onChange={(e) => setNewSkill(e.target.value)}
-                  placeholder="Add a skill"
+                  placeholder="Ajouter une compétence"
                   sx={{ flex: 1, ...textFieldStyle }}
                 />
                 <Button

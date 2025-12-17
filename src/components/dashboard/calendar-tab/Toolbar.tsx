@@ -17,6 +17,8 @@ import {
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from "@mui/icons-material";
 import { useState } from "react";
 import { useUserContext } from "#context";
+import moment from "moment";
+import { translateMonthLabel } from "#lib";
 
 export const Toolbar = ({
   onNavigate,
@@ -134,7 +136,7 @@ export const Toolbar = ({
             textAlign: "start",
           }}
         >
-          {label}
+          {translateMonthLabel(label)}
         </Typography>
       </Box>
 

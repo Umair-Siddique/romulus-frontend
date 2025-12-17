@@ -16,7 +16,12 @@ import {
 import { Theme, useTheme } from "@mui/material/styles";
 import { RemoveRedEye as EyeIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import { formatDate, formatTime, getStatusColor } from "#lib";
+import {
+  formatDate,
+  formatTime,
+  getStatusColor,
+  translateStatusLabel,
+} from "#lib";
 import { useCreate, useMany, useUpdate } from "@refinedev/core";
 import { GridMoreVertIcon } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
@@ -133,7 +138,7 @@ export const EducatorTable = ({
   // NOW HANDLE CONDITIONAL RETURNS AFTER ALL HOOKS
   // Early return if no educators provided
   if (!educators || educators.length === 0) {
-    return "No educators found";
+    return "Aucun éducateur trouvé";
   }
 
   const data: Data[] =
@@ -369,7 +374,7 @@ export const EducatorTable = ({
                     }}
                   >
                     <Chip
-                      label={educator.status}
+                      label={translateStatusLabel(educator.status)}
                       size="small"
                       sx={{
                         ...getStatusColor(educator.status),

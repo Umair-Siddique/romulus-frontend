@@ -1,5 +1,5 @@
 import { useUserContext } from "#context";
-import { formatDate, getStatusColor } from "#lib";
+import { formatDate, getStatusColor, translateStatusLabel } from "#lib";
 import { Avatar, Typography, Box, Chip, useTheme } from "@mui/material";
 import { useOne } from "@refinedev/core";
 
@@ -75,23 +75,23 @@ export const ProfileCard = ({
 
   const userInfoItems = [
     {
-      label: `${educatorData ? "Phone:" : "SIRET Number:"}`,
+      label: `${educatorData ? "Phone:" : "Numéro SIRET:"}`,
       value: educatorData ? userInfo.phone : userInfo.siretNumber,
     },
     { label: "Email:", value: userInfo.email },
     {
-      label: `${educatorData ? "Gender:" : "Office Address:"}`,
+      label: `${educatorData ? "Genre:" : "Adresse du bureau:"}`,
       value: educatorData ? userInfo.gender : userInfo.address,
     },
     {
-      label: `${educatorData ? "DOB:" : "Founded:"}`,
+      label: `${educatorData ? "Date de naissance:" : "Fondée:"}`,
       value: educatorData ? userInfo.dob : userInfo.founded,
     },
     { label: "Location:", value: userInfo.location },
   ];
 
   const missionItems = [
-    { label: "Total:", value: missions.total },
+    { label: "Totale:", value: missions.total },
     { label: "En attente:", value: missions.pending },
     { label: "En cours:", value: missions.ongoing },
     { label: "Terminé:", value: missions.completed },
@@ -182,7 +182,7 @@ export const ProfileCard = ({
               Statut:
             </Typography>
             <Chip
-              label={userInfo.status}
+              label={translateStatusLabel(userInfo.status)}
               size="small"
               sx={{
                 ...getStatusColor(userInfo.status),

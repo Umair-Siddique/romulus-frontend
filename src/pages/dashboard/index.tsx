@@ -15,31 +15,31 @@ import { CalendarTab, MissionsTab } from "#components/dashboard";
 
 const defaultKpis: KpiItem[] = [
   {
-    title: "Total Missions",
+    title: "Missions totales",
     total: 0,
     icon: <AssignmentIcon sx={{ color: "#1976d2", fontSize: "1.5rem" }} />, // Blue 700
     iconBg: "#e3f2fd", // Blue 50
   },
   {
-    title: "Pending Invitations",
+    title: "Invitations en attente",
     total: 0,
     icon: <HourglassTopIcon sx={{ color: "#f57c00", fontSize: "1.5rem" }} />, // Orange 700
     iconBg: "#fff3e0", // Orange 50
   },
   {
-    title: "Pending Missions",
+    title: "Missions en attente",
     total: 0,
     icon: <HourglassTopIcon sx={{ color: "#f57c00", fontSize: "1.5rem" }} />, // Orange 700
     iconBg: "#fff3e0", // Orange 50
   },
   {
-    title: "Ongoing Missions",
+    title: "Missions en cours",
     total: 0,
     icon: <HourglassBottomIcon sx={{ color: "#0288d1", fontSize: "1.5rem" }} />, // Light Blue 700
     iconBg: "#e1f5fe", // Light Blue 50
   },
   {
-    title: "Completed Missions",
+    title: "Missions terminées",
     total: 0,
     icon: (
       <AssignmentTurnedInIcon sx={{ color: "#2e7d32", fontSize: "1.5rem" }} />
@@ -166,7 +166,7 @@ export const Dashboard = () => {
   const tabs = [
     {
       id: 0,
-      label: "Calendar",
+      label: "Calendrier",
       icon: CalendarIcon,
       component: <CalendarTab calendarTabProps={calendarTabMissions} />,
     },

@@ -11,8 +11,6 @@ import { MissionsModal } from "./MissionsModal";
 import { Modal } from "#components/Modal";
 import { formatTime } from "#lib";
 
-moment.locale("en-GB");
-
 const localizer = momentLocalizer(moment);
 
 export const CalendarTab = ({ calendarTabProps }: any) => {
@@ -25,7 +23,9 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
   const [openTrainingModal, setOpenTrainingModal] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDateMissions, setSelectedDateMissions] = useState<any[]>([]);
-  const [selectedBranch, setSelectedBranch] = useState("All Branches");
+  const [selectedBranch, setSelectedBranch] = useState(
+    "Toutes les succursales"
+  );
   const [selectedOrganization, setSelectedOrganization] =
     useState("All Organizations");
 
@@ -83,7 +83,7 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
         )
       )
     );
-    return ["All Branches", ...branches.sort()];
+    return ["Toutes les succursales", ...branches.sort()];
   }, [calendarMissionList, selectedOrganization]);
 
   // Filter missions based on selected organization and branch
@@ -98,7 +98,7 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
     }
 
     // Apply branch filter
-    if (selectedBranch !== "All Branches") {
+    if (selectedBranch !== "Toutes les succursales") {
       filtered = filtered.filter(
         (mission: any) => mission.branchName === selectedBranch
       );
@@ -151,7 +151,7 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
   // Reset branch filter when organization changes
   const handleOrganizationChange = (organization: string) => {
     setSelectedOrganization(organization);
-    setSelectedBranch("All Branches"); // Reset branch when organization changes
+    setSelectedBranch("Toutes les succursales"); // Reset branch when organization changes
   };
 
   return (
@@ -165,21 +165,38 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
         events={events}
         style={{ height: "100vh" }}
         onSelectEvent={handleMissionSelect}
-        onNavigate={(date) => {
-          setCurrentDate(date);
+        onNavigate={(date) => setCurrentDate(date)}
+        messages={{
+          date: "Date",
+          time: "Heure",
+          event: "Événement",
+          allDay: "Toute la journée",
+          week: "Semaine",
+          work_week: "Semaine de travail",
+          day: "Jour",
+          month: "Mois",
+          previous: "Précédent",
+          next: "Suivant",
+          yesterday: "Hier",
+          tomorrow: "Demain",
+          today: "Aujourd'hui",
+          agenda: "Agenda",
+          noEventsInRange: "Aucun événement pour cette période",
         }}
         components={{
-          toolbar: (toolbarProps) => (
-            <Toolbar
-              {...toolbarProps}
-              selectedBranch={selectedBranch}
-              setSelectedBranch={setSelectedBranch}
-              availableBranches={availableBranches}
-              selectedOrganization={selectedOrganization}
-              setSelectedOrganization={handleOrganizationChange}
-              availableOrganizations={availableOrganizations}
-            />
-          ),
+          toolbar: (toolbarProps) => {
+            return (
+              <Toolbar
+                {...toolbarProps}
+                selectedBranch={selectedBranch}
+                setSelectedBranch={setSelectedBranch}
+                availableBranches={availableBranches}
+                selectedOrganization={selectedOrganization}
+                setSelectedOrganization={handleOrganizationChange}
+                availableOrganizations={availableOrganizations}
+              />
+            );
+          },
           month: {
             event: (eventProps) => (
               <div className="event-box" tabIndex={0}>
@@ -189,6 +206,7 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
           },
         }}
       />
+
       <MissionsModal
         open={openMissionsModal}
         onClose={() => setOpenMissionsModal(false)}

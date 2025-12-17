@@ -268,7 +268,7 @@ export const MissionCard = React.memo(
                       "aria-labelledby": "basic-button",
                     }}
                   >
-                    <MenuItem onClick={handleDeleteMission}>Delete</MenuItem>
+                    <MenuItem onClick={handleDeleteMission}>Supprimer</MenuItem>
                   </Menu>
                 </>
               )}

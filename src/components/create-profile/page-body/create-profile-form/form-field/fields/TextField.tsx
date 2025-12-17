@@ -88,7 +88,7 @@ export const TextFieldComponent = ({
           color: theme.palette.text.primary,
         }}
       >
-        {label} {required && "*"} {!required && "(Optional)"}
+        {label} {required && "*"} {!required && "(Facultatif)"}
       </Typography>
 
       {isAddressField ? (

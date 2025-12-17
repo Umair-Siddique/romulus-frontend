@@ -269,7 +269,7 @@ export const BranchesField = ({ value, onChange }: BranchesFieldProps) => {
               sx={{ color: theme.palette.text.primary }}
             >
               {branch.branchAddress ||
-                "Bureau 905, One Central, Trade Centre Area"}
+                "Bureau 905, One Central, Zone du Centre des Affaires"}
             </Typography>
           </Box>
 

@@ -15,6 +15,7 @@ import React, { useState } from "react";
 import { useTheme, Theme } from "@mui/material/styles";
 
 import { useUserContext } from "#context";
+import { translateDateLabel, translateStatusLabel } from "#lib";
 
 interface ToolBarProps {
   availableStatuses: string[];
@@ -87,7 +88,7 @@ export const ToolBarComponent = React.memo(
             {availableStatuses.map((status) => (
               <CustomChip
                 key={status}
-                label={status}
+                label={translateStatusLabel(status)}
                 onClick={() => setSelectedStatus(status)}
                 sx={{
                   width: "auto",
@@ -189,7 +190,7 @@ export const ToolBarComponent = React.memo(
                 },
               }}
             >
-              {option}
+              {translateDateLabel(option)}
             </MenuItem>
           ))}
         </Menu>

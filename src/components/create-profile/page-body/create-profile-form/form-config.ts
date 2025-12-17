@@ -30,7 +30,7 @@ export const educatorStepsConfig: Record<string, any[]> = {
       name: "gender",
       label: "Genre",
       type: "select",
-      options: ["Male", "Female", "Other"],
+      options: ["Mâle", "Femelle", "Autre"],
       required: true,
     },
     {
