@@ -86,7 +86,7 @@ export const Password = React.memo(() => {
 
     updatePassword(
       {
-        url: "auth/update-password",
+        url: "/auth/update-password",
         method: "patch",
         values: {
           userId,

@@ -82,7 +82,7 @@ export const FindEducator = () => {
   });
 
   const { refetch: sendInvitations } = useCustom({
-    url: "missions/send-invitations",
+    url: "/missions/send-invitations",
     method: "post",
     config: {
       headers: {
@@ -237,11 +237,11 @@ export const FindEducator = () => {
   };
   const center: LatLngTuple = [
     findEducatorData?.coordinates[1] ??
-      userProfile?.officeAddressCoordinates?.coordinates[1] ??
-      0,
+    userProfile?.officeAddressCoordinates?.coordinates[1] ??
+    0,
     findEducatorData?.coordinates[0] ??
-      userProfile?.officeAddressCoordinates?.coordinates[0] ??
-      0,
+    userProfile?.officeAddressCoordinates?.coordinates[0] ??
+    0,
   ];
 
   type Marker = {
@@ -371,11 +371,9 @@ export const FindEducator = () => {
         }
         icon={<CheckCircleIcon />}
         title="Invitations envoyées avec succès !"
-        description={`Les invitations ont été envoyées à ${
-          invitees.length
-        } éducateur${
-          invitees.length !== 1 ? "s" : ""
-        }. Vous serez informé dès qu'ils répondront.`}
+        description={`Les invitations ont été envoyées à ${invitees.length
+          } éducateur${invitees.length !== 1 ? "s" : ""
+          }. Vous serez informé dès qu'ils répondront.`}
         hasButton={true}
         hasButton1={true}
         buttonText="Fermer"

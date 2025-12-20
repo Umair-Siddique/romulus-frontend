@@ -1,6 +1,6 @@
 import type { DataProvider } from "@refinedev/core";
 
-import { requestAPI } from "#lib";
+import { baseURL, requestAPI } from "#lib";
 
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
@@ -28,9 +28,8 @@ export const dataProvider: DataProvider = {
           error?.response?.data?.message === "invalid signature" && "/login",
         error: {
           name: "Data Fetch Error",
-          message: `Failed to fetch ${resource} with ID ${id}: ${
-            error?.response?.data?.message ?? ""
-          }`,
+          message: `Failed to fetch ${resource} with ID ${id}: ${error?.response?.data?.message ?? ""
+            }`,
         },
       };
     }
@@ -59,9 +58,8 @@ export const dataProvider: DataProvider = {
         total: 0,
         error: {
           name: "Data Fetch Error",
-          message: `Failed to fetch ${resource}: ${
-            error?.response?.data?.message ?? ""
-          }`,
+          message: `Failed to fetch ${resource}: ${error?.response?.data?.message ?? ""
+            }`,
         },
       };
     }
@@ -93,9 +91,8 @@ export const dataProvider: DataProvider = {
         data: {} as any,
         error: {
           name: "Data Creation Error",
-          message: `Failed to create ${resource}: ${
-            error?.response?.data?.message ?? ""
-          }`,
+          message: `Failed to create ${resource}: ${error?.response?.data?.message ?? ""
+            }`,
         },
       };
     }
@@ -128,9 +125,8 @@ export const dataProvider: DataProvider = {
         data: {} as any,
         error: {
           name: "Data Update Error",
-          message: `Failed to update ${resource} with ID ${id}: ${
-            error?.response?.data?.message ?? ""
-          }`,
+          message: `Failed to update ${resource} with ID ${id}: ${error?.response?.data?.message ?? ""
+            }`,
         },
       };
     }
@@ -148,9 +144,8 @@ export const dataProvider: DataProvider = {
         data: {} as any,
         error: {
           name: "Data Deletion Error",
-          message: `Failed to delete ${resource} with ID ${id}: ${
-            error?.response?.data?.message ?? ""
-          }`,
+          message: `Failed to delete ${resource} with ID ${id}: ${error?.response?.data?.message ?? ""
+            }`,
         },
       };
     }
@@ -183,15 +178,14 @@ export const dataProvider: DataProvider = {
         data: {} as any,
         error: {
           name: "Custom Request Error",
-          message: `Failed to perform custom request to ${url}: ${
-            error?.response?.data?.message ?? ""
-          }`,
+          message: `Failed to perform custom request to ${url}: ${error?.response?.data?.message ?? ""
+            }`,
         },
       };
     }
   },
 
   getApiUrl: () => {
-    return import.meta.env.VITE_API_BASE_URL;
+    return baseURL;
   },
 };

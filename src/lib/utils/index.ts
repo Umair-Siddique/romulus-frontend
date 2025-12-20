@@ -1,7 +1,10 @@
 import { io } from "socket.io-client";
 import axios, { all, AxiosRequestConfig, Method } from "axios";
 
-const baseURL = import.meta.env.VITE_API_BASE_URL;
+const rawBaseURL = import.meta.env.VITE_API_BASE_URL || "";
+const baseURL = rawBaseURL.endsWith("/")
+  ? `${rawBaseURL}api/v1`
+  : `${rawBaseURL}/api/v1`;
 
 // Create optimized axios instance
 const httpClient = axios.create({
@@ -251,6 +254,7 @@ const translatePageName = (label: string) => {
 };
 
 export {
+  baseURL,
   requestAPI,
   getStatusColor,
   formatTime,

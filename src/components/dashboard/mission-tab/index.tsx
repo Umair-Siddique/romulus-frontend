@@ -215,12 +215,10 @@ export const MissionsTab = ({
     date: mission?.start,
     time:
       `${formatTime(
-        `${mission?.start?.split("T")[1].split(":")[0]}:${
-          mission?.start?.split("T")[1].split(":")[1]
+        `${mission?.start?.split("T")[1].split(":")[0]}:${mission?.start?.split("T")[1].split(":")[1]
         }`
       )} to ${formatTime(
-        `${mission?.end?.split("T")[1].split(":")[0]}:${
-          mission?.end?.split("T")[1].split(":")[1]
+        `${mission?.end?.split("T")[1].split(":")[0]}:${mission?.end?.split("T")[1].split(":")[1]
         }`
       )}` || "N/A",
     branchAddress: mission?.organization?.branches?.find(
@@ -244,7 +242,7 @@ export const MissionsTab = ({
       date: formatDate(mission?.date),
     }));
     mutateAsync({
-      url: "invoices/generate",
+      url: "/invoices/generate",
       method: "post",
       values: { missionsData: rawInvoiceData },
     });
