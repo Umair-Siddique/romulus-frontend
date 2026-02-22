@@ -484,8 +484,8 @@ export const TrainingQuiz = () => {
       {/* Progress indicator */}
       {!submitted && (
         <Box sx={{ mt: 2, textAlign: "center", color: "text.secondary" }}>
-          Page {currentPage + 1} of {totalPages} |{" "}
-          {Object.keys(selectedOptions).length} / {allQuestions.length} answered
+          Page {currentPage + 1} sur {totalPages} |{" "}
+          {Object.keys(selectedOptions).length} / {allQuestions.length} répondues
         </Box>
       )}
 
