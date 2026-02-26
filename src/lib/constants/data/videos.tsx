@@ -54,88 +54,47 @@ export const videosData: Video[] = [
 
   {
     id: 7,
-    title: "Chapter 2: Video 11",
+    title: "Chapter 2: Video 1",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
-    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986696/video_11_vng4cs.mp4",
-    duration: "0:09",
+    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1772144143/Chapitre_2_video1_t3bgbe.mp4",
+    duration: "4:27",
   },
   {
     id: 8,
-    title: "Chapter 2: Video 13",
+    title: "Chapter 2: Video 2",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
-    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986696/video_13_cemzmc.mp4",
-    duration: "0:17",
+    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1772144144/Chapitre_2_video2_xf4sqy.mp4",
+    duration: "6:3",
   },
   {
     id: 9,
-    title: "Chapter 2: Video 15",
+    title: "Chapter 2: Video 3",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
-    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986696/video_15_i5tzmb.mp4",
-    duration: "0:15",
+    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1772144144/Chapitre_2_video3_srgzzx.mp4",
+    duration: "6:10",
   },
   {
     id: 10,
-    title: "Chapter 2: Video 12",
+    title: "Chapter 2: Video 4",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
-    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986696/video_12_loivmk.mp4",
-    duration: "0:08",
+    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1772144158/Chapitre_2_video4_oesely.mp4",
+    duration: "5:01",
   },
-
-
 
   {
     id: 11,
-    title: "Chapter 2: Video 14",
+    title: "Chapter 2: Video 5",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
-    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986696/video_14_e58avl.mp4",
-    duration: "0:04",
-  },
-  {
-    id: 12,
-    title: "Chapter 2: Video 16",
-    description:
-      "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
-    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986697/video_16_z6h2el.mp4",
-    duration: "0:15",
-  },
-  {
-    id: 13,
-    title: "Chapter 2: Video 17",
-    description:
-      "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
-    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986697/video_17_nr4wfr.mp4",
-    duration: "0:10",
-  },
-  {
-    id: 14,
-    title: "Chapter 2: Video 18",
-    description:
-      "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
-    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986698/video_18_fjx3uv.mp4",
-    duration: "0:05",
+    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1772144178/Chapitre_2_video5_aopp8j.mp4",
+    duration: "5:11",
   },
 
-  {
-    id: 15,
-    title: "Chapter 2: Video 19",
-    description:
-      "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
-    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986698/video_19_lapiv8.mp4",
-    duration: "0:11",
-  },
-  {
-    id: 16,
-    title: "Chapter 2: Video 20",
-    description:
-      "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
-    url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986705/video_20_kcxdeq.mp4",
-    duration: "0:07",
-  },
+
 
 
   {
