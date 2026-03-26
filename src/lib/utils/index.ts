@@ -95,18 +95,20 @@ const formatTime = (time: string): string => {
   return `${hour.toString().padStart(2, "0")}:${minute} ${ampm}`;
 };
 
-const formatDate = (dateISO: string) => {
+const formatDate = (dateISO: string, locale = "en-GB") => {
   const date = new Date(dateISO);
-  const parts = date
-    .toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    })
-    .split(" ");
+  const formatOptions: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  };
 
-  const formattedDate = `${parts[0]} ${parts[1]}, ${parts[2]}`;
-  return formattedDate;
+  if (locale === "fr-FR") {
+    return date.toLocaleDateString("fr-FR", formatOptions);
+  }
+
+  const parts = date.toLocaleDateString(locale, formatOptions).split(" ");
+  return `${parts[0]} ${parts[1]}, ${parts[2]}`;
 };
 
 const getElapsedTime = (givenAt: string) => {
@@ -168,6 +170,10 @@ const statusMap: Record<string, string> = {
   Pending: "En attente",
   Ongoing: "En cours",
   Completed: "Terminé",
+  Upcoming: "À venir",
+  Hired: "Embauché",
+  Rejected: "Rejeté",
+  Declined: "Refusé",
   Open: "Ouverture",
   Resolved: "Résolue",
   Dismissed: "Dissuade",
@@ -177,6 +183,10 @@ const statusMap: Record<string, string> = {
   pending: "En attente",
   ongoing: "En cours",
   completed: "Terminé",
+  upcoming: "À venir",
+  hired: "Embauché",
+  rejected: "Rejeté",
+  declined: "Refusé",
   open: "Ouverture",
   resolved: "Résolue",
   dismissed: "Dissuade",
@@ -185,8 +195,7 @@ const statusMap: Record<string, string> = {
 };
 
 const translateStatusLabel = (label: string) => {
-  const frenchStatus = statusMap[label];
-  return frenchStatus;
+  return statusMap[label] || label;
 };
 
 const monthMap: Record<string, string> = {
@@ -234,13 +243,13 @@ const translateProgressStepperLabel = (label: string) => {
 
 const pageNameMap: Record<string, string> = {
   Dashboard: "Tableau de bord",
-  "Find-educator": "Trouver un enseignant",
+  "Find-educator": "Trouver un Éducateur",
   Branches: "Branches",
   Chats: "Discussions",
-  "Assign Educator": "Assign Educator",
-  "Educator Details": "Détails de l'enseignant",
-  Educators: "Enseignants",
-  "Find Educator": "Trouver un enseignant",
+  "Assign Educator": "Attribuer un Éducateur",
+  "Educator Details": "Détails de l'Éducateur",
+  Educators: "Éducateur",
+  "Find Educator": "Trouver un Éducateur",
   "Organization Details": "Détails de l'organisation",
   Organizations: "Organisations",
   Reports: "Rapports",
@@ -249,7 +258,7 @@ const pageNameMap: Record<string, string> = {
   Training: "Formation",
   "Create Profile": "Créer un profil",
   "Update Profile": "Mettre à jour le profil",
-  "Update Educator": "Mettre à jour l'enseignant",
+  "Update Educator": "Mettre à jour l'éducateur",
   "Update Organization": "Mettre à jour l'organisation",
 };
 

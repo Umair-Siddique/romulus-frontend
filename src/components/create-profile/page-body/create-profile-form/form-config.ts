@@ -146,7 +146,7 @@ export const organizationStepsConfig: Record<string, any[]> = {
     },
     {
       name: "foundedYear",
-      label: "Année de création",
+      label: "Date de création",
       type: "date",
       required: false,
     },

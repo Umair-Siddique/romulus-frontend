@@ -12,6 +12,50 @@
   padding: 0.5rem 1rem;
 }
 
+/* Force French weekday headers (react-big-calendar month view) */
+.rbc-month-view .rbc-header {
+  position: relative;
+  color: transparent; /* visually hide built-in English text */
+}
+
+.rbc-month-view .rbc-header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9e9e9e; /* same as original */
+  font-weight: 500;
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* Default week order shown in UI: Sunday -> Saturday */
+.rbc-month-view .rbc-header:nth-child(1)::after {
+  content: "DIMANCHE";
+}
+.rbc-month-view .rbc-header:nth-child(2)::after {
+  content: "LUNDI";
+}
+.rbc-month-view .rbc-header:nth-child(3)::after {
+  content: "MARDI";
+}
+.rbc-month-view .rbc-header:nth-child(4)::after {
+  content: "MERCREDI";
+}
+.rbc-month-view .rbc-header:nth-child(5)::after {
+  content: "JEUDI";
+}
+.rbc-month-view .rbc-header:nth-child(6)::after {
+  content: "VENDREDI";
+}
+.rbc-month-view .rbc-header:nth-child(7)::after {
+  content: "SAMEDI";
+}
+
 .rbc-off-range-bg {
   background-color: #f8f8f8;
 }

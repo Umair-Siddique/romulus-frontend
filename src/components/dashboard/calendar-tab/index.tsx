@@ -1,4 +1,5 @@
 import moment from "moment";
+import "moment/locale/fr";
 import { Box } from "@mui/material";
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router";
@@ -11,7 +12,16 @@ import { MissionsModal } from "./MissionsModal";
 import { Modal } from "#components/Modal";
 import { formatTime } from "#lib";
 
+moment.locale("fr");
 const localizer = momentLocalizer(moment);
+const formatFrenchWeekday = (date: Date) => moment(date).locale("fr").format("dddd");
+const calendarFormats = {
+  weekdayFormat: (date: Date) => formatFrenchWeekday(date),
+  dayFormat: (date: Date) => formatFrenchWeekday(date),
+};
+const CalendarWeekdayHeader = ({ date }: { date: Date }) => (
+  <span>{formatFrenchWeekday(date)}</span>
+);
 
 export const CalendarTab = ({ calendarTabProps }: any) => {
   const { userProfile } = useUserContext();
@@ -159,6 +169,8 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
       <Calendar
         selectable
         localizer={localizer}
+        culture="fr"
+        formats={calendarFormats}
         date={currentDate}
         defaultView="month"
         views={["month"]}
@@ -198,6 +210,9 @@ export const CalendarTab = ({ calendarTabProps }: any) => {
             );
           },
           month: {
+            header: ({ date }: { date: Date }) => (
+              <CalendarWeekdayHeader date={date} />
+            ),
             event: (eventProps) => (
               <div className="event-box" tabIndex={0}>
                 {eventProps.event.title}

@@ -85,6 +85,8 @@ export const DateTimeSection = ({
               render={({ field }) => (
                 <TimePicker
                   {...field}
+                  ampm={false}
+                  format="HH:mm"
                   value={field.value ? dayjs(field.value, "HH:mm") : null}
                   onChange={(time: Dayjs | null) => {
                     field.onChange(time ? time.format("HH:mm") : "");
@@ -133,6 +135,8 @@ export const DateTimeSection = ({
               render={({ field }) => (
                 <TimePicker
                   {...field}
+                  ampm={false}
+                  format="HH:mm"
                   value={field.value ? dayjs(field.value, "HH:mm") : null}
                   onChange={(time: Dayjs | null) => {
                     field.onChange(time ? time.format("HH:mm") : "");

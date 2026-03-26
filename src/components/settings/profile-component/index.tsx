@@ -360,7 +360,7 @@ export const Profile = React.memo(({ profileData }: { profileData: any }) => {
         >
           <Box sx={{ width: "50%" }}>
             <Typography variant="body1" sx={{ mb: theme.spacing(1) }}>
-              {isEducator ? "Date de naissance" : "Année de fondation"}
+              {isEducator ? "Date de naissance" : "Date de création"}
             </Typography>
             <TextField
               fullWidth

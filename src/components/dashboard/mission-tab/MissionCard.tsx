@@ -26,7 +26,7 @@ import { Lock as LockIcon } from "@mui/icons-material";
 
 import { Modal } from "#components/Modal";
 import { useUserContext } from "#context";
-import { formatDate, getStatusColor } from "#lib";
+import { formatDate, getStatusColor, translateStatusLabel } from "#lib";
 
 export const MissionCard = React.memo(
   ({ mission, refetch }: { mission: any; refetch: any }) => {
@@ -115,7 +115,7 @@ export const MissionCard = React.memo(
             }}
           >
             <Chip
-              label={status}
+              label={translateStatusLabel(status)}
               sx={{
                 ...getStatusColor(status), // Use utility function to get status color
                 fontWeight: theme.typography.fontWeightMedium,

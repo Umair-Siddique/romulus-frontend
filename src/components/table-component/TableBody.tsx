@@ -269,7 +269,10 @@ const TableBodyComponent = ({
                   variant="body2"
                   sx={{ color: theme.palette.text.secondary }}
                 >
-                  {formatDate(item.createdAt)}
+                  {formatDate(
+                    item.createdAt,
+                    item.branchName ? "fr-FR" : "en-GB"
+                  )}
                 </Typography>
               </TableCell>
             )}
