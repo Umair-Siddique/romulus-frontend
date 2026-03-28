@@ -3,7 +3,7 @@ import { Video } from "#types";
 export const videosData: Video[] = [
   {
     id: 1,
-    title: "Chapitre 1: Vidéo 1",
+    title: "Chapitre 1.1 Qu'est-ce qu'une MECS",
     description:
       "Obtenez un aperçu de la série de formation, de ses objectifs et de la manière dont chaque module vous aidera à construire une base solide étape par étape.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986009/Chapitre_1_video_1_kgchc3.mp4",
@@ -11,7 +11,7 @@ export const videosData: Video[] = [
   },
   {
     id: 2,
-    title: "Chapitre 1: Vidéo 2",
+    title: "Chapitre 1.2 Placement d'enfant : Qui décide",
     description:
       "Plongez plus profondément dans les concepts essentiels avec des exemples pratiques. Cette session renforce les connaissances dont vous aurez besoin pour les modules suivants.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986009/Chapitre_1_video2_sa6zp8.mp4",
@@ -19,7 +19,7 @@ export const videosData: Video[] = [
   },
   {
     id: 3,
-    title: "Chapitre 1: Vidéo 3",
+    title: "Chapitre 1.3 Qui signe pour l'enfant placé",
     description:
       "Suivez un guide étape par étape pour appliquer les concepts de base dans un scénario réel avec les meilleures pratiques.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986009/Chapitre_1_video3_u55vwd.mp4",
@@ -27,7 +27,7 @@ export const videosData: Video[] = [
   },
   {
     id: 4,
-    title: "Chapitre 1: Vidéo 4",
+    title: "Chapitre 1.4 Visites Médiatisées",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986009/Chapitre_1_video4_lbd73p.mp4",
@@ -35,7 +35,7 @@ export const videosData: Video[] = [
   },
   {
     id: 5,
-    title: "Chapitre 1: Vidéo 5",
+    title: "Chapitre 1.5 Fugue de mineur : Le protocole",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986010/Chapitre_1_video5_ws0ela.mp4",
@@ -43,7 +43,7 @@ export const videosData: Video[] = [
   },
   {
     id: 6,
-    title: "Chapitre 1: Vidéo 6",
+    title: "Chapitre 1.6 Incidents : Le guide légal",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771986012/Chapitre_1_video6_x6urkm.mp4",
@@ -54,7 +54,7 @@ export const videosData: Video[] = [
 
   {
     id: 7,
-    title: "Chapitre 2: Vidéo 1",
+    title: "Chapitre 2.1 La hierarchie en MECS",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1772144143/Chapitre_2_video1_t3bgbe.mp4",
@@ -62,7 +62,7 @@ export const videosData: Video[] = [
   },
   {
     id: 8,
-    title: "Chapitre 2: Vidéo 2",
+    title: "Chapitre 2.2 Le dossier professionel",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1772144144/Chapitre_2_video2_xf4sqy.mp4",
@@ -70,7 +70,7 @@ export const videosData: Video[] = [
   },
   {
     id: 9,
-    title: "Chapitre 2: Vidéo 3",
+    title: "Chapitre 2.3 Gestion & Analyse de pratique ",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1772144144/Chapitre_2_video3_srgzzx.mp4",
@@ -78,7 +78,7 @@ export const videosData: Video[] = [
   },
   {
     id: 10,
-    title: "Chapitre 2: Vidéo 4",
+    title: "Chapitre 2.4 Gestion & Responsabilités",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1772144158/Chapitre_2_video4_oesely.mp4",
@@ -87,7 +87,7 @@ export const videosData: Video[] = [
 
   {
     id: 11,
-    title: "Chapitre 2: Vidéo 5",
+    title: "Chapitre 2.5 Absence imprévue : Le guide",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1772144178/Chapitre_2_video5_aopp8j.mp4",
@@ -99,7 +99,7 @@ export const videosData: Video[] = [
 
   {
     id: 17,
-    title: "Chapitre 3: Vidéo 1",
+    title: "Chapitre 3.1 Gérer les conflits",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771987487/Chapitre_3_video1_wtxmnc.mp4",
@@ -107,7 +107,7 @@ export const videosData: Video[] = [
   },
   {
     id: 18,
-    title: "Chapitre 3: Vidéo 2",
+    title: "Chapitre 3.2 Gérer une crise violente",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771987488/Chapitre_3_video2_ipti1g.mp4",
@@ -115,7 +115,7 @@ export const videosData: Video[] = [
   },
   {
     id: 19,
-    title: "Chapitre 3: Vidéo 3",
+    title: "Chapitre 3.3 Protocole & réaction",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771987488/Chapitre_3_video3_quqaj5.mp4",
@@ -123,7 +123,7 @@ export const videosData: Video[] = [
   },
   {
     id: 20,
-    title: "Chapitre 3: Vidéo 4",
+    title: "Chapitre 3.4 Refuser une décision de justice",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771987488/Chapitre_3_video_4_mvkq0w.mp4",
@@ -136,7 +136,7 @@ export const videosData: Video[] = [
 
   {
     id: 21,
-    title: "Chapitre 4: Vidéo 1",
+    title: "Chapitre 4 video 1",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771987876/Chapitre_4_video_1_qocbam.mp4",
@@ -144,7 +144,7 @@ export const videosData: Video[] = [
   },
   {
     id: 22,
-    title: "Chapitre 4: Vidéo 2",
+    title: "Chapitre 4.2 Médicaments en foyer : La loi",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771987875/Chapitre_4_video_2_dow0zx.mp4",
@@ -152,7 +152,7 @@ export const videosData: Video[] = [
   },
   {
     id: 23,
-    title: "Chapitre 4: Vidéo 3",
+    title: "Chapitre 4.3 Accident grave : Que transmettre",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771987875/Chapitre_4_video_3_btu9og.mp4",
@@ -160,7 +160,7 @@ export const videosData: Video[] = [
   },
   {
     id: 24,
-    title: "Chapitre 4: Vidéo 4",
+    title: "Chapitre 4.4 Sécurité: travailleur isolé",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771987875/Chapitre_4_video_4_my6wki.mp4",
@@ -168,7 +168,7 @@ export const videosData: Video[] = [
   },
   {
     id: 25,
-    title: "Chapitre 4: Vidéo 5",
+    title: "Chapitre 4.5 Contenir ou frapper",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771987488/Chapitre_3_video3_quqaj5.mp4",
@@ -177,7 +177,7 @@ export const videosData: Video[] = [
 
   {
     id: 26,
-    title: "Chapitre 5: Vidéo 3",
+    title: "Chapitre 5.3 Relation & Accompagnement",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771988241/Chapitre_5_video_3_scyqoq.mp4",
@@ -185,7 +185,7 @@ export const videosData: Video[] = [
   },
   {
     id: 27,
-    title: "Chapitre 5: Vidéo 4",
+    title: "Chapitre 5.4 Ne jamais travailler seul",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771988241/Chapitre_5_video4_jyrnvm.mp4",
@@ -193,7 +193,7 @@ export const videosData: Video[] = [
   },
   {
     id: 28,
-    title: "Chapitre 5: Vidéo 5",
+    title: "Chapitre 5.5 Erreurs des débutants en MECS",
     description:
       "Découvrez des techniques avancées, des optimisations de performance et les prochaines étapes recommandées pour continuer à développer vos compétences après cette formation.",
     url: "https://res.cloudinary.com/dtipq9s09/video/upload/v1771988240/Chapitre_5_video_5_e9qdjd.mp4",
